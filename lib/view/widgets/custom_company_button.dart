@@ -40,10 +40,10 @@ class CustomCompanyButton extends StatelessWidget {
     this.textStyle = CustomTextStyle.normalBoldStyleWhite,
     this.borderColor = CustomColors.primary,
     this.elevation,
-    this.topLeftBorderRadius = 25.0,
-    this.topRightBorderRadius = 25.0,
-    this.bottomLeftBorderRadius = 25.0,
-    this.bottomRightBorderRadius = 25.0,
+    this.topLeftBorderRadius = 10.0,
+    this.topRightBorderRadius = 10.0,
+    this.bottomLeftBorderRadius = 10.0,
+    this.bottomRightBorderRadius = 10.0,
   }) : super(key: key);
 
   @override

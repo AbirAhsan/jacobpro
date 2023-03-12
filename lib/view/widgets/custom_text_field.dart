@@ -82,7 +82,8 @@ class CustomTextField extends StatelessWidget {
     this.errorText,
     this.focusNode,
     this.textAlign = TextAlign.start,
-    this.contentPadding = const EdgeInsets.only(top: 25, bottom: 5),
+    this.contentPadding =
+        const EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 5),
     this.onFieldSubmitted,
     this.onSaved,
     this.onEditingComplete,
@@ -178,7 +179,7 @@ class CustomTextField extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
             labelText: labelText,
-            labelStyle: labelStyle ?? CustomTextStyle.normalBoldStyleBlack,
+            labelStyle: labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
             hintText: hintText,
             hintStyle: hintStyle,
             prefixIcon: prefixIcon,
