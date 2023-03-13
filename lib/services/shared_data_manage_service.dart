@@ -26,6 +26,17 @@ class SharedDataManageService {
     return userID;
   }
 
+  //<======================================== Menu Token Functionality
+  Future<void> setMenuToken(String menuToken) async {
+    sharedBox.write('menuToken', menuToken);
+  }
+
+  Future<String?> getMenuToken() async {
+    String? menuToken = sharedBox.read('menuToken') ?? "";
+
+    return menuToken;
+  }
+
   Future<void> clearTokenUserID() async {
     sharedBox.remove('token');
     sharedBox.remove('userID');

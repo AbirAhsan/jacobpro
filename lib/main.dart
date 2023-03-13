@@ -49,10 +49,10 @@ void configLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = Colors.yellow
-    ..backgroundColor = Colors.black
-    ..indicatorColor = Colors.white
-    ..textColor = Colors.white
+    ..progressColor = CustomColors.secondary
+    ..backgroundColor = CustomColors.primary
+    ..indicatorColor = CustomColors.white
+    ..textColor = CustomColors.white
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false
     ..dismissOnTap = false;
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "Nexa",
+        fontFamily: "Arcon",
         appBarTheme: const AppBarTheme(
           backgroundColor: CustomColors.white,
           titleTextStyle: CustomTextStyle.titleBoldStyleBlack,

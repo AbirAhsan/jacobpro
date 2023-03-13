@@ -5,6 +5,7 @@ abstract class  LocaleKeys {
   static const app_details_developedBy = 'app_details.developedBy';
   static const app_details = 'app_details';
   static const auth_login = 'auth.login';
+  static const auth_signin = 'auth.signin';
   static const auth_signup = 'auth.signup';
   static const auth_forgot_password = 'auth.forgot_password';
   static const auth_userName = 'auth.userName';
