@@ -12,8 +12,20 @@ import '../services/validator_service.dart';
 
 class AuthController extends GetxController {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  TextEditingController? loginUserName = TextEditingController();
-  TextEditingController? loginpassword = TextEditingController();
+  GlobalKey<FormState> registrationFormKey = GlobalKey<FormState>();
+  TextEditingController? loginUserNameCtrl = TextEditingController();
+  TextEditingController? loginPasswordCtrl = TextEditingController();
+  //
+  TextEditingController? registrationFirstNameCtrl = TextEditingController();
+  TextEditingController? registrationLastNameCtrl = TextEditingController();
+  TextEditingController? registrationEmailCtrl = TextEditingController();
+  TextEditingController? registrationMobileCtrl = TextEditingController();
+
+  //
+  bool? isTermsCheck = false;
+  List userTypeList = ["Email", "Mobile"];
+
+  String? selectedUserType = "Email";
 
   @override
   onInit() {
@@ -37,8 +49,8 @@ class AuthController extends GetxController {
 
         AuthApiService()
             .loginRequest(
-          loginUserName!.text,
-          loginpassword!.text,
+          loginUserNameCtrl!.text,
+          loginPasswordCtrl!.text,
           "", //fcmtoken
         )
             .then((resp) async {
@@ -71,9 +83,56 @@ class AuthController extends GetxController {
     }
   }
 
+  //<============================== Registration Request
+  void tryToRegistration() async {
+    if (ValidatorService().validateAndSave(registrationFormKey)) {
+      // fcmToken = await getFCMToken();
+      try {
+        CustomEassyLoading.startLoading();
+
+        // AuthApiService()
+        //     .loginRequest(
+        //   loginUserNameCtrl!.text,
+        //   loginPasswordCtrl!.text,
+        //   "", //fcmtoken
+        // )
+        //     .then((resp) async {
+        //   if (resp.isNotEmpty) {
+        //     await SharedDataManageService().setToken(resp["token"]);
+        //     await SharedDataManageService().setMenuToken(resp["menuToken"]);
+        //     update();
+        //     // PageNavigationService.removeAllAndNavigate(
+        //     //   "/MainScreen",
+        //     // );
+        //     CustomEassyLoading.stopLoading();
+        //   }
+        //   CustomEassyLoading.stopLoading();
+        // }, onError: (err) {
+        //   ApiErrorHandleService.handleStatusCodeError(err);
+        //   CustomEassyLoading.stopLoading();
+        // });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
+        CustomEassyLoading.stopLoading();
+      } on Exception catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
+
+      update();
+    }
+  }
+
   //<=================== Intialize Login TexEdition Controller
   initializeTextEditingController() {
-    loginUserName = TextEditingController();
-    loginpassword = TextEditingController();
+    loginUserNameCtrl = TextEditingController();
+    loginPasswordCtrl = TextEditingController();
+    registrationFirstNameCtrl = TextEditingController();
+    registrationLastNameCtrl = TextEditingController();
+    registrationEmailCtrl = TextEditingController();
+    registrationMobileCtrl = TextEditingController();
   }
 }

@@ -7,6 +7,8 @@ abstract class  LocaleKeys {
   static const auth_login = 'auth.login';
   static const auth_signin = 'auth.signin';
   static const auth_signup = 'auth.signup';
+  static const auth_continue = 'auth.continue';
+  static const auth_confirm = 'auth.confirm';
   static const auth_forgot_password = 'auth.forgot_password';
   static const auth_userName = 'auth.userName';
   static const auth_userNameRule1 = 'auth.userNameRule1';

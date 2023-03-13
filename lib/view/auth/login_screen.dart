@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/controller/auth_controller.dart';
+import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/icon_variables.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button.dart';
@@ -54,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       //
                       CustomTextField(
-                        controller: authCtrl.loginUserName,
+                        controller: authCtrl.loginUserNameCtrl,
                         contentPadding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                         prefixIcon: const Icon(Icons.person),
                         labelText: LocaleKeys.auth_userName.tr(),
@@ -64,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                           init: ScreenController(),
                           builder: (screenCtrl) {
                             return CustomTextField(
-                              controller: authCtrl.loginpassword,
+                              controller: authCtrl.loginPasswordCtrl,
                               contentPadding:
                                   const EdgeInsets.fromLTRB(0, 10, 15, 10),
                               prefixIcon: const Icon(Icons.lock),
@@ -166,6 +167,9 @@ class LoginScreen extends StatelessWidget {
                                     ..onTap = () async {
                                       //Code to launch your URL
                                       print("Sign up");
+                                      PageNavigationService
+                                          .removeAllAndNavigate(
+                                              '/RegistrationScreen');
                                     }),
                             ]),
                         textAlign: TextAlign.center,

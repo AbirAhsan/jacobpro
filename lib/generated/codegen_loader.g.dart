@@ -23,6 +23,8 @@ class CodegenLoader extends AssetLoader{
     "login": "Log In to continue",
     "signin": "SIGN IN",
     "signup": "SIGN UP",
+    "continue": "CONTINUE",
+    "confirm": "CONFIRM",
     "forgot_password": "Forgot Password ?",
     "userName": "User Name",
     "userNameRule1": "Please Enter Your User Name",
