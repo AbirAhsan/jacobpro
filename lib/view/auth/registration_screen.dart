@@ -89,11 +89,19 @@ class RegistrationScreen extends StatelessWidget {
                             prefixIcon: const Icon(Icons.phone_android_rounded),
                             labelText: LocaleKeys.auth_phoneNumber.tr(),
                             controller: authCtrl.registrationMobileCtrl,
+                            validator: (phone) {
+                              if (phone!.isEmpty) {
+                                return LocaleKeys.auth_phoneNumberRule1.tr();
+                              } else if (!phone.isPhoneNumber) {
+                                return LocaleKeys.auth_phoneNumberRule2.tr();
+                              }
+                              return null;
+                            },
                           ),
                           CustomTextField(
                             prefixIcon:
                                 const Icon(Icons.card_membership_outlined),
-                            labelText: LocaleKeys.auth_userName.tr(),
+                            labelText: LocaleKeys.auth_userID.tr(),
                             controller: authCtrl.selectedUserType == "Email"
                                 ? authCtrl.registrationEmailCtrl
                                 : authCtrl.registrationMobileCtrl,
@@ -104,45 +112,54 @@ class RegistrationScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                "Choose Your User ID",
-                                style: CustomTextStyle.normalBoldStyleBlack,
+                              RichText(
+                                  textAlign: TextAlign.end,
+                                  text: TextSpan(
+                                      text: "Choose Your User ID\n",
+                                      style: CustomTextStyle
+                                          .normalRegularStyleBlack,
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "OTP will be sent to your ${authCtrl.selectedUserType}",
+                                          style: CustomTextStyle
+                                              .smallRegularStyleDarkGrey,
+                                        )
+                                      ])),
+                              SizedBox(
+                                width: 5,
                               ),
                               Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: authCtrl.userTypeList.map((type) {
-                                    return IconButton(
-                                        onPressed: () {
-                                          authCtrl.selectedUserType = type;
-                                          authCtrl.update();
-                                        },
-                                        icon: Icon(
-                                          type == "Email"
-                                              ? Icons.email_outlined
-                                              : Icons.call,
-                                          color:
-                                              type == authCtrl.selectedUserType
-                                                  ? CustomColors.primary
-                                                  : CustomColors.grey,
+                                    return Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: authCtrl.selectedUserType ==
+                                                    type
+                                                ? CustomColors.primary
+                                                : CustomColors.white,
+                                            border: Border.all(
+                                                color: CustomColors.primary)),
+                                        padding: const EdgeInsets.all(8),
+                                        margin: const EdgeInsets.all(5),
+                                        child: InkWell(
+                                          onTap: () {
+                                            authCtrl.selectedUserType = type;
+                                            authCtrl.update();
+                                          },
+                                          child: Icon(
+                                            type == "Email"
+                                                ? Icons.email_outlined
+                                                : Icons.call,
+                                            color: type ==
+                                                    authCtrl.selectedUserType
+                                                ? CustomColors.white
+                                                : CustomColors.primary,
+                                          ),
                                         ));
                                   }).toList()),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              Icon(
-                                Icons.info_outlined,
-                                size: 20,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "OTP will send your User ID",
-                                style: CustomTextStyle.smallRegularStyleBlack,
-                              )
                             ],
                           ),
                           const SizedBox(

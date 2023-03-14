@@ -10,12 +10,12 @@
         "continue": "CONTINUE",
         "confirm": "CONFIRM",
         "forgot_password": "Forgot Password ?",
-        "userName": "User Name",
-        "userNameRule1": "Please Enter Your User Name",
-        "userNameRule2": "User name is not valid",
+        "userID": "User ID",
+        "userIDRule1": "Please Enter Your User ID",
+        "userIDRule2": "User ID is not valid",
         "nameRule1": "Enter Your Name",
         "nameRule2": "Enter a Valid Name",
-        "enterUserName": "Enter Your User Name",
+        "enteruserID": "Enter Your User ID",
         "phoneNumber": "Phone Number",
         "phoneNumberRule1": "Please Enter Your Mobile Number",
         "phoneNumberRule2": "Mobile number is not valid",
@@ -39,6 +39,15 @@
         "emailRule1": "Please  Your Email Address",
         "emailRule2": "Email address is not valid",
         "loginWelcome": "Welcome {}, to Jacob Pro"
+    },
+    "otpVerification": {
+        "title": "Verification",
+        "otp": "OTP Verification",
+        "msg": "A verification code has been sent to {}\nPlease Enter The OTP",
+        "dinotReceive": "Didn’t receive code ?",
+        "button1": "Confirm",
+        "resend": "Resend",
+        "wait": "Sec left"
     },
     "extra": {
         "warning": "Warning",
