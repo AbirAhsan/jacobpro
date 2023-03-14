@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/services/validator_service.dart';
+import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
 
 import '../../controller/auth_controller.dart';
@@ -89,28 +90,61 @@ class RegistrationScreen extends StatelessWidget {
                             labelText: LocaleKeys.auth_phoneNumber.tr(),
                             controller: authCtrl.registrationMobileCtrl,
                           ),
-                          SizedBox(
+                          CustomTextField(
+                            prefixIcon:
+                                const Icon(Icons.card_membership_outlined),
+                            labelText: LocaleKeys.auth_userName.tr(),
+                            controller: authCtrl.selectedUserType == "Email"
+                                ? authCtrl.registrationEmailCtrl
+                                : authCtrl.registrationMobileCtrl,
+                          ),
+                          const SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            "Your preferrable User Type ?",
-                            style: CustomTextStyle.normalBoldStyleBlack,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Choose Your User ID",
+                                style: CustomTextStyle.normalBoldStyleBlack,
+                              ),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: authCtrl.userTypeList.map((type) {
+                                    return IconButton(
+                                        onPressed: () {
+                                          authCtrl.selectedUserType = type;
+                                          authCtrl.update();
+                                        },
+                                        icon: Icon(
+                                          type == "Email"
+                                              ? Icons.email_outlined
+                                              : Icons.call,
+                                          color:
+                                              type == authCtrl.selectedUserType
+                                                  ? CustomColors.primary
+                                                  : CustomColors.grey,
+                                        ));
+                                  }).toList()),
+                            ],
                           ),
                           Row(
-                              children: authCtrl.userTypeList.map((type) {
-                            return RadioMenuButton(
-                                value: type,
-                                groupValue: authCtrl.selectedUserType,
-                                onChanged: (value) {
-                                  authCtrl.selectedUserType = value;
-                                  authCtrl.update();
-                                },
-                                child: Text(
-                                  type,
-                                  style:
-                                      CustomTextStyle.normalRegularStyleBlack,
-                                ));
-                          }).toList()),
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Icon(
+                                Icons.info_outlined,
+                                size: 20,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "OTP will send your User ID",
+                                style: CustomTextStyle.smallRegularStyleBlack,
+                              )
+                            ],
+                          ),
                           const SizedBox(
                             height: 20,
                           ),

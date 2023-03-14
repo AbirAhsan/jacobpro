@@ -215,4 +215,70 @@ class CustomTextStyle {
     fontStyle: FontStyle.italic,
     color: CustomColors.green,
   );
+
+  //<<====================================================== Small Bold Style
+  static const TextStyle smallBoldStyleBlack = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.black,
+  );
+  static const TextStyle smallBoldStylePrimary = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.primary,
+  );
+  static const TextStyle smallBoldStyleWhite = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.white,
+  );
+  static const TextStyle smallBoldStyleLightGrey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.lightgrey,
+  );
+  static const TextStyle smallBoldStyleGrey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.grey,
+  );
+  static const TextStyle smallBoldStyleDarkGrey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.darkGrey,
+  );
+  static const TextStyle smallBoldStyleGreen = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    color: CustomColors.green,
+  );
+  //<<====================================================== Small Regular Style
+  static const TextStyle smallRegularStyleBlack = TextStyle(
+    fontSize: 12,
+    color: CustomColors.black,
+  );
+  static const TextStyle smallRegularStylePrimary = TextStyle(
+    fontSize: 12,
+    color: CustomColors.primary,
+  );
+  static const TextStyle smallRegularStyleWhite = TextStyle(
+    fontSize: 12,
+    color: CustomColors.white,
+  );
+  static const TextStyle smallRegularStyleLightGrey = TextStyle(
+    fontSize: 12,
+    color: CustomColors.lightgrey,
+  );
+  static const TextStyle smallRegularStyleGrey = TextStyle(
+    fontSize: 12,
+    color: CustomColors.grey,
+  );
+  static const TextStyle smallRegularStyleDarkGrey = TextStyle(
+    fontSize: 12,
+    color: CustomColors.darkGrey,
+  );
+  static const TextStyle smallRegularStyleGreen = TextStyle(
+    fontSize: 12,
+    color: CustomColors.green,
+  );
 }
