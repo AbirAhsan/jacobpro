@@ -99,12 +99,14 @@ class RegistrationScreen extends StatelessWidget {
                             },
                           ),
                           CustomTextField(
+                            enabled: false,
                             prefixIcon:
                                 const Icon(Icons.card_membership_outlined),
                             labelText: LocaleKeys.auth_userID.tr(),
-                            controller: authCtrl.selectedUserType == "Email"
-                                ? authCtrl.registrationEmailCtrl
-                                : authCtrl.registrationMobileCtrl,
+                            controller:
+                                authCtrl.selectedUserType!.value == "Email"
+                                    ? authCtrl.registrationEmailCtrl
+                                    : authCtrl.registrationMobileCtrl,
                           ),
                           const SizedBox(
                             height: 10,
@@ -126,7 +128,7 @@ class RegistrationScreen extends StatelessWidget {
                                               .smallRegularStyleDarkGrey,
                                         )
                                       ])),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Row(
@@ -136,7 +138,8 @@ class RegistrationScreen extends StatelessWidget {
                                     return Container(
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: authCtrl.selectedUserType ==
+                                            color: authCtrl.selectedUserType!
+                                                        .value ==
                                                     type
                                                 ? CustomColors.primary
                                                 : CustomColors.white,
@@ -146,7 +149,10 @@ class RegistrationScreen extends StatelessWidget {
                                         margin: const EdgeInsets.all(5),
                                         child: InkWell(
                                           onTap: () {
-                                            authCtrl.selectedUserType = type;
+                                            authCtrl.selectedUserType!.value =
+                                                type;
+                                            print(authCtrl
+                                                .selectedUserType!.value);
                                             authCtrl.update();
                                           },
                                           child: Icon(
@@ -154,7 +160,8 @@ class RegistrationScreen extends StatelessWidget {
                                                 ? Icons.email_outlined
                                                 : Icons.call,
                                             color: type ==
-                                                    authCtrl.selectedUserType
+                                                    authCtrl
+                                                        .selectedUserType!.value
                                                 ? CustomColors.white
                                                 : CustomColors.primary,
                                           ),
@@ -167,7 +174,14 @@ class RegistrationScreen extends StatelessWidget {
                           ),
                           CustomCompanyButton(
                             buttonName: LocaleKeys.auth_continue.tr(),
-                            onPressed: () {},
+                            onPressed: () {
+                              PageNavigationService.generalNavigation(
+                                  "/RegistrationOtpVerification",
+                                  arguments: authCtrl.selectedUserType!.value ==
+                                          "Email"
+                                      ? authCtrl.registrationEmailCtrl.text
+                                      : authCtrl.registrationMobileCtrl.text);
+                            },
                           ),
                           const SizedBox(
                             height: 50,

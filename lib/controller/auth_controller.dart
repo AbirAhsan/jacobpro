@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../services/api_service/auth_api_service.dart';
 import '../services/custom_eassy_loading.dart';
@@ -16,29 +17,32 @@ class AuthController extends GetxController {
   TextEditingController? loginUserNameCtrl = TextEditingController();
   TextEditingController? loginPasswordCtrl = TextEditingController();
   //
-  TextEditingController? registrationFirstNameCtrl = TextEditingController();
-  TextEditingController? registrationLastNameCtrl = TextEditingController();
-  TextEditingController? registrationEmailCtrl = TextEditingController();
-  TextEditingController? registrationMobileCtrl = TextEditingController();
+  TextEditingController registrationFirstNameCtrl = TextEditingController();
+  TextEditingController registrationLastNameCtrl = TextEditingController();
+  TextEditingController registrationEmailCtrl = TextEditingController();
+  TextEditingController registrationMobileCtrl = TextEditingController();
 
   //
   bool? isTermsCheck = false;
+
   List userTypeList = ["Email", "Mobile"];
 
-  String? selectedUserType = "Email";
+  RxString? selectedUserType = "Email".obs;
+
+  String? currentOtpPin;
 
   @override
   onInit() {
     // AppConfig.getVersionStatus();
-    initializeTextEditingController();
+    //  initializeTextEditingController();
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   // TODO: implement onClose
+  //   super.onClose();
+  // }
 
   //<============================== Login Request
   void tryToLogin() async {

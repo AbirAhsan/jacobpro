@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'view/auth/login_screen.dart';
 import 'view/auth/registration_screen.dart';
+import 'view/auth/registration_verification.dart';
 import 'view/splash/splash_screen.dart';
 
 class ScreenRoutes {
@@ -11,6 +12,9 @@ class ScreenRoutes {
     GetPage(name: '/LoginScreen', page: () => const LoginScreen()),
     GetPage(
         name: '/RegistrationScreen', page: () => const RegistrationScreen()),
+    GetPage(
+        name: '/RegistrationOtpVerification',
+        page: () => const RegistrationOtpVerification()),
 
     //
     // GetPage(name: '/', page: () => const MainScreen()),

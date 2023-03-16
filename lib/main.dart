@@ -50,7 +50,7 @@ void configLoading() {
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..progressColor = CustomColors.secondary
-    ..backgroundColor = CustomColors.primary
+    ..backgroundColor = CustomColors.black
     ..indicatorColor = CustomColors.white
     ..textColor = CustomColors.white
     ..maskColor = Colors.blue.withOpacity(0.5)

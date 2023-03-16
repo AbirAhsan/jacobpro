@@ -20,8 +20,8 @@ class AuthApiService {
     var request = http.Request('POST', url);
 
     request.body = json.encode({
-      "username": "dev",
-      "userPassword": "1234",
+      "username": userName,
+      "userPassword": password,
     });
 
     request.headers.addAll(headers);
