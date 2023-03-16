@@ -54,47 +54,55 @@ class _CustomPinCodeState extends State<CustomPinCode> {
     return GetBuilder<AuthController>(
         init: AuthController(),
         builder: (authCtrl) {
-          return PinCodeTextField(
-            appContext: context,
-            length: 4,
-            obscureText: false,
-            animationType: AnimationType.fade,
-            pinTheme: PinTheme(
-              shape: PinCodeFieldShape.box,
-              borderRadius: BorderRadius.circular(5),
-              fieldHeight: 60,
-              fieldWidth: 50,
-              activeFillColor: Colors.white,
-              inactiveColor: CustomColors.grey,
-              selectedColor: CustomColors.primary,
-              selectedFillColor: CustomColors.primary.withOpacity(0.1),
-              inactiveFillColor: CustomColors.lightgrey,
-            ),
-            animationDuration: const Duration(milliseconds: 300),
-            backgroundColor: Colors.white,
-            cursorColor: Colors.black,
-            enableActiveFill: true,
-            errorAnimationController: errorController,
-            controller: textEditingController,
-            onCompleted: (v) {
-              debugPrint("Completed");
-            },
-            keyboardType: const TextInputType.numberWithOptions(decimal: false),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+(?:\.\d+)?$')),
-            ],
-            onChanged: (value) {
-              debugPrint(value);
+          return Center(
+            child: SizedBox(
+              // width: 250,
 
-              authCtrl.currentOtpPin = value;
-              authCtrl.update();
-            },
-            beforeTextPaste: (text) {
-              debugPrint("Allowing to paste $text");
-              //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-              //but you can show anything you want here, like your pop up saying wrong paste format or etc
-              return true;
-            },
+              child: PinCodeTextField(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                appContext: context,
+                length: 4,
+                obscureText: false,
+                animationType: AnimationType.fade,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 60,
+                  fieldWidth: 50,
+                  activeFillColor: Colors.white,
+                  inactiveColor: CustomColors.grey,
+                  selectedColor: CustomColors.primary,
+                  selectedFillColor: CustomColors.primary.withOpacity(0.1),
+                  inactiveFillColor: CustomColors.lightgrey,
+                ),
+                animationDuration: const Duration(milliseconds: 300),
+                backgroundColor: Colors.white,
+                cursorColor: Colors.black,
+                enableActiveFill: true,
+                errorAnimationController: errorController,
+                controller: textEditingController,
+                onCompleted: (v) {
+                  debugPrint("Completed");
+                },
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: false),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+(?:\.\d+)?$')),
+                ],
+                onChanged: (value) {
+                  debugPrint(value);
+
+                  authCtrl.currentOtpPin = value;
+                  authCtrl.update();
+                },
+                beforeTextPaste: (text) {
+                  debugPrint("Allowing to paste $text");
+                  //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                  //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                  return true;
+                },
+              ),
+            ),
           );
         });
   }

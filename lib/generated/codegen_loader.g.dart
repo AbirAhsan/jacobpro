@@ -59,7 +59,7 @@ class CodegenLoader extends AssetLoader{
   "otpVerification": {
     "title": "Verification",
     "otp": "OTP Verification",
-    "msg": "A verification code has been sent to {}\nPlease Enter The OTP",
+    "msg": "A OTP has been sent to \n{}\n\n\nPlease Enter The OTP",
     "dinotReceive": "Didn’t receive code ?",
     "button1": "Confirm",
     "resend": "Resend",
