@@ -9,6 +9,7 @@ class CustomCompanyButton extends StatelessWidget {
   final Color? primaryColor;
   final Color borderColor;
   final TextStyle? textStyle;
+  final bool isFitted;
   final double? elevation;
   final double leftMargin;
   final double rightMargin;
@@ -36,6 +37,7 @@ class CustomCompanyButton extends StatelessWidget {
     this.rightMargin = 0.0,
     this.topMargin = 5.0,
     this.bottomMargin = 5.0,
+    this.isFitted = true,
     this.primaryColor = CustomColors.primary,
     this.textStyle = CustomTextStyle.normalBoldStyleWhite,
     this.borderColor = CustomColors.primary,
@@ -73,16 +75,25 @@ class CustomCompanyButton extends StatelessWidget {
             ), // <-- Radius
           ),
         ),
-        child: FittedBox(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                leftPadding, topPadding, rightPadding, bottomPadding),
-            child: Text(
-              "$buttonName",
-              style: textStyle,
-            ),
-          ),
-        ),
+        child: isFitted
+            ? FittedBox(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      leftPadding, topPadding, rightPadding, bottomPadding),
+                  child: Text(
+                    "$buttonName",
+                    style: textStyle,
+                  ),
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.fromLTRB(
+                    leftPadding, topPadding, rightPadding, bottomPadding),
+                child: Text(
+                  "$buttonName",
+                  style: textStyle,
+                ),
+              ),
       ),
     );
   }

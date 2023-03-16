@@ -6,6 +6,7 @@ import '../variables/text_style.dart';
 class CustomCompanyButtonWithIcon extends StatelessWidget {
   final String? buttonName;
   final void Function()? onPressed;
+  final bool isFitted;
   final Color? primaryColor;
   final Color borderColor;
   final TextStyle? textStyle;
@@ -26,6 +27,7 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
   const CustomCompanyButtonWithIcon({
     Key? key,
     required this.onPressed,
+    this.isFitted = false,
     this.buttonName,
     this.fizedSize = const Size(double.infinity, 50),
     this.leftPadding = 0.0,
@@ -77,16 +79,25 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
             ), // <-- Radius
           ),
         ),
-        label: FittedBox(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                leftPadding, topPadding, rightPadding, bottomPadding),
-            child: Text(
-              "$buttonName",
-              style: textStyle,
-            ),
-          ),
-        ),
+        label: isFitted
+            ? FittedBox(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      leftPadding, topPadding, rightPadding, bottomPadding),
+                  child: Text(
+                    "$buttonName",
+                    style: textStyle,
+                  ),
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.fromLTRB(
+                    leftPadding, topPadding, rightPadding, bottomPadding),
+                child: Text(
+                  "$buttonName",
+                  style: textStyle,
+                ),
+              ),
       ),
     );
   }

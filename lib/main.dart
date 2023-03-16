@@ -49,7 +49,7 @@ void configLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = CustomColors.secondary
+    ..progressColor = CustomColors.darkGrey
     ..backgroundColor = CustomColors.black
     ..indicatorColor = CustomColors.white
     ..textColor = CustomColors.white

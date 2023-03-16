@@ -69,6 +69,7 @@ class _CustomPinCodeState extends State<CustomPinCode> {
                   borderRadius: BorderRadius.circular(5),
                   fieldHeight: 60,
                   fieldWidth: 50,
+                  //  fieldOuterPadding: EdgeInsets.all(10),
                   activeFillColor: Colors.white,
                   inactiveColor: CustomColors.grey,
                   selectedColor: CustomColors.primary,

@@ -10,7 +10,7 @@ class ApiErrorHandleService {
       Get.snackbar(
         "Warning",
         status["message"] ?? "Session Expired",
-        backgroundColor: CustomColors.secondary,
+        backgroundColor: CustomColors.error,
         // duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
       );
@@ -35,7 +35,7 @@ class ApiErrorHandleService {
       Get.snackbar(
         "Warning",
         status["message"] ?? "Somthing went to wrong",
-        backgroundColor: CustomColors.secondary,
+        backgroundColor: CustomColors.error,
         // duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
       );

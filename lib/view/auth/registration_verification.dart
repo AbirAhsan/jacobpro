@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:service/services/custom_dialog_class.dart';
+import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../generated/locale_keys.g.dart';
+import '../variables/icon_variables.dart';
 import '../widgets/custom_company_button.dart';
 import '../widgets/custom_otp_screen.dart';
 
@@ -18,23 +21,36 @@ class RegistrationOtpVerification extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
-          LocaleKeys.otpVerification_otp.tr(),
-          style: CustomTextStyle.titleBoldStyleGrey,
-          textAlign: TextAlign.left,
-        ),
         automaticallyImplyLeading: false,
-        centerTitle: false,
       ),
       body: GetBuilder<AuthController>(
           init: AuthController(),
           builder: (authCtrl) {
-            return Padding(
+            return ListView(
+              physics: const ScrollPhysics(),
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+              children: [
+                Image.asset(
+                  CustomIcons.registration,
+                  width: 200,
+                  height: 120,
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    LocaleKeys.otpVerification_otp.tr().toUpperCase(),
+                    style: CustomTextStyle.titleBoldStyleBlack,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
                     LocaleKeys.otpVerification_msg.tr(args: [
                       // authCtrl.selectedUserType!.value == "Email"
                       //     ? userId!.replaceRange(
@@ -42,54 +58,71 @@ class RegistrationOtpVerification extends StatelessWidget {
                       //     :
                       userId!.replaceRange(2, 7, "*****")
                     ]),
-                    style: CustomTextStyle.normalBoldStyleGrey,
-                    textAlign: TextAlign.left,
+                    style: CustomTextStyle.mediumBoldStyleGrey,
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 30,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    LocaleKeys.otpVerification_enterOtp.tr(),
+                    style: CustomTextStyle.mediumBoldStyleDarkGrey,
+                    textAlign: TextAlign.center,
                   ),
-                  const CustomPinCode(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "${LocaleKeys.otpVerification_dinotReceive.tr()} ",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      Flexible(
-                          child: CustomCompanyButton(
-                        buttonName: authCtrl.secondsRemaining == 0
-                            ? LocaleKeys.otpVerification_resend.tr()
-                            : LocaleKeys.otpVerification_wait.tr(
-                                args: [authCtrl.secondsRemaining.toString()]),
-                        onPressed: () {
-                          if (authCtrl.secondsRemaining == 0) {
-                            authCtrl.startTimer();
-                          }
-                        },
-                      )),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: CustomCompanyButton(
-                      leftPadding: 30,
-                      rightPadding: 30.0,
-                      buttonName: LocaleKeys.auth_signup.tr(),
-                      onPressed: () {},
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const CustomPinCode(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${LocaleKeys.otpVerification_dinotReceive.tr()} ",
+                      style: CustomTextStyle.normalBoldStyleGrey,
                     ),
+                    CustomCompanyButton(
+                      topPadding: 0,
+                      isFitted: false,
+                      bottomPadding: 0,
+                      leftPadding: 0,
+                      rightPadding: 0,
+                      primaryColor: CustomColors.white,
+                      textStyle: CustomTextStyle.normalBoldStylePrimary,
+                      fizedSize: const Size(110, 15),
+                      buttonName: authCtrl.secondsRemaining == 0
+                          ? LocaleKeys.otpVerification_resend.tr()
+                          : LocaleKeys.otpVerification_wait
+                              .tr(args: [authCtrl.secondsRemaining.toString()]),
+                      onPressed: () {
+                        if (authCtrl.secondsRemaining == 0) {
+                          authCtrl.startTimer();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: CustomCompanyButton(
+                    leftPadding: 30,
+                    rightPadding: 30.0,
+                    buttonName: LocaleKeys.auth_signup.tr(),
+                    onPressed: () {
+                      CustomDialogShow.showSuccessDialog("description");
+                    },
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             );
           }),
     );

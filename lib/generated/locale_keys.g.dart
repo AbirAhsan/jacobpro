@@ -43,6 +43,7 @@ abstract class  LocaleKeys {
   static const otpVerification_title = 'otpVerification.title';
   static const otpVerification_otp = 'otpVerification.otp';
   static const otpVerification_msg = 'otpVerification.msg';
+  static const otpVerification_enterOtp = 'otpVerification.enterOtp';
   static const otpVerification_dinotReceive = 'otpVerification.dinotReceive';
   static const otpVerification_button1 = 'otpVerification.button1';
   static const otpVerification_resend = 'otpVerification.resend';

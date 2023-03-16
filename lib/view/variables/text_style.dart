@@ -132,6 +132,86 @@ class CustomTextStyle {
   //////
   ///
   ///
+  //<<=========================================================== Medium Bold Style
+  static const TextStyle mediumBoldStyleBlack = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.black,
+  );
+  static const TextStyle mediumBoldStylePrimary = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.primary,
+  );
+  static const TextStyle mediumBoldStyleWhite = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.white,
+  );
+  static const TextStyle mediumBoldStyleLightGrey = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.lightgrey,
+  );
+  static const TextStyle mediumBoldStyleGrey = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.grey,
+  );
+  static const TextStyle mediumBoldStyleDarkGrey = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.darkGrey,
+  );
+  static const TextStyle mediumBoldStyleGreen = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.green,
+  );
+//<<====================================================== medium Regular Style
+  static const TextStyle mediumRegularStyleBlack = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.black,
+  );
+  static const TextStyle mediumRegularStylePrimary = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.primary,
+  );
+  static const TextStyle mediumRegularStyleWhite = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.white,
+  );
+  static const TextStyle mediumRegularStyleLightGrey = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.lightgrey,
+  );
+  static const TextStyle mediumRegularStyleGrey = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.grey,
+  );
+  static const TextStyle mediumRegularStyleDarkGrey = TextStyle(
+    fontSize: 16,
+    color: CustomColors.darkGrey,
+    fontFamily: "Arcon",
+  );
+  static const TextStyle mediumRegularStyleGreen = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.green,
+  );
+
   ///
   //<<=========================================================== Normal Bold Style
   static const TextStyle normalBoldStyleBlack = TextStyle(
