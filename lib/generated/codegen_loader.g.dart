@@ -63,7 +63,7 @@ class CodegenLoader extends AssetLoader{
     "dinotReceive": "Didn’t receive code ?",
     "button1": "Confirm",
     "resend": "Resend",
-    "wait": "Sec left"
+    "wait": "{} Sec left"
   },
   "extra": {
     "warning": "Warning",

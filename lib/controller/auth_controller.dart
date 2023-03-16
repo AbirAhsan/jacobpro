@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -30,11 +31,14 @@ class AuthController extends GetxController {
   RxString? selectedUserType = "Email".obs;
 
   String? currentOtpPin;
+  int secondsRemaining = 30;
+  Timer? timer;
 
   @override
   onInit() {
     // AppConfig.getVersionStatus();
-    //  initializeTextEditingController();
+    initializeTextEditingController();
+    startTimer();
     super.onInit();
   }
 
@@ -128,6 +132,20 @@ class AuthController extends GetxController {
 
       update();
     }
+  }
+
+//<=================== Start Timer
+  startTimer() {
+    print("Working");
+    secondsRemaining = 30;
+    update();
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (secondsRemaining != 0) {
+        secondsRemaining--;
+        update();
+        print("object");
+      }
+    });
   }
 
   //<=================== Intialize Login TexEdition Controller

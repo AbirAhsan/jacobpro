@@ -61,9 +61,15 @@ class RegistrationOtpVerification extends StatelessWidget {
                       ),
                       Flexible(
                           child: CustomCompanyButton(
-                        fizedSize: const Size(50, 20),
-                        buttonName: LocaleKeys.otpVerification_resend.tr(),
-                        onPressed: () {},
+                        buttonName: authCtrl.secondsRemaining == 0
+                            ? LocaleKeys.otpVerification_resend.tr()
+                            : LocaleKeys.otpVerification_wait.tr(
+                                args: [authCtrl.secondsRemaining.toString()]),
+                        onPressed: () {
+                          if (authCtrl.secondsRemaining == 0) {
+                            authCtrl.startTimer();
+                          }
+                        },
                       )),
                     ],
                   ),
