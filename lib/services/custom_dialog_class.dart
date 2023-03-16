@@ -4,19 +4,21 @@ import 'package:get/get.dart';
 import 'package:service/view/variables/text_style.dart';
 
 class CustomDialogShow {
-  static showSuccessDialog(String? description) async {
+  static showSuccessDialog(String? title, String? description,
+      String? okayButtonName, void Function()? btnOkOnPress) async {
     return AwesomeDialog(
       context: Get.context!,
       dialogType: DialogType.success,
       animType: AnimType.rightSlide,
-      title: 'Sign Up Successful',
-      desc:
-          'Easy Localization] [DEBUG] Init provider Reloaded 1 of 1487 libraries in 520ms Easy Localization] [DEBUG] Init provider Reloaded 1 of 1487 libraries in 520ms',
+      title: title,
+      desc: description,
       //  btnCancelOnPress: () {},
       padding: const EdgeInsets.all(10),
-      btnOkOnPress: () {},
+      btnOkOnPress: btnOkOnPress,
+
       descTextStyle: CustomTextStyle.normalRegularStyleBlack,
       buttonsTextStyle: CustomTextStyle.mediumBoldStyleWhite,
+      btnOkText: okayButtonName,
     )..show();
   }
 }
