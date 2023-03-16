@@ -123,28 +123,41 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Image.asset(
-                              CustomIcons.facebook,
-                              fit: BoxFit.cover,
+                          Card(
+                            elevation: 5,
+                            borderOnForeground: true,
+                            child: SizedBox(
+                              height: 60,
+                              width: 70,
+                              child: Image.asset(
+                                CustomIcons.facebook,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Image.asset(
-                              CustomIcons.google,
-                              fit: BoxFit.cover,
+                          Card(
+                            elevation: 5,
+                            child: SizedBox(
+                              height: 60,
+                              width: 70,
+                              child: Image.asset(
+                                CustomIcons.google,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Image.asset(
-                              CustomIcons.apple,
-                              fit: BoxFit.cover,
+                          Card(
+                            elevation: 5,
+                            child: SizedBox(
+                              height: 60,
+                              width: 70,
+                              child: Image.asset(
+                                CustomIcons.apple,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
                           ),
                         ],

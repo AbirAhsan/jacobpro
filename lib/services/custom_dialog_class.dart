@@ -13,7 +13,7 @@ class CustomDialogShow {
       desc:
           'Easy Localization] [DEBUG] Init provider Reloaded 1 of 1487 libraries in 520ms Easy Localization] [DEBUG] Init provider Reloaded 1 of 1487 libraries in 520ms',
       //  btnCancelOnPress: () {},
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       btnOkOnPress: () {},
       descTextStyle: CustomTextStyle.normalRegularStyleBlack,
       buttonsTextStyle: CustomTextStyle.mediumBoldStyleWhite,
