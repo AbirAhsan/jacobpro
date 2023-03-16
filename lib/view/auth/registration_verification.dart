@@ -116,8 +116,8 @@ class RegistrationOtpVerification extends StatelessWidget {
                     buttonName: LocaleKeys.auth_signup.tr(),
                     onPressed: () {
                       CustomDialogShow.showSuccessDialog(
-                          "Sign Up Competed!",
-                          "To start operation you need to complete your profile verification.\nYou'll get the Profile Management Section after login.\n\nYour default password set as 1234",
+                          "CONGRATULATIONS!",
+                          "You've successfully signed up.\nYou'll receive a mail/sms with access credential shortly.",
                           "Go To Login",
                           () {});
                     },

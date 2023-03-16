@@ -11,6 +11,7 @@ class CustomDialogShow {
       dialogType: DialogType.success,
       animType: AnimType.rightSlide,
       title: title,
+
       desc: description,
       //  btnCancelOnPress: () {},
       padding: const EdgeInsets.all(10),

@@ -124,39 +124,38 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Card(
-                            elevation: 5,
-                            borderOnForeground: true,
-                            child: SizedBox(
-                              height: 60,
-                              width: 70,
-                              child: Image.asset(
-                                CustomIcons.facebook,
-                                height: 50,
-                                width: 50,
-                              ),
-                            ),
-                          ),
-                          Card(
-                            elevation: 5,
-                            child: SizedBox(
-                              height: 60,
-                              width: 70,
+                            elevation: 2.5,
+                            child: Container(
+                              margin: const EdgeInsets.all(15),
+                              height: 30,
+                              width: 50,
                               child: Image.asset(
                                 CustomIcons.google,
-                                height: 50,
-                                width: 50,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
                           Card(
-                            elevation: 5,
-                            child: SizedBox(
-                              height: 60,
-                              width: 70,
+                            elevation: 2.5,
+                            child: Container(
+                              margin: const EdgeInsets.all(15),
+                              height: 30,
+                              width: 50,
+                              child: Image.asset(
+                                CustomIcons.facebook,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 2.5,
+                            child: Container(
+                              margin: const EdgeInsets.all(15),
+                              height: 30,
+                              width: 50,
                               child: Image.asset(
                                 CustomIcons.apple,
-                                height: 50,
-                                width: 50,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
