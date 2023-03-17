@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../services/api_service/auth_api_service.dart';
 import '../services/custom_eassy_loading.dart';
