@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:service/view/widgets/custom_company_button_with_icon.dart';
-import 'package:service/view/widgets/custom_submit_button.dart';
-import 'package:service/view/widgets/custom_text_field.dart';
-import 'package:service/view/widgets/profile_image_widget.dart';
 
 import '../../variables/text_style.dart';
+import '../../widgets/custom_company_button.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/profile_Image_widget.dart';
 
 class ContactDetailsView extends StatelessWidget {
   const ContactDetailsView({super.key});
@@ -99,10 +96,9 @@ class ContactDetailsView extends StatelessWidget {
             ),
             Align(
                 alignment: Alignment.bottomRight,
-                child: CustomCompanyButtonWithIcon(
-                    icon: Icons.arrow_forward_sharp,
-                    buttonName: "Next",
-                    textStyle: CustomTextStyle.mediumBoldStylePrimary,
+                child: CustomCompanyButton(
+                    buttonName: "Next Step",
+                    //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                     isFitted: true,
                     onPressed: () {}))
           ],
