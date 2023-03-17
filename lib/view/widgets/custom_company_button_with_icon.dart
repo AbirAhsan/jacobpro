@@ -5,6 +5,7 @@ import '../variables/text_style.dart';
 
 class CustomCompanyButtonWithIcon extends StatelessWidget {
   final String? buttonName;
+  final IconData? icon;
   final void Function()? onPressed;
   final bool isFitted;
   final Color? primaryColor;
@@ -29,6 +30,7 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
     required this.onPressed,
     this.isFitted = false,
     this.buttonName,
+    this.icon = Icons.add,
     this.fizedSize = const Size(double.infinity, 50),
     this.leftPadding = 0.0,
     this.rightPadding = 0.0,
@@ -39,7 +41,7 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
     this.topMargin = 5.0,
     this.bottomMargin = 5.0,
     this.primaryColor = CustomColors.white,
-    this.textStyle = CustomTextStyle.normalRegularStylePrimary,
+    this.textStyle = CustomTextStyle.normalBoldStylePrimary,
     this.borderColor = CustomColors.primary,
     this.elevation,
     this.topLeftBorderRadius = 25.0,
@@ -54,11 +56,7 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.fromLTRB(leftMargin, topMargin, rightMargin, bottomMargin),
-      child: ElevatedButton.icon(
-        icon: const Icon(
-          Icons.add,
-          color: CustomColors.primary,
-        ),
+      child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           elevation: elevation,
@@ -79,14 +77,34 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
             ), // <-- Radius
           ),
         ),
-        label: isFitted
+        child: isFitted
             ? FittedBox(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(
                       leftPadding, topPadding, rightPadding, bottomPadding),
-                  child: Text(
-                    "$buttonName",
-                    style: textStyle,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icon == null
+                          ? const Icon(
+                              Icons.add,
+                              size: 20,
+                              color: CustomColors.primary,
+                            )
+                          : Container(),
+                      Text(
+                        "$buttonName",
+                        style: textStyle,
+                      ),
+                      icon == null
+                          ? Container()
+                          : Icon(
+                              icon,
+                              size: 20,
+                              color: CustomColors.primary,
+                            )
+                    ],
                   ),
                 ),
               )

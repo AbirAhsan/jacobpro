@@ -5,6 +5,7 @@ class CustomColors {
   // static const Color secondary = Color(0xFFFD8D39);
 
   static const Color error = Color(0xFFFF0000);
+  static const Color warning = Color(0xFFFF9800);
   static const Color white = Color(0xFFFFFFFF);
   static const Color offWhite = Color(0xFFF8F9FA);
   static const Color green = Color(0xFF198754);

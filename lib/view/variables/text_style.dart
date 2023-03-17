@@ -46,6 +46,18 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
     color: CustomColors.green,
   );
+  static const TextStyle titleBoldStyleError = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.error,
+  );
+  static const TextStyle titleBoldStylWarning = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.warning,
+  );
 
   //<<====================================================== Title Regular Style
   static const TextStyle titleRegularStyleBlack = TextStyle(
@@ -82,6 +94,16 @@ class CustomTextStyle {
     fontSize: 20,
     fontFamily: "Arcon",
     color: CustomColors.green,
+  );
+  static const TextStyle titleRegularStyleError = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    color: CustomColors.error,
+  );
+  static const TextStyle titleRegularStyleWarning = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    color: CustomColors.warning,
   );
 
   //<<====================================================== Title Italic Style
@@ -126,6 +148,18 @@ class CustomTextStyle {
     fontFamily: "Arcon",
     fontStyle: FontStyle.italic,
     color: CustomColors.green,
+  );
+  static const TextStyle titleItalicStyleError = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    fontStyle: FontStyle.italic,
+    color: CustomColors.error,
+  );
+  static const TextStyle titleItalicStyleWarning = TextStyle(
+    fontSize: 20,
+    fontFamily: "Arcon",
+    fontStyle: FontStyle.italic,
+    color: CustomColors.warning,
   );
 
   ///
@@ -175,6 +209,18 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
     color: CustomColors.green,
   );
+  static const TextStyle mediumBoldStyleError = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.error,
+  );
+  static const TextStyle mediumBoldStyleWarning = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.warning,
+  );
 //<<====================================================== medium Regular Style
   static const TextStyle mediumRegularStyleBlack = TextStyle(
     fontSize: 16,
@@ -210,6 +256,16 @@ class CustomTextStyle {
     fontSize: 16,
     fontFamily: "Arcon",
     color: CustomColors.green,
+  );
+  static const TextStyle mediumRegularStyleError = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.error,
+  );
+  static const TextStyle mediumRegularStyleWarning = TextStyle(
+    fontSize: 16,
+    fontFamily: "Arcon",
+    color: CustomColors.warning,
   );
 
   ///
@@ -256,6 +312,18 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
     color: CustomColors.green,
   );
+  static const TextStyle normalBoldStyleError = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.error,
+  );
+  static const TextStyle normalBoldStyleWarning = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.warning,
+  );
 
   //<<====================================================== Normal Regular Style
   static const TextStyle normalRegularStyleBlack = TextStyle(
@@ -292,6 +360,16 @@ class CustomTextStyle {
     fontSize: 14,
     fontFamily: "Arcon",
     color: CustomColors.green,
+  );
+  static const TextStyle normalRegularStyleError = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    color: CustomColors.error,
+  );
+  static const TextStyle normalRegularStyleWarning = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    color: CustomColors.warning,
   );
 
   //<<====================================================== normal Italic Style
@@ -337,6 +415,18 @@ class CustomTextStyle {
     fontStyle: FontStyle.italic,
     color: CustomColors.green,
   );
+  static const TextStyle normalItalicStyleError = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    fontStyle: FontStyle.italic,
+    color: CustomColors.error,
+  );
+  static const TextStyle normalItalicStyleWarning = TextStyle(
+    fontSize: 14,
+    fontFamily: "Arcon",
+    fontStyle: FontStyle.italic,
+    color: CustomColors.warning,
+  );
 
   //<<====================================================== Small Bold Style
   static const TextStyle smallBoldStyleBlack = TextStyle(
@@ -381,6 +471,18 @@ class CustomTextStyle {
     fontWeight: FontWeight.bold,
     color: CustomColors.green,
   );
+  static const TextStyle smallBoldStyleError = TextStyle(
+    fontSize: 10,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.error,
+  );
+  static const TextStyle smallBoldStyleWarning = TextStyle(
+    fontSize: 10,
+    fontFamily: "Arcon",
+    fontWeight: FontWeight.bold,
+    color: CustomColors.warning,
+  );
   //<<====================================================== Small Regular Style
   static const TextStyle smallRegularStyleBlack = TextStyle(
     fontSize: 10,
@@ -416,5 +518,15 @@ class CustomTextStyle {
     fontSize: 10,
     fontFamily: "Arcon",
     color: CustomColors.green,
+  );
+  static const TextStyle smallRegularStyleError = TextStyle(
+    fontSize: 10,
+    fontFamily: "Arcon",
+    color: CustomColors.error,
+  );
+  static const TextStyle smallRegularStyleWarning = TextStyle(
+    fontSize: 10,
+    fontFamily: "Arcon",
+    color: CustomColors.warning,
   );
 }

@@ -38,7 +38,7 @@ class AuthController extends GetxController {
   onInit() {
     // AppConfig.getVersionStatus();
     initializeTextEditingController();
-    startTimer();
+
     super.onInit();
   }
 
@@ -66,9 +66,9 @@ class AuthController extends GetxController {
             await SharedDataManageService().setToken(resp["token"]);
             await SharedDataManageService().setMenuToken(resp["menuToken"]);
             update();
-            // PageNavigationService.removeAllAndNavigate(
-            //   "/MainScreen",
-            // );
+            PageNavigationService.removeAllAndNavigate(
+              "/ProfileDetailsScreen",
+            );
             CustomEassyLoading.stopLoading();
           }
           CustomEassyLoading.stopLoading();
@@ -119,6 +119,7 @@ class AuthController extends GetxController {
         //   ApiErrorHandleService.handleStatusCodeError(err);
         //   CustomEassyLoading.stopLoading();
         // });
+        startTimer();
       } on SocketException catch (e) {
         debugPrint('error $e');
         CustomEassyLoading.stopLoading();

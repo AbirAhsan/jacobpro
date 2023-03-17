@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'view/auth/login_screen.dart';
 import 'view/auth/registration_screen.dart';
 import 'view/auth/registration_verification.dart';
+import 'view/profile/profile_screen.dart';
 import 'view/splash/splash_screen.dart';
 
 class ScreenRoutes {
@@ -17,6 +18,8 @@ class ScreenRoutes {
         page: () => const RegistrationOtpVerification()),
 
     //
-    // GetPage(name: '/', page: () => const MainScreen()),
+    GetPage(
+        name: '/ProfileDetailsScreen',
+        page: () => const ProfileDetailsScreen()),
   ];
 }
