@@ -4,10 +4,14 @@ import '../variables/text_style.dart';
 
 class CustomCollapsibleWidget extends StatefulWidget {
   final Widget child;
+  final String? name;
   final bool initiallyCollapsed;
 
   const CustomCollapsibleWidget(
-      {super.key, required this.child, required this.initiallyCollapsed});
+      {super.key,
+      required this.child,
+      required this.initiallyCollapsed,
+      this.name});
 
   @override
   State<CustomCollapsibleWidget> createState() =>
@@ -62,7 +66,7 @@ class _CustomCollapsibleWidgetState extends State<CustomCollapsibleWidget>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "Driving License".toUpperCase(),
+                  widget.name ?? "",
                   style: CustomTextStyle.mediumBoldStyleDarkGrey,
                 ),
                 Icon(

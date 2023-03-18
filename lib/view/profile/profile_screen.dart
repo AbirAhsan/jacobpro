@@ -43,15 +43,69 @@ class ProfileDetailsScreen extends StatelessWidget {
                       onTap: (value) {
                         screenCtrl.changeProfileTabbar(value);
                       },
-                      tabs: const [
+                      tabs: [
                         Tab(
-                          text: "Details",
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('GENERAL'),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 18,
+                                height: 18,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: CustomColors.green),
+                                child: const Icon(
+                                  Icons.check,
+                                  size: 18,
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Tab(
-                          text: "Employee Details",
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('SKILLS'),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 18,
+                                height: 18,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: CustomColors.warning),
+                                child: const Icon(
+                                  Icons.error_outline,
+                                  size: 18,
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Tab(
-                          text: "Documents",
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('DOCUMENTS'),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 18,
+                                height: 18,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: CustomColors.green),
+                                child: const Icon(
+                                  Icons.check,
+                                  size: 18,
+                                  color: CustomColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     );
