@@ -7,4 +7,6 @@ class ProfileController extends GetxController {
   TextEditingController? technicalLicenseExpiryTxtCtrl =
       TextEditingController();
   TextEditingController? socialSecurityExpiryTxtCtrl = TextEditingController();
+
+  bool isOnline = false;
 }

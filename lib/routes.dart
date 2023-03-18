@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'view/auth/login_screen.dart';
 import 'view/auth/registration_screen.dart';
 import 'view/auth/registration_verification.dart';
+import 'view/dashboard/dashboard_screen.dart';
 import 'view/profile/profile_screen.dart';
 import 'view/splash/splash_screen.dart';
 
@@ -21,5 +22,7 @@ class ScreenRoutes {
     GetPage(
         name: '/ProfileDetailsScreen',
         page: () => const ProfileDetailsScreen()),
+
+    GetPage(name: '/DashBoardScreen', page: () => const DashBoardScreen()),
   ];
 }

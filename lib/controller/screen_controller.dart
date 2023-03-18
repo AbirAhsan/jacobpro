@@ -28,7 +28,7 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
       SharedDataManageService().getToken().then((token) async {
         if (token!.isNotEmpty) {
           PageNavigationService.removeAllAndNavigate(
-            "/LoginScreen",
+            "/DashBoardScreen",
           );
         } else {
           PageNavigationService.removeAllAndNavigate(

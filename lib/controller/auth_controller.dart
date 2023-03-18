@@ -66,7 +66,7 @@ class AuthController extends GetxController {
             await SharedDataManageService().setMenuToken(resp["menuToken"]);
             update();
             PageNavigationService.removeAllAndNavigate(
-              "/ProfileDetailsScreen",
+              "/DashBoardScreen",
             );
             CustomEassyLoading.stopLoading();
           }
