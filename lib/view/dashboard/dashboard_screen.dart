@@ -7,6 +7,7 @@ import '../../controller/profile_controller.dart';
 import '../variables/colors_variable.dart';
 import '../variables/icon_variables.dart';
 import '../variables/text_style.dart';
+import '../widgets/custom_drawer.dart';
 import '../widgets/profile_Image_widget.dart';
 import 'widgets/dashboard_card_widget_2.dart';
 
@@ -21,9 +22,8 @@ class DashBoardScreen extends StatelessWidget {
           CustomIcons.logo,
           width: 100,
         ),
-        iconTheme: IconThemeData(color: CustomColors.primary),
       ),
-      drawer: const Drawer(),
+      drawer: const CustomDrawer(),
       body: SingleChildScrollView(
           child: Column(
         children: [

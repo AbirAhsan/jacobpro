@@ -13,6 +13,8 @@ class CustomIcons {
   static const String person = "assets/icons/person.png";
   static const String pending = "assets/icons/pending.png";
   static const String schedule = "assets/icons/schedule.png";
+  static const String myCustomers = "assets/icons/my-customers.png";
+  static const String dashboard = "assets/icons/dashboard.png";
   //<=================== Images
   static const String registration = "assets/images/registration.png";
   static const String forgotPass = "assets/images/forgot-pass.png";

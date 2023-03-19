@@ -15,6 +15,7 @@ class ProfileImageWidget extends StatelessWidget {
   final bool isEditable;
   final double? radius;
   final Color borderColor;
+  final EdgeInsetsGeometry? margin;
   final void Function()? onEdit;
   const ProfileImageWidget({
     super.key,
@@ -22,6 +23,7 @@ class ProfileImageWidget extends StatelessWidget {
     this.isActive = false,
     this.radius = 20.0,
     this.borderColor = CustomColors.grey,
+    this.margin = const EdgeInsets.all(5.0),
     this.isEditable = false,
     this.onEdit,
     this.filePath,
@@ -30,7 +32,7 @@ class ProfileImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(5.0),
+        margin: margin,
         width: radius! * 2,
         height: radius! * 2,
         child: Stack(
