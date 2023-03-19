@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/view/dashboard/widgets/dashboard_card_widget_1.dart';
-
 import '../../controller/profile_controller.dart';
-import '../variables/colors_variable.dart';
 import '../variables/icon_variables.dart';
 import '../variables/text_style.dart';
 import '../widgets/custom_drawer.dart';
@@ -22,6 +20,11 @@ class DashBoardScreen extends StatelessWidget {
           CustomIcons.logo,
           width: 100,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_active_outlined))
+        ],
       ),
       drawer: const CustomDrawer(),
       body: SingleChildScrollView(
