@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/view/dashboard/widgets/dashboard_card_widget_1.dart';
 import '../../controller/profile_controller.dart';
+import '../../services/page_navigation_service.dart';
 import '../variables/icon_variables.dart';
 import '../variables/text_style.dart';
 import '../widgets/custom_drawer.dart';
@@ -22,7 +23,9 @@ class DashBoardScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                PageNavigationService.generalNavigation("/NotificationScreen");
+              },
               icon: const Icon(Icons.notifications_active_outlined))
         ],
       ),

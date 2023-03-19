@@ -6,6 +6,7 @@ import 'view/auth/registration_verification.dart';
 import 'view/dashboard/dashboard_screen.dart';
 import 'view/my_customer/add_new_customer_screen.dart';
 import 'view/my_customer/my_customer_screen.dart';
+import 'view/notification/notification_screen.dart';
 import 'view/profile/profile_screen.dart';
 import 'view/splash/splash_screen.dart';
 
@@ -24,6 +25,8 @@ class ScreenRoutes {
     GetPage(
         name: '/ProfileDetailsScreen',
         page: () => const ProfileDetailsScreen()),
+    GetPage(
+        name: '/NotificationScreen', page: () => const NotificationScreen()),
 
     GetPage(name: '/DashBoardScreen', page: () => const DashBoardScreen()),
     GetPage(name: '/MyCustomersScreen', page: () => const MyCustomersScreen()),
