@@ -200,6 +200,10 @@ class DashBoardScreen extends StatelessWidget {
                   DashBoardCardWidget2(
                     name: "SCHEDULE",
                     assetImage: CustomIcons.scheduleImage,
+                    onTap: () {
+                      PageNavigationService.generalNavigation(
+                          '/ScheduleScreen');
+                    },
                   ),
                   DashBoardCardWidget2(
                     name: "JOB LIST",
