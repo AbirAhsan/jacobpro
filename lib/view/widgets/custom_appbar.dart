@@ -4,10 +4,14 @@ import 'package:service/services/page_navigation_service.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool hideNotificationIcon;
+  final PreferredSizeWidget? bottom;
 
-  const CustomAppBar(
-      {Key? key, required this.title, this.hideNotificationIcon = false})
-      : super(key: key);
+  const CustomAppBar({
+    Key? key,
+    required this.title,
+    this.hideNotificationIcon = false,
+    this.bottom,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 },
                 icon: const Icon(Icons.notifications_active_outlined))
       ],
+      bottom: bottom,
     );
   }
 

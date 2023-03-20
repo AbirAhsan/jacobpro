@@ -10,6 +10,10 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   TabController? profileTabController;
   int profileInitialIndex = 0;
   int profileCurrentIndex = 0;
+  // Time Sheet
+  TabController? timeSheetTabController;
+  int timeSheetInitialIndex = 0;
+  int timeSheetCurrentIndex = 0;
 
   @override
   onInit() {
@@ -18,6 +22,11 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
       vsync: this,
       length: 3,
       initialIndex: profileInitialIndex,
+    );
+    timeSheetTabController = TabController(
+      vsync: this,
+      length: 4,
+      initialIndex: timeSheetInitialIndex,
     );
     super.onInit();
   }
@@ -53,6 +62,13 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   void changeProfileTabbar(int index) {
     profileTabController!.index = index >= 0 && index < 3 ? index : 0;
     profileCurrentIndex = index >= 0 && index < 3 ? index : 0;
+    update();
+  }
+
+  //<============================ Change Time Sheet Tabbar
+  void changeTimeSheetTabbar(int index) {
+    timeSheetTabController!.index = index >= 0 && index < 4 ? index : 0;
+    timeSheetCurrentIndex = index >= 0 && index < 4 ? index : 0;
     update();
   }
 }

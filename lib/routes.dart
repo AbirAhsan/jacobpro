@@ -10,6 +10,7 @@ import 'view/notification/notification_screen.dart';
 import 'view/profile/profile_screen.dart';
 import 'view/schedule/schedule_screen.dart';
 import 'view/splash/splash_screen.dart';
+import 'view/time_sheet/time_sheet_main_screen.dart';
 
 class ScreenRoutes {
   static List<GetPage<dynamic>>? pageList = [
@@ -31,6 +32,8 @@ class ScreenRoutes {
 
     GetPage(name: '/DashBoardScreen', page: () => const DashBoardScreen()),
     GetPage(name: '/ScheduleScreen', page: () => const ScheduleScreen()),
+    GetPage(
+        name: '/TimeSheetMainScreen', page: () => const TimeSheetMainScreen()),
 
     GetPage(name: '/MyCustomersScreen', page: () => const MyCustomersScreen()),
     GetPage(

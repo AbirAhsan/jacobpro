@@ -212,6 +212,10 @@ class DashBoardScreen extends StatelessWidget {
                   DashBoardCardWidget2(
                     name: "TIME SHEET",
                     assetImage: CustomIcons.timesheet,
+                    onTap: () {
+                      PageNavigationService.generalNavigation(
+                          '/TimeSheetMainScreen');
+                    },
                   ),
                 ]),
           )
