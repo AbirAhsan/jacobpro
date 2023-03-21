@@ -58,7 +58,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                                     color: CustomColors.green),
                                 child: const Icon(
                                   Icons.check,
-                                  size: 18,
+                                  size: 14,
                                   color: CustomColors.white,
                                 ),
                               ),
@@ -100,7 +100,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                                     color: CustomColors.green),
                                 child: const Icon(
                                   Icons.check,
-                                  size: 18,
+                                  size: 14,
                                   color: CustomColors.white,
                                 ),
                               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:service/controller/customer_controller.dart';
+import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button.dart';
@@ -48,8 +49,14 @@ class AddNewCustomerScreen extends StatelessWidget {
                             Expanded(
                                 child: CustomTextField(
                               labelText: "First Name",
-                              controller: customerCtrl.customerLastNameCtrl,
+                              controller: customerCtrl.customerFirstNameCtrl,
                               keyboardType: TextInputType.name,
+                              prefixIcon: const Icon(Icons.person),
+                              // validator: ValidatorService.validateSimpleFiled,
+                              onChanged: (value) {
+                                customerCtrl.customerPrefferedNameCtrl.text =
+                                    "$value ${customerCtrl.customerLastNameCtrl.text}";
+                              },
                             )),
                             const SizedBox(
                               width: 10,
@@ -58,19 +65,35 @@ class AddNewCustomerScreen extends StatelessWidget {
                                 child: CustomTextField(
                               labelText: "Last Name",
                               controller: customerCtrl.customerLastNameCtrl,
+                              prefixIcon: const Icon(Icons.person),
                               keyboardType: TextInputType.name,
+                              //   validator: ValidatorService.validateSimpleFiled,
+                              onChanged: (value) {
+                                customerCtrl.customerPrefferedNameCtrl.text =
+                                    "${customerCtrl.customerFirstNameCtrl.text} $value";
+                              },
                             )),
                           ],
                         ),
                         CustomTextField(
+                          labelText: "Display Name",
+                          controller: customerCtrl.customerPrefferedNameCtrl,
+                          prefixIcon: const Icon(Icons.person),
+                          keyboardType: TextInputType.name,
+                          validator: ValidatorService.validateSimpleFiled,
+                        ),
+                        CustomTextField(
                           labelText: "Email",
                           controller: customerCtrl.customerEmailCtrl,
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          validator: ValidatorService.validateEmail,
                           keyboardType: TextInputType.emailAddress,
                         ),
                         CustomTextField(
                           labelText: "Phone",
                           controller: customerCtrl.customerMobileCtrl,
                           keyboardType: TextInputType.phone,
+                          prefixIcon: const Icon(Icons.call),
                           validator: (phone) {
                             if (phone!.isEmpty) {
                               return LocaleKeys.auth_phoneNumberRule1.tr();
@@ -81,7 +104,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           },
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 40,
                         ),
                         const Text(
                           "Location Info",
@@ -92,7 +115,9 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "Address",
                           readOnly: true,
                           controller: customerCtrl.customerAddressCtrl,
+                          prefixIcon: const Icon(Icons.location_on_outlined),
                           keyboardType: TextInputType.streetAddress,
+                          validator: ValidatorService.validateSimpleFiled,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
                             customerCtrl.suggestedAddressList.clear();
@@ -104,6 +129,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "State",
                           controller: customerCtrl.customerStateCtrl,
                           keyboardType: TextInputType.name,
+                          prefixIcon: const Icon(Icons.add_location_outlined),
                           readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
@@ -115,7 +141,9 @@ class AddNewCustomerScreen extends StatelessWidget {
                         CustomTextField(
                           labelText: "City",
                           controller: customerCtrl.customerCityCtrl,
+                          prefixIcon: const Icon(Icons.location_city),
                           keyboardType: TextInputType.name,
+                          validator: ValidatorService.validateSimpleFiled,
                           readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
@@ -127,7 +155,9 @@ class AddNewCustomerScreen extends StatelessWidget {
                         CustomTextField(
                           labelText: "Country",
                           controller: customerCtrl.customerCountryCtrl,
+                          prefixIcon: const Icon(Icons.location_searching),
                           keyboardType: TextInputType.name,
+                          validator: ValidatorService.validateSimpleFiled,
                           readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
@@ -140,6 +170,8 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "Post code",
                           controller: customerCtrl.customerPostCodeCtrl,
                           keyboardType: TextInputType.number,
+                          prefixIcon: const Icon(Icons.local_post_office_sharp),
+                          validator: ValidatorService.validateSimpleFiled,
                           readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
@@ -149,7 +181,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           },
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 40,
                         ),
                         const Text(
                           "Customer notes",
@@ -159,6 +191,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                         CustomTextField(
                           labelText: "Notes",
                           controller: customerCtrl.customerNoteCtrl,
+                          prefixIcon: const Icon(Icons.note_add_rounded),
                           keyboardType: TextInputType.text,
                         ),
                         SizedBox(
@@ -176,7 +209,9 @@ class AddNewCustomerScreen extends StatelessWidget {
                             ),
                             Expanded(
                                 child: CustomSubmitButton(
-                                    buttonName: "SAVE", onPressed: () {})),
+                                    buttonName: "SAVE",
+                                    onPressed: () =>
+                                        customerCtrl.addNewCustomer())),
                           ],
                         )
                       ],
