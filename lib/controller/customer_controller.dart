@@ -23,6 +23,9 @@ class CustomerController extends GetxController {
   TextEditingController customerNoteCtrl = TextEditingController();
   TextEditingController searchTextCtrl = TextEditingController();
 
+  double? addressLat;
+  double? addressLong;
+
   List suggestedAddressList = List.empty(growable: true);
   final debouncer = Debouncer(milliseconds: 1000);
   //<======================= Fetch Suggested Address List
@@ -64,10 +67,13 @@ class CustomerController extends GetxController {
           customerStateCtrl.text = resp.state ?? "";
           customerCountryCtrl.text = resp.country ?? "";
           customerPostCodeCtrl.text = resp.postalcode ?? "";
-          searchTextCtrl.clear();
+          addressLat = resp.lat;
+          addressLong = resp.lng;
+          suggestedAddressList.clear();
+          // searchTextCtrl.clear();
           CustomEassyLoading.stopLoading();
           update();
-          PageNavigationService.backScreen();
+          //   PageNavigationService.backScreen();
         }, onError: (err) {
           ApiErrorHandleService.handleStatusCodeError(err);
           CustomEassyLoading.stopLoading();

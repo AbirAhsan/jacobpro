@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:service/controller/customer_controller.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
+import 'package:service/view/widgets/custom_company_button.dart';
 import 'package:service/view/widgets/custom_submit_button.dart';
 
 import '../../generated/locale_keys.g.dart';
@@ -102,7 +104,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "State",
                           controller: customerCtrl.customerStateCtrl,
                           keyboardType: TextInputType.name,
-                          readOnly: false,
+                          readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
                             customerCtrl.suggestedAddressList.clear();
@@ -114,7 +116,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "City",
                           controller: customerCtrl.customerCityCtrl,
                           keyboardType: TextInputType.name,
-                          readOnly: false,
+                          readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
                             customerCtrl.suggestedAddressList.clear();
@@ -126,7 +128,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "Country",
                           controller: customerCtrl.customerCountryCtrl,
                           keyboardType: TextInputType.name,
-                          readOnly: false,
+                          readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
                             customerCtrl.suggestedAddressList.clear();
@@ -138,7 +140,7 @@ class AddNewCustomerScreen extends StatelessWidget {
                           labelText: "Post code",
                           controller: customerCtrl.customerPostCodeCtrl,
                           keyboardType: TextInputType.number,
-                          readOnly: false,
+                          readOnly: true,
                           onTap: () {
                             customerCtrl.searchTextCtrl.clear();
                             customerCtrl.suggestedAddressList.clear();
@@ -200,7 +202,7 @@ searchAddress() {
             init: CustomerController(),
             builder: (customerCtrl) {
               return SizedBox(
-                height: Get.height / 2,
+                height: Get.height,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -234,25 +236,85 @@ searchAddress() {
                         },
                       ),
                       Expanded(
-                        child: ListView.builder(
-                            padding: const EdgeInsets.all(10),
-                            itemCount: customerCtrl.suggestedAddressList.length,
-                            itemBuilder: (buildContext, index) {
-                              return Card(
-                                child: ListTile(
-                                  title: Text(customerCtrl
-                                      .suggestedAddressList[index]!),
-                                  onTap: () {
-                                    customerCtrl.searchTextCtrl.text =
-                                        customerCtrl
-                                            .suggestedAddressList[index]!;
+                        child: ListView(
+                          children: [
+                            customerCtrl.suggestedAddressList.isNotEmpty
+                                ? SizedBox(
+                                    height: 200,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: customerCtrl
+                                            .suggestedAddressList.length,
+                                        itemBuilder: (buildContext, index) {
+                                          return Card(
+                                            child: ListTile(
+                                              title: Text(customerCtrl
+                                                      .suggestedAddressList[
+                                                  index]!),
+                                              onTap: () {
+                                                customerCtrl.searchTextCtrl
+                                                    .text = customerCtrl
+                                                        .suggestedAddressList[
+                                                    index]!;
 
-                                    customerCtrl.getAddressDetails();
-                                  },
-                                ),
-                              );
-                            }),
-                      )
+                                                customerCtrl
+                                                    .getAddressDetails();
+                                              },
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                : Container(),
+                            customerCtrl.addressLat != null ||
+                                    customerCtrl.addressLong != null
+                                ? Image(
+                                    image: StaticMapController(
+                                    googleApiKey:
+                                        "AIzaSyDfVYnKtLaoJJSFXxCQZ54U4udtIwv4ahk",
+                                    width: Get.width.toInt(),
+                                    height: (Get.width ~/ 2).toInt(),
+                                    zoom: 8,
+                                    language: "EN",
+                                    visible: [
+                                      // Location(
+                                      //     double.parse(topicDetails
+                                      //             .locationLat!.isNotEmpty
+                                      //         ? topicDetails.locationLat!
+                                      //         : "0.0"),
+                                      //     double.parse(topicDetails
+                                      //             .locationLong!.isNotEmpty
+                                      //         ? topicDetails.locationLong!
+                                      //         : "0.0")),
+                                    ],
+                                    // maptype: StaticMapType.satellite,
+                                    markers: [
+                                      Marker(locations: [
+                                        Location(
+                                          customerCtrl.addressLat ?? 0.0,
+                                          customerCtrl.addressLong ?? 0.0,
+                                        )
+                                      ]),
+                                    ],
+                                    scale: MapScale.scale1,
+                                    center: Location(
+                                      customerCtrl.addressLat ?? 0.0,
+                                      customerCtrl.addressLong ?? 0.0,
+                                    ),
+                                  ).image)
+                                : Container(),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: CustomCompanyButton(
+                                  fizedSize: Size(100, 50),
+                                  buttonName: "Confirm",
+                                  onPressed: () {
+                                    PageNavigationService.backScreen();
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
