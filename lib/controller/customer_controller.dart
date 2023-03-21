@@ -6,6 +6,7 @@ import 'package:service/services/api_service/address_api_services.dart';
 import 'package:service/services/api_service/customer_api_services.dart';
 import 'package:service/services/page_navigation_service.dart';
 
+import '../model/customer_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/debouncher_service.dart';
 import '../services/error_code_handle_service.dart';
@@ -26,11 +27,16 @@ class CustomerController extends GetxController {
   TextEditingController customerNoteCtrl = TextEditingController();
   TextEditingController searchTextCtrl = TextEditingController();
 
+  TextEditingController searchCustomerTextCtrl = TextEditingController();
+
   double? addressLat;
   double? addressLong;
 
   List suggestedAddressList = List.empty(growable: true);
+  List<CustomerInfoModel?> customerList =
+      List<CustomerInfoModel?>.empty(growable: true);
   final debouncer = Debouncer(milliseconds: 1000);
+
   //<======================= Fetch Suggested Address List
   Future<void> getSuggestedAddressList() async {
     if (searchTextCtrl.text.length > 3) {
@@ -54,6 +60,30 @@ class CustomerController extends GetxController {
         CustomEassyLoading.stopLoading();
         debugPrint("$e");
       }
+    }
+  }
+
+  //<======================= Fetch Suggested Address List
+  Future<void> getCustomerList() async {
+    try {
+      //  CustomEassyLoading.startLoading();
+
+      CustomerApiService().getCustomerList(searchCustomerTextCtrl.text).then(
+          (resp) async {
+        customerList = resp;
+
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
     }
   }
 

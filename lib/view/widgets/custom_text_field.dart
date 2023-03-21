@@ -183,6 +183,8 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             hintStyle: hintStyle,
             prefixIcon: prefixIcon,
+            prefixIconColor: CustomColors.grey,
+
             prefixText: prefixText,
             prefixStyle: style,
             suffixIcon: suffixIcon,

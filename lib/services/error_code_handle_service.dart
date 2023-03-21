@@ -3,6 +3,7 @@ import 'package:get/get.dart' hide Trans;
 import '../view/variables/colors_variable.dart';
 
 class ApiErrorHandleService {
+  static int? timeOutDuration = 15;
   static handleStatusCodeError(Map<String, dynamic> status) async {
     await Get.closeCurrentSnackbar();
 
