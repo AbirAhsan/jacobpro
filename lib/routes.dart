@@ -7,6 +7,7 @@ import 'view/auth/login_screen.dart';
 import 'view/auth/registration_screen.dart';
 import 'view/auth/registration_verification.dart';
 import 'view/dashboard/dashboard_screen.dart';
+import 'view/job_list/job_list_screen.dart';
 import 'view/my_customer/add_new_customer_screen.dart';
 import 'view/my_customer/my_customer_screen.dart';
 import 'view/notification/notification_screen.dart';
@@ -42,7 +43,11 @@ class ScreenRoutes {
         name: '/NotificationScreen', page: () => const NotificationScreen()),
 
     GetPage(name: '/DashBoardScreen', page: () => const DashBoardScreen()),
+    //
     GetPage(name: '/OnGoingJobScreen', page: () => const OnGoingJobScreen()),
+    //
+    GetPage(name: '/JobListScreen', page: () => const JobListScreen()),
+    //
     GetPage(name: '/ScheduleScreen', page: () => const ScheduleScreen()),
     GetPage(
         name: '/TimeSheetMainScreen', page: () => const TimeSheetMainScreen()),
