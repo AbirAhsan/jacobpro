@@ -64,7 +64,30 @@ class CodegenLoader extends AssetLoader{
     "dinotReceive": "Didn’t receive code?",
     "button1": "Confirm",
     "resend": "Resend Code",
-    "wait": "{} Sec left"
+    "wait": "{} Sec left",
+    "reset": "RESET"
+  },
+  "forgetPassword": {
+    "title1": "Forget Password",
+    "subtitle": "Forgot Password ?",
+    "body1": "Provide Your User ID for which you want to reset your password",
+    "userId": "User ID",
+    "title2": "Make Selection",
+    "body2": "Select which contact details should we use to reset your password",
+    "viaSms": "Via SMS",
+    "viaMail": "Via Email",
+    "title3": "Verification",
+    "body3": "A verification code sent to {},\nPlease enter your code",
+    "title4": "Reset Password",
+    "body4": "Your identity has been verified !\nSet your new password",
+    "confirmPass": "Confirm Password",
+    "cPassRule1": "Confirm Password Required",
+    "cPassRule2": "Not matched to Password",
+    "passUpdateTitle": "Congratulation",
+    "passUpdatebody": "Password Update Successfully",
+    "button1": "Continue",
+    "button2": "Check",
+    "button3": "Update"
   },
   "extra": {
     "warning": "Warning",

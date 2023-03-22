@@ -92,6 +92,8 @@ class LoginScreen extends StatelessWidget {
                             ..onTap = () async {
                               //Code to launch your URL
                               print("Forget password");
+                              PageNavigationService.generalNavigation(
+                                  "/ForgetPassFindAccount");
                             },
                         ),
                         textAlign: TextAlign.right,
