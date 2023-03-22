@@ -41,7 +41,7 @@ class RegistrationOtpVerification extends StatelessWidget {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    LocaleKeys.otpVerification_otp.tr().toUpperCase(),
+                    LocaleKeys.otpVerification_otp.tr(),
                     style: CustomTextStyle.titleBoldStyleBlack,
                   ),
                 ),
