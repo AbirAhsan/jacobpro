@@ -47,11 +47,12 @@ class CustomerEstimateView extends StatelessWidget {
                               const Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  "Services",
+                                  "SERVICES",
                                   style:
                                       CustomTextStyle.mediumBoldStyleDarkGrey,
                                 ),
                               ),
+                              const Divider(),
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
@@ -176,11 +177,12 @@ class CustomerEstimateView extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  "Material",
+                                  "MATERIAL",
                                   style:
                                       CustomTextStyle.mediumBoldStyleDarkGrey,
                                 ),
                               ),
+                              Divider(),
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
