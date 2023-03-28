@@ -62,21 +62,26 @@ class CustomerController extends GetxController {
   addNewServiceTextEditingCtrl() {
     if (ValidatorService().validateAndSave(addEstimateFormKey)) {
       TextEditingController serviceItemTxtCtrl = TextEditingController();
-      TextEditingController serviceQuantityTxtCtrl = TextEditingController();
-      TextEditingController serviceUnitTxtCtrl = TextEditingController();
-      TextEditingController serviceTotalCostTxtCtrl = TextEditingController();
+      TextEditingController serviceQtyTxtCtrl = TextEditingController();
+      TextEditingController serviceUnitNameTxtCtrl = TextEditingController();
+      TextEditingController serviceUnitPriceTxtCtrl = TextEditingController();
+      TextEditingController serviceTotalTxtCtrl = TextEditingController();
       TextEditingController serviceDescriptionCostTxtCtrl =
           TextEditingController();
       serviceTextFieldSection.add({
-        "id": serviceTextFieldSection.length + 1,
+        "id": serviceTextFieldSection.isNotEmpty
+            ? serviceTextFieldSection.last["id"] + 1
+            : 1,
         "itemLabel": "Item Name",
         "labelCtrl": serviceItemTxtCtrl,
+        "unitNameLabel": "Unit Name",
+        "unitNameCtrl": serviceUnitNameTxtCtrl,
         "quantityLabel": "Qty",
-        "quantityCtrl": serviceQuantityTxtCtrl,
-        "unitLabel": "Unit Price",
-        "unitCtrl": serviceUnitTxtCtrl,
+        "quantityCtrl": serviceQtyTxtCtrl,
+        "unitPriceLabel": "Unit Price",
+        "unitPriceCtrl": serviceUnitPriceTxtCtrl,
         "totalLabel": "Total",
-        "totalCostCtrl": serviceTotalCostTxtCtrl,
+        "totalCtrl": serviceTotalTxtCtrl,
         "descriptionLabel": "Description",
         "descriptionCtrl": serviceDescriptionCostTxtCtrl,
       });
@@ -86,9 +91,7 @@ class CustomerController extends GetxController {
   }
 
   closeServiceTextFields(int id) {
-    if (id != 1) {
-      serviceTextFieldSection.removeWhere((element) => element["id"] == id);
-    }
+    serviceTextFieldSection.removeWhere((element) => element["id"] == id);
 
     update();
   }
@@ -101,32 +104,36 @@ class CustomerController extends GetxController {
   List materialTextFieldSection = [];
   addNewMaterialTextEditingCtrl() {
     TextEditingController materialItemTxtCtrl = TextEditingController();
-    TextEditingController materialQuantityTxtCtrl = TextEditingController();
-    TextEditingController materialUnitTxtCtrl = TextEditingController();
+    TextEditingController materialUnitNameTxtCtrl = TextEditingController();
+    TextEditingController materialQtyTxtCtrl = TextEditingController();
+    TextEditingController materialUnitPriceTxtCtrl = TextEditingController();
     TextEditingController materialTotalCostTxtCtrl = TextEditingController();
     TextEditingController materialDescriptionCostTxtCtrl =
         TextEditingController();
 
     materialTextFieldSection.add({
-      "id": materialTextFieldSection.length + 1,
+      "id": materialTextFieldSection.isNotEmpty
+          ? materialTextFieldSection.last["id"] + 1
+          : 1,
       "itemLabel": "Item Name",
       "labelCtrl": materialItemTxtCtrl,
-      "quantityLabel": "Quantity",
-      "quantityCtrl": materialQuantityTxtCtrl,
-      "unitLabel": "Unit Price",
-      "unitCtrl": materialUnitTxtCtrl,
-      "totalLabel": "Total Cost",
-      "totalCostCtrl": materialTotalCostTxtCtrl,
+      "unitNameLabel": "Unit Name",
+      "unitNameCtrl": materialUnitNameTxtCtrl,
+      "quantityLabel": "Qty",
+      "quantityCtrl": materialQtyTxtCtrl,
+      "unitPriceLabel": "Unit Price",
+      "unitPriceCtrl": materialUnitPriceTxtCtrl,
+      "totalLabel": "Total",
+      "totalCtrl": materialTotalCostTxtCtrl,
       "descriptionLabel": "Description",
       "descriptionCtrl": materialDescriptionCostTxtCtrl,
     });
     update();
+    print(materialTextFieldSection.last["id"]);
   }
 
   closeMaterialTextFields(int id) {
-    if (id != 1) {
-      materialTextFieldSection.removeWhere((element) => element["id"] == id);
-    }
+    materialTextFieldSection.removeWhere((element) => element["id"] == id);
 
     update();
   }

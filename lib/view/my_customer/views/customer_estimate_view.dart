@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/services/validator_service.dart';
+import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button_with_icon.dart';
 import 'package:service/view/widgets/custom_dropdown.dart';
@@ -21,7 +22,7 @@ class CustomerEstimateView extends StatelessWidget {
         initState: (state) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (Get.put(CustomerController()).serviceTextFieldSection.isEmpty) {
-              Get.put(CustomerController()).addNewServiceTextEditingCtrl();
+              //  Get.put(CustomerController()).addNewServiceTextEditingCtrl();
             }
           });
         },
@@ -52,9 +53,13 @@ class CustomerEstimateView extends StatelessWidget {
                                       CustomTextStyle.mediumBoldStyleDarkGrey,
                                 ),
                               ),
+                              const SizedBox(
+                                height: 15.0,
+                              ),
                               const Divider(),
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
+                                  padding: const EdgeInsets.all(0),
                                   shrinkWrap: true,
                                   itemCount: customerCtrl
                                       .serviceTextFieldSection.length,
@@ -65,20 +70,25 @@ class CustomerEstimateView extends StatelessWidget {
                                       padding: const EdgeInsets.only(top: 15),
                                       child: Column(
                                         children: [
-                                          Visibility(
-                                            visible: serviceTextCtrl['id'] != 1,
-                                            child: Align(
-                                              alignment: Alignment.topRight,
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    customerCtrl
-                                                        .closeServiceTextFields(
-                                                            serviceTextCtrl[
-                                                                'id']);
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.close)),
-                                            ),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                                onTap: () {
+                                                  customerCtrl
+                                                      .closeServiceTextFields(
+                                                          serviceTextCtrl[
+                                                              'id']);
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                        Icons.close))),
                                           ),
                                           CustomTextField(
                                             labelText:
@@ -87,6 +97,33 @@ class CustomerEstimateView extends StatelessWidget {
                                                 serviceTextCtrl["labelCtrl"],
                                             validator: ValidatorService
                                                 .validateSimpleFiled,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: CustomTextField(
+                                                  labelText: serviceTextCtrl[
+                                                      "unitNameLabel"],
+                                                  controller: serviceTextCtrl[
+                                                      "unitNameCtrl"],
+                                                  validator: ValidatorService
+                                                      .validateSimpleFiled,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: CustomTextField(
+                                                  labelText: serviceTextCtrl[
+                                                      "unitPriceLabel"],
+                                                  controller: serviceTextCtrl[
+                                                      "unitPriceCtrl"],
+                                                  validator: ValidatorService
+                                                      .validateSimpleFiled,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           Row(
                                             crossAxisAlignment:
@@ -108,22 +145,9 @@ class CustomerEstimateView extends StatelessWidget {
                                               Expanded(
                                                 child: CustomTextField(
                                                   labelText: serviceTextCtrl[
-                                                      "unitLabel"],
-                                                  controller: serviceTextCtrl[
-                                                      "unitCtrl"],
-                                                  validator: ValidatorService
-                                                      .validateSimpleFiled,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: CustomTextField(
-                                                  labelText: serviceTextCtrl[
                                                       "totalLabel"],
                                                   controller: serviceTextCtrl[
-                                                      "totalCostCtrl"],
+                                                      "totalCtrl"],
                                                 ),
                                               ),
                                             ],
@@ -133,6 +157,8 @@ class CustomerEstimateView extends StatelessWidget {
                                                 "descriptionLabel"],
                                             controller: serviceTextCtrl[
                                                 "descriptionCtrl"],
+                                            minLines: 2,
+                                            maxLines: 5,
                                           ),
                                         ],
                                       ),
@@ -141,7 +167,10 @@ class CustomerEstimateView extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topRight,
                                 child: CustomCompanyButtonWithIcon(
-                                    buttonName: "Service Item",
+                                    buttonName: "ADD SERVICE",
+                                    bottomPadding: 0,
+                                    topPadding: 0,
+                                    fizedSize: const Size(double.infinity, 30),
                                     icon: null,
                                     isFitted: true,
                                     onPressed: () async {
@@ -153,19 +182,13 @@ class CustomerEstimateView extends StatelessWidget {
                                           .clear();
                                       showServiceModal(context);
                                     }),
-                                // TextButton(
-                                //   onPressed: () {
-                                //     customerCtrl.addNewServiceTextEditingCtrl();
-                                //   },
-                                //   child: Text("+ Service Item"),
-                                // ),
                               )
                             ],
                           ),
                         ),
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       //<======================= Material
@@ -174,7 +197,7 @@ class CustomerEstimateView extends StatelessWidget {
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   "MATERIAL",
@@ -182,9 +205,13 @@ class CustomerEstimateView extends StatelessWidget {
                                       CustomTextStyle.mediumBoldStyleDarkGrey,
                                 ),
                               ),
-                              Divider(),
+                              const SizedBox(
+                                height: 15.0,
+                              ),
+                              const Divider(),
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
+                                  padding: const EdgeInsets.all(0),
                                   shrinkWrap: true,
                                   itemCount: customerCtrl
                                       .materialTextFieldSection.length,
@@ -195,19 +222,27 @@ class CustomerEstimateView extends StatelessWidget {
                                       padding: const EdgeInsets.only(top: 15),
                                       child: Column(
                                         children: [
-                                          Visibility(
-                                            visible: materialCtrl['id'] != 1,
-                                            child: Align(
-                                              alignment: Alignment.topRight,
-                                              child: InkWell(
-                                                  onTap: () {
-                                                    customerCtrl
-                                                        .closeMaterialTextFields(
-                                                            materialCtrl['id']);
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.close)),
-                                            ),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                                onTap: () {
+                                                  customerCtrl
+                                                      .closeMaterialTextFields(
+                                                          materialCtrl['id']);
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                      Icons.close,
+                                                      color:
+                                                          CustomColors.primary,
+                                                    ))),
                                           ),
                                           CustomTextField(
                                             labelText:
@@ -216,6 +251,33 @@ class CustomerEstimateView extends StatelessWidget {
                                                 materialCtrl["labelCtrl"],
                                           ),
                                           Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: CustomTextField(
+                                                  labelText: materialCtrl[
+                                                      "unitNameLabel"],
+                                                  controller: materialCtrl[
+                                                      "unitNameCtrl"],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: CustomTextField(
+                                                  labelText: materialCtrl[
+                                                      "unitPriceLabel"],
+                                                  controller: materialCtrl[
+                                                      "unitPriceCtrl"],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
                                                 child: CustomTextField(
@@ -225,26 +287,15 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "quantityCtrl"],
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: CustomTextField(
-                                                  labelText:
-                                                      materialCtrl["unitLabel"],
-                                                  controller:
-                                                      materialCtrl["unitCtrl"],
-                                                ),
-                                              ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 10,
                                               ),
                                               Expanded(
                                                 child: CustomTextField(
                                                   labelText: materialCtrl[
                                                       "totalLabel"],
-                                                  controller: materialCtrl[
-                                                      "totalCostCtrl"],
+                                                  controller:
+                                                      materialCtrl["totalCtrl"],
                                                 ),
                                               ),
                                             ],
@@ -254,6 +305,8 @@ class CustomerEstimateView extends StatelessWidget {
                                                 "descriptionLabel"],
                                             controller:
                                                 materialCtrl["descriptionCtrl"],
+                                            minLines: 2,
+                                            maxLines: 5,
                                           ),
                                         ],
                                       ),
@@ -261,14 +314,20 @@ class CustomerEstimateView extends StatelessWidget {
                                   }),
                               Align(
                                 alignment: Alignment.topRight,
-                                child: TextButton(
-                                  onPressed: () {
-                                    customerCtrl
-                                        .addNewMaterialTextEditingCtrl();
-                                  },
-                                  child: Text("+ Material Item"),
-                                ),
-                              )
+                                child: CustomCompanyButtonWithIcon(
+                                    buttonName: "ADD MATERIAL",
+                                    topMargin: 0,
+                                    bottomMargin: 0,
+                                    bottomPadding: 0,
+                                    topPadding: 0,
+                                    fizedSize: const Size(double.infinity, 30),
+                                    icon: null,
+                                    isFitted: true,
+                                    onPressed: () async {
+                                      customerCtrl
+                                          .addNewMaterialTextEditingCtrl();
+                                    }),
+                              ),
                             ],
                           ),
                         ),

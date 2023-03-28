@@ -43,6 +43,8 @@ class CustomerDetailsScreen extends StatelessWidget {
                       return Scaffold(
                         appBar: AppBar(
                           centerTitle: false,
+                          titleTextStyle:
+                              CustomTextStyle.normalRegularStyleGrey,
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,12 +66,12 @@ class CustomerDetailsScreen extends StatelessWidget {
                                     style:
                                         CustomTextStyle.mediumRegularStyleBlack,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Total Value :",
                                     style:
                                         CustomTextStyle.normalRegularStyleGrey,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Pending Balance :",
                                     style:
                                         CustomTextStyle.normalRegularStyleGrey,
@@ -84,7 +86,7 @@ class CustomerDetailsScreen extends StatelessWidget {
                                 icon: Icon(Icons.edit_note_sharp))
                           ],
                           bottom: PreferredSize(
-                              preferredSize: Size(double.infinity, 50),
+                              preferredSize: const Size(double.infinity, 50),
                               child: GetBuilder<ScreenController>(
                                   init: ScreenController(),
                                   builder: (screenCtrl) {
