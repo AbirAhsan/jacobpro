@@ -46,6 +46,7 @@ dependencies:
   dropdown_search: ^5.0.6
   syncfusion_flutter_calendar: ^20.4.54
   google_static_maps_controller: ^1.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

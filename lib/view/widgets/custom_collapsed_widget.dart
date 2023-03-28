@@ -6,12 +6,14 @@ class CustomCollapsibleWidget extends StatefulWidget {
   final Widget child;
   final String? name;
   final bool initiallyCollapsed;
+  final TextStyle? textStyle;
 
   const CustomCollapsibleWidget(
       {super.key,
       required this.child,
       required this.initiallyCollapsed,
-      this.name});
+      this.name,
+      this.textStyle = CustomTextStyle.mediumBoldStyleDarkGrey});
 
   @override
   State<CustomCollapsibleWidget> createState() =>
@@ -28,8 +30,8 @@ class _CustomCollapsibleWidgetState extends State<CustomCollapsibleWidget>
   void initState() {
     super.initState();
     _isCollapsed = widget.initiallyCollapsed;
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
     animation = CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn);
   }
@@ -67,7 +69,7 @@ class _CustomCollapsibleWidgetState extends State<CustomCollapsibleWidget>
               children: <Widget>[
                 Text(
                   widget.name ?? "",
-                  style: CustomTextStyle.mediumBoldStyleDarkGrey,
+                  style: widget.textStyle,
                 ),
                 Icon(
                     _isCollapsed ? Icons.arrow_drop_down : Icons.arrow_drop_up),

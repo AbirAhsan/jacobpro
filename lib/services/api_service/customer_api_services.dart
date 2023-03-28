@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:service/model/customer_details_model.dart';
 import 'package:service/model/customer_model.dart';
+import 'package:service/model/material_item_model.dart';
 import 'dart:convert';
 
 import '../../app_config.dart';
+import '../../model/service_item_model.dart';
 import '../error_code_handle_service.dart';
 import '../shared_data_manage_service.dart';
 
@@ -127,6 +130,196 @@ class CustomerApiService {
       //     decoded.map((b) => CustomerInfoModel.fromJson(b)).toList();
 
       return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<============================= Get Customer Details
+  Future<CustomerDetailsModel> getCustomerDetails(String? customerId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Customer/GetCustomerDetails/$customerId?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      var jsonResponse = respStr.body;
+
+      var decoded = json.decode(jsonResponse);
+      print(decoded);
+      return CustomerDetailsModel.fromJson(decoded["dataObj"]);
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=============================================== Fetch Service Item List
+  Future<List<ServiceItemModel?>> getServiceItemList() async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Service/GetServiceItems?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+
+    if (respStr.statusCode == 200 && response["statusCode"] == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = jsonDecode(jsonResponse);
+
+      List<ServiceItemModel?> mapdatalist = decoded['dataObj']
+          .map<ServiceItemModel?>((b) => ServiceItemModel.fromJson(b))
+          .toList();
+      // List<CustomerInfoModel?> mapdatalist =
+      //     decoded.map((b) => CustomerInfoModel.fromJson(b)).toList();
+
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=============================================== Fetch Service Item Details
+  Future<ServiceItemModel?> getServiceDetails(int? serviceId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Service/GetServiceDetails/$serviceId?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200 && response["statusCode"] == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = jsonDecode(jsonResponse);
+
+      return ServiceItemModel.fromJson(decoded["dataObj"]);
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<============================================= Fetch Material Item List
+  Future<List<MaterialItemModel?>> getMaterialItemList() async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Material/GetMaterialItems?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+
+    if (respStr.statusCode == 200 && response["statusCode"] == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = jsonDecode(jsonResponse);
+
+      List<MaterialItemModel?> mapdatalist = decoded['dataObj']
+          .map<MaterialItemModel?>((b) => MaterialItemModel.fromJson(b))
+          .toList();
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=============================================== Fetch Material Item Details
+  Future<MaterialItemModel?> getMaterialDetails(int? materialId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Material/GetMaterialDetails/$materialId?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+
+    if (respStr.statusCode == 200 && response["statusCode"] == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = jsonDecode(jsonResponse);
+
+      return MaterialItemModel.fromJson(decoded["dataObj"]);
     } else {
       throw {
         "code": respStr.statusCode,

@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:service/controller/auth_controller.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/icon_variables.dart';
 import 'package:service/view/variables/text_style.dart';
@@ -17,10 +20,6 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScreenController scrCtrl = Get.put(ScreenController());
-    // final AuthController authCtrl = Get.put(AuthController());
-    // final ProfileController profileCtrl = Get.put(ProfileController());
-    // profileCtrl.fetchandAssignProfileDetails();
     return Drawer(
       // backgroundColor: white,
       child: Stack(
@@ -31,13 +30,14 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 DrawerHeader(
                   decoration: BoxDecoration(
-                    color: CustomColors.primary,
-                    // image: DecorationImage(
-                    //   image: AssetImage(
-                    //     drawerBg,
-                    //   ),
-                    //   fit: BoxFit.fill,
-                    // ),
+                    image: DecorationImage(
+                        image: const AssetImage(
+                          CustomIcons.banner,
+                        ),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                            CustomColors.black.withOpacity(0.5),
+                            BlendMode.darken)),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -75,14 +75,6 @@ class CustomDrawer extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      IconButton(
-                          onPressed: () =>
-                              PageNavigationService.generalNavigation(
-                                  "/ProfileDetailsScreen"),
-                          icon: const Icon(
-                            Icons.edit,
-                            color: CustomColors.white,
-                          ))
                     ],
                   ),
                 ),
@@ -122,6 +114,36 @@ class CustomDrawer extends StatelessWidget {
                           // }
                         },
                       ),
+                      //<====================================== My Profile
+                      ListTile(
+                        tileColor: Get.currentRoute == "/ProfileDetailsScreen"
+                            ? CustomColors.primary
+                            : CustomColors.white,
+                        leading: CustomImageIcon(
+                          imagepath: CustomIcons.person,
+                          color: Get.currentRoute == "/ProfileDetailsScreen"
+                              ? CustomColors.white
+                              : CustomColors.primary,
+                        ),
+                        title: Text(
+                          "My Profile",
+                          style: Get.currentRoute == "/ProfileDetailsScreen"
+                              ? CustomTextStyle.normalBoldStyleWhite
+                              : CustomTextStyle.normalBoldStylePrimary,
+                        ),
+                        onTap: () {
+                          if (Get.currentRoute == "/ProfileDetailsScreen") {
+                            PageNavigationService.backScreen();
+                          } else {
+                            PageNavigationService.generalNavigation(
+                                "/ProfileDetailsScreen");
+                          }
+
+                          // if (scafoldKey?.currentState?.isDrawerOpen == true) {
+                          //   print("Drawer is Open");
+                          // }
+                        },
+                      ),
                       //<====================================== My Customers
                       ListTile(
                         tileColor: Get.currentRoute == "/MyCustomersScreen"
@@ -152,7 +174,29 @@ class CustomDrawer extends StatelessWidget {
                           // }
                         },
                       ),
-
+//<========== Logout
+                      //<====================================== My Customers
+                      GetBuilder<AuthController>(
+                          init: AuthController(),
+                          builder: (authCtrl) {
+                            return ListTile(
+                              tileColor: CustomColors.white,
+                              leading: const CustomImageIcon(
+                                imagepath: CustomIcons.myCustomers,
+                                color: CustomColors.primary,
+                              ),
+                              title: Text(
+                                "LogOut",
+                                style: CustomTextStyle.normalBoldStylePrimary,
+                              ),
+                              onTap: () {
+                                authCtrl.tryToLogOut();
+                                // if (scafoldKey?.currentState?.isDrawerOpen == true) {
+                                //   print("Drawer is Open");
+                                // }
+                              },
+                            );
+                          }),
                       // //<======================================= Operation
                       // ExpansionTile(
                       //   expandedCrossAxisAlignment: CrossAxisAlignment.end,

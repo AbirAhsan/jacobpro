@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:service/services/page_navigation_service.dart';
 
 import '../../variables/colors_variable.dart';
 import '../../variables/text_style.dart';
@@ -25,7 +26,7 @@ class AssignedTabView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Mon, 14, Mar",
                         style: CustomTextStyle.mediumRegularStyleDarkGrey,
                       ),
@@ -60,18 +61,25 @@ class AssignedTabView extends StatelessWidget {
                                       .normalRegularStyleDarkGrey,
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(
-                                  color: CustomColors.primary,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
+                              InkWell(
+                                onTap: () {
+                                  PageNavigationService.generalNavigation(
+                                      "/JobDetailsScreen",
+                                      arguments: "1");
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: const BoxDecoration(
+                                    color: CustomColors.primary,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    ),
                                   ),
-                                ),
-                                child: const Text(
-                                  "Assessment",
-                                  style: CustomTextStyle.mediumBoldStyleWhite,
+                                  child: const Text(
+                                    "Assessment",
+                                    style: CustomTextStyle.mediumBoldStyleWhite,
+                                  ),
                                 ),
                               ),
                               const SizedBox(

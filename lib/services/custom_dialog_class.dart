@@ -22,4 +22,27 @@ class CustomDialogShow {
       btnOkText: okayButtonName,
     )..show();
   }
+
+  static showInfoDialog(
+      String? title,
+      String? description,
+      String? okayButtonName,
+      void Function()? btnOkOnPress,
+      void Function()? btnCancelOnPress) async {
+    return AwesomeDialog(
+      context: Get.context!,
+      dialogType: DialogType.info,
+      animType: AnimType.rightSlide,
+      title: title,
+
+      desc: description,
+      //  btnCancelOnPress: () {},
+      padding: const EdgeInsets.all(10),
+      btnOkOnPress: btnOkOnPress,
+      btnCancelOnPress: btnCancelOnPress,
+      descTextStyle: CustomTextStyle.normalRegularStyleBlack,
+      buttonsTextStyle: CustomTextStyle.mediumBoldStyleWhite,
+      btnOkText: okayButtonName,
+    )..show();
+  }
 }

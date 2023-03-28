@@ -83,7 +83,7 @@ class CustomCompanyButtonWithIcon extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(
                       leftPadding, topPadding, rightPadding, bottomPadding),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       icon == null

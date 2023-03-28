@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/model/customer_model.dart';
 import 'package:service/services/page_navigation_service.dart';
+import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button.dart';
 import 'package:service/view/widgets/custom_drawer.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
@@ -36,8 +37,8 @@ class MyCustomersScreen extends StatelessWidget {
                   Card(
                     elevation: 0,
                     child: CustomTextField(
-                        marginLeft: 30,
-                        marginRight: 30,
+                        marginLeft: 15,
+                        marginRight: 15,
                         prefixIcon: const Icon(Icons.search),
                         hintText: "Search Customer",
                         controller: customerCtrl.searchCustomerTextCtrl,
@@ -51,16 +52,26 @@ class MyCustomersScreen extends StatelessWidget {
                   Expanded(
                     child: ListView.builder(
                         shrinkWrap: true,
+                        padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                         itemCount: customerCtrl.customerList.length,
                         itemBuilder: (buildContext, index) {
                           CustomerInfoModel? customerInfo =
                               customerCtrl.customerList[index];
                           return Card(
                               child: ListTile(
+                            onTap: () {
+                              PageNavigationService.generalNavigation(
+                                  "/CustomerDetailsScreen",
+                                  arguments:
+                                      customerInfo.customerId.toString());
+                            },
                             title: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
+                              padding:
+                                  const EdgeInsets.only(left: 5.0, bottom: 5),
                               child: Text(
-                                customerInfo!.customerDisplayName ?? "",
+                                "${customerInfo!.customerDisplayName ?? ""}"
+                                    .toUpperCase(),
+                                style: CustomTextStyle.normalBoldStyleBlack,
                               ),
                             ),
                             subtitle: customerInfo.customerBillingAddress !=
@@ -68,8 +79,9 @@ class MyCustomersScreen extends StatelessWidget {
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.location_on_outlined,
+                                        size: 16,
                                       ),
                                       Expanded(
                                         child: Text(
@@ -80,22 +92,6 @@ class MyCustomersScreen extends StatelessWidget {
                                     ],
                                   )
                                 : Container(),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(Icons.edit),
-                                ),
-                                customerInfo.customerDefaultContact != null
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Icon(Icons.call),
-                                      )
-                                    : Container()
-                              ],
-                            ),
                           ));
                         }),
                   )
@@ -103,14 +99,15 @@ class MyCustomersScreen extends StatelessWidget {
               );
             }),
         bottomNavigationBar: BottomAppBar(
-            elevation: 0,
-            height: 100,
-            child: CustomCompanyButton(
-                buttonName: "Add New Customer",
-                onPressed: () {
-                  PageNavigationService.generalNavigation(
-                      "/AddNewCustomerScreen");
-                })),
+          elevation: 0,
+          height: 100,
+          child: CustomCompanyButton(
+              buttonName: "Add New Customer",
+              onPressed: () {
+                PageNavigationService.generalNavigation(
+                    "/AddNewCustomerScreen");
+              }),
+        ),
       ),
     );
   }

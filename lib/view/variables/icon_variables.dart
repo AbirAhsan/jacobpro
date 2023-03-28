@@ -22,4 +22,5 @@ class CustomIcons {
   static const String scheduleImage = "assets/images/Schedule-image.jpg";
   static const String jobList = "assets/images/job-list.jpeg";
   static const String timesheet = "assets/images/timesheet.png";
+  static const String banner = "assets/images/banner.png";
 }

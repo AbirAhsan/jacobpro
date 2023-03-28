@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/view/auth/login_screen.dart';
 
 import '../services/api_service/auth_api_service.dart';
 import '../services/custom_eassy_loading.dart';
@@ -146,6 +147,12 @@ class AuthController extends GetxController {
         print("object");
       }
     });
+  }
+
+  //<<============================================================= Try to Logout
+  void tryToLogOut() {
+    SharedDataManageService().clearTokenUserID();
+    PageNavigationService.removeAndNavigate("/LoginScreen");
   }
 
   //<=================== Intialize Login TexEdition Controller

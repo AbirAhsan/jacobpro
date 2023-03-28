@@ -7,6 +7,7 @@ import 'package:service/view/profile/views/employee_details_view.dart';
 import '../../controller/screen_controller.dart';
 import '../variables/colors_variable.dart';
 import '../variables/text_style.dart';
+import '../widgets/custom_drawer.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
   const ProfileDetailsScreen({super.key});
@@ -114,6 +115,7 @@ class ProfileDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
+      drawer: const CustomDrawer(),
       body: GetBuilder<ScreenController>(
           init: ScreenController(),
           builder: (screenCtrl) {
