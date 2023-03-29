@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../variables/colors_variable.dart';
+import '../variables/text_style.dart';
 
 class CustomDropDown extends StatelessWidget {
   final String? label;
@@ -19,6 +20,7 @@ class CustomDropDown extends StatelessWidget {
   final double bottomLeftBorderRadius;
   final double bottomRightBorderRadius;
   final Color borderSideColor;
+  final TextStyle? labelStyle;
   const CustomDropDown({
     super.key,
     this.label,
@@ -35,7 +37,8 @@ class CustomDropDown extends StatelessWidget {
     this.bottomLeftBorderRadius = 5.0,
     this.bottomRightBorderRadius = 5.0,
     this.validator,
-    this.borderSideColor = CustomColors.grey,
+    this.borderSideColor = CustomColors.lightgrey,
+    this.labelStyle = CustomTextStyle.normalRegularStyleBlack,
   });
 
   @override
@@ -102,6 +105,7 @@ class CustomDropDown extends StatelessWidget {
               : const UnderlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
+          labelStyle: labelStyle,
         ),
         validator: validator,
       ),

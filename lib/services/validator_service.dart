@@ -70,4 +70,14 @@ class ValidatorService {
     }
     return null;
   }
+
+  //<============================================= Simple field Validaor
+  static String? validateIntNumberField(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Field is required";
+    } else if (num.tryParse(value) == null) {
+      return "$value is not valid";
+    }
+    return null;
+  }
 }

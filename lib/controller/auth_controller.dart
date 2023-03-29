@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service/view/auth/login_screen.dart';
 
 import '../services/api_service/auth_api_service.dart';
 import '../services/custom_eassy_loading.dart';
@@ -98,27 +97,6 @@ class AuthController extends GetxController {
       try {
         CustomEassyLoading.startLoading();
 
-        // AuthApiService()
-        //     .loginRequest(
-        //   loginUserNameCtrl!.text,
-        //   loginPasswordCtrl!.text,
-        //   "", //fcmtoken
-        // )
-        //     .then((resp) async {
-        //   if (resp.isNotEmpty) {
-        //     await SharedDataManageService().setToken(resp["token"]);
-        //     await SharedDataManageService().setMenuToken(resp["menuToken"]);
-        //     update();
-        //     // PageNavigationService.removeAllAndNavigate(
-        //     //   "/MainScreen",
-        //     // );
-        //     CustomEassyLoading.stopLoading();
-        //   }
-        //   CustomEassyLoading.stopLoading();
-        // }, onError: (err) {
-        //   ApiErrorHandleService.handleStatusCodeError(err);
-        //   CustomEassyLoading.stopLoading();
-        // });
         startTimer();
       } on SocketException catch (e) {
         debugPrint('error $e');

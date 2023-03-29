@@ -80,8 +80,8 @@ class MaterialPrices {
   int? materialPriceId;
   int? unitId;
   String? unitName;
-  int? materialCost;
-  double? materialPrice;
+  String? materialCost;
+  String? materialPrice;
   bool? materialUnitIsDefault;
   String? materialPriceActiveFrom;
   String? materialPriceActiveTo;
@@ -100,8 +100,8 @@ class MaterialPrices {
     materialPriceId = json['materialPriceId'];
     unitId = json['unitId'];
     unitName = json['unitName'];
-    materialCost = json['materialCost'];
-    materialPrice = json['materialPrice'];
+    materialCost = json['materialCost'].toString();
+    materialPrice = json['materialPrice'].toString();
     materialUnitIsDefault = json['materialUnitIsDefault'];
     materialPriceActiveFrom = json['materialPriceActiveFrom'];
     materialPriceActiveTo = json['materialPriceActiveTo'];

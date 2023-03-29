@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:service/services/page_navigation_service.dart';
 import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button_with_icon.dart';
 import 'package:service/view/widgets/custom_dropdown.dart';
+import 'package:service/view/widgets/custom_submit_button.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
 
 import '../../../controller/customer_controller.dart';
+import '../../../model/material_item_model.dart';
 import '../../../model/service_item_model.dart';
 import '../../widgets/cupertino_bottom_sheet.dart';
 
@@ -35,12 +39,12 @@ class CustomerEstimateView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Form(
-                  key: customerCtrl.addEstimateFormKey,
-                  child: Column(
-                    children: [
-                      //<======================= Serivces
-                      Card(
+                child: Column(
+                  children: [
+                    //<======================= Serivces
+                    Form(
+                      key: customerCtrl.addEstimateServiceFormKey,
+                      child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -99,6 +103,8 @@ class CustomerEstimateView extends StatelessWidget {
                                                 .validateSimpleFiled,
                                           ),
                                           Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Expanded(
                                                 child: CustomTextField(
@@ -119,8 +125,32 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "unitPriceLabel"],
                                                   controller: serviceTextCtrl[
                                                       "unitPriceCtrl"],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow((RegExp(
+                                                            r'^\d+\.?\d{0,2}'))),
+                                                  ],
                                                   validator: ValidatorService
-                                                      .validateSimpleFiled,
+                                                      .validateIntNumberField,
+                                                  onChanged: (value) {
+                                                    serviceTextCtrl["totalCtrl"]
+                                                        .text = (double.tryParse(
+                                                                serviceTextCtrl[
+                                                                        "quantityCtrl"]
+                                                                    .text
+                                                                    .toString())! *
+                                                            num.tryParse(
+                                                                serviceTextCtrl[
+                                                                        "unitPriceCtrl"]
+                                                                    .text
+                                                                    .toString())!)
+                                                        .toString();
+                                                    customerCtrl
+                                                        .calculateTotalServicePrice();
+                                                  },
                                                 ),
                                               ),
                                             ],
@@ -135,8 +165,34 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "quantityLabel"],
                                                   controller: serviceTextCtrl[
                                                       "quantityCtrl"],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow(
+                                                            RegExp(r'[0-9]')),
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
                                                   validator: ValidatorService
-                                                      .validateSimpleFiled,
+                                                      .validateIntNumberField,
+                                                  onChanged: (value) {
+                                                    serviceTextCtrl["totalCtrl"]
+                                                        .text = (double.tryParse(
+                                                                serviceTextCtrl[
+                                                                        "quantityCtrl"]
+                                                                    .text
+                                                                    .toString())! *
+                                                            num.tryParse(
+                                                                serviceTextCtrl[
+                                                                        "unitPriceCtrl"]
+                                                                    .text
+                                                                    .toString())!)
+                                                        .toString();
+                                                    customerCtrl
+                                                        .calculateTotalServicePrice();
+                                                  },
                                                 ),
                                               ),
                                               const SizedBox(
@@ -148,6 +204,7 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "totalLabel"],
                                                   controller: serviceTextCtrl[
                                                       "totalCtrl"],
+                                                  readOnly: true,
                                                 ),
                                               ),
                                             ],
@@ -174,25 +231,33 @@ class CustomerEstimateView extends StatelessWidget {
                                     icon: null,
                                     isFitted: true,
                                     onPressed: () async {
-                                      customerCtrl.selectedServicePrice = null;
-                                      customerCtrl.selectedService = null;
-                                      customerCtrl.serviceUnitQuantityTxtCtrl
-                                          .clear();
-                                      customerCtrl.serviceUnitCostTxtCtrl
-                                          .clear();
-                                      showServiceModal(context);
+                                      if (ValidatorService().validateAndSave(
+                                          customerCtrl
+                                              .addEstimateServiceFormKey)) {
+                                        customerCtrl.selectedServicePrice =
+                                            null;
+                                        customerCtrl.selectedService = null;
+                                        customerCtrl.serviceUnitQuantityTxtCtrl
+                                            .clear();
+                                        customerCtrl.serviceUnitCostTxtCtrl
+                                            .clear();
+                                        showServiceModal(context);
+                                      }
                                     }),
                               )
                             ],
                           ),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      //<======================= Material
-                      Card(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //<======================= Material
+                    Form(
+                      key: customerCtrl.addEstimateMaterialFormKey,
+                      child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Column(
@@ -200,7 +265,7 @@ class CustomerEstimateView extends StatelessWidget {
                               const Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  "MATERIAL",
+                                  "MATERIALS",
                                   style:
                                       CustomTextStyle.mediumBoldStyleDarkGrey,
                                 ),
@@ -249,6 +314,8 @@ class CustomerEstimateView extends StatelessWidget {
                                                 materialCtrl["itemLabel"],
                                             controller:
                                                 materialCtrl["labelCtrl"],
+                                            validator: ValidatorService
+                                                .validateSimpleFiled,
                                           ),
                                           Row(
                                             crossAxisAlignment:
@@ -260,6 +327,8 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "unitNameLabel"],
                                                   controller: materialCtrl[
                                                       "unitNameCtrl"],
+                                                  validator: ValidatorService
+                                                      .validateSimpleFiled,
                                                 ),
                                               ),
                                               const SizedBox(
@@ -271,6 +340,31 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "unitPriceLabel"],
                                                   controller: materialCtrl[
                                                       "unitPriceCtrl"],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow((RegExp(
+                                                            r'^\d+\.?\d{0,2}'))),
+                                                  ],
+                                                  validator: ValidatorService
+                                                      .validateIntNumberField,
+                                                  onChanged: (value) {
+                                                    materialCtrl["totalCtrl"]
+                                                        .text = (double.tryParse(
+                                                                materialCtrl[
+                                                                        "quantityCtrl"]
+                                                                    .text
+                                                                    .toString())! *
+                                                            num.tryParse(materialCtrl[
+                                                                    "unitPriceCtrl"]
+                                                                .text
+                                                                .toString())!)
+                                                        .toString();
+                                                    customerCtrl
+                                                        .calculateTotalMaterialPrice();
+                                                  },
                                                 ),
                                               ),
                                             ],
@@ -285,6 +379,33 @@ class CustomerEstimateView extends StatelessWidget {
                                                       "quantityLabel"],
                                                   controller: materialCtrl[
                                                       "quantityCtrl"],
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    FilteringTextInputFormatter
+                                                        .allow(
+                                                            RegExp(r'[0-9]')),
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  validator: ValidatorService
+                                                      .validateIntNumberField,
+                                                  onChanged: (value) {
+                                                    materialCtrl["totalCtrl"]
+                                                        .text = (double.tryParse(
+                                                                materialCtrl[
+                                                                        "quantityCtrl"]
+                                                                    .text
+                                                                    .toString())! *
+                                                            num.tryParse(materialCtrl[
+                                                                    "unitPriceCtrl"]
+                                                                .text
+                                                                .toString())!)
+                                                        .toString();
+                                                    customerCtrl
+                                                        .calculateTotalMaterialPrice();
+                                                  },
                                                 ),
                                               ),
                                               const SizedBox(
@@ -324,16 +445,169 @@ class CustomerEstimateView extends StatelessWidget {
                                     icon: null,
                                     isFitted: true,
                                     onPressed: () async {
-                                      customerCtrl
-                                          .addNewMaterialTextEditingCtrl();
+                                      if (ValidatorService().validateAndSave(
+                                          customerCtrl
+                                              .addEstimateMaterialFormKey)) {
+                                        customerCtrl.selectedMaterialPrice =
+                                            null;
+                                        customerCtrl.selectedMaterial = null;
+                                        customerCtrl.materialUnitQuantityTxtCtrl
+                                            .clear();
+                                        customerCtrl.materialUnitCostTxtCtrl
+                                            .clear();
+                                        showMaterialModal(context);
+                                      }
                                     }),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+
+                    Card(
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(flex: 2, child: Text('')),
+                                const Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Service Price',
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.left,
+                                    )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "\$${customerCtrl.totalServicePrice}",
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.right,
+                                    ))
+                              ],
+                            ),
+                            const Divider(),
+                            // const Divider(
+                            //   height: 2,
+                            //   thickness: 0,
+                            //   color: CustomColors.white,
+                            // ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(flex: 2, child: Text('')),
+                                const Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Material Price',
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.left,
+                                    )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "\$${customerCtrl.totalMaterialPrice}",
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.right,
+                                    ))
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2.0,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(flex: 2, child: Text('')),
+                                const Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Sub Total',
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.left,
+                                    )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "\$${(customerCtrl.totalServicePrice! + customerCtrl.totalMaterialPrice!)}",
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.right,
+                                    ))
+                              ],
+                            ),
+                            const Divider(),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(flex: 2, child: Text('')),
+                                const Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Discount',
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.left,
+                                    )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "(-) \$${customerCtrl.discount}",
+                                      style: CustomTextStyle
+                                          .mediumRegularStyleBlack,
+                                      textAlign: TextAlign.right,
+                                    ))
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2.0,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Expanded(flex: 2, child: Text('')),
+                                const Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'FINAL BILL',
+                                      style:
+                                          CustomTextStyle.mediumBoldStyleBlack,
+                                      textAlign: TextAlign.left,
+                                    )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "\$${(customerCtrl.totalServicePrice! + customerCtrl.totalMaterialPrice! - customerCtrl.discount!)}",
+                                      style:
+                                          CustomTextStyle.mediumBoldStyleBlack,
+                                      textAlign: TextAlign.right,
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: CustomSubmitButton(
+                          rightMargin: 4,
+                          fizedSize: const Size(double.infinity, 30),
+                          buttonName: "Add Estimate",
+                          onPressed: () {}),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -347,14 +621,26 @@ void showServiceModal(BuildContext context) async {
     barrierDismissible: false,
     context: context,
     builder: (BuildContext context) {
-      return MyCupertinoBottomSheet(
-          child: GetBuilder<CustomerController>(
-              init: CustomerController(),
-              initState: (state) async {
-                await Get.put(CustomerController()).getServiceItemList();
-              },
-              builder: (customerCtrl) {
-                return Column(
+      return GetBuilder<CustomerController>(
+          init: CustomerController(),
+          initState: (state) async {
+            await Get.put(CustomerController()).getServiceItemList();
+          },
+          builder: (customerCtrl) {
+            return MyCupertinoBottomSheet(
+                title: "ADD SERVICE",
+                onConfirm: () async {
+                  await customerCtrl.addNewServiceTextEditingCtrl(
+                      customerCtrl.selectedService!.value,
+                      customerCtrl.selectedServicePrice!.unitName,
+                      customerCtrl.serviceUnitQuantityTxtCtrl.text,
+                      customerCtrl.serviceUnitCostTxtCtrl.text);
+                  PageNavigationService.backScreen();
+                },
+                onCancel: () {
+                  PageNavigationService.backScreen();
+                },
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomDropDown(
@@ -393,7 +679,7 @@ void showServiceModal(BuildContext context) async {
                           customerCtrl.selectedServicePrice = value;
 
                           customerCtrl.serviceUnitCostTxtCtrl.text =
-                              value.serviceCost;
+                              value.servicePrice;
                           customerCtrl.serviceUnitQuantityTxtCtrl.text = "1";
                           customerCtrl.update();
                         }),
@@ -419,8 +705,105 @@ void showServiceModal(BuildContext context) async {
                       ],
                     ),
                   ],
-                );
-              }));
+                ));
+          });
+    },
+  );
+  // customerCtrl.addNewServiceTextEditingCtrl();
+}
+
+void showMaterialModal(BuildContext context) async {
+  await showCupertinoModalPopup(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return GetBuilder<CustomerController>(
+          init: CustomerController(),
+          initState: (state) async {
+            await Get.put(CustomerController()).getMaterialItemList();
+          },
+          builder: (customerCtrl) {
+            return MyCupertinoBottomSheet(
+                title: "ADD MATERIAL",
+                onConfirm: () async {
+                  await customerCtrl.addNewMaterialTextEditingCtrl(
+                      customerCtrl.selectedMaterial!.value,
+                      customerCtrl.selectedMaterialPrice!.unitName,
+                      customerCtrl.materialUnitQuantityTxtCtrl.text,
+                      customerCtrl.materialUnitCostTxtCtrl.text);
+                  PageNavigationService.backScreen();
+                },
+                onCancel: () {
+                  PageNavigationService.backScreen();
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomDropDown(
+                        label: "Material Name",
+                        marginRight: 0,
+                        marginLeft: 0,
+                        value: customerCtrl.selectedMaterial,
+                        items: customerCtrl.materialItemList.map((material) {
+                          return DropdownMenuItem<MaterialItemModel>(
+                              value: material,
+                              child: Text(material!.value.toString()));
+                        }).toList(),
+                        onChanged: (value) async {
+                          customerCtrl.selectedMaterialPrice = null;
+                          customerCtrl.selectedMaterial = value;
+                          customerCtrl.materialItem.value = MaterialItemModel();
+                          customerCtrl.materialItem.value!.materialPrices
+                              ?.clear();
+                          customerCtrl.update();
+                          await customerCtrl.getMaterialItem(value.key);
+                        }),
+                    CustomDropDown(
+                        label: "Unit Name",
+                        marginRight: 0,
+                        marginLeft: 0,
+                        value: customerCtrl.selectedMaterialPrice,
+                        items: customerCtrl.materialItem.value!.materialPrices
+                                ?.map((materialPrice) {
+                              return DropdownMenuItem<MaterialPrices>(
+                                  value: materialPrice,
+                                  child:
+                                      Text(materialPrice.unitName.toString()));
+                            }).toList() ??
+                            [],
+                        onChanged: (value) {
+                          customerCtrl.selectedMaterialPrice = value;
+
+                          customerCtrl.materialUnitCostTxtCtrl.text =
+                              value.materialPrice;
+                          customerCtrl.materialUnitQuantityTxtCtrl.text = "1";
+                          customerCtrl.update();
+                        }),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            labelText: "Matrial Price",
+                            controller: customerCtrl.materialUnitCostTxtCtrl,
+                            readOnly: true,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: CustomTextField(
+                            labelText: "Qty",
+                            controller:
+                                customerCtrl.materialUnitQuantityTxtCtrl,
+                            readOnly: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ));
+          });
     },
   );
   // customerCtrl.addNewServiceTextEditingCtrl();

@@ -18,7 +18,8 @@ import '../services/validator_service.dart';
 
 class CustomerController extends GetxController {
   GlobalKey<FormState> addCustomerFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> addEstimateFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addEstimateServiceFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addEstimateMaterialFormKey = GlobalKey<FormState>();
 
   TextEditingController customerFirstNameCtrl = TextEditingController();
   TextEditingController customerLastNameCtrl = TextEditingController();
@@ -59,55 +60,90 @@ class CustomerController extends GetxController {
 
   List serviceTextFieldSection = [];
 
-  addNewServiceTextEditingCtrl() {
-    if (ValidatorService().validateAndSave(addEstimateFormKey)) {
-      TextEditingController serviceItemTxtCtrl = TextEditingController();
-      TextEditingController serviceQtyTxtCtrl = TextEditingController();
-      TextEditingController serviceUnitNameTxtCtrl = TextEditingController();
-      TextEditingController serviceUnitPriceTxtCtrl = TextEditingController();
-      TextEditingController serviceTotalTxtCtrl = TextEditingController();
-      TextEditingController serviceDescriptionCostTxtCtrl =
-          TextEditingController();
-      serviceTextFieldSection.add({
-        "id": serviceTextFieldSection.isNotEmpty
-            ? serviceTextFieldSection.last["id"] + 1
-            : 1,
-        "itemLabel": "Item Name",
-        "labelCtrl": serviceItemTxtCtrl,
-        "unitNameLabel": "Unit Name",
-        "unitNameCtrl": serviceUnitNameTxtCtrl,
-        "quantityLabel": "Qty",
-        "quantityCtrl": serviceQtyTxtCtrl,
-        "unitPriceLabel": "Unit Price",
-        "unitPriceCtrl": serviceUnitPriceTxtCtrl,
-        "totalLabel": "Total",
-        "totalCtrl": serviceTotalTxtCtrl,
-        "descriptionLabel": "Description",
-        "descriptionCtrl": serviceDescriptionCostTxtCtrl,
-      });
-    } else {}
+  Future<void> addNewServiceTextEditingCtrl(
+      String? serviceItem,
+      String? serviceUnitName,
+      String? serviceQty,
+      String? serviceUnitPrice) async {
+    TextEditingController serviceItemTxtCtrl =
+        TextEditingController(text: serviceItem);
+    TextEditingController serviceQtyTxtCtrl =
+        TextEditingController(text: serviceQty);
+    TextEditingController serviceUnitNameTxtCtrl =
+        TextEditingController(text: serviceUnitName);
+    TextEditingController serviceUnitPriceTxtCtrl =
+        TextEditingController(text: serviceUnitPrice);
+    TextEditingController serviceTotalTxtCtrl = TextEditingController(
+        text:
+            (int.parse(serviceQty!) * int.parse(serviceUnitPrice!)).toString());
+    TextEditingController serviceDescriptionCostTxtCtrl =
+        TextEditingController();
+    serviceTextFieldSection.add({
+      "id": serviceTextFieldSection.isNotEmpty
+          ? serviceTextFieldSection.last["id"] + 1
+          : 1,
+      "itemLabel": "Item Name",
+      "labelCtrl": serviceItemTxtCtrl,
+      "unitNameLabel": "Unit Name",
+      "unitNameCtrl": serviceUnitNameTxtCtrl,
+      "quantityLabel": "Qty",
+      "quantityCtrl": serviceQtyTxtCtrl,
+      "unitPriceLabel": "Unit Price",
+      "unitPriceCtrl": serviceUnitPriceTxtCtrl,
+      "totalLabel": "Total",
+      "totalCtrl": serviceTotalTxtCtrl,
+      "descriptionLabel": "Description",
+      "descriptionCtrl": serviceDescriptionCostTxtCtrl,
+    });
 
     update();
+    calculateTotalServicePrice();
   }
 
   closeServiceTextFields(int id) {
     serviceTextFieldSection.removeWhere((element) => element["id"] == id);
 
     update();
+    calculateTotalServicePrice();
+  }
+
+  double? totalServicePrice = 0.0;
+  calculateTotalServicePrice() {
+    double total = 0.0;
+    for (var i = 0; i < serviceTextFieldSection.length; i++) {
+      total += double.parse(serviceTextFieldSection[i]['totalCtrl'].text);
+    }
+    totalServicePrice = total;
+    update();
   }
 
 //
+//
   List<MaterialItemModel?> materialItemList =
       List<MaterialItemModel?>.empty(growable: true);
-  List<MaterialPrices?> materialPriceList =
-      List<MaterialPrices?>.empty(growable: true);
+  Rx<MaterialItemModel?> materialItem = MaterialItemModel().obs;
+
+  MaterialItemModel? selectedMaterial;
+  MaterialPrices? selectedMaterialPrice;
+  TextEditingController materialUnitCostTxtCtrl = TextEditingController();
+  TextEditingController materialUnitQuantityTxtCtrl = TextEditingController();
+
   List materialTextFieldSection = [];
-  addNewMaterialTextEditingCtrl() {
-    TextEditingController materialItemTxtCtrl = TextEditingController();
-    TextEditingController materialUnitNameTxtCtrl = TextEditingController();
-    TextEditingController materialQtyTxtCtrl = TextEditingController();
-    TextEditingController materialUnitPriceTxtCtrl = TextEditingController();
-    TextEditingController materialTotalCostTxtCtrl = TextEditingController();
+  addNewMaterialTextEditingCtrl(
+    String? itemName,
+    String? unitName,
+    String? qty,
+    String? unitPrice,
+  ) {
+    TextEditingController materialItemTxtCtrl =
+        TextEditingController(text: itemName);
+    TextEditingController materialUnitNameTxtCtrl =
+        TextEditingController(text: unitName);
+    TextEditingController materialQtyTxtCtrl = TextEditingController(text: qty);
+    TextEditingController materialUnitPriceTxtCtrl =
+        TextEditingController(text: unitPrice);
+    TextEditingController materialTotalCostTxtCtrl = TextEditingController(
+        text: (int.parse(qty!) * int.parse(unitPrice!)).toString());
     TextEditingController materialDescriptionCostTxtCtrl =
         TextEditingController();
 
@@ -129,14 +165,28 @@ class CustomerController extends GetxController {
       "descriptionCtrl": materialDescriptionCostTxtCtrl,
     });
     update();
-    print(materialTextFieldSection.last["id"]);
+
+    calculateTotalMaterialPrice();
   }
 
   closeMaterialTextFields(int id) {
     materialTextFieldSection.removeWhere((element) => element["id"] == id);
 
     update();
+    calculateTotalMaterialPrice();
   }
+
+  double? totalMaterialPrice = 0.0;
+  calculateTotalMaterialPrice() {
+    double total = 0.0;
+    for (var i = 0; i < materialTextFieldSection.length; i++) {
+      total += double.parse(materialTextFieldSection[i]['totalCtrl'].text);
+    }
+    totalMaterialPrice = total;
+    update();
+  }
+
+  double? discount = 0.0;
 
   @override
   void onClose() {
@@ -231,6 +281,32 @@ class CustomerController extends GetxController {
 
       await CustomerApiService().getMaterialItemList().then((resp) async {
         materialItemList = resp;
+
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+  //<======================= Fetch Material Item
+  Future<void> getMaterialItem(int? materialId) async {
+    selectedMaterialPrice = null;
+    update();
+    try {
+      CustomEassyLoading.startLoading();
+
+      await CustomerApiService().getMaterialDetails(materialId).then(
+          (resp) async {
+        materialItem.value = resp;
 
         CustomEassyLoading.stopLoading();
         update();
