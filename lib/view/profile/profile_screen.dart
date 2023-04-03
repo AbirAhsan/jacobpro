@@ -18,16 +18,26 @@ class ProfileDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile"),
         bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 50),
+          preferredSize: const Size(double.infinity, 110),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 15.0),
-                child: Text(
-                  "Veification Pending....",
-                  style: CustomTextStyle.mediumBoldStyleWarning,
-                  textAlign: TextAlign.left,
+              Padding(
+                padding: EdgeInsets.only(left: 15.0, top: 5, bottom: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "VERIFICATION PENDING!",
+                      style: CustomTextStyle.titleBoldStylWarning,
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      "Your profile isn't verified yet. Please provide all the data properly and submit to get reviewed and verified!",
+                      style: CustomTextStyle.normalRegularStyleGrey,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
                 ),
               ),
               GetBuilder<ScreenController>(

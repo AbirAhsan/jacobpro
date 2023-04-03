@@ -7,7 +7,6 @@ import 'dart:convert';
 
 import '../../app_config.dart';
 import '../../model/service_item_model.dart';
-import '../error_code_handle_service.dart';
 import '../shared_data_manage_service.dart';
 
 class CustomerApiService {

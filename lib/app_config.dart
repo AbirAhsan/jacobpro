@@ -15,4 +15,5 @@ class AppConfig {
   static String baseUrl = protocol + domainPath + apiEndPoint;
 
   static const String developerCompanyUrl = "https://abirahsan.com";
+  static const String imageBaseUrl = "http://jacobpro.api.jacobpro.net/Files/";
 }

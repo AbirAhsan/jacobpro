@@ -51,11 +51,11 @@ class CupertinoDateTimePicker extends StatelessWidget {
                         maximumYear: maximumYear,
                         initialDateTime: controller!.text.isEmpty
                             ? DateTime.now()
-                            : DateFormat('dd-MM-yyyy', "en")
+                            : DateFormat('yyyy-MM-dd', "en")
                                 .parse(controller!.text),
                         onDateTimeChanged: (DateTime date) {
                           controller!.text =
-                              DateFormat("dd-MM-yyyy", "en").format(date);
+                              DateFormat("yyyy-MM-dd", "en").format(date);
                           print(controller!.text);
                         },
                       ),

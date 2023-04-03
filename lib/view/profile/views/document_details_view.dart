@@ -1,9 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
+import 'package:service/services/image_picker_service.dart';
+import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
 import '../../widgets/custom_collapsed_widget.dart';
+import '../../widgets/custom_company_button.dart';
 import '../../widgets/custom_cupertino_datetime_picker.dart';
 
 class DocumentDetailsView extends StatelessWidget {
@@ -47,9 +53,30 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            profileCtrl
+                                                    .drivingLicenseFrontImage ??
+                                                "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.first.profileDocumentURL : ""}"),
+                                        fit: BoxFit.cover)),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 11);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -65,9 +92,31 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        profileCtrl.drivingLicenseBackImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.length > 1 ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.last.profileDocumentURL : ""}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 12);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
                             ),
                             CupertinoDateTimePicker(
@@ -110,9 +159,31 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        profileCtrl.identificationFrontImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 13);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -128,9 +199,31 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        profileCtrl.identificationBackImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.length > 1 ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.last.profileDocumentURL : ""}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 14);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
                             ),
                             CupertinoDateTimePicker(
@@ -171,9 +264,32 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        profileCtrl
+                                                .technicalLicenseFrontImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 15);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
                             ),
                             CupertinoDateTimePicker(
@@ -215,22 +331,47 @@ class DocumentDetailsView extends StatelessWidget {
                                 width: Get.width,
                                 height: Get.width / 2.2,
                                 alignment: Alignment.topRight,
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.camera_alt)),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                        profileCtrl.socialSecurityFrontImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                      ),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color:
+                                        CustomColors.offWhite.withOpacity(0.5),
+                                  ),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        ImagePickService()
+                                            .getSingleImage(ImageSource.gallery)
+                                            .then((imagePath) {
+                                          profileCtrl.uploadUserFile(
+                                              imagePath, 17);
+                                        });
+                                      },
+                                      icon: const Icon(Icons.camera_alt)),
+                                ),
                               ),
-                            ),
-                            CupertinoDateTimePicker(
-                              labelText: "Expiry Date",
-                              minimumYear: 2023,
-                              controller:
-                                  profileCtrl.socialSecurityExpiryTxtCtrl,
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: CustomCompanyButton(
+                          buttonName: "SUBMIT",
+                          //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
+                          isFitted: true,
+                          onPressed: () async {
+                            await profileCtrl.updateOwnProfile();
+                          })),
                 ],
               );
             }),
