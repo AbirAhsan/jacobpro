@@ -57,13 +57,17 @@ class JobDetailsScreen extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 CustomDialogShow.showInfoDialog(
-                                    "Confirm",
-                                    "Do you confirm to start the job ?",
-                                    "YES", () {
-                                  PageNavigationService.backScreen();
-                                }, () {
-                                  PageNavigationService.backScreen();
-                                });
+                                    title: "Confirm",
+                                    description:
+                                        "Do you confirm to start the job ?",
+                                    okayButtonName: "YES",
+                                    btnOkOnPress: () {
+                                      PageNavigationService.backScreen();
+                                    },
+                                    cancelButtonName: "BACK",
+                                    btnCancelOnPress: () {
+                                      PageNavigationService.backScreen();
+                                    });
                               },
                               icon: const Icon(
                                 Icons.play_arrow,
@@ -81,13 +85,17 @@ class JobDetailsScreen extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 CustomDialogShow.showInfoDialog(
-                                    "Confirm",
-                                    "Are You sure that you have complete this job ?",
-                                    "YES", () {
-                                  PageNavigationService.backScreen();
-                                }, () {
-                                  PageNavigationService.backScreen();
-                                });
+                                    title: "Confirm",
+                                    description:
+                                        "Are You sure that you have complete this job ?",
+                                    okayButtonName: "YES",
+                                    btnOkOnPress: () {
+                                      PageNavigationService.backScreen();
+                                    },
+                                    cancelButtonName: "BACK",
+                                    btnCancelOnPress: () {
+                                      PageNavigationService.backScreen();
+                                    });
                               },
                               icon: const Icon(
                                 Icons.stop,

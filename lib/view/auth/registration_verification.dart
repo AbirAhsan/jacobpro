@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/services/custom_dialog_class.dart';
+import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
@@ -116,10 +117,14 @@ class RegistrationOtpVerification extends StatelessWidget {
                     buttonName: LocaleKeys.auth_signup.tr(),
                     onPressed: () {
                       CustomDialogShow.showSuccessDialog(
-                          "CONGRATULATIONS!",
-                          "You've successfully signed up.\nYou'll receive a mail/sms with access credential shortly.",
-                          "Go To Login",
-                          () {});
+                          title: "CONGRATULATIONS!",
+                          description:
+                              "You've successfully signed up.\nYou'll receive a mail/sms with access credential shortly.",
+                          okayButtonName: "Go To Login",
+                          btnOkOnPress: () {
+                            PageNavigationService.removeAllAndNavigate(
+                                '/LoginScreen');
+                          });
                     },
                   ),
                 ),

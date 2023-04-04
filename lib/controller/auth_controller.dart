@@ -122,7 +122,6 @@ class AuthController extends GetxController {
       if (secondsRemaining != 0) {
         secondsRemaining--;
         update();
-        print("object");
       }
     });
   }

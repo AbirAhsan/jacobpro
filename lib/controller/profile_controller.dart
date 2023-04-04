@@ -102,8 +102,9 @@ class ProfileController extends GetxController {
             myProfileDetails.value!.profileSkillData?.profileSkillSubCategoryId;
 
         //4th  Get Skill list based on Sub Category category ID
+
         getSkills(myProfileDetails
-            .value!.profileSkillData!.profileSkillSubCategoryId!);
+            .value!.profileSkillData?.profileSkillSubCategoryId);
         //5th step: set Skill ids list
         setselectedSkills(
             myProfileDetails.value!.profileSkillData!.profileSkillIdList!);
@@ -133,7 +134,7 @@ class ProfileController extends GetxController {
         idCardExpiryTxtCtrl?.text ?? "",
         technicalLicenseExpiryTxtCtrl?.text ?? "",
       ]).then((resp) async {
-        fetchMyProfileDetails();
+        await fetchMyProfileDetails();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
         CustomEassyLoading.stopLoading();
@@ -226,7 +227,7 @@ class ProfileController extends GetxController {
     update();
   }
 
-  void getSkills(int subCategoryId) {
+  void getSkills(int? subCategoryId) {
     selectedSKillId = null;
     skills!.clear();
     update();
@@ -245,8 +246,12 @@ class ProfileController extends GetxController {
     selectedSkillList!.add(skills!.firstWhere((skill) => skill!.skillId == id));
 
     skills!.removeWhere((skill) => skill!.skillId == id);
-    myProfileDetails.value!.profileSkillData!.profileSkillIdList!.add(id!);
-    print(myProfileDetails.value!.profileSkillData!.profileSkillIdList);
+    if (!myProfileDetails.value!.profileSkillData!.profileSkillIdList!
+        .contains(id)) {
+      myProfileDetails.value!.profileSkillData?.profileSkillIdList!.add(id!);
+    }
+
+    print(myProfileDetails.value!.profileSkillData?.profileSkillIdList);
     update();
   }
 
@@ -263,7 +268,7 @@ class ProfileController extends GetxController {
         if (ids[i] == 30) {
           //Skill id 30 for other skill
           otherSkillTxtCtrl.text =
-              myProfileDetails.value!.profileSkillData!.profileOtherSkill!;
+              myProfileDetails.value!.profileSkillData!.profileOtherSkill ?? "";
         }
       }
     }

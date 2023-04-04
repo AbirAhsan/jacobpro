@@ -143,7 +143,7 @@ class ProfileApiService {
     request.body = json.encode({
       "profileGeneralData": profileDetails!.profileGeneralData,
       "profileEmergencyContactData": profileDetails.profileEmergencyContactData,
-      "profileSkillIdList": profileDetails.profileSkillData!.profileSkillIdList,
+      "profileSkillIdList": profileDetails.profileSkillData?.profileSkillIdList,
       "profileOtherSkill": profileDetails.profileSkillData?.profileOtherSkill,
       "ProfileDocExpiryDateList": profileDocExpiryDateList
     });

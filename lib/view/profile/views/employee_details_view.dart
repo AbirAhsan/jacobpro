@@ -36,6 +36,10 @@ class EmployeeDetailsView extends StatelessWidget {
                       }).toList(),
                       onChanged: (value) async {
                         profileCtrl.selectedSkillCategoryId = value;
+                        profileCtrl.myProfileDetails.value!.profileSkillData
+                            ?.profileSkillIdList!
+                            .clear();
+                        profileCtrl.selectedSkillList!.clear();
                         profileCtrl.getSkillSubCategories(value);
 
                         profileCtrl.update();
@@ -51,13 +55,13 @@ class EmployeeDetailsView extends StatelessWidget {
                           [],
                       onChanged: (value) async {
                         profileCtrl.selectedSKillSubCategoryId = value;
-                        profileCtrl.myProfileDetails.value!.profileSkillData!
-                            .profileSkillIdList!
+                        profileCtrl.myProfileDetails.value!.profileSkillData
+                            ?.profileSkillIdList!
                             .clear();
+                        profileCtrl.selectedSkillList!.clear();
                         profileCtrl.getSkills(value);
 
                         profileCtrl.update();
-                        print(value);
                       }),
                   profileCtrl.selectedSKillSubCategoryId != 17 // For Speciality
                       ? CustomDropDown(
@@ -71,8 +75,8 @@ class EmployeeDetailsView extends StatelessWidget {
                               [],
                           onChanged: (value) async {
                             profileCtrl.selectedSKillId = value;
-                            profileCtrl.myProfileDetails.value!
-                                .profileSkillData!.profileSkillIdList!
+                            profileCtrl.myProfileDetails.value!.profileSkillData
+                                ?.profileSkillIdList!
                                 .add(value);
                             profileCtrl.update();
                           })
@@ -144,9 +148,11 @@ class EmployeeDetailsView extends StatelessWidget {
                           marginLeft: 20,
                           controller: profileCtrl.otherSkillTxtCtrl,
                           labelText: "Others",
-                          // onChanged: (value) {
-                          //   profileCtrl.update();
-                          // },
+                          onChanged: (value) {
+                            profileCtrl.myProfileDetails.value!
+                                .profileSkillData!.profileOtherSkill = value;
+                            profileCtrl.update();
+                          },
                         )
                       : Container(),
                   Padding(

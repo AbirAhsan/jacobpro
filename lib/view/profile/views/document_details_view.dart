@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
+import 'package:service/services/custom_dialog_class.dart';
 import 'package:service/services/image_picker_service.dart';
+import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
@@ -371,6 +373,15 @@ class DocumentDetailsView extends StatelessWidget {
                           isFitted: true,
                           onPressed: () async {
                             await profileCtrl.updateOwnProfile();
+                            CustomDialogShow.showSuccessDialog(
+                                title: "Successfully Submitted",
+                                description:
+                                    "Your details has been submitted. Please wait Your details has been submitted. Please wait",
+                                okayButtonName: "HOME",
+                                btnOkOnPress: () {
+                                  PageNavigationService.removeAllAndNavigate(
+                                      "/DashBoardScreen");
+                                });
                           })),
                 ],
               );

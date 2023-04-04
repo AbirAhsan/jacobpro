@@ -117,11 +117,14 @@ class ForgetPassOTP extends StatelessWidget {
                     buttonName: LocaleKeys.otpVerification_reset.tr(),
                     onPressed: () {
                       CustomDialogShow.showSuccessDialog(
-                          "CONGRATULATIONS!",
-                          "You've successfully reset your password.\nYou'll receive a mail/sms with access credential shortly.",
-                          "Go To Login", () {
-                        PageNavigationService.generalNavigation("/LoginScreen");
-                      });
+                          title: "CONGRATULATIONS!",
+                          description:
+                              "You've successfully reset your password.\nYou'll receive a mail/sms with access credential shortly.",
+                          okayButtonName: "Go To Login",
+                          btnOkOnPress: () {
+                            PageNavigationService.generalNavigation(
+                                "/LoginScreen");
+                          });
                     },
                   ),
                 ),
