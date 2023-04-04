@@ -368,7 +368,8 @@ class DocumentDetailsView extends StatelessWidget {
                   Align(
                       alignment: Alignment.bottomRight,
                       child: CustomCompanyButton(
-                          buttonName: "SUBMIT",
+                          topMargin: 10,
+                          buttonName: "SUBMIT FOR VERIFICATION",
                           //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                           isFitted: true,
                           onPressed: () async {

@@ -55,6 +55,9 @@ class EmployeeDetailsView extends StatelessWidget {
                           [],
                       onChanged: (value) async {
                         profileCtrl.selectedSKillSubCategoryId = value;
+                        if (value == 17) {
+                          profileCtrl.selectedSKillId == null;
+                        }
                         profileCtrl.myProfileDetails.value!.profileSkillData
                             ?.profileSkillIdList!
                             .clear();
