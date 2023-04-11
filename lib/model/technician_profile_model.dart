@@ -59,6 +59,7 @@ class ProfileGeneralData {
   String? userAddress;
   String? userContactNo;
   String? userMail;
+  int? userVerificationStatus;
   int? workingMode;
 
   ProfileGeneralData(
@@ -68,6 +69,7 @@ class ProfileGeneralData {
       this.userAddress,
       this.userContactNo,
       this.userMail,
+      this.userVerificationStatus,
       this.workingMode});
 
   ProfileGeneralData.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class ProfileGeneralData {
     userAddress = json['userAddress'];
     userContactNo = json['userContactNo'];
     userMail = json['userMail'];
+    userVerificationStatus = json['userVerificationStatus'] ?? 0;
     workingMode = json['workingMode'];
   }
 

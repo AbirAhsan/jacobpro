@@ -57,10 +57,13 @@ class DocumentDetailsView extends StatelessWidget {
                                 alignment: Alignment.topRight,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: CachedNetworkImageProvider(
-                                            profileCtrl
-                                                    .drivingLicenseFrontImage ??
-                                                "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.first.profileDocumentURL : ""}"),
+                                        image: CachedNetworkImageProvider(profileCtrl
+                                                .drivingLicenseFrontImage ??
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.firstWhereOrNull(
+                                                  (doc) =>
+                                                      doc.profileDocumentTypeId ==
+                                                      11,
+                                                )?.profileDocumentURL : ""}"),
                                         fit: BoxFit.cover)),
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -98,7 +101,7 @@ class DocumentDetailsView extends StatelessWidget {
                                   image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         profileCtrl.drivingLicenseBackImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.length > 1 ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.last.profileDocumentURL : ""}",
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 12)?.profileDocumentURL : ""}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
@@ -165,7 +168,7 @@ class DocumentDetailsView extends StatelessWidget {
                                   image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         profileCtrl.identificationFrontImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 13)?.profileDocumentURL : ""}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
@@ -205,7 +208,7 @@ class DocumentDetailsView extends StatelessWidget {
                                   image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         profileCtrl.identificationBackImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.length > 1 ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.last.profileDocumentURL : ""}",
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 14)?.profileDocumentURL : ""}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
@@ -238,7 +241,9 @@ class DocumentDetailsView extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   //<========================== Technician License Card
+
                   Card(
                     elevation: 5,
                     child: SizedBox(
@@ -271,7 +276,7 @@ class DocumentDetailsView extends StatelessWidget {
                                       image: CachedNetworkImageProvider(
                                         profileCtrl
                                                 .technicalLicenseFrontImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 15)?.profileDocumentURL : ""}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
@@ -337,7 +342,7 @@ class DocumentDetailsView extends StatelessWidget {
                                   image: DecorationImage(
                                       image: CachedNetworkImageProvider(
                                         profileCtrl.socialSecurityFrontImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.first.profileDocumentURL : ""}",
+                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 17)?.profileDocumentURL : ""}",
                                       ),
                                       fit: BoxFit.cover),
                                 ),
@@ -365,6 +370,7 @@ class DocumentDetailsView extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   Align(
                       alignment: Alignment.bottomRight,
                       child: CustomCompanyButton(

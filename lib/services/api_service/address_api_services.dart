@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import '../../app_config.dart';
 import '../../model/address_model.dart';
+import '../error_code_handle_service.dart';
 import '../shared_data_manage_service.dart';
 
 class AddressApiService {
@@ -31,10 +32,8 @@ class AddressApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = jsonDecode(respStr.body);
-    print(response);
+
     if (respStr.statusCode == 200) {
-      print(response.runtimeType);
-      print(respStr.statusCode);
       List mapdatalist = response.map((b) => (b)).toList();
       // print(mapdatalist);
       return mapdatalist;
@@ -63,7 +62,9 @@ class AddressApiService {
 
     request.headers.addAll(headers);
 
-    var streamedResponse = await request.send();
+    var streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
 
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);

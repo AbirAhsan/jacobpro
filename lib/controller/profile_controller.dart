@@ -31,7 +31,7 @@ class ProfileController extends GetxController {
   TextEditingController? eEmailTxtCtrl = TextEditingController();
   TextEditingController? ePhoneTxtCtrl = TextEditingController();
   List workingModeList = [
-    {"id": 1, "name": "Part Time"},
+    {"id": 1, "name": "Freelance"},
     {"id": 2, "name": "Permanent"}
   ];
 
@@ -154,19 +154,20 @@ class ProfileController extends GetxController {
 
       await ProfileApiService.uploadUserFile(imagePath, docType).then(
           (resp) async {
-        if (docType == 11) {
-          drivingLicenseFrontImage = AppConfig.imageBaseUrl + resp!;
-        } else if (docType == 12) {
-          drivingLicenseBackImage = AppConfig.imageBaseUrl + resp!;
-        } else if (docType == 13) {
-          identificationFrontImage = AppConfig.imageBaseUrl + resp!;
-        } else if (docType == 14) {
-          identificationBackImage = AppConfig.imageBaseUrl + resp!;
-        } else if (docType == 15) {
-          technicalLicenseFrontImage = AppConfig.imageBaseUrl + resp!;
-        } else if (docType == 17) {
-          socialSecurityFrontImage = AppConfig.imageBaseUrl + resp!;
-        }
+        // if (docType == 11) {
+        //   drivingLicenseFrontImage = AppConfig.imageBaseUrl + resp!;
+        // } else if (docType == 12) {
+        //   drivingLicenseBackImage = AppConfig.imageBaseUrl + resp!;
+        // } else if (docType == 13) {
+        //   identificationFrontImage = AppConfig.imageBaseUrl + resp!;
+        // } else if (docType == 14) {
+        //   identificationBackImage = AppConfig.imageBaseUrl + resp!;
+        // } else if (docType == 15) {
+        //   technicalLicenseFrontImage = AppConfig.imageBaseUrl + resp!;
+        // } else if (docType == 17) {
+        //   socialSecurityFrontImage = AppConfig.imageBaseUrl + resp!;
+        // }
+        await fetchMyProfileDetails();
         update();
 
         CustomEassyLoading.stopLoading();

@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:service/services/custom_dialog_class.dart';
-import 'package:service/services/page_navigation_service.dart';
+import 'package:service/model/technician_profile_model.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
@@ -17,7 +16,8 @@ class RegistrationOtpVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? userId = Get.arguments;
+    String? userId = Get.arguments[0];
+    ProfileGeneralData? profile = Get.arguments[1];
 
     return Scaffold(
       appBar: AppBar(
@@ -26,6 +26,9 @@ class RegistrationOtpVerification extends StatelessWidget {
       ),
       body: GetBuilder<AuthController>(
           init: AuthController(),
+          initState: (state) {
+            Get.put(AuthController()).startTimer();
+          },
           builder: (authCtrl) {
             return ListView(
               physics: const ScrollPhysics(),
@@ -53,11 +56,10 @@ class RegistrationOtpVerification extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Text(
                     LocaleKeys.otpVerification_msg.tr(args: [
-                      // authCtrl.selectedUserType!.value == "Email"
-                      //     ? userId!.replaceRange(
-                      //         0, userId.indexOf("@") - 3, " *****")
-                      //     :
-                      userId!.replaceRange(2, 7, "*****")
+                      userId!.isEmail
+                          ? userId.replaceRange(
+                              0, userId.indexOf("@") - 3, " *****")
+                          : userId.replaceRange(2, 7, "*****")
                     ]),
                     style: CustomTextStyle.mediumBoldStyleGrey,
                     textAlign: TextAlign.center,
@@ -100,7 +102,7 @@ class RegistrationOtpVerification extends StatelessWidget {
                               .tr(args: [authCtrl.secondsRemaining.toString()]),
                       onPressed: () {
                         if (authCtrl.secondsRemaining == 0) {
-                          authCtrl.startTimer();
+                          authCtrl.resendOtp(userId);
                         }
                       },
                     ),
@@ -115,16 +117,9 @@ class RegistrationOtpVerification extends StatelessWidget {
                     leftPadding: 30,
                     rightPadding: 30.0,
                     buttonName: LocaleKeys.auth_signup.tr(),
-                    onPressed: () {
-                      CustomDialogShow.showSuccessDialog(
-                          title: "CONGRATULATIONS!",
-                          description:
-                              "You've successfully signed up.\nYou'll receive a mail/sms with access credential shortly.",
-                          okayButtonName: "Go To Login",
-                          btnOkOnPress: () {
-                            PageNavigationService.removeAllAndNavigate(
-                                '/LoginScreen');
-                          });
+                    onPressed: () async {
+                      await authCtrl.tryToVerifyOtp(
+                          userName: userId, profileData: profile);
                     },
                   ),
                 ),

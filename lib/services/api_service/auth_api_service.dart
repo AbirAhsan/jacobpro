@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:service/services/custom_eassy_loading.dart';
 import 'dart:convert';
 
 import '../../app_config.dart';
+import '../../model/technician_profile_model.dart';
 
 class AuthApiService {
   // AuthController authCtrl = Get.find<AuthController>();
@@ -28,7 +30,7 @@ class AuthApiService {
     var streamedResponse = await request.send();
     var respStr = await http.Response.fromStream(streamedResponse);
     Map response = json.decode(respStr.body);
-
+    print(respStr.statusCode);
     if (respStr.statusCode == 200) {
       debugPrint(response.toString());
 
@@ -37,6 +39,163 @@ class AuthApiService {
       throw {
         "code": respStr.statusCode,
         "message": response["message"],
+      };
+    }
+  }
+
+  Future<bool?> sendOtpRequestToMail(
+    String? email,
+  ) async {
+    try {
+      Uri url = Uri.parse("${AppConfig.baseUrl}/email/sendemail/otp/$email");
+
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('GET', url);
+
+      request.headers.addAll(headers);
+      var streamedResponse = await request.send();
+      var respStr = await http.Response.fromStream(streamedResponse);
+      Map response = jsonDecode(respStr.body);
+
+      if (respStr.statusCode == 200) {
+        debugPrint(response.toString());
+
+        return true;
+      } else {
+        throw {
+          "code": respStr.statusCode,
+          "message": response["message"],
+        };
+      }
+    } catch (e) {
+      throw {
+        "code": 500,
+        "message": "Server Error",
+      };
+    }
+  }
+
+  Future<bool> sendOtpRequestToPhone(
+    String? phone,
+  ) async {
+    try {
+      Uri url = Uri.parse("${AppConfig.baseUrl}/Sms/SendSms");
+
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', url);
+
+      request.headers.addAll(headers);
+      request.body = json.encode({
+        "smsBody": "",
+        "smsSendTo": phone,
+        "smsType": "otp",
+      });
+
+      var streamedResponse = await request.send();
+      var respStr = await http.Response.fromStream(streamedResponse);
+      var response = json.decode(respStr.body);
+
+      if (respStr.statusCode == 200) {
+        debugPrint(response.toString());
+
+        return true;
+      } else {
+        throw {
+          "code": respStr.statusCode,
+          "message": response["message"],
+        };
+      }
+    } catch (e) {
+      // Handle the exception
+      print(e.toString());
+      throw {
+        "code": 500,
+        "message": "Server Error",
+      };
+    }
+  }
+
+  static Future<bool> verifyOtp({
+    String? otp,
+    String? userName,
+  }) async {
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Technician/VerifyOtp/$otp/$userName");
+    print(url);
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    print("Response is $response");
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      print("Throw 1Response is $response");
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  Future registrationRequest(
+      {String? userName, ProfileGeneralData? profileData}) async {
+    // String? fcmToken = await NotificationController().getFcmToken();
+    try {
+      Uri url = Uri.parse(
+          "${AppConfig.baseUrl}/Technician/RegisterTechnician/$userName?format=app");
+
+      var headers = {'Content-Type': 'application/json'};
+      var request = http.Request('POST', url);
+
+      request.body = json.encode({
+        "userFirstName": profileData!.userFirstName,
+        "userLastName": profileData.userLastName,
+        "userAddress": "",
+        "userContactNo": profileData.userContactNo,
+        "userMail": profileData.userMail,
+        "userVerificationStatus": 0,
+        "workingMode": 0
+      });
+
+      debugPrint(request.body);
+      request.headers.addAll(headers);
+      var streamedResponse = await request.send();
+      var respStr = await http.Response.fromStream(streamedResponse);
+      var response = json.decode(respStr.body);
+      debugPrint(url.toString());
+      debugPrint(response.toString());
+      debugPrint("Code ${respStr.statusCode}");
+      if (respStr.statusCode == 200) {
+        debugPrint(response.toString());
+
+        return response;
+      } else {
+        throw {
+          "code": respStr.statusCode,
+          "message": response["message"],
+        };
+      }
+    } catch (e) {
+      //  print("Throw 2Response is $e");
+      // Handle the exception
+      //  print(e.toString());
+      throw {
+        "code": 500,
+        "message": "Server Error",
       };
     }
   }

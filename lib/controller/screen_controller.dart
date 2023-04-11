@@ -11,9 +11,9 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   int profileInitialIndex = 0;
   int profileCurrentIndex = 0;
   // Time Sheet
-  TabController? timeSheetTabController;
-  int timeSheetInitialIndex = 0;
-  int timeSheetCurrentIndex = 0;
+  TabController? jobListTabController;
+  int jobListInitialIndex = 0;
+  int jobListCurrentIndex = 0;
   // Customer
   TabController? customerTabController;
   int customerInitialIndex = 0;
@@ -27,10 +27,10 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
       length: 3,
       initialIndex: profileInitialIndex,
     );
-    timeSheetTabController = TabController(
+    jobListTabController = TabController(
       vsync: this,
-      length: 4,
-      initialIndex: timeSheetInitialIndex,
+      length: 5,
+      initialIndex: jobListInitialIndex,
     );
     customerTabController = TabController(
       vsync: this,
@@ -76,8 +76,8 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
 
   //<============================ Change Time Sheet Tabbar
   void changeTimeSheetTabbar(int index) {
-    timeSheetTabController!.index = index >= 0 && index < 4 ? index : 0;
-    timeSheetCurrentIndex = index >= 0 && index < 4 ? index : 0;
+    jobListTabController!.index = index >= 0 && index < 5 ? index : 0;
+    jobListCurrentIndex = index >= 0 && index < 5 ? index : 0;
     update();
   }
 

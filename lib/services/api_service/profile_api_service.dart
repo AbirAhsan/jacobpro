@@ -14,8 +14,8 @@ class ProfileApiService {
   static Future<TechnicianProfileModel> getMyProfileDetails() async {
     String? token = await SharedDataManageService().getToken();
 
-    Uri url =
-        Uri.parse("${AppConfig.baseUrl}/Emp/GetTechnicianProfile/0?format=app");
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/GetTechnicianProfile/0?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -30,8 +30,8 @@ class ProfileApiService {
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
-
-    var response = json.decode(respStr.body);
+    print(respStr.statusCode);
+    var response = jsonDecode(respStr.body);
 
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
@@ -92,7 +92,7 @@ class ProfileApiService {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Emp/UploadUserProfileDocument/$docType?mimeType=${lookupMimeType(imagePath!)}&app=format");
+        "${AppConfig.baseUrl}/Technician/UploadUserProfileDocument/$docType?mimeType=${lookupMimeType(imagePath!)}&app=format");
 
     var headers = {
       'Accept': 'application/json',
@@ -130,7 +130,7 @@ class ProfileApiService {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Emp/UpdateTechnicianProfile/0?format=app");
+        "${AppConfig.baseUrl}/Technician/UpdateTechnicianProfile/0?format=app");
 
     var headers = {
       'Accept': 'application/json',

@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/model/technician_profile_model.dart';
 
 import '../services/api_service/auth_api_service.dart';
+import '../services/custom_dialog_class.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
 import '../services/page_navigation_service.dart';
@@ -21,6 +23,8 @@ class AuthController extends GetxController {
   TextEditingController registrationLastNameCtrl = TextEditingController();
   TextEditingController registrationEmailCtrl = TextEditingController();
   TextEditingController registrationMobileCtrl = TextEditingController();
+
+  Rx<ProfileGeneralData> profile = ProfileGeneralData().obs;
 
   //
   bool? isTermsCheck = false;
@@ -90,14 +94,45 @@ class AuthController extends GetxController {
     }
   }
 
-  //<============================== Registration Request
-  void tryToRegistration() async {
+  //<============================== Login Request
+  Future<void> sendOtp() async {
     if (ValidatorService().validateAndSave(registrationFormKey)) {
       // fcmToken = await getFCMToken();
       try {
         CustomEassyLoading.startLoading();
-
-        startTimer();
+        selectedUserType!.value == "Email"
+            ? AuthApiService()
+                .sendOtpRequestToMail(
+                registrationEmailCtrl.text,
+              )
+                .then((resp) async {
+                CustomEassyLoading.stopLoading();
+                if (resp!) {
+                  print(selectedUserType!.value);
+                  PageNavigationService.generalNavigation(
+                      "/RegistrationOtpVerification",
+                      arguments: [registrationEmailCtrl.text, profile.value]);
+                }
+              }, onError: (err) {
+                ApiErrorHandleService.handleStatusCodeError(err);
+                CustomEassyLoading.stopLoading();
+              })
+            : AuthApiService()
+                .sendOtpRequestToPhone(
+                registrationMobileCtrl.text,
+              )
+                .then((resp) async {
+                CustomEassyLoading.stopLoading();
+                if (resp) {
+                  print(selectedUserType!.value);
+                  PageNavigationService.generalNavigation(
+                      "/RegistrationOtpVerification",
+                      arguments: [registrationMobileCtrl.text, profile.value]);
+                }
+              }, onError: (err) {
+                ApiErrorHandleService.handleStatusCodeError(err);
+                CustomEassyLoading.stopLoading();
+              });
       } on SocketException catch (e) {
         debugPrint('error $e');
         CustomEassyLoading.stopLoading();
@@ -113,6 +148,104 @@ class AuthController extends GetxController {
     }
   }
 
+  //<============================== Resend OTP Request
+  Future<void> resendOtp(String? userName) async {
+    // fcmToken = await getFCMToken();
+    try {
+      CustomEassyLoading.startLoading();
+      AuthApiService()
+          .sendOtpRequestToMail(
+        userName,
+      )
+          .then((resp) async {
+        CustomEassyLoading.stopLoading();
+        if (resp!) {
+          startTimer();
+        }
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
+  //<================ VerifyOtp
+  Future<void> tryToVerifyOtp(
+      {String? userName, ProfileGeneralData? profileData}) async {
+    try {
+      CustomEassyLoading.startLoading();
+      AuthApiService.verifyOtp(otp: currentOtpPin, userName: userName).then(
+          (resp) {
+        CustomEassyLoading.stopLoading();
+        if (resp) {
+          print("verified");
+          tryToRegister(userName: userName, profileData: profileData);
+        }
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
+  //<================ VerifyOtp
+  Future<void> tryToRegister(
+      {String? userName, ProfileGeneralData? profileData}) async {
+    try {
+      CustomEassyLoading.startLoading();
+      AuthApiService()
+          .registrationRequest(userName: userName, profileData: profileData)
+          .then((resp) {
+        CustomEassyLoading.stopLoading();
+        CustomDialogShow.showSuccessDialog(
+            barrierDismissible: false,
+            title: "CONGRATULATIONS!",
+            description:
+                "You've successfully signed up.\nYou'll receive a mail/sms with access credential shortly.",
+            okayButtonName: "Go To Login",
+            btnOkOnPress: () {
+              PageNavigationService.removeAllAndNavigate('/LoginScreen');
+            });
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
 //<=================== Start Timer
   startTimer() {
     print("Working");
@@ -122,6 +255,8 @@ class AuthController extends GetxController {
       if (secondsRemaining != 0) {
         secondsRemaining--;
         update();
+      } else {
+        timer!.cancel();
       }
     });
   }

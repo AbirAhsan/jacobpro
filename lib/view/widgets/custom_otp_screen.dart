@@ -61,7 +61,7 @@ class _CustomPinCodeState extends State<CustomPinCode> {
               child: PinCodeTextField(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 appContext: context,
-                length: 4,
+                length: 6,
                 obscureText: false,
                 animationType: AnimationType.fade,
                 pinTheme: PinTheme(

@@ -29,21 +29,64 @@ class ProfileDetailsScreen extends StatelessWidget {
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 15.0, top: 5, bottom: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "VERIFICATION PENDING!",
-                            style: CustomTextStyle.titleBoldStylWarning,
-                            textAlign: TextAlign.left,
-                          ),
-                          Text(
-                            "Your profile isn't verified yet. Please provide all the data properly and submit to get reviewed and verified!",
-                            style: CustomTextStyle.normalRegularStyleGrey,
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
-                      ),
+                      child: profileCtrl.myProfileDetails.value!
+                                  .profileGeneralData?.userVerificationStatus ==
+                              1
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "ACCOUNT VERIFIED",
+                                  style: CustomTextStyle.titleBoldStyleGreen,
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  "You're now eligible to use all the permitted features of the app.",
+                                  style: CustomTextStyle.normalRegularStyleGrey,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
+                            )
+                          : profileCtrl
+                                      .myProfileDetails
+                                      .value!
+                                      .profileGeneralData
+                                      ?.userVerificationStatus ==
+                                  2
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "VERIFICATION DECLINED",
+                                      style:
+                                          CustomTextStyle.titleBoldStyleError,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      "Administrator has declined your verification request. Please provide all the data properly and submit to get reviewed and verified!",
+                                      style: CustomTextStyle
+                                          .normalRegularStyleGrey,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "VERIFICATION PENDING!",
+                                      style:
+                                          CustomTextStyle.titleBoldStylWarning,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    Text(
+                                      "Your profile isn't verified yet. Please provide all the data properly and submit to get reviewed and verified!",
+                                      style: CustomTextStyle
+                                          .normalRegularStyleGrey,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ],
+                                ),
                     ),
                     GetBuilder<ScreenController>(
                         init: ScreenController(),
@@ -175,41 +218,49 @@ class ProfileDetailsScreen extends StatelessWidget {
                                   children: [
                                     const Text('DOCUMENTS'),
                                     const SizedBox(width: 8),
-                                    profileCtrl.drivingLicenseExpiryTxtCtrl!.text == "" ||
-                                            profileCtrl.idCardExpiryTxtCtrl!.text ==
-                                                "" ||
-                                            profileCtrl.technicalLicenseExpiryTxtCtrl!.text ==
-                                                "" ||
-                                            (profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty &&
+                                    profileCtrl.drivingLicenseExpiryTxtCtrl!.text != "" &&
+                                            profileCtrl.idCardExpiryTxtCtrl!.text !=
+                                                "" &&
+                                            profileCtrl.technicalLicenseExpiryTxtCtrl!.text !=
+                                                "" &&
+                                            profileCtrl
+                                                .myProfileDetails
+                                                .value!
+                                                .profileDocumentsWrapperData![0]
+                                                .profileDocumentsData!
+                                                .any((doc) =>
+                                                    doc.profileDocumentTypeId ==
+                                                    11) &&
+                                            profileCtrl
+                                                .myProfileDetails
+                                                .value!
+                                                .profileDocumentsWrapperData![0]
+                                                .profileDocumentsData!
+                                                .any((doc) =>
+                                                    doc.profileDocumentTypeId ==
+                                                    12) &&
+                                            profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 13) &
                                                 profileCtrl
-                                                        .myProfileDetails
-                                                        .value!
-                                                        .profileDocumentsWrapperData![
-                                                            1]
-                                                        .profileDocumentsData!
-                                                        .first
-                                                        .profileDocumentURL ==
-                                                    null) ||
-                                            (profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.length > 1 &&
-                                                profileCtrl
-                                                        .myProfileDetails
-                                                        .value!
-                                                        .profileDocumentsWrapperData![
-                                                            1]
-                                                        .profileDocumentsData!
-                                                        .last
-                                                        .profileDocumentURL ==
-                                                    null) ||
-                                            (profileCtrl
                                                     .myProfileDetails
                                                     .value!
                                                     .profileDocumentsWrapperData![1]
                                                     .profileDocumentsData!
-                                                    .isNotEmpty &&
-                                                profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.first.profileDocumentURL == null) ||
-                                            (profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.isNotEmpty && profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.first.profileDocumentURL == null) ||
-                                            (profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.isNotEmpty && profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.first.profileDocumentURL == null)
+                                                    .any((doc) => doc.profileDocumentTypeId == 14) &&
+                                            profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 15) &&
+                                            profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 17)
                                         ? Container(
+                                            width: 18,
+                                            height: 18,
+                                            decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: CustomColors.green),
+                                            child: const Icon(
+                                              Icons.check,
+                                              size: 14,
+                                              color: CustomColors.white,
+                                            ),
+                                          )
+                                        : Container(
                                             width: 18,
                                             height: 18,
                                             decoration: const BoxDecoration(
@@ -221,18 +272,6 @@ class ProfileDetailsScreen extends StatelessWidget {
                                               color: CustomColors.white,
                                             ),
                                           )
-                                        : Container(
-                                            width: 18,
-                                            height: 18,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: CustomColors.green),
-                                            child: const Icon(
-                                              Icons.check,
-                                              size: 14,
-                                              color: CustomColors.white,
-                                            ),
-                                          ),
                                   ],
                                 ),
                               ),

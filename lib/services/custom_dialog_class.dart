@@ -1,8 +1,8 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
+import 'package:service/view/widgets/custom_company_button.dart';
 import 'package:service/view/widgets/custom_submit_button.dart';
 
 class CustomDialogShow {
@@ -10,11 +10,13 @@ class CustomDialogShow {
     String? title,
     String? description,
     String? okayButtonName,
+    bool barrierDismissible = true,
     void Function()? btnOkOnPress,
     String? cancelButtonName,
     void Function()? btnCancelOnPress,
   }) async {
     return showDialog(
+        barrierDismissible: barrierDismissible,
         context: Get.context!,
         builder: (buildContext) {
           return AlertDialog(
@@ -23,7 +25,7 @@ class CustomDialogShow {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  height: Get.height * 0.2,
+                  height: Get.height * 0.15,
                   width: double.infinity,
                   color: CustomColors.green,
                   alignment: Alignment.center,
@@ -37,7 +39,7 @@ class CustomDialogShow {
                   height: 20,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
                       Text(
@@ -59,28 +61,53 @@ class CustomDialogShow {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           btnCancelOnPress != null
-                              ? CustomSubmitButton(
-                                  leftMargin: 10,
-                                  rightMargin: 10,
-                                  topMargin: 10,
-                                  bottomMargin: 10,
-                                  topPadding: 0,
-                                  bottomPadding: 0,
-                                  buttonName: cancelButtonName ?? "",
-                                  onPressed: btnCancelOnPress,
+                              ? SizedBox(
+                                  width: btnOkOnPress != null
+                                      ? Get.width / 3
+                                      : Get.width / 2,
+                                  child: CustomSubmitButton(
+                                    leftMargin: 10,
+                                    rightMargin: 10,
+                                    topMargin: 10,
+                                    bottomMargin: 10,
+                                    topPadding: 0,
+                                    bottomPadding: 0,
+                                    topRightBorderRadius: 0,
+                                    topLeftBorderRadius: 0,
+                                    bottomLeftBorderRadius: 0,
+                                    bottomRightBorderRadius: 0,
+                                    primaryColor: CustomColors.darkGrey,
+                                    borderColor: CustomColors.darkGrey,
+                                    fizedSize: Size(Get.width / 2, 30),
+                                    buttonName: cancelButtonName ?? "",
+                                    onPressed: btnCancelOnPress,
+                                  ),
                                 )
                               : Container(),
-                          CustomSubmitButton(
-                            leftMargin: 10,
-                            rightMargin: 10,
-                            topMargin: 10,
-                            bottomMargin: 10,
-                            topPadding: 0,
-                            bottomPadding: 0,
-                            buttonName: okayButtonName ?? "",
-                            onPressed: btnOkOnPress,
+                          SizedBox(
+                            width: btnCancelOnPress != null
+                                ? Get.width / 3
+                                : Get.width / 2,
+                            child: CustomCompanyButton(
+                              leftMargin: 10,
+                              rightMargin: 10,
+                              topMargin: 10,
+                              bottomMargin: 10,
+                              primaryColor: CustomColors.green,
+                              borderColor: CustomColors.green,
+                              fizedSize: Size(Get.width / 2, 30),
+                              topPadding: 0,
+                              bottomPadding: 0,
+                              topRightBorderRadius: 0,
+                              topLeftBorderRadius: 0,
+                              bottomLeftBorderRadius: 0,
+                              bottomRightBorderRadius: 0,
+                              buttonName: okayButtonName ?? "",
+                              onPressed: btnOkOnPress,
+                            ),
                           ),
                         ],
                       ),
@@ -94,6 +121,7 @@ class CustomDialogShow {
   }
 
   static showInfoDialog({
+    bool barrierDismissible = true,
     String? title,
     String? description,
     String? okayButtonName,
@@ -102,6 +130,7 @@ class CustomDialogShow {
     void Function()? btnCancelOnPress,
   }) async {
     return showDialog(
+        barrierDismissible: barrierDismissible,
         context: Get.context!,
         builder: (buildContext) {
           return AlertDialog(
@@ -110,7 +139,7 @@ class CustomDialogShow {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  height: Get.height * 0.2,
+                  height: Get.height * 0.15,
                   width: double.infinity,
                   color: CustomColors.warning,
                   alignment: Alignment.center,
@@ -124,7 +153,7 @@ class CustomDialogShow {
                   height: 20,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
                       Text(
@@ -148,26 +177,50 @@ class CustomDialogShow {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           btnCancelOnPress != null
-                              ? CustomSubmitButton(
-                                  leftMargin: 10,
-                                  rightMargin: 10,
-                                  topMargin: 10,
-                                  bottomMargin: 10,
-                                  topPadding: 0,
-                                  bottomPadding: 0,
-                                  buttonName: cancelButtonName ?? "",
-                                  onPressed: btnCancelOnPress,
+                              ? SizedBox(
+                                  width: btnOkOnPress != null
+                                      ? Get.width / 3
+                                      : Get.width / 2,
+                                  child: CustomSubmitButton(
+                                    leftMargin: 10,
+                                    rightMargin: 10,
+                                    topMargin: 10,
+                                    bottomMargin: 10,
+                                    primaryColor: CustomColors.darkGrey,
+                                    borderColor: CustomColors.darkGrey,
+                                    fizedSize: Size(Get.width / 2, 30),
+                                    topPadding: 0,
+                                    bottomPadding: 0,
+                                    topRightBorderRadius: 0,
+                                    topLeftBorderRadius: 0,
+                                    bottomLeftBorderRadius: 0,
+                                    bottomRightBorderRadius: 0,
+                                    buttonName: cancelButtonName ?? "",
+                                    onPressed: btnCancelOnPress,
+                                  ),
                                 )
                               : Container(),
-                          CustomSubmitButton(
-                            leftMargin: 10,
-                            rightMargin: 10,
-                            topMargin: 10,
-                            bottomMargin: 10,
-                            topPadding: 0,
-                            bottomPadding: 0,
-                            buttonName: okayButtonName ?? "",
-                            onPressed: btnOkOnPress,
+                          SizedBox(
+                            width: btnCancelOnPress != null
+                                ? Get.width / 3
+                                : Get.width / 2,
+                            child: CustomSubmitButton(
+                              leftMargin: 10,
+                              rightMargin: 10,
+                              topMargin: 10,
+                              bottomMargin: 10,
+                              topPadding: 0,
+                              bottomPadding: 0,
+                              primaryColor: CustomColors.warning,
+                              borderColor: CustomColors.warning,
+                              fizedSize: Size(Get.width / 2, 30),
+                              topRightBorderRadius: 0,
+                              topLeftBorderRadius: 0,
+                              bottomLeftBorderRadius: 0,
+                              bottomRightBorderRadius: 0,
+                              buttonName: okayButtonName ?? "",
+                              onPressed: btnOkOnPress,
+                            ),
                           ),
                         ],
                       ),

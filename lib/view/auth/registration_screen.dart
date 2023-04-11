@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:service/model/technician_profile_model.dart';
 import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
@@ -54,6 +55,7 @@ class RegistrationScreen extends StatelessWidget {
                             height: 20,
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: CustomTextField(
@@ -63,6 +65,11 @@ class RegistrationScreen extends StatelessWidget {
                                       authCtrl.registrationFirstNameCtrl,
                                   validator:
                                       ValidatorService.validateSimpleFiled,
+                                  onChanged: (value) {
+                                    authCtrl.profile.value.userFirstName =
+                                        value;
+                                    authCtrl.update();
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -75,6 +82,10 @@ class RegistrationScreen extends StatelessWidget {
                                   controller: authCtrl.registrationLastNameCtrl,
                                   validator:
                                       ValidatorService.validateSimpleFiled,
+                                  onChanged: (value) {
+                                    authCtrl.profile.value.userLastName = value;
+                                    authCtrl.update();
+                                  },
                                 ),
                               ),
                             ],
@@ -84,6 +95,10 @@ class RegistrationScreen extends StatelessWidget {
                             labelText: LocaleKeys.auth_email.tr(),
                             controller: authCtrl.registrationEmailCtrl,
                             validator: ValidatorService.validateEmail,
+                            onChanged: (value) {
+                              authCtrl.profile.value.userMail = value;
+                              authCtrl.update();
+                            },
                           ),
                           CustomTextField(
                             prefixIcon: const Icon(Icons.phone_android_rounded),
@@ -96,6 +111,10 @@ class RegistrationScreen extends StatelessWidget {
                                 return LocaleKeys.auth_phoneNumberRule2.tr();
                               }
                               return null;
+                            },
+                            onChanged: (value) {
+                              authCtrl.profile.value.userContactNo = value;
+                              authCtrl.update();
                             },
                           ),
                           CustomTextField(
@@ -174,13 +193,8 @@ class RegistrationScreen extends StatelessWidget {
                           ),
                           CustomCompanyButton(
                             buttonName: LocaleKeys.auth_continue.tr(),
-                            onPressed: () {
-                              PageNavigationService.generalNavigation(
-                                  "/RegistrationOtpVerification",
-                                  arguments: authCtrl.selectedUserType!.value ==
-                                          "Email"
-                                      ? authCtrl.registrationEmailCtrl.text
-                                      : authCtrl.registrationMobileCtrl.text);
+                            onPressed: () async {
+                              await authCtrl.sendOtp();
                             },
                           ),
                           const SizedBox(
