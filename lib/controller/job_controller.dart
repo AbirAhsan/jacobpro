@@ -11,6 +11,10 @@ import '../services/error_code_handle_service.dart';
 class JobController extends GetxController {
   RxList<JobGridDetailsModel?> pendingJobList =
       List<JobGridDetailsModel?>.empty(growable: true).obs;
+  RxList<JobGridDetailsModel?> assignedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true).obs;
+  RxList<JobGridDetailsModel?> rejectedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true).obs;
 
   int? page;
   @override
@@ -43,8 +47,56 @@ class JobController extends GetxController {
     }
   }
 
+//<=============== Fetch Assigned Job List
+  Future<void> fetchAssignedJobList() async {
+    print("working");
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().getMyAssignedJobList().then((resp) {
+        assignedJobList.value = resp;
+
+        update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+//<=============== Fetch Assigned Job List
+  Future<void> fetchRejectedJobList() async {
+    print("working");
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().getMyRejectedJobList().then((resp) {
+        rejectedJobList.value = resp;
+
+        update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
 //<=============== Accept or Reject Job From Pending Job List
-  Future<void> acceptOrRejectJob(int? jobSystemId, int isAccept) async {
+  Future<void> acceptOrRejectPendingJob(int? jobSystemId, int isAccept) async {
     try {
       CustomEassyLoading.startLoading();
       await JobApiService()

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service/services/custom_eassy_loading.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_appbar.dart';
@@ -14,7 +13,7 @@ class JobDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? jobId = Get.arguments;
+    int? jobId = Get.arguments;
     return Scaffold(
       appBar: const CustomAppBar(title: "Job Details"),
       body: SingleChildScrollView(

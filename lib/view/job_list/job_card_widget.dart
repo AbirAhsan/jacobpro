@@ -6,13 +6,22 @@ import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_company_button.dart';
+import 'package:service/view/widgets/custom_company_button_with_icon.dart';
 
 import '../../controller/job_controller.dart';
 import '../../model/job_grid_model.dart';
 
-class PendingJobCardWidget extends StatelessWidget {
+class JobCardWidget extends StatelessWidget {
+  final bool hasDetailButton;
+  final bool hasRejectButton;
+  final bool hasAcceptButton;
   final JobGridDetailsModel? jobdetails;
-  const PendingJobCardWidget({super.key, this.jobdetails});
+  const JobCardWidget(
+      {super.key,
+      this.jobdetails,
+      this.hasDetailButton = false,
+      this.hasRejectButton = false,
+      this.hasAcceptButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -155,9 +164,11 @@ class PendingJobCardWidget extends StatelessWidget {
                 )
               ],
             ),
-            const Divider(
-              height: 20,
-            ),
+            !hasAcceptButton && !hasRejectButton && !hasDetailButton
+                ? Container()
+                : const Divider(
+                    height: 20,
+                  ),
             GetBuilder<JobController>(
                 init: JobController(),
                 builder: (jobCtrl) {
@@ -165,54 +176,80 @@ class PendingJobCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CustomCompanyButton(
-                          leftMargin: 10,
-                          topPadding: 0,
-                          topMargin: 0,
-                          bottomMargin: 0,
-                          bottomPadding: 0,
-                          bottomLeftBorderRadius: 0,
-                          bottomRightBorderRadius: 0,
-                          topLeftBorderRadius: 0,
-                          topRightBorderRadius: 0,
-                          fizedSize: const Size(80, 30),
-                          primaryColor: CustomColors.error,
-                          borderColor: CustomColors.error,
-                          buttonName: "REJECT",
-                          onPressed: () {
-                            CustomDialogShow.showInfoDialog(
-                                title: "Warning!",
-                                description:
-                                    "If you confirm, you'll no longer be able to work on this job.",
-                                cancelButtonName: "BACK",
-                                btnCancelOnPress: () {
-                                  PageNavigationService.backScreen();
-                                },
-                                okayButtonName: "CONFIRM",
-                                btnOkOnPress: () async {
-                                  await jobCtrl.acceptOrRejectJob(
-                                      jobdetails!.jobSystemId, 0);
-                                  PageNavigationService.backScreen();
-                                });
-                          }),
-                      CustomCompanyButton(
-                          leftMargin: 10,
-                          topPadding: 0,
-                          topMargin: 0,
-                          bottomMargin: 0,
-                          bottomPadding: 0,
-                          fizedSize: const Size(80, 30),
-                          bottomLeftBorderRadius: 0,
-                          bottomRightBorderRadius: 0,
-                          topLeftBorderRadius: 0,
-                          topRightBorderRadius: 0,
-                          primaryColor: CustomColors.green,
-                          borderColor: CustomColors.green,
-                          buttonName: "ACCEPT",
-                          onPressed: () async {
-                            await jobCtrl.acceptOrRejectJob(
-                                jobdetails!.jobSystemId, 1);
-                          }),
+                      Visibility(
+                        visible: hasDetailButton,
+                        child: CustomCompanyButtonWithIcon(
+                            leftMargin: 10,
+                            topPadding: 0,
+                            topMargin: 0,
+                            bottomMargin: 0,
+                            bottomPadding: 0,
+                            bottomLeftBorderRadius: 0,
+                            bottomRightBorderRadius: 0,
+                            topLeftBorderRadius: 0,
+                            topRightBorderRadius: 0,
+                            fizedSize: const Size(120, 30),
+                            buttonName: "SEE DETAIL",
+                            onPressed: () {
+                              PageNavigationService.generalNavigation(
+                                  '/JobDetailsScreen',
+                                  arguments: jobdetails!.jobSystemId);
+                            }),
+                      ),
+                      Visibility(
+                        visible: hasRejectButton,
+                        child: CustomCompanyButton(
+                            leftMargin: 10,
+                            topPadding: 0,
+                            topMargin: 0,
+                            bottomMargin: 0,
+                            bottomPadding: 0,
+                            bottomLeftBorderRadius: 0,
+                            bottomRightBorderRadius: 0,
+                            topLeftBorderRadius: 0,
+                            topRightBorderRadius: 0,
+                            fizedSize: const Size(80, 30),
+                            primaryColor: CustomColors.error,
+                            borderColor: CustomColors.error,
+                            buttonName: "REJECT",
+                            onPressed: () {
+                              CustomDialogShow.showInfoDialog(
+                                  title: "Warning!",
+                                  description:
+                                      "If you confirm, you'll no longer be able to work on this job.",
+                                  cancelButtonName: "BACK",
+                                  btnCancelOnPress: () {
+                                    PageNavigationService.backScreen();
+                                  },
+                                  okayButtonName: "CONFIRM",
+                                  btnOkOnPress: () async {
+                                    await jobCtrl.acceptOrRejectPendingJob(
+                                        jobdetails!.jobSystemId, 0);
+                                    PageNavigationService.backScreen();
+                                  });
+                            }),
+                      ),
+                      Visibility(
+                        visible: hasAcceptButton,
+                        child: CustomCompanyButton(
+                            leftMargin: 10,
+                            topPadding: 0,
+                            topMargin: 0,
+                            bottomMargin: 0,
+                            bottomPadding: 0,
+                            fizedSize: const Size(80, 30),
+                            bottomLeftBorderRadius: 0,
+                            bottomRightBorderRadius: 0,
+                            topLeftBorderRadius: 0,
+                            topRightBorderRadius: 0,
+                            primaryColor: CustomColors.green,
+                            borderColor: CustomColors.green,
+                            buttonName: "ACCEPT",
+                            onPressed: () async {
+                              await jobCtrl.acceptOrRejectPendingJob(
+                                  jobdetails!.jobSystemId, 1);
+                            }),
+                      ),
                     ],
                   );
                 })

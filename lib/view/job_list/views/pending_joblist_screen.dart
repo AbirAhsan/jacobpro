@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/job_controller.dart';
 
-import '../pending_job_card_widget.dart';
+import '../job_card_widget.dart';
 
 class PendingJobView extends StatelessWidget {
   const PendingJobView({super.key});
@@ -19,7 +19,9 @@ class PendingJobView extends StatelessWidget {
               itemCount: jobCtrl.pendingJobList.length,
               padding: const EdgeInsets.all(15.0),
               itemBuilder: (BuildContext buildContext, index) {
-                return PendingJobCardWidget(
+                return JobCardWidget(
+                  hasAcceptButton: true,
+                  hasRejectButton: true,
                   jobdetails: jobCtrl.pendingJobList[index],
                 );
               });

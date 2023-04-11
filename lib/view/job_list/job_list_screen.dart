@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service/view/widgets/custom_appbar.dart';
+import 'package:service/view/job_list/views/rejected_joblist_view.dart';
 
 import '../../controller/screen_controller.dart';
 import '../variables/colors_variable.dart';
 import '../variables/text_style.dart';
 import 'views/pending_joblist_screen.dart';
-import 'views/time_sheet_approved_view.dart';
+import 'views/assigned_joblist_view.dart';
 
 class JobListScreen extends StatelessWidget {
   const JobListScreen({super.key});
@@ -37,7 +37,7 @@ class JobListScreen extends StatelessWidget {
                   ),
                   isScrollable: true,
                   onTap: (value) {
-                    screenCtrl.changeTimeSheetTabbar(value);
+                    screenCtrl.changeJobTabbar(value);
                   },
                   tabs: [
                     Tab(
@@ -125,6 +125,23 @@ class JobListScreen extends StatelessWidget {
                       ),
                       text: 'COMPLETED',
                     ),
+                    Tab(
+                      icon: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: screenCtrl.jobListCurrentIndex == 4
+                              ? CustomColors.primary
+                              : CustomColors.grey,
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          '2',
+                          style: CustomTextStyle.mediumBoldStyleWhite,
+                        ),
+                      ),
+                      text: 'Rejected',
+                    ),
                   ],
                 );
               }),
@@ -138,10 +155,11 @@ class JobListScreen extends StatelessWidget {
               controller: screenCtrl.jobListTabController,
               children: const [
                 PendingJobView(),
-                AssignedTabView(),
-                AssignedTabView(),
-                AssignedTabView(),
-                AssignedTabView(),
+                AssignedJobView(),
+                AssignedJobView(),
+                AssignedJobView(),
+                AssignedJobView(),
+                RejectedJobView(),
               ],
             );
           }),
