@@ -46,4 +46,36 @@ class JobApiService {
       };
     }
   }
+
+  Future<bool> acceptOrRejectPendingJob(int? jobSystemId, int isAccept) async {
+    String? token = await SharedDataManageService().getToken();
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/ConfirmJobAcceptByTechician/$jobSystemId/$isAccept?format=app");
+    print(url);
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
 }

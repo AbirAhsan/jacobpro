@@ -19,7 +19,7 @@ class JobController extends GetxController {
     super.onInit();
   }
 
-//<=============== Fetch Recommended Ground List
+//<=============== Fetch Pending Job List
   Future<void> fetchPendingJobList() async {
     print("working");
     try {
@@ -28,6 +28,35 @@ class JobController extends GetxController {
         pendingJobList.value = resp;
 
         update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+//<=============== Accept or Reject Job From Pending Job List
+  Future<void> acceptOrRejectJob(int? jobSystemId, int isAccept) async {
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService()
+          .acceptOrRejectPendingJob(jobSystemId, isAccept)
+          .then((resp) {
+        if (resp) {
+          pendingJobList
+              .removeWhere((element) => element!.jobSystemId == jobSystemId);
+          update();
+          fetchPendingJobList();
+        }
+
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         debugPrint(err.toString());
