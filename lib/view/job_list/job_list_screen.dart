@@ -140,7 +140,7 @@ class JobListScreen extends StatelessWidget {
                           style: CustomTextStyle.mediumBoldStyleWhite,
                         ),
                       ),
-                      text: 'Rejected',
+                      text: 'REJECTED',
                     ),
                   ],
                 );

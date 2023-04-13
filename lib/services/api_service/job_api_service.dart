@@ -1,6 +1,7 @@
 import 'package:http/http.dart';
 import 'package:service/model/job_grid_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:service/model/job_report_model.dart';
 import 'dart:convert';
 
 import '../../app_config.dart';
@@ -152,6 +153,43 @@ class JobApiService {
     var response = jsonDecode(respStr.body);
     if (respStr.statusCode == 200) {
       return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<===================================== Get Single Consutant Details
+  Future<JobReportModel> getJobReortDetails(String? jobUuid) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Job/GetJobReportData/$jobUuid?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200 && response["message"] == "Success") {
+      var jsonResponse = respStr.body;
+
+      var decoded = json.decode(jsonResponse);
+      return JobReportModel.fromJson(decoded["dataObj"]);
     } else {
       throw {
         "code": respStr.statusCode,

@@ -1,5 +1,6 @@
 class JobGridDetailsModel {
   int? jobSystemId;
+  String? jobUuid;
   String? jobSystemNo;
   String? customerDisplayName;
   String? customerCompanyName;
@@ -15,6 +16,7 @@ class JobGridDetailsModel {
 
   JobGridDetailsModel(
       {this.jobSystemId,
+      this.jobUuid,
       this.jobSystemNo,
       this.customerDisplayName,
       this.customerCompanyName,
@@ -30,6 +32,7 @@ class JobGridDetailsModel {
 
   JobGridDetailsModel.fromJson(Map<String, dynamic> json) {
     jobSystemId = json['jobSystemId'];
+    jobUuid = json['jobUuid'];
     jobSystemNo = json['jobSystemNo'];
     customerDisplayName = json['customerDisplayName'];
     customerCompanyName = json['customerCompanyName'];

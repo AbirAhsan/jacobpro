@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/model/job_grid_model.dart';
+import 'package:service/model/job_report_model.dart';
 import 'package:service/services/api_service/job_api_service.dart';
 
 import '../services/custom_eassy_loading.dart';
@@ -15,6 +16,9 @@ class JobController extends GetxController {
       List<JobGridDetailsModel?>.empty(growable: true).obs;
   RxList<JobGridDetailsModel?> rejectedJobList =
       List<JobGridDetailsModel?>.empty(growable: true).obs;
+
+  Rx<Future<JobReportModel?>> jobReportFutureDetails =
+      Future.value(JobReportModel()).obs;
 
   int? page;
   @override
@@ -120,6 +124,22 @@ class JobController extends GetxController {
       CustomEassyLoading.stopLoading();
     } catch (e) {
       CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+  //<======================================================== Fetch Job Report Details
+  Future<void> fetchJobReportDetails(String? jobUuid) async {
+    try {
+      jobReportFutureDetails.value =
+          JobApiService().getJobReortDetails(jobUuid!);
+
+      // consultantProfile.value = profile;
+
+      update();
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+    } catch (e) {
       debugPrint("$e");
     }
   }

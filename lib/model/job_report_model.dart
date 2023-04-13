@@ -1,0 +1,186 @@
+class JobReportModel {
+  int? jobSystemId;
+  String? jobSystemNo;
+  String? jobUuid;
+  String? customerDisplayName;
+  String? customerCompanyName;
+  String? customerJobTitle;
+  String? customerEmail;
+  String? customerAllEmailSeparatedByComma;
+  String? customerContactNo;
+  String? customerAddressStreetUnit;
+  String? customerAddressCityStateCountry;
+  String? jobAddress;
+  String? insertedAt;
+  String? jobScheduleStartDate;
+  String? jobCategory;
+  bool? isEligibleForConvertToJob;
+  List<JobItems>? jobItems;
+  JobPriceCalculationDto? jobPriceCalculationDto;
+
+  JobReportModel(
+      {this.jobSystemId,
+      this.jobSystemNo,
+      this.jobUuid,
+      this.customerDisplayName,
+      this.customerCompanyName,
+      this.customerJobTitle,
+      this.customerEmail,
+      this.customerAllEmailSeparatedByComma,
+      this.customerContactNo,
+      this.customerAddressStreetUnit,
+      this.customerAddressCityStateCountry,
+      this.jobAddress,
+      this.insertedAt,
+      this.jobScheduleStartDate,
+      this.jobCategory,
+      this.isEligibleForConvertToJob,
+      this.jobItems,
+      this.jobPriceCalculationDto});
+
+  JobReportModel.fromJson(Map<String, dynamic> json) {
+    jobSystemId = json['jobSystemId'];
+    jobSystemNo = json['jobSystemNo'];
+    jobUuid = json['jobUuid'];
+    customerDisplayName = json['customerDisplayName'];
+    customerCompanyName = json['customerCompanyName'];
+    customerJobTitle = json['customerJobTitle'];
+    customerEmail = json['customerEmail'];
+    customerAllEmailSeparatedByComma = json['customerAllEmailSeparatedByComma'];
+    customerContactNo = json['customerContactNo'];
+    customerAddressStreetUnit = json['customerAddressStreetUnit'];
+    customerAddressCityStateCountry = json['customerAddressCityStateCountry'];
+    jobAddress = json['jobAddress'];
+    insertedAt = json['insertedAt'];
+    jobScheduleStartDate = json['jobScheduleStartDate'];
+    jobCategory = json['jobCategory'];
+    isEligibleForConvertToJob = json['isEligibleForConvertToJob'];
+    if (json['jobItems'] != null) {
+      jobItems = <JobItems>[];
+      json['jobItems'].forEach((v) {
+        jobItems!.add(JobItems.fromJson(v));
+      });
+    }
+    jobPriceCalculationDto = json['jobPriceCalculationDto'] != null
+        ? JobPriceCalculationDto.fromJson(json['jobPriceCalculationDto'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['jobSystemId'] = jobSystemId;
+    data['jobSystemNo'] = jobSystemNo;
+    data['jobUuid'] = jobUuid;
+    data['customerDisplayName'] = customerDisplayName;
+    data['customerCompanyName'] = customerCompanyName;
+    data['customerJobTitle'] = customerJobTitle;
+    data['customerEmail'] = customerEmail;
+    data['customerAllEmailSeparatedByComma'] = customerAllEmailSeparatedByComma;
+    data['customerContactNo'] = customerContactNo;
+    data['customerAddressStreetUnit'] = customerAddressStreetUnit;
+    data['customerAddressCityStateCountry'] = customerAddressCityStateCountry;
+    data['jobAddress'] = jobAddress;
+    data['insertedAt'] = insertedAt;
+    data['jobScheduleStartDate'] = jobScheduleStartDate;
+    data['jobCategory'] = jobCategory;
+    data['isEligibleForConvertToJob'] = isEligibleForConvertToJob;
+    if (jobItems != null) {
+      data['jobItems'] = jobItems!.map((v) => v.toJson()).toList();
+    }
+    if (jobPriceCalculationDto != null) {
+      data['jobPriceCalculationDto'] = jobPriceCalculationDto!.toJson();
+    }
+    return data;
+  }
+}
+
+class JobItems {
+  String? itemName;
+  String? itemDescription;
+  String? itemQty;
+  String? itemUnitName;
+  String? itemUnitPrice;
+  String? itemSUBTotal;
+
+  JobItems(
+      {this.itemName,
+      this.itemDescription,
+      this.itemQty,
+      this.itemUnitName,
+      this.itemUnitPrice,
+      this.itemSUBTotal});
+
+  JobItems.fromJson(Map<String, dynamic> json) {
+    itemName = json['itemName'];
+    itemDescription = json['itemDescription'];
+    itemQty = json['itemQty'].toString();
+    itemUnitName = json['itemUnitName'];
+    itemUnitPrice = json['itemUnitPrice'].toString();
+    itemSUBTotal = json['itemSUBTotal'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['itemName'] = itemName;
+    data['itemDescription'] = itemDescription;
+    data['itemQty'] = itemQty;
+    data['itemUnitName'] = itemUnitName;
+    data['itemUnitPrice'] = itemUnitPrice;
+    data['itemSUBTotal'] = itemSUBTotal;
+    return data;
+  }
+}
+
+class JobPriceCalculationDto {
+  String? jobCalculatedBillAmount;
+  String? jobDiscountType;
+  String? jobDiscountRate;
+  String? jobDiscountAmount;
+  String? jobDiscountNote;
+  int? jobTaxTypeId;
+  String? jobTaxAmount;
+  String? jobBillAmountBeforeAdjustment;
+  String? jobBillAdjustmentAmount;
+  String? jobFinalBillAmount;
+
+  JobPriceCalculationDto(
+      {this.jobCalculatedBillAmount,
+      this.jobDiscountType,
+      this.jobDiscountRate,
+      this.jobDiscountAmount,
+      this.jobDiscountNote,
+      this.jobTaxTypeId,
+      this.jobTaxAmount,
+      this.jobBillAmountBeforeAdjustment,
+      this.jobBillAdjustmentAmount,
+      this.jobFinalBillAmount});
+
+  JobPriceCalculationDto.fromJson(Map<String, dynamic> json) {
+    jobCalculatedBillAmount = json['jobCalculatedBillAmount'].toString();
+    jobDiscountType = json['jobDiscountType'];
+    jobDiscountRate = json['jobDiscountRate'].toString();
+    jobDiscountAmount = json['jobDiscountAmount'].toString();
+    jobDiscountNote = json['jobDiscountNote'];
+    jobTaxTypeId = json['jobTaxTypeId'];
+    jobTaxAmount = json['jobTaxAmount'].toString();
+    jobBillAmountBeforeAdjustment =
+        json['jobBillAmountBeforeAdjustment'].toString();
+    jobBillAdjustmentAmount = json['jobBillAdjustmentAmount'].toString();
+    jobFinalBillAmount = json['jobFinalBillAmount'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['jobCalculatedBillAmount'] = jobCalculatedBillAmount;
+    data['jobDiscountType'] = jobDiscountType;
+    data['jobDiscountRate'] = jobDiscountRate;
+    data['jobDiscountAmount'] = jobDiscountAmount;
+    data['jobDiscountNote'] = jobDiscountNote;
+    data['jobTaxTypeId'] = jobTaxTypeId;
+    data['jobTaxAmount'] = jobTaxAmount;
+    data['jobBillAmountBeforeAdjustment'] = jobBillAmountBeforeAdjustment;
+    data['jobBillAdjustmentAmount'] = jobBillAdjustmentAmount;
+    data['jobFinalBillAmount'] = jobFinalBillAmount;
+    return data;
+  }
+}
