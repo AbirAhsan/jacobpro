@@ -193,7 +193,7 @@ class JobCardWidget extends StatelessWidget {
                             onPressed: () {
                               PageNavigationService.generalNavigation(
                                   '/JobDetailsScreen',
-                                  arguments: jobdetails!.jobUuid);
+                                  arguments: jobdetails);
                             }),
                       ),
                       Visibility(

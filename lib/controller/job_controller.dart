@@ -6,6 +6,7 @@ import 'package:service/model/job_grid_model.dart';
 import 'package:service/model/job_report_model.dart';
 import 'package:service/services/api_service/job_api_service.dart';
 
+import '../model/job_life_cycle_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
 
@@ -19,6 +20,9 @@ class JobController extends GetxController {
 
   Rx<Future<JobReportModel?>> jobReportFutureDetails =
       Future.value(JobReportModel()).obs;
+
+  Rx<Future<List<JobLifeCycleModel?>>> jobLifeCycle =
+      Future.value(List<JobLifeCycleModel?>.empty(growable: true)).obs;
 
   int? page;
   @override
@@ -77,7 +81,6 @@ class JobController extends GetxController {
 
 //<=============== Fetch Assigned Job List
   Future<void> fetchRejectedJobList() async {
-    print("working");
     try {
       CustomEassyLoading.startLoading();
       await JobApiService().getMyRejectedJobList().then((resp) {
@@ -142,5 +145,48 @@ class JobController extends GetxController {
     } catch (e) {
       debugPrint("$e");
     }
+  }
+
+  //<======================================================== Fetch Job LifeCycle
+  Future<void> fetchJobLifeCycle(String? jobUuid) async {
+    try {
+      jobLifeCycle.value = JobApiService().getJobLifeCycle(jobUuid!);
+
+      update();
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+    } catch (e) {
+      debugPrint("$e");
+    }
+  }
+
+  //<======================================================== Go to next Job LifeCycle
+  Future<bool> gotoNextJobLifeCycle(
+      int? jobSystemId, String? jobUuid, int? lifeCycleId) async {
+    bool resp = false;
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().goJobNextLifeCycle(jobSystemId!, lifeCycleId!).then(
+          (resp) async {
+        CustomEassyLoading.stopLoading();
+        if (resp) {
+          resp = resp;
+          await fetchJobLifeCycle(jobUuid);
+        }
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+
+      CustomEassyLoading.stopLoading();
+    } on SocketException catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint('error $e');
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+    return resp;
   }
 }

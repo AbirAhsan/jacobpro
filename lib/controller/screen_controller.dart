@@ -19,6 +19,11 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   int customerInitialIndex = 0;
   int customerCurrentIndex = 0;
 
+  // Payment
+  TabController? paymentTabController;
+  int paymentInitialIndex = 0;
+  int paymentCurrentIndex = 0;
+
   @override
   onInit() {
     // AppConfig.getVersionStatus();
@@ -36,6 +41,11 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
       vsync: this,
       length: 4,
       initialIndex: customerInitialIndex,
+    );
+    paymentTabController = TabController(
+      vsync: this,
+      length: 4,
+      initialIndex: paymentInitialIndex,
     );
     super.onInit();
   }
@@ -85,6 +95,13 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   void changeCustomerTabbar(int index) {
     customerTabController!.index = index >= 0 && index < 4 ? index : 0;
     customerCurrentIndex = index >= 0 && index < 4 ? index : 0;
+    update();
+  }
+
+  //<============================ Change Customer  Tabbar
+  void changePaymentTabbar(int index) {
+    paymentTabController!.index = index >= 0 && index < 4 ? index : 0;
+    paymentCurrentIndex = index >= 0 && index < 4 ? index : 0;
     update();
   }
 }

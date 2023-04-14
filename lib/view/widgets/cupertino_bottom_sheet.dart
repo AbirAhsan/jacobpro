@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/text_style.dart';
 
 class MyCupertinoBottomSheet extends StatelessWidget {
   final Widget child;
   final String? title;
+  final String? confirmButtonName;
+  final String? cancelButtonName;
   final void Function() onConfirm;
   final void Function() onCancel;
 
@@ -14,7 +15,9 @@ class MyCupertinoBottomSheet extends StatelessWidget {
       required this.child,
       this.title,
       required this.onConfirm,
-      required this.onCancel})
+      required this.onCancel,
+      this.confirmButtonName,
+      this.cancelButtonName})
       : super(key: key);
 
   @override
@@ -44,13 +47,13 @@ class MyCupertinoBottomSheet extends StatelessWidget {
       actions: [
         CupertinoActionSheetAction(
           onPressed: onConfirm,
-          child: const Text('CONFIRM',
+          child: Text(confirmButtonName ?? 'CONFIRM',
               style: CustomTextStyle.mediumBoldStylePrimary),
         ),
         CupertinoActionSheetAction(
           onPressed: onCancel,
-          child: const Text(
-            'CLOSE',
+          child: Text(
+            cancelButtonName ?? 'CLOSE',
             style: CustomTextStyle.mediumBoldStyleDarkGrey,
           ),
         ),
