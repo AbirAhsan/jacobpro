@@ -19,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? hintStyle;
   final TextStyle? labelStyle;
   final List<TextInputFormatter>? inputFormatters;
+  final String? initialValue;
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
   final String? errorText;
@@ -89,6 +90,7 @@ class CustomTextField extends StatelessWidget {
     this.onEditingComplete,
     this.onFocusChange,
     this.backgroundColor = CustomColors.white,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -110,6 +112,7 @@ class CustomTextField extends StatelessWidget {
         onFocusChange: onFocusChange,
         child: TextFormField(
           onTap: onTap,
+          initialValue: initialValue,
           readOnly: readOnly,
           focusNode: focusNode,
           enabled: enabled,

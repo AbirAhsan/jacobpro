@@ -9,7 +9,6 @@ import 'package:service/view/variables/icon_variables.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/cupertino_bottom_sheet.dart';
 import 'package:service/view/widgets/custom_appbar.dart';
-import 'package:service/view/widgets/custom_text_field.dart';
 
 import '../../model/job_grid_model.dart';
 import '../../model/job_report_model.dart';
@@ -47,508 +46,6 @@ class JobDetailsScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     FutureBuilder(
-                        future: jobCtrl.jobLifeCycle.value,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasError) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.none:
-                                return const NoInternetWidget();
-                              case ConnectionState.waiting:
-                                return CircularProgressIndicator();
-                              default:
-                                return Card(
-                                  margin: const EdgeInsets.all(15.0),
-                                  child: CustomCollapsibleWidget(
-                                    name: "Which Date Here ?",
-                                    textStyle:
-                                        CustomTextStyle.mediumBoldStylePrimary,
-                                    initiallyCollapsed: false,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  margin:
-                                                      const EdgeInsets.all(5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape
-                                                          .circle, // border: Border.all(color: ),
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "OMW",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.primary
-                                                          : snapshot.data!
-                                                                      .firstWhereOrNull(
-                                                                        (element) =>
-                                                                            element!.lifecycleStatusName ==
-                                                                            "OMW",
-                                                                      )
-                                                                      ?.jobOccuranceStatus ==
-                                                                  0
-                                                              ? CustomColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.1)
-                                                              : CustomColors
-                                                                  .darkGrey
-                                                                  .withOpacity(
-                                                                      0.1)),
-                                                  child: IconButton(
-                                                    onPressed: snapshot.data!
-                                                                .firstWhereOrNull(
-                                                                  (element) =>
-                                                                      element!
-                                                                          .lifecycleStatusName ==
-                                                                      "OMW",
-                                                                )
-                                                                ?.jobOccuranceStatus ==
-                                                            0
-                                                        ? () {
-                                                            CustomDialogShow
-                                                                .showInfoDialog(
-                                                                    title:
-                                                                        "Confirm",
-                                                                    description:
-                                                                        "Are You sure that you have OMW this job ?",
-                                                                    okayButtonName:
-                                                                        "YES",
-                                                                    btnOkOnPress:
-                                                                        () async {
-                                                                      await jobCtrl.gotoNextJobLifeCycle(
-                                                                          jobGridDetails!
-                                                                              .jobSystemId,
-                                                                          jobGridDetails
-                                                                              .jobUuid,
-                                                                          12);
-                                                                      PageNavigationService
-                                                                          .backScreen();
-                                                                    },
-                                                                    cancelButtonName:
-                                                                        "BACK",
-                                                                    btnCancelOnPress:
-                                                                        () {
-                                                                      PageNavigationService
-                                                                          .backScreen();
-                                                                    });
-                                                          }
-                                                        : null,
-                                                    icon: Icon(
-                                                      Icons.car_repair,
-                                                      size: 40,
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "OMW",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.white
-                                                          : CustomColors
-                                                              .primary,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text("ON MY WAY"),
-                                                Visibility(
-                                                  visible: snapshot.data!
-                                                          .firstWhereOrNull(
-                                                            (element) =>
-                                                                element
-                                                                    ?.lifecycleStatusName ==
-                                                                "OMW",
-                                                          )
-                                                          ?.jobLifecycleDatetime !=
-                                                      null,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                        text: '',
-                                                        style: CustomTextStyle
-                                                            .normalRegularStyleDarkGrey,
-                                                        children: snapshot.data!
-                                                                    .firstWhereOrNull(
-                                                                      (element) =>
-                                                                          element!
-                                                                              .lifecycleStatusName ==
-                                                                          "OMW",
-                                                                    )
-                                                                    ?.jobLifecycleDatetime !=
-                                                                null
-                                                            ? [
-                                                                TextSpan(
-                                                                    text: DateFormat.jms('en').format(DateTime.parse(snapshot
-                                                                            .data!
-                                                                            .firstWhereOrNull(
-                                                                              (element) => element!.lifecycleStatusName == "OMW",
-                                                                            )
-                                                                            ?.jobLifecycleDatetime ??
-                                                                        "")))
-                                                              ]
-                                                            : []),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  margin:
-                                                      const EdgeInsets.all(5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape
-                                                          .circle, // border: Border.all(color: ),
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "Start",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.primary
-                                                          : snapshot.data!
-                                                                      .firstWhereOrNull(
-                                                                        (element) =>
-                                                                            element!.lifecycleStatusName ==
-                                                                            "Start",
-                                                                      )
-                                                                      ?.jobOccuranceStatus ==
-                                                                  0
-                                                              ? CustomColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.1)
-                                                              : CustomColors
-                                                                  .darkGrey
-                                                                  .withOpacity(
-                                                                      0.1)),
-                                                  child: IconButton(
-                                                    onPressed: snapshot.data!
-                                                                .firstWhereOrNull(
-                                                                  (element) =>
-                                                                      element!
-                                                                          .lifecycleStatusName ==
-                                                                      "Start",
-                                                                )
-                                                                ?.jobOccuranceStatus ==
-                                                            0
-                                                        ? () {
-                                                            CustomDialogShow
-                                                                .showInfoDialog(
-                                                                    title:
-                                                                        "Confirm",
-                                                                    description:
-                                                                        "Do you confirm to start the job ?",
-                                                                    okayButtonName:
-                                                                        "YES",
-                                                                    btnOkOnPress:
-                                                                        () async {
-                                                                      await jobCtrl.gotoNextJobLifeCycle(
-                                                                          jobGridDetails!
-                                                                              .jobSystemId,
-                                                                          jobGridDetails
-                                                                              .jobUuid,
-                                                                          13);
-                                                                      PageNavigationService
-                                                                          .backScreen();
-                                                                    },
-                                                                    cancelButtonName:
-                                                                        "BACK",
-                                                                    btnCancelOnPress:
-                                                                        () {
-                                                                      PageNavigationService
-                                                                          .backScreen();
-                                                                    });
-                                                          }
-                                                        : null,
-                                                    icon: Icon(
-                                                      Icons.play_arrow,
-                                                      size: 40,
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "Start",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.white
-                                                          : CustomColors
-                                                              .primary,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text("START"),
-                                                Visibility(
-                                                  visible: snapshot.data!
-                                                          .firstWhereOrNull(
-                                                            (element) =>
-                                                                element
-                                                                    ?.lifecycleStatusName ==
-                                                                "Start",
-                                                          )
-                                                          ?.jobLifecycleDatetime !=
-                                                      null,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                        text: '',
-                                                        style: CustomTextStyle
-                                                            .normalRegularStyleDarkGrey,
-                                                        children: snapshot.data!
-                                                                    .firstWhereOrNull(
-                                                                      (element) =>
-                                                                          element
-                                                                              ?.lifecycleStatusName ==
-                                                                          "Start",
-                                                                    )
-                                                                    ?.jobLifecycleDatetime !=
-                                                                null
-                                                            ? [
-                                                                TextSpan(
-                                                                    text: DateFormat.jms('en').format(DateTime.parse(snapshot
-                                                                            .data!
-                                                                            .firstWhereOrNull(
-                                                                              (element) => element!.lifecycleStatusName == "Start",
-                                                                            )!
-                                                                            .jobLifecycleDatetime ??
-                                                                        "")))
-                                                              ]
-                                                            : []),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  margin:
-                                                      const EdgeInsets.all(5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape
-                                                          .circle, // border: Border.all(color: ),
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "Finished",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.primary
-                                                          : snapshot.data!
-                                                                      .firstWhereOrNull(
-                                                                        (element) =>
-                                                                            element!.lifecycleStatusName ==
-                                                                            "Finished",
-                                                                      )
-                                                                      ?.jobOccuranceStatus ==
-                                                                  0
-                                                              ? CustomColors
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.1)
-                                                              : CustomColors
-                                                                  .darkGrey
-                                                                  .withOpacity(
-                                                                      0.1)),
-                                                  child: IconButton(
-                                                    onPressed: snapshot.data!
-                                                                .firstWhereOrNull(
-                                                                  (element) =>
-                                                                      element!
-                                                                          .lifecycleStatusName ==
-                                                                      "Finished",
-                                                                )
-                                                                ?.jobOccuranceStatus ==
-                                                            0
-                                                        ? () {
-                                                            showCupertinoModalPopup(
-                                                                barrierDismissible:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return MyCupertinoBottomSheet(
-                                                                      title:
-                                                                          "Pay for inspection",
-                                                                      confirmButtonName:
-                                                                          "CONTINUE",
-                                                                      onConfirm:
-                                                                          () {
-                                                                        //<========== Show bottom modal for payment
-                                                                        PageNavigationService.removeAndNavigate(
-                                                                            "/PaymentScreen");
-                                                                      },
-                                                                      onCancel:
-                                                                          () {
-                                                                        PageNavigationService
-                                                                            .backScreen();
-                                                                      },
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
-                                                                        children: [
-                                                                          Image
-                                                                              .asset(
-                                                                            CustomIcons.card,
-                                                                            width:
-                                                                                double.infinity,
-                                                                          ),
-                                                                          Text(
-                                                                              "Please choose the payment option for your inspection")
-                                                                        ],
-                                                                      ));
-                                                                });
-
-                                                            // CustomDialogShow
-                                                            //     .showInfoDialog(
-                                                            //         title:
-                                                            //             "Confirm",
-                                                            //         description:
-                                                            //             "Are You sure that you have complete this job and have tricked everything on the scope of work?",
-                                                            //         okayButtonName:
-                                                            //             "YES",
-                                                            //         btnOkOnPress:
-                                                            //             () async {
-                                                            //           await jobCtrl
-                                                            //               .gotoNextJobLifeCycle(
-                                                            //                   jobGridDetails!.jobSystemId,
-                                                            //                   jobGridDetails.jobUuid,
-                                                            //                   14)
-                                                            //               .then((resp) {
-                                                            //             if (resp) {
-
-                                                            //             }
-                                                            //           });
-                                                            //           PageNavigationService
-                                                            //               .backScreen();
-                                                            //         },
-                                                            //         cancelButtonName:
-                                                            //             "BACK",
-                                                            //         btnCancelOnPress:
-                                                            //             () {
-                                                            //           PageNavigationService
-                                                            //               .backScreen();
-                                                            //         });
-                                                          }
-                                                        : null,
-                                                    icon: Icon(
-                                                      Icons.stop,
-                                                      size: 40,
-                                                      color: snapshot.data!
-                                                                  .firstWhereOrNull(
-                                                                    (element) =>
-                                                                        element!
-                                                                            .lifecycleStatusName ==
-                                                                        "Finished",
-                                                                  )
-                                                                  ?.jobOccuranceStatus ==
-                                                              1
-                                                          ? CustomColors.white
-                                                          : CustomColors
-                                                              .primary,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text("FINISH"),
-                                                Visibility(
-                                                  visible: snapshot.data!
-                                                          .firstWhereOrNull(
-                                                            (element) =>
-                                                                element
-                                                                    ?.lifecycleStatusName ==
-                                                                "Finished",
-                                                          )
-                                                          ?.jobLifecycleDatetime !=
-                                                      null,
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                        text: '',
-                                                        style: CustomTextStyle
-                                                            .normalRegularStyleDarkGrey,
-                                                        children: snapshot.data!
-                                                                    .firstWhereOrNull(
-                                                                      (element) =>
-                                                                          element
-                                                                              ?.lifecycleStatusName ==
-                                                                          "Finished",
-                                                                    )
-                                                                    ?.jobLifecycleDatetime !=
-                                                                null
-                                                            ? [
-                                                                TextSpan(
-                                                                    text: DateFormat.jms('en').format(DateTime.parse(snapshot
-                                                                            .data!
-                                                                            .firstWhereOrNull(
-                                                                              (element) => element!.lifecycleStatusName == "Finished",
-                                                                            )!
-                                                                            .jobLifecycleDatetime ??
-                                                                        "")))
-                                                              ]
-                                                            : []),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                            }
-                          } else if (snapshot.hasError) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.none ||
-                                snapshot.error
-                                    .toString()
-                                    .contains("Failed host lookup")) {
-                              return const NoInternetWidget();
-                            }
-                            return Center(child: Text("${snapshot.error}"));
-                          } else {
-                            return const Text("Something went to wrong");
-                          }
-                        }),
-                    FutureBuilder(
                         future: jobCtrl.jobReportFutureDetails.value,
                         builder: (context, snapshot) {
                           if (!snapshot.hasError) {
@@ -572,6 +69,424 @@ class JobDetailsScreen extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              FutureBuilder(
+                                                  future: jobCtrl
+                                                      .jobLifeCycle.value,
+                                                  builder: (context, snapshot) {
+                                                    if (!snapshot.hasError) {
+                                                      switch (snapshot
+                                                          .connectionState) {
+                                                        case ConnectionState
+                                                            .none:
+                                                          return const NoInternetWidget();
+                                                        case ConnectionState
+                                                            .waiting:
+                                                          return const CircularProgressIndicator();
+                                                        default:
+                                                          return Card(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .all(15.0),
+                                                            child:
+                                                                CustomCollapsibleWidget(
+                                                              name:
+                                                                  "Which Date Here ?",
+                                                              textStyle:
+                                                                  CustomTextStyle
+                                                                      .mediumBoldStylePrimary,
+                                                              initiallyCollapsed:
+                                                                  false,
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Container(
+                                                                            height:
+                                                                                60,
+                                                                            width:
+                                                                                60,
+                                                                            margin:
+                                                                                const EdgeInsets.all(5),
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle, // border: Border.all(color: ),
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "OMW",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.primary
+                                                                                    : snapshot.data!
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "OMW",
+                                                                                                )
+                                                                                                ?.jobOccuranceStatus ==
+                                                                                            0
+                                                                                        ? CustomColors.primary.withOpacity(0.1)
+                                                                                        : CustomColors.darkGrey.withOpacity(0.1)),
+                                                                            child:
+                                                                                IconButton(
+                                                                              onPressed: snapshot.data!
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "OMW",
+                                                                                          )
+                                                                                          ?.jobOccuranceStatus ==
+                                                                                      0
+                                                                                  ? () {
+                                                                                      CustomDialogShow.showInfoDialog(
+                                                                                          title: "Confirm",
+                                                                                          description: "Are You sure that you have OMW this job ?",
+                                                                                          okayButtonName: "YES",
+                                                                                          btnOkOnPress: () async {
+                                                                                            await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 12);
+                                                                                            PageNavigationService.backScreen();
+                                                                                          },
+                                                                                          cancelButtonName: "BACK",
+                                                                                          btnCancelOnPress: () {
+                                                                                            PageNavigationService.backScreen();
+                                                                                          });
+                                                                                    }
+                                                                                  : null,
+                                                                              icon: Icon(
+                                                                                Icons.car_repair,
+                                                                                size: 40,
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "OMW",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.white
+                                                                                    : CustomColors.primary,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                              "ON MY WAY"),
+                                                                          Visibility(
+                                                                            visible: snapshot.data!
+                                                                                    .firstWhereOrNull(
+                                                                                      (element) => element?.lifecycleStatusName == "OMW",
+                                                                                    )
+                                                                                    ?.jobLifecycleDatetime !=
+                                                                                null,
+                                                                            child:
+                                                                                RichText(
+                                                                              text: TextSpan(
+                                                                                  text: '',
+                                                                                  style: CustomTextStyle.normalRegularStyleDarkGrey,
+                                                                                  children: snapshot.data!
+                                                                                              .firstWhereOrNull(
+                                                                                                (element) => element!.lifecycleStatusName == "OMW",
+                                                                                              )
+                                                                                              ?.jobLifecycleDatetime !=
+                                                                                          null
+                                                                                      ? [
+                                                                                          TextSpan(
+                                                                                              text: DateFormat.jms('en').format(DateTime.parse(snapshot.data!
+                                                                                                      .firstWhereOrNull(
+                                                                                                        (element) => element!.lifecycleStatusName == "OMW",
+                                                                                                      )
+                                                                                                      ?.jobLifecycleDatetime ??
+                                                                                                  "")))
+                                                                                        ]
+                                                                                      : []),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Container(
+                                                                            height:
+                                                                                60,
+                                                                            width:
+                                                                                60,
+                                                                            margin:
+                                                                                const EdgeInsets.all(5),
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle, // border: Border.all(color: ),
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "Start",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.primary
+                                                                                    : snapshot.data!
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "Start",
+                                                                                                )
+                                                                                                ?.jobOccuranceStatus ==
+                                                                                            0
+                                                                                        ? CustomColors.primary.withOpacity(0.1)
+                                                                                        : CustomColors.darkGrey.withOpacity(0.1)),
+                                                                            child:
+                                                                                IconButton(
+                                                                              onPressed: snapshot.data!
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "Start",
+                                                                                          )
+                                                                                          ?.jobOccuranceStatus ==
+                                                                                      0
+                                                                                  ? () {
+                                                                                      CustomDialogShow.showInfoDialog(
+                                                                                          title: "Confirm",
+                                                                                          description: "Do you confirm to start the job ?",
+                                                                                          okayButtonName: "YES",
+                                                                                          btnOkOnPress: () async {
+                                                                                            await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 13);
+                                                                                            PageNavigationService.backScreen();
+                                                                                          },
+                                                                                          cancelButtonName: "BACK",
+                                                                                          btnCancelOnPress: () {
+                                                                                            PageNavigationService.backScreen();
+                                                                                          });
+                                                                                    }
+                                                                                  : null,
+                                                                              icon: Icon(
+                                                                                Icons.play_arrow,
+                                                                                size: 40,
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "Start",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.white
+                                                                                    : CustomColors.primary,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                              "START"),
+                                                                          Visibility(
+                                                                            visible: snapshot.data!
+                                                                                    .firstWhereOrNull(
+                                                                                      (element) => element?.lifecycleStatusName == "Start",
+                                                                                    )
+                                                                                    ?.jobLifecycleDatetime !=
+                                                                                null,
+                                                                            child:
+                                                                                RichText(
+                                                                              text: TextSpan(
+                                                                                  text: '',
+                                                                                  style: CustomTextStyle.normalRegularStyleDarkGrey,
+                                                                                  children: snapshot.data!
+                                                                                              .firstWhereOrNull(
+                                                                                                (element) => element?.lifecycleStatusName == "Start",
+                                                                                              )
+                                                                                              ?.jobLifecycleDatetime !=
+                                                                                          null
+                                                                                      ? [
+                                                                                          TextSpan(
+                                                                                              text: DateFormat.jms('en').format(DateTime.parse(snapshot.data!
+                                                                                                      .firstWhereOrNull(
+                                                                                                        (element) => element!.lifecycleStatusName == "Start",
+                                                                                                      )!
+                                                                                                      .jobLifecycleDatetime ??
+                                                                                                  "")))
+                                                                                        ]
+                                                                                      : []),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            height:
+                                                                                60,
+                                                                            width:
+                                                                                60,
+                                                                            margin:
+                                                                                const EdgeInsets.all(5),
+                                                                            decoration: BoxDecoration(
+                                                                                shape: BoxShape.circle, // border: Border.all(color: ),
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "Finished",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.primary
+                                                                                    : snapshot.data!
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "Finished",
+                                                                                                )
+                                                                                                ?.jobOccuranceStatus ==
+                                                                                            0
+                                                                                        ? CustomColors.primary.withOpacity(0.1)
+                                                                                        : CustomColors.darkGrey.withOpacity(0.1)),
+                                                                            child:
+                                                                                IconButton(
+                                                                              onPressed: snapshot.data!
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "Finished",
+                                                                                          )
+                                                                                          ?.jobOccuranceStatus ==
+                                                                                      0
+                                                                                  ? () {
+                                                                                      showCupertinoModalPopup(
+                                                                                          barrierDismissible: false,
+                                                                                          context: context,
+                                                                                          builder: (BuildContext context) {
+                                                                                            return MyCupertinoBottomSheet(
+                                                                                                title: "Pay for inspection",
+                                                                                                confirmButtonName: "CONTINUE",
+                                                                                                onConfirm: () {
+                                                                                                  //<========== Show bottom modal for payment
+                                                                                                  PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobReportDetails);
+                                                                                                },
+                                                                                                onCancel: () {
+                                                                                                  PageNavigationService.backScreen();
+                                                                                                },
+                                                                                                child: Column(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                  children: [
+                                                                                                    Padding(
+                                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                                      child: Image.asset(
+                                                                                                        CustomIcons.card,
+                                                                                                        width: double.infinity,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Text(
+                                                                                                      "Please choose the payment option for your inspection",
+                                                                                                      style: CustomTextStyle.normalBoldStyleBlack,
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ));
+                                                                                          });
+
+                                                                                      // CustomDialogShow
+                                                                                      //     .showInfoDialog(
+                                                                                      //         title:
+                                                                                      //             "Confirm",
+                                                                                      //         description:
+                                                                                      //             "Are You sure that you have complete this job and have tricked everything on the scope of work?",
+                                                                                      //         okayButtonName:
+                                                                                      //             "YES",
+                                                                                      //         btnOkOnPress:
+                                                                                      //             () async {
+                                                                                      //           await jobCtrl
+                                                                                      //               .gotoNextJobLifeCycle(
+                                                                                      //                   jobGridDetails!.jobSystemId,
+                                                                                      //                   jobGridDetails.jobUuid,
+                                                                                      //                   14)
+                                                                                      //               .then((resp) {
+                                                                                      //             if (resp) {
+
+                                                                                      //             }
+                                                                                      //           });
+                                                                                      //           PageNavigationService
+                                                                                      //               .backScreen();
+                                                                                      //         },
+                                                                                      //         cancelButtonName:
+                                                                                      //             "BACK",
+                                                                                      //         btnCancelOnPress:
+                                                                                      //             () {
+                                                                                      //           PageNavigationService
+                                                                                      //               .backScreen();
+                                                                                      //         });
+                                                                                    }
+                                                                                  : null,
+                                                                              icon: Icon(
+                                                                                Icons.stop,
+                                                                                size: 40,
+                                                                                color: snapshot.data!
+                                                                                            .firstWhereOrNull(
+                                                                                              (element) => element!.lifecycleStatusName == "Finished",
+                                                                                            )
+                                                                                            ?.jobOccuranceStatus ==
+                                                                                        1
+                                                                                    ? CustomColors.white
+                                                                                    : CustomColors.primary,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                              "FINISH"),
+                                                                          Visibility(
+                                                                            visible: snapshot.data!
+                                                                                    .firstWhereOrNull(
+                                                                                      (element) => element?.lifecycleStatusName == "Finished",
+                                                                                    )
+                                                                                    ?.jobLifecycleDatetime !=
+                                                                                null,
+                                                                            child:
+                                                                                RichText(
+                                                                              text: TextSpan(
+                                                                                  text: '',
+                                                                                  style: CustomTextStyle.normalRegularStyleDarkGrey,
+                                                                                  children: snapshot.data!
+                                                                                              .firstWhereOrNull(
+                                                                                                (element) => element?.lifecycleStatusName == "Finished",
+                                                                                              )
+                                                                                              ?.jobLifecycleDatetime !=
+                                                                                          null
+                                                                                      ? [
+                                                                                          TextSpan(
+                                                                                              text: DateFormat.jms('en').format(DateTime.parse(snapshot.data!
+                                                                                                      .firstWhereOrNull(
+                                                                                                        (element) => element!.lifecycleStatusName == "Finished",
+                                                                                                      )!
+                                                                                                      .jobLifecycleDatetime ??
+                                                                                                  "")))
+                                                                                        ]
+                                                                                      : []),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                      }
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      if (snapshot.connectionState ==
+                                                              ConnectionState
+                                                                  .none ||
+                                                          snapshot.error
+                                                              .toString()
+                                                              .contains(
+                                                                  "Failed host lookup")) {
+                                                        return const NoInternetWidget();
+                                                      }
+                                                      return Center(
+                                                          child: Text(
+                                                              "${snapshot.error}"));
+                                                    } else {
+                                                      return const Text(
+                                                          "Something went to wrong");
+                                                    }
+                                                  }),
+
                                               const Padding(
                                                 padding: EdgeInsets.all(15.0),
                                                 child: Text(

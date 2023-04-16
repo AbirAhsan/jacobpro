@@ -64,30 +64,36 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Jacob Pro',
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      //     localizationsDelegates: [
-      //       AppLocalizations.delegate,
-      //       GlobalMaterialLocalizations.delegate,
-      //  GlobalWidgetsLocalizations.delegate,
-      //  GlobalCupertinoLocalizations.delegate,],
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: "Arcon",
-        appBarTheme: const AppBarTheme(
-          backgroundColor: CustomColors.white,
-          titleTextStyle: CustomTextStyle.titleBoldStyleBlack,
-          iconTheme: IconThemeData(color: CustomColors.primary),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: GetMaterialApp(
+        title: 'Jacob Pro',
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        //     localizationsDelegates: [
+        //       AppLocalizations.delegate,
+        //       GlobalMaterialLocalizations.delegate,
+        //  GlobalWidgetsLocalizations.delegate,
+        //  GlobalCupertinoLocalizations.delegate,],
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: "Arcon",
+          appBarTheme: const AppBarTheme(
+            backgroundColor: CustomColors.white,
+            titleTextStyle: CustomTextStyle.titleBoldStyleBlack,
+            iconTheme: IconThemeData(color: CustomColors.primary),
+          ),
+          scaffoldBackgroundColor: CustomColors.white,
         ),
-        scaffoldBackgroundColor: CustomColors.white,
+        initialRoute: "/",
+        builder: EasyLoading.init(),
+        getPages: ScreenRoutes.pageList,
       ),
-      initialRoute: "/",
-      builder: EasyLoading.init(),
-      getPages: ScreenRoutes.pageList,
     );
   }
 }

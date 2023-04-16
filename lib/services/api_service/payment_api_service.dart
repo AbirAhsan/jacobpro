@@ -44,10 +44,11 @@ class PaymentApiService {
 
   //<================ Submit Card Payment Method
   //
-  Future<bool> submitCardPayment(PaymentDtoModel paymentDetails) async {
+  Future<bool> submitCardPayment(PaymentDtoModel? paymentDetails,
+      CardData cardDetails, String? jobUuid) async {
     String? token = await SharedDataManageService().getToken();
 
-    Uri url = Uri.parse("${AppConfig.baseUrl}/Customer/AddCustomer");
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Payment/AddPayment/$jobUuid");
 
     var headers = {
       'Accept': 'application/json',
@@ -58,20 +59,20 @@ class PaymentApiService {
     var request = http.Request('POST', url);
 
     request.body = json.encode({
-      "paymentMethodId": paymentDetails.paymentMethodId,
-      "cardData": paymentDetails.cardData,
+      "paymentMethodId": paymentDetails!.paymentMethodId,
+      "cardData": cardDetails,
       "chequeData": null,
       "paymentNote": paymentDetails.paymentNote,
       "paymentAmount": paymentDetails.paymentAmount,
     });
 
     request.headers.addAll(headers);
-
+    print(request.body);
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);
-
+    print(response);
     if (respStr.statusCode == 200) {
       return true;
     } else {
@@ -82,7 +83,7 @@ class PaymentApiService {
     }
   }
 
-  //<================ Submit Check Payment Method
+  //<================ Submit Cash Payment Method
   //
   Future<bool> submitCheckPayment(PaymentDtoModel paymentDetails) async {
     String? token = await SharedDataManageService().getToken();
@@ -100,7 +101,7 @@ class PaymentApiService {
     request.body = json.encode({
       "paymentMethodId": paymentDetails.paymentMethodId,
       "cardData": null,
-      "chequeData": paymentDetails.chequeData,
+      "chequeData": null,
       "paymentNote": paymentDetails.paymentNote,
       "paymentAmount": paymentDetails.paymentAmount,
     });

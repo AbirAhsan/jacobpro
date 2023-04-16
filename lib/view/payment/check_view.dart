@@ -6,6 +6,7 @@ import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class CheckViewScreen extends StatelessWidget {
+  final String? jobUuid;
   const CheckViewScreen({super.key});
 
   @override
