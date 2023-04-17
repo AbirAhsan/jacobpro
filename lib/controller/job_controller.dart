@@ -23,6 +23,7 @@ class JobController extends GetxController {
 
   Rx<Future<List<JobLifeCycleModel?>>> jobLifeCycle =
       Future.value(List<JobLifeCycleModel?>.empty(growable: true)).obs;
+  List jobCount = List.empty(growable: true);
 
   int? page;
   @override
@@ -188,5 +189,27 @@ class JobController extends GetxController {
       debugPrint("$e");
     }
     return resp;
+  }
+
+  //<=========================== Fetch  Job Count
+  Future<void> fetchJobCount() async {
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().getJobCountList().then((resp) {
+        jobCount = resp;
+        update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
   }
 }

@@ -271,4 +271,41 @@ class JobApiService {
       };
     }
   }
+
+  getJobCountList() async {
+    String? token = await SharedDataManageService().getToken();
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/CountJobByAssociateStatus/0?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    MultipartRequest request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    StreamedResponse streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
+
+    Response respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = json.decode(jsonResponse);
+
+      List mapdatalist = decoded["dataObj"].map((b) => (b)).toList();
+
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
 }
