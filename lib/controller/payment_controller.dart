@@ -14,6 +14,8 @@ class PaymentController extends GetxController {
   TextEditingController? recipientEmailTxtCtrl;
   TextEditingController? amountTxtCtrl;
   TextEditingController? pNoteTxtCtrl;
+  TextEditingController? chequeIssueTxtCtrl;
+  TextEditingController? chequeDateTxtCtrl;
 
   int? selectedOtherPaymentMethod;
   PaymentDtoModel paymentDetails = PaymentDtoModel();
@@ -23,6 +25,7 @@ class PaymentController extends GetxController {
     recipientEmailTxtCtrl = TextEditingController(text: email);
     amountTxtCtrl = TextEditingController(text: amount);
     paymentDetails.paymentAmount = int.parse(amount ?? "0");
+    chequeDateTxtCtrl = TextEditingController();
   }
 
   //<======================= Fetch Other Payment List
@@ -56,6 +59,77 @@ class PaymentController extends GetxController {
 
       await PaymentApiService()
           .submitCardPayment(paymentDetails, cardDetails, jobUuid)
+          .then((resp) async {
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+  //<======================= Cash Payment
+  Future<void> submitCashPayment(String? jobUuid) async {
+    paymentDetails.paymentMethodId = 2;
+    try {
+      CustomEassyLoading.startLoading();
+
+      await PaymentApiService().submitCashPayment(paymentDetails, jobUuid).then(
+          (resp) async {
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+  //<======================= Cheque Payment
+  Future<void> submitChequePayment(String? jobUuid) async {
+    paymentDetails.paymentMethodId = 3;
+    paymentDetails.chequeData!.chequeIssueDate = chequeDateTxtCtrl!.text;
+    try {
+      CustomEassyLoading.startLoading();
+
+      await PaymentApiService()
+          .submitChequePayment(paymentDetails, checkDetails, jobUuid)
+          .then((resp) async {
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+  //<======================= Other's Payment
+  Future<void> submitOtherPayment(String? jobUuid) async {
+    try {
+      CustomEassyLoading.startLoading();
+
+      await PaymentApiService()
+          .submitOtherPayment(paymentDetails, jobUuid)
           .then((resp) async {
         CustomEassyLoading.stopLoading();
         update();

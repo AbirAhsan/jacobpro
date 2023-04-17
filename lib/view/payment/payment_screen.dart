@@ -10,7 +10,7 @@ import '../variables/colors_variable.dart';
 import '../variables/text_style.dart';
 import '../widgets/custom_text_field.dart';
 import 'cash_view.dart';
-import 'check_view.dart';
+import 'cheque_view.dart';
 import 'credit_card_view.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -107,9 +107,9 @@ class PaymentScreen extends StatelessWidget {
                           controller: screenCtrl.paymentTabController,
                           children: [
                             CreditCardView(jobUuid: jobReport!.jobUuid),
-                            CashViewScreen(),
-                            CheckViewScreen(),
-                            OthersViewScreen()
+                            CashViewScreen(jobUuid: jobReport.jobUuid),
+                            ChequeViewScreen(jobUuid: jobReport.jobUuid),
+                            OthersViewScreen(jobUuid: jobReport.jobUuid)
                           ],
                         );
                       }),

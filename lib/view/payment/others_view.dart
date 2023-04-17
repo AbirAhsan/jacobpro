@@ -7,7 +7,8 @@ import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class OthersViewScreen extends StatelessWidget {
-  const OthersViewScreen({super.key});
+  final String? jobUuid;
+  const OthersViewScreen({super.key, this.jobUuid});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,9 @@ class OthersViewScreen extends StatelessWidget {
                                   paymentCtrl.selectedOtherPaymentMethod,
                               onChanged: (value) {
                                 paymentCtrl.selectedOtherPaymentMethod = value;
+                                paymentCtrl.paymentDetails.paymentMethodId =
+                                    value;
+
                                 paymentCtrl.update();
                               },
                               child: Text(paymentMethod["value"]))
@@ -42,6 +46,10 @@ class OthersViewScreen extends StatelessWidget {
                     }),
                 CustomTextField(
                   labelText: "Payment Note",
+                  initialValue: paymentCtrl.paymentDetails.paymentNote ?? "",
+                  onChanged: (value) {
+                    paymentCtrl.paymentDetails.paymentNote = value;
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

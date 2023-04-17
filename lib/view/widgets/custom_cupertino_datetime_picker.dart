@@ -10,13 +10,13 @@ class CupertinoDateTimePicker extends StatelessWidget {
   final DateTime? minimumDate;
   final int minimumYear;
   final DateTime? maximumDate;
-  final int? maximumYear;
+  final int maximumYear;
   const CupertinoDateTimePicker(
       {super.key,
       this.minimumDate,
       this.minimumYear = 1,
       this.maximumDate,
-      this.maximumYear,
+      this.maximumYear = 3000,
       this.controller,
       this.labelText});
 

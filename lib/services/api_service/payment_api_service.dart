@@ -8,9 +8,6 @@ import '../../app_config.dart';
 import '../shared_data_manage_service.dart';
 
 class PaymentApiService {
-  // AuthController authCtrl = Get.find<AuthController>();
-  // LanguageController langCtrl = Get.put(LanguageController());
-  //<===================================== Login Request
   Future<List> getOthersPaymentMethod() async {
     String? token = await SharedDataManageService().getToken();
 
@@ -85,10 +82,93 @@ class PaymentApiService {
 
   //<================ Submit Cash Payment Method
   //
-  Future<bool> submitCheckPayment(PaymentDtoModel paymentDetails) async {
+  Future<bool> submitCashPayment(
+      PaymentDtoModel paymentDetails, String? jobUuid) async {
     String? token = await SharedDataManageService().getToken();
 
-    Uri url = Uri.parse("${AppConfig.baseUrl}/Customer/AddCustomer");
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Payment/AddPayment/$jobUuid");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "paymentMethodId": paymentDetails.paymentMethodId,
+      "cardData": null,
+      "chequeData": null,
+      "paymentNote": paymentDetails.paymentNote,
+      "paymentAmount": paymentDetails.paymentAmount,
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<================ Submit Cheque Payment Method
+  //
+  Future<bool> submitChequePayment(PaymentDtoModel paymentDetails,
+      ChequeData chequeDetails, String? jobUuid) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Payment/AddPayment/$jobUuid");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "paymentMethodId": paymentDetails.paymentMethodId,
+      "cardData": null,
+      "chequeData": chequeDetails,
+      "paymentNote": paymentDetails.paymentNote,
+      "paymentAmount": paymentDetails.paymentAmount,
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<================ Submit Other Payment Method
+  //
+  Future<bool> submitOtherPayment(
+      PaymentDtoModel paymentDetails, String? jobUuid) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Payment/AddPayment/$jobUuid");
 
     var headers = {
       'Accept': 'application/json',

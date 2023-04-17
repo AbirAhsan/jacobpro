@@ -25,7 +25,6 @@ class CreditCardView extends StatelessWidget {
                   onChanged: (name) {
                     paymentCtrl.cardDetails.cardHolderName = name;
                     paymentCtrl.update();
-                    print(paymentCtrl.cardDetails.cardHolderName);
                   },
                 ),
                 CustomTextField(
@@ -58,7 +57,7 @@ class CreditCardView extends StatelessWidget {
                           labelText: "Expiry Year",
                           hintText: "yyyy",
                           onChanged: (year) {
-                            paymentCtrl.cardDetails.cardExpiryMonth =
+                            paymentCtrl.cardDetails.cardExpiryYear =
                                 int.parse(year);
                             paymentCtrl.update();
                           },
@@ -123,7 +122,7 @@ class CreditCardView extends StatelessWidget {
                         marginLeft: 10,
                         labelText: "State",
                         initialValue:
-                            paymentCtrl.cardDetails.cardBillingStreet ?? "",
+                            paymentCtrl.cardDetails.cardBillingState ?? "",
                         onChanged: (value) {
                           paymentCtrl.paymentDetails.cardData
                               ?.cardBillingState = value;
