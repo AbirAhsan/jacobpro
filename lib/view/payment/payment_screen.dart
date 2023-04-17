@@ -89,7 +89,7 @@ class PaymentScreen extends StatelessWidget {
                                 text: 'CASH',
                               ),
                               Tab(
-                                text: 'CHECK',
+                                text: 'CHEQUE',
                               ),
                               Tab(
                                 text: 'OTHERS',

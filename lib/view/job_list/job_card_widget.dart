@@ -135,7 +135,7 @@ class JobCardWidget extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  jobdetails!.jobPrivateNote ?? "",
+                  jobdetails!.coreServiceName ?? "",
                   style: CustomTextStyle.normalRegularStyleDarkGrey,
                 )
               ],
@@ -147,18 +147,18 @@ class JobCardWidget extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.add_chart,
                   color: CustomColors.darkGrey,
                   size: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Expanded(
                   child: Text(
-                    "Which property should be bind here",
+                    jobdetails!.jobPrivateNote ?? "",
                     style: CustomTextStyle.normalRegularStyleDarkGrey,
                   ),
                 )

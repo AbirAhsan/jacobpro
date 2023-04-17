@@ -12,6 +12,7 @@ class JobGridDetailsModel {
   String? jobAddressLong;
   String? jobScheduleStartDate;
   String? jobScheduleEndDate;
+  String? coreServiceName;
   String? jobPrivateNote;
 
   JobGridDetailsModel(
@@ -28,6 +29,7 @@ class JobGridDetailsModel {
       this.jobAddressLong,
       this.jobScheduleStartDate,
       this.jobScheduleEndDate,
+      this.coreServiceName,
       this.jobPrivateNote});
 
   JobGridDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,7 @@ class JobGridDetailsModel {
     jobAddressLong = json['jobAddressLong'];
     jobScheduleStartDate = json['jobScheduleStartDate'];
     jobScheduleEndDate = json['jobScheduleEndDate'];
+    coreServiceName = json['coreServiceName'];
     jobPrivateNote = json['jobPrivateNote'];
   }
 
@@ -61,6 +64,7 @@ class JobGridDetailsModel {
     data['jobAddressLong'] = jobAddressLong;
     data['jobScheduleStartDate'] = jobScheduleStartDate;
     data['jobScheduleEndDate'] = jobScheduleEndDate;
+    data['coreServiceName'] = coreServiceName;
     data['jobPrivateNote'] = jobPrivateNote;
     return data;
   }

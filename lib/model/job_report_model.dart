@@ -13,6 +13,9 @@ class JobReportModel {
   String? jobAddress;
   String? insertedAt;
   String? jobScheduleStartDate;
+  String? jobScheduleEndDate;
+  String? coreServiceName;
+  String? jobPrivateNote;
   String? jobCategory;
   bool? isEligibleForConvertToJob;
   List<JobItems>? jobItems;
@@ -33,6 +36,9 @@ class JobReportModel {
       this.jobAddress,
       this.insertedAt,
       this.jobScheduleStartDate,
+      this.jobScheduleEndDate,
+      this.coreServiceName,
+      this.jobPrivateNote,
       this.jobCategory,
       this.isEligibleForConvertToJob,
       this.jobItems,
@@ -53,6 +59,9 @@ class JobReportModel {
     jobAddress = json['jobAddress'];
     insertedAt = json['insertedAt'];
     jobScheduleStartDate = json['jobScheduleStartDate'];
+    jobScheduleEndDate = json['jobScheduleEndDate'];
+    coreServiceName = json['coreServiceName'];
+    jobPrivateNote = json['jobPrivateNote'];
     jobCategory = json['jobCategory'];
     isEligibleForConvertToJob = json['isEligibleForConvertToJob'];
     if (json['jobItems'] != null) {
@@ -82,6 +91,9 @@ class JobReportModel {
     data['jobAddress'] = jobAddress;
     data['insertedAt'] = insertedAt;
     data['jobScheduleStartDate'] = jobScheduleStartDate;
+    data['jobScheduleEndDate'] = jobScheduleEndDate;
+    data['coreServiceName'] = coreServiceName;
+    data['jobPrivateNote'] = jobPrivateNote;
     data['jobCategory'] = jobCategory;
     data['isEligibleForConvertToJob'] = isEligibleForConvertToJob;
     if (jobItems != null) {

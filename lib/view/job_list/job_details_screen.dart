@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:service/view/variables/icon_variables.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/cupertino_bottom_sheet.dart';
 import 'package:service/view/widgets/custom_appbar.dart';
+import 'package:service/view/widgets/custom_shimmer_effect.dart';
 
 import '../../model/job_grid_model.dart';
 import '../../model/job_report_model.dart';
@@ -53,7 +56,206 @@ class JobDetailsScreen extends StatelessWidget {
                               case ConnectionState.none:
                                 return const NoInternetWidget();
                               case ConnectionState.waiting:
-                                return CircularProgressIndicator();
+                                return CustomShimmerEffect(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: CustomColors
+                                                                  .lightgrey),
+                                                    ),
+                                                    Container(
+                                                      width: 44,
+                                                      height: 10,
+                                                      color:
+                                                          CustomColors.darkGrey,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: CustomColors
+                                                                  .lightgrey),
+                                                    ),
+                                                    Container(
+                                                      width: 44,
+                                                      height: 10,
+                                                      color:
+                                                          CustomColors.darkGrey,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              5),
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color: CustomColors
+                                                                  .lightgrey),
+                                                    ),
+                                                    Container(
+                                                      width: 44,
+                                                      height: 10,
+                                                      color:
+                                                          CustomColors.darkGrey,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Container(
+                                            width: 100,
+                                            height: 10,
+                                            color: CustomColors.darkGrey,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          height: 200,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 5, 0, 5),
+                                              width: 100,
+                                              height: 10,
+                                              color: CustomColors.darkGrey,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 5, 0, 5),
+                                              width: 30,
+                                              height: 30,
+                                              decoration: const BoxDecoration(
+                                                  color: CustomColors.darkGrey,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 5, 0, 5),
+                                              width: 130,
+                                              height: 10,
+                                              color: CustomColors.darkGrey,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 5, 0, 5),
+                                              width: 30,
+                                              height: 30,
+                                              decoration: const BoxDecoration(
+                                                  color: CustomColors.darkGrey,
+                                                  shape: BoxShape.circle),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 5),
+                                          width: 115,
+                                          height: 10,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 5),
+                                          width: 120,
+                                          height: 10,
+                                          color: CustomColors.darkGrey,
+                                        ),
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: 10,
+                                            itemBuilder: (buildContext, index) {
+                                              return Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 5, 0, 5),
+                                                width: Get.width *
+                                                        Random().nextDouble() *
+                                                        0.3 +
+                                                    0.7,
+                                                height: 10,
+                                                color: CustomColors.darkGrey,
+                                              );
+                                            })
+                                      ],
+                                    ),
+                                  ),
+                                ));
                               default:
                                 JobReportModel? jobReportDetails =
                                     snapshot.data;
@@ -676,7 +878,9 @@ class JobDetailsScreen extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      "jobReportDetails.jo,",
+                                                      jobReportDetails
+                                                              .coreServiceName ??
+                                                          "",
                                                       style: CustomTextStyle
                                                           .normalRegularStyleDarkGrey,
                                                     ),
@@ -689,19 +893,20 @@ class JobDetailsScreen extends StatelessWidget {
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
-                                                  children: const [
-                                                    Padding(
+                                                  children: [
+                                                    const Padding(
                                                       padding:
                                                           EdgeInsets.all(5.0),
                                                       child: Icon(
-                                                        Icons
-                                                            .manage_search_rounded,
+                                                        Icons.add_chart,
                                                         color:
                                                             CustomColors.grey,
                                                       ),
                                                     ),
                                                     Text(
-                                                      "Which property should be bind here",
+                                                      jobReportDetails
+                                                              .jobPrivateNote ??
+                                                          "",
                                                       style: CustomTextStyle
                                                           .normalRegularStyleDarkGrey,
                                                     ),

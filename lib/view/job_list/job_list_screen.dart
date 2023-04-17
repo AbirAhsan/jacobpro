@@ -155,13 +155,22 @@ class JobListScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 4
+                                color: screenCtrl.jobListCurrentIndex == 5 &&
+                                        jobCtrl.jobCount.any((element) =>
+                                            element['statusId'] == 2)
                                     ? CustomColors.primary
-                                    : CustomColors.grey,
+                                    : screenCtrl.jobListCurrentIndex != 5 &&
+                                            jobCtrl.jobCount.any((element) =>
+                                                element['statusId'] == 2)
+                                        ? CustomColors.grey
+                                        : CustomColors.white,
                               ),
                               alignment: Alignment.center,
-                              child: const Text(
-                                '2',
+                              child: Text(
+                                jobCtrl.jobCount.any(
+                                        (element) => element['statusId'] == 2)
+                                    ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 2)['noOfJob']}'
+                                    : "",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),

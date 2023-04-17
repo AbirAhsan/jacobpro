@@ -124,8 +124,7 @@ class CreditCardView extends StatelessWidget {
                         initialValue:
                             paymentCtrl.cardDetails.cardBillingState ?? "",
                         onChanged: (value) {
-                          paymentCtrl.paymentDetails.cardData
-                              ?.cardBillingState = value;
+                          paymentCtrl.cardDetails.cardBillingState = value;
                           paymentCtrl.update();
                         },
                       ),
