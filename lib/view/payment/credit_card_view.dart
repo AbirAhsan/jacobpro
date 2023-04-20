@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service/view/variables/colors_variable.dart';
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
+import 'package:service/view/variables/text_style.dart';
+import 'package:service/view/widgets/cupertino_bottom_sheet.dart';
 import 'package:service/view/widgets/custom_submit_button.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
 
 import '../../controller/payment_controller.dart';
+import '../../model/job_report_model.dart';
+import '../../services/page_navigation_service.dart';
+import '../widgets/custom_company_button.dart';
 
 class CreditCardView extends StatelessWidget {
-  final String? jobUuid;
-  const CreditCardView({super.key, this.jobUuid});
+  final JobReportModel? jobReport;
+
+  const CreditCardView({super.key, this.jobReport});
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +27,43 @@ class CreditCardView extends StatelessWidget {
               children: [
                 CustomTextField(
                   labelText: "Name On Card",
-                  initialValue: paymentCtrl.cardDetails.cardHolderName ?? "",
+                  controller: paymentCtrl.cardHolderNameCtrl,
                   onChanged: (name) {
                     paymentCtrl.cardDetails.cardHolderName = name;
                     paymentCtrl.update();
                   },
+                  suffixIcon: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (buildContext) {
+                              return MyCupertinoBottomSheet(
+                                onConfirm: () {},
+                                onCancel: null,
+                                title: Text(
+                                  "Saved Cards",
+                                  style: CustomTextStyle.mediumBoldStyleBlack,
+                                ),
+                                child: Column(
+                                  children: paymentCtrl.savedCardList
+                                      .map((savedCard) {
+                                    return ListTile(
+                                      title: Text(savedCard.cardNo!),
+                                      onTap: () {
+                                        paymentCtrl.assignCardData(savedCard);
+                                        PageNavigationService.backScreen();
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                            });
+                      },
+                      child: Icon(Icons.cases_rounded)),
                 ),
                 CustomTextField(
                   labelText: "Card Number",
-                  initialValue: paymentCtrl.cardDetails.cardNo ?? "",
+                  controller: paymentCtrl.cardNumberCtrl,
                   onChanged: (value) {
                     paymentCtrl.cardDetails.cardNo = value;
                     paymentCtrl.update();
@@ -43,6 +77,7 @@ class CreditCardView extends StatelessWidget {
                           marginRight: 5,
                           labelText: "Expiry Month",
                           hintText: "mm",
+                          controller: paymentCtrl.cardExpiryMonthCtrl,
                           onChanged: (month) {
                             paymentCtrl.cardDetails.cardExpiryMonth =
                                 int.parse(month);
@@ -56,6 +91,7 @@ class CreditCardView extends StatelessWidget {
                           marginRight: 5,
                           labelText: "Expiry Year",
                           hintText: "yyyy",
+                          controller: paymentCtrl.cardExpiryYearCtrl,
                           onChanged: (year) {
                             paymentCtrl.cardDetails.cardExpiryYear =
                                 int.parse(year);
@@ -67,6 +103,7 @@ class CreditCardView extends StatelessWidget {
                       child: CustomTextField(
                         marginLeft: 10,
                         labelText: "CVC",
+                        controller: paymentCtrl.cardCVCCtrl,
                         onChanged: (cvc) {
                           paymentCtrl.cardDetails.cardCvc = int.parse(cvc);
                           paymentCtrl.update();
@@ -80,9 +117,12 @@ class CreditCardView extends StatelessWidget {
                     Expanded(
                       child: CustomTextField(
                         marginRight: 10,
+                        readOnly: true,
                         labelText: "Street",
-                        initialValue:
-                            paymentCtrl.cardDetails.cardBillingStreet ?? "",
+                        controller: paymentCtrl.cardStreetCtrl,
+                        onTap: () {
+                          searchCardAddress();
+                        },
                         onChanged: (value) {
                           paymentCtrl.cardDetails.cardBillingStreet = value;
                           paymentCtrl.update();
@@ -93,8 +133,10 @@ class CreditCardView extends StatelessWidget {
                       child: CustomTextField(
                         marginLeft: 10,
                         labelText: "Postal Code",
-                        initialValue:
-                            paymentCtrl.cardDetails.cardBillingZip ?? "",
+                        controller: paymentCtrl.cardPostCtrl,
+                        onTap: () {
+                          searchCardAddress();
+                        },
                         onChanged: (value) {
                           paymentCtrl.cardDetails.cardBillingZip = value;
                           paymentCtrl.update();
@@ -109,8 +151,11 @@ class CreditCardView extends StatelessWidget {
                       child: CustomTextField(
                         marginRight: 10,
                         labelText: "City",
-                        initialValue:
-                            paymentCtrl.cardDetails.cardBillingCity ?? "",
+                        readOnly: true,
+                        controller: paymentCtrl.cardCityCtrl,
+                        onTap: () {
+                          searchCardAddress();
+                        },
                         onChanged: (value) {
                           paymentCtrl.cardDetails.cardBillingCity = value;
                           paymentCtrl.update();
@@ -121,8 +166,10 @@ class CreditCardView extends StatelessWidget {
                       child: CustomTextField(
                         marginLeft: 10,
                         labelText: "State",
-                        initialValue:
-                            paymentCtrl.cardDetails.cardBillingState ?? "",
+                        controller: paymentCtrl.cardStateCtrl,
+                        onTap: () {
+                          searchCardAddress();
+                        },
                         onChanged: (value) {
                           paymentCtrl.cardDetails.cardBillingState = value;
                           paymentCtrl.update();
@@ -139,19 +186,23 @@ class CreditCardView extends StatelessWidget {
                   },
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomSubmitButton(
-                        buttonName: "CANCEL",
-                        leftMargin: 5,
-                        rightMargin: 5,
-                        bottomRightBorderRadius: 0,
-                        bottomLeftBorderRadius: 0,
-                        topLeftBorderRadius: 0,
-                        topRightBorderRadius: 0,
-                        primaryColor: CustomColors.darkGrey,
-                        fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {}),
+                    Row(
+                      children: [
+                        Checkbox(
+                            //fillColor: CustomColors.primary,
+                            value: paymentCtrl.cardDetails.cardIsSaved,
+                            onChanged: (value) {
+                              paymentCtrl.cardDetails.cardIsSaved = value!;
+                              paymentCtrl.update();
+                            }),
+                        Text(
+                          "save card info",
+                          style: CustomTextStyle.normalRegularStyleBlack,
+                        )
+                      ],
+                    ),
                     CustomSubmitButton(
                         buttonName: "CONFIRM PAYMENT",
                         leftMargin: 5,
@@ -162,7 +213,7 @@ class CreditCardView extends StatelessWidget {
                         topRightBorderRadius: 0,
                         fizedSize: const Size(double.infinity, 30),
                         onPressed: () {
-                          paymentCtrl.submitCardPayment(jobUuid);
+                          paymentCtrl.submitCardPayment(jobReport!.jobUuid);
                         }),
                   ],
                 ),
@@ -171,4 +222,134 @@ class CreditCardView extends StatelessWidget {
           }),
     );
   }
+}
+
+searchCardAddress() {
+  return showModalBottomSheet<void>(
+      context: Get.context!,
+      enableDrag: false,
+      isDismissible: false,
+      builder: (BuildContext context) {
+        return GetBuilder<PaymentController>(
+            init: PaymentController(),
+            builder: (paymentCtrl) {
+              return SizedBox(
+                height: Get.height,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton.icon(
+                            onPressed: () {
+                              PageNavigationService.backScreen();
+                            },
+                            icon: const Icon(Icons.close),
+                            label: const Text("Close")),
+                      ),
+                      CustomTextField(
+                        labelText: "Search Address Here",
+                        controller: paymentCtrl.searchTextCtrl,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            paymentCtrl.getSuggestedAddressList();
+                          },
+                          icon: const Icon(
+                            Icons.search_sharp,
+                            size: 36,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          paymentCtrl.debouncer.run(() {
+                            paymentCtrl.getSuggestedAddressList();
+                            //perform search here
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            paymentCtrl.suggestedAddressList.isNotEmpty
+                                ? SizedBox(
+                                    height: 200,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: paymentCtrl
+                                            .suggestedAddressList.length,
+                                        itemBuilder: (buildContext, index) {
+                                          return Card(
+                                            child: ListTile(
+                                              title: Text(paymentCtrl
+                                                      .suggestedAddressList[
+                                                  index]!),
+                                              onTap: () {
+                                                paymentCtrl.searchTextCtrl
+                                                    .text = paymentCtrl
+                                                        .suggestedAddressList[
+                                                    index]!;
+
+                                                paymentCtrl.getAddressDetails();
+                                              },
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                : Container(),
+                            paymentCtrl.addressLat != null ||
+                                    paymentCtrl.addressLong != null
+                                ? Image(
+                                    image: StaticMapController(
+                                    googleApiKey:
+                                        "AIzaSyDfVYnKtLaoJJSFXxCQZ54U4udtIwv4ahk",
+                                    width: Get.width.toInt(),
+                                    height: (Get.width ~/ 2).toInt(),
+                                    zoom: 8,
+                                    language: "EN",
+                                    visible: [
+                                      // Location(
+                                      //     double.parse(topicDetails
+                                      //             .locationLat!.isNotEmpty
+                                      //         ? topicDetails.locationLat!
+                                      //         : "0.0"),
+                                      //     double.parse(topicDetails
+                                      //             .locationLong!.isNotEmpty
+                                      //         ? topicDetails.locationLong!
+                                      //         : "0.0")),
+                                    ],
+                                    // maptype: StaticMapType.satellite,
+                                    markers: [
+                                      Marker(locations: [
+                                        Location(
+                                          paymentCtrl.addressLat ?? 0.0,
+                                          paymentCtrl.addressLong ?? 0.0,
+                                        )
+                                      ]),
+                                    ],
+                                    scale: MapScale.scale1,
+                                    center: Location(
+                                      paymentCtrl.addressLat ?? 0.0,
+                                      paymentCtrl.addressLong ?? 0.0,
+                                    ),
+                                  ).image)
+                                : Container(),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: CustomCompanyButton(
+                                  fizedSize: Size(100, 50),
+                                  buttonName: "Confirm",
+                                  onPressed: () {
+                                    PageNavigationService.backScreen();
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
+      });
 }

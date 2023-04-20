@@ -30,6 +30,9 @@ class PaymentScreen extends StatelessWidget {
             Get.put(PaymentController()).initializeTextCtrlData(
                 jobReport!.customerEmail,
                 jobReport.jobPriceCalculationDto!.jobFinalBillAmount);
+            Get.put(PaymentController()).fetchSavedCardList(
+              jobReport.customerId,
+            );
           },
           builder: (paymentCtrl) {
             return Column(
@@ -106,8 +109,8 @@ class PaymentScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           controller: screenCtrl.paymentTabController,
                           children: [
-                            CreditCardView(jobUuid: jobReport!.jobUuid),
-                            CashViewScreen(jobUuid: jobReport.jobUuid),
+                            CreditCardView(jobReport: jobReport),
+                            CashViewScreen(jobUuid: jobReport!.jobUuid),
                             ChequeViewScreen(jobUuid: jobReport.jobUuid),
                             OthersViewScreen(jobUuid: jobReport.jobUuid)
                           ],

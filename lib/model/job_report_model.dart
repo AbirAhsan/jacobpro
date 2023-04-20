@@ -2,6 +2,7 @@ class JobReportModel {
   int? jobSystemId;
   String? jobSystemNo;
   String? jobUuid;
+  int? customerId;
   String? customerDisplayName;
   String? customerCompanyName;
   String? customerJobTitle;
@@ -25,6 +26,7 @@ class JobReportModel {
       {this.jobSystemId,
       this.jobSystemNo,
       this.jobUuid,
+      this.customerId,
       this.customerDisplayName,
       this.customerCompanyName,
       this.customerJobTitle,
@@ -48,6 +50,7 @@ class JobReportModel {
     jobSystemId = json['jobSystemId'];
     jobSystemNo = json['jobSystemNo'];
     jobUuid = json['jobUuid'];
+    customerId = json['customerId'];
     customerDisplayName = json['customerDisplayName'];
     customerCompanyName = json['customerCompanyName'];
     customerJobTitle = json['customerJobTitle'];
@@ -80,6 +83,7 @@ class JobReportModel {
     data['jobSystemId'] = jobSystemId;
     data['jobSystemNo'] = jobSystemNo;
     data['jobUuid'] = jobUuid;
+    data['customerId'] = customerId;
     data['customerDisplayName'] = customerDisplayName;
     data['customerCompanyName'] = customerCompanyName;
     data['customerJobTitle'] = customerJobTitle;

@@ -43,7 +43,7 @@ class CustomDialogShow {
                   child: Column(
                     children: [
                       Text(
-                        title ?? "",
+                        title ?? "Successful",
                         style: CustomTextStyle.titleBoldStyleBlack,
                       ),
                       const SizedBox(

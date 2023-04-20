@@ -151,9 +151,9 @@ class ProfileApiService {
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
-
+    print(request.body);
     var response = json.decode(respStr.body);
-
+    print(response);
     if (respStr.statusCode == 200 && response['statusCode'] == 200) {
       return true;
     } else {

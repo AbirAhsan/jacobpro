@@ -225,6 +225,7 @@ class JobCardWidget extends StatelessWidget {
                                   btnOkOnPress: () async {
                                     await jobCtrl.acceptOrRejectPendingJob(
                                         jobdetails!.jobSystemId, 0);
+                                    await jobCtrl.fetchJobCount();
                                     PageNavigationService.backScreen();
                                   });
                             }),
@@ -248,6 +249,7 @@ class JobCardWidget extends StatelessWidget {
                             onPressed: () async {
                               await jobCtrl.acceptOrRejectPendingJob(
                                   jobdetails!.jobSystemId, 1);
+                              await jobCtrl.fetchJobCount();
                             }),
                       ),
                     ],

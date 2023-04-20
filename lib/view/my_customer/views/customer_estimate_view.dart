@@ -628,7 +628,10 @@ void showServiceModal(BuildContext context) async {
           },
           builder: (customerCtrl) {
             return MyCupertinoBottomSheet(
-                title: "ADD SERVICE",
+                title: Text(
+                  "ADD SERVICE",
+                  style: CustomTextStyle.titleRegularStyleDarkGrey,
+                ),
                 onConfirm: () async {
                   await customerCtrl.addNewServiceTextEditingCtrl(
                       customerCtrl.selectedService!.value,
@@ -724,7 +727,10 @@ void showMaterialModal(BuildContext context) async {
           },
           builder: (customerCtrl) {
             return MyCupertinoBottomSheet(
-                title: "ADD MATERIAL",
+                title: Text(
+                  "ADD MATERIAL",
+                  style: CustomTextStyle.titleRegularStyleDarkGrey,
+                ),
                 onConfirm: () async {
                   await customerCtrl.addNewMaterialTextEditingCtrl(
                       customerCtrl.selectedMaterial!.value,

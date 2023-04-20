@@ -55,9 +55,18 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
     Future.delayed(const Duration(seconds: 3)).then((value) {
       SharedDataManageService().getToken().then((token) async {
         if (token!.isNotEmpty) {
-          PageNavigationService.removeAllAndNavigate(
-            "/DashBoardScreen",
-          );
+          String? status =
+              await SharedDataManageService().getUserVerification();
+
+          if (status == "1") {
+            PageNavigationService.removeAllAndNavigate(
+              "/DashBoardScreen",
+            );
+          } else {
+            PageNavigationService.removeAllAndNavigate(
+              "/ProfileDetailsScreen",
+            );
+          }
         } else {
           PageNavigationService.removeAllAndNavigate(
             "/LoginScreen",

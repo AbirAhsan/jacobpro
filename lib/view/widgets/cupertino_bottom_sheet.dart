@@ -4,11 +4,11 @@ import 'package:service/view/variables/text_style.dart';
 
 class MyCupertinoBottomSheet extends StatelessWidget {
   final Widget child;
-  final String? title;
+  final Widget? title;
   final String? confirmButtonName;
   final String? cancelButtonName;
   final void Function() onConfirm;
-  final void Function() onCancel;
+  final void Function()? onCancel;
 
   const MyCupertinoBottomSheet(
       {Key? key,
@@ -25,10 +25,7 @@ class MyCupertinoBottomSheet extends StatelessWidget {
     return CupertinoActionSheet(
       title: Column(
         children: [
-          Text(
-            title ?? "",
-            style: CustomTextStyle.titleBoldStyleDarkGrey,
-          ),
+          title!,
           const Divider(),
         ],
       ),
@@ -50,13 +47,15 @@ class MyCupertinoBottomSheet extends StatelessWidget {
           child: Text(confirmButtonName ?? 'CONFIRM',
               style: CustomTextStyle.mediumBoldStylePrimary),
         ),
-        CupertinoActionSheetAction(
-          onPressed: onCancel,
-          child: Text(
-            cancelButtonName ?? 'CLOSE',
-            style: CustomTextStyle.mediumBoldStyleDarkGrey,
-          ),
-        ),
+        onCancel != null
+            ? CupertinoActionSheetAction(
+                onPressed: onCancel!,
+                child: Text(
+                  cancelButtonName ?? 'CLOSE',
+                  style: CustomTextStyle.mediumBoldStyleDarkGrey,
+                ),
+              )
+            : Container(),
       ],
     );
   }

@@ -10,6 +10,7 @@ import '../app_config.dart';
 import '../model/technician_profile_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
+import '../services/shared_data_manage_service.dart';
 
 class ProfileController extends GetxController {
   TextEditingController? drivingLicenseExpiryTxtCtrl = TextEditingController();
@@ -51,6 +52,8 @@ class ProfileController extends GetxController {
 
       await ProfileApiService.getMyProfileDetails().then((resp) async {
         myProfileDetails.value = resp;
+        await SharedDataManageService().setUserVerification(
+            resp.profileGeneralData!.userVerificationStatus.toString());
 
         update();
         assignPersonalContact(

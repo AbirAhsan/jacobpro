@@ -10,7 +10,7 @@ import 'package:service/view/widgets/profile_image_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import '../../controller/screen_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../services/page_navigation_service.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -28,56 +28,72 @@ class CustomDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: const AssetImage(
-                          CustomIcons.banner,
+                GetBuilder<ProfileController>(
+                    init: ProfileController(),
+                    initState: (state) {
+                      Get.put(ProfileController()).fetchMyProfileDetails();
+                    },
+                    builder: (profileCtrl) {
+                      return DrawerHeader(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: const AssetImage(
+                                CustomIcons.banner,
+                              ),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  CustomColors.black.withOpacity(0.5),
+                                  BlendMode.darken)),
                         ),
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(
-                            CustomColors.black.withOpacity(0.5),
-                            BlendMode.darken)),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ProfileImageWidget(
-                        imageUrl: "",
-                        radius: 26,
-                        margin: EdgeInsets.only(bottom: 0),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 54,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FittedBox(
-                                child: Text(
-                                  "Abir Ahsan".toUpperCase(),
-                                  style: CustomTextStyle.mediumBoldStyleWhite,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ProfileImageWidget(
+                              imageUrl: "",
+                              radius: 26,
+                              margin: EdgeInsets.only(bottom: 0),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 54,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                      child: Text(
+                                        "${profileCtrl.myProfileDetails.value!.profileGeneralData?.userFirstName ?? ""} ${profileCtrl.myProfileDetails.value!.profileGeneralData?.userLastName ?? ""}"
+                                            .toUpperCase(),
+                                        style: CustomTextStyle
+                                            .mediumBoldStyleWhite,
+                                      ),
+                                    ),
+                                    Text(
+                                      profileCtrl
+                                              .myProfileDetails
+                                              .value!
+                                              .profileGeneralData
+                                              ?.userContactNo ??
+                                          "",
+                                      style:
+                                          CustomTextStyle.mediumBoldStyleWhite,
+                                    )
+                                  ],
                                 ),
                               ),
-                              Text(
-                                "01716422666",
-                                style: CustomTextStyle.mediumBoldStyleWhite,
-                              )
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ),
+                      );
+                    }),
                 Flexible(
                   child: ListView(
                     physics: const ScrollPhysics(),

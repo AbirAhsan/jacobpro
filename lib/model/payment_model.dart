@@ -3,7 +3,7 @@ class PaymentDtoModel {
   CardData? cardData;
   ChequeData? chequeData;
   String? paymentNote;
-  int? paymentAmount;
+  String? paymentAmount;
 
   PaymentDtoModel(
       {this.paymentMethodId,
@@ -20,7 +20,7 @@ class PaymentDtoModel {
         ? ChequeData.fromJson(json['chequeData'])
         : null;
     paymentNote = json['paymentNote'];
-    paymentAmount = json['paymentAmount'];
+    paymentAmount = json['paymentAmount'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -48,7 +48,7 @@ class CardData {
   String? cardBillingCity;
   String? cardBillingState;
   String? cardBillingZip;
-  bool? cardIsSaved;
+  bool cardIsSaved = true;
 
   CardData(
       {this.cardHolderName,
@@ -60,7 +60,7 @@ class CardData {
       this.cardBillingCity,
       this.cardBillingState,
       this.cardBillingZip,
-      this.cardIsSaved});
+      this.cardIsSaved = true});
 
   CardData.fromJson(Map<String, dynamic> json) {
     cardHolderName = json['cardHolderName'];

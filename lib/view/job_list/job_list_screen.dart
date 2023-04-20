@@ -105,12 +105,12 @@ class JobListScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 2
-                                    ? CustomColors.primary
-                                    : CustomColors.grey,
+                                    ? CustomColors.white
+                                    : CustomColors.white,
                               ),
                               alignment: Alignment.center,
                               child: const Text(
-                                '2',
+                                '',
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -139,8 +139,8 @@ class JobListScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 4
-                                    ? CustomColors.primary
-                                    : CustomColors.grey,
+                                    ? CustomColors.white
+                                    : CustomColors.white,
                               ),
                               alignment: Alignment.center,
                               child: const Text(

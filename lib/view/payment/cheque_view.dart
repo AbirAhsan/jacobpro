@@ -26,7 +26,7 @@ class ChequeViewScreen extends StatelessWidget {
                       flex: 1,
                       child: CustomTextField(
                         marginRight: 5,
-                        labelText: "Check No",
+                        labelText: "Cheque No",
                         initialValue: paymentCtrl.checkDetails.chequeNo ?? "",
                         onChanged: (value) {
                           paymentCtrl.checkDetails.chequeNo = value;

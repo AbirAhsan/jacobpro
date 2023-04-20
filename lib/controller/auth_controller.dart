@@ -68,11 +68,20 @@ class AuthController extends GetxController {
           if (resp.isNotEmpty) {
             await SharedDataManageService().setToken(resp["token"]);
             await SharedDataManageService().setMenuToken(resp["menuToken"]);
+            await SharedDataManageService()
+                .setUserVerification(resp["userVerificationStatus"].toString());
+
             update();
-            PageNavigationService.removeAllAndNavigate(
-              "/DashBoardScreen",
-            );
             CustomEassyLoading.stopLoading();
+            if (resp["userVerificationStatus"] == 1) {
+              PageNavigationService.removeAllAndNavigate(
+                "/DashBoardScreen",
+              );
+            } else {
+              PageNavigationService.removeAllAndNavigate(
+                "/ProfileDetailsScreen",
+              );
+            }
           }
           CustomEassyLoading.stopLoading();
         }, onError: (err) {

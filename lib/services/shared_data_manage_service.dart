@@ -26,6 +26,17 @@ class SharedDataManageService {
     return userID;
   }
 
+//<======================================== User Verification Status Functionality
+  Future<void> setUserVerification(String verificationStatus) async {
+    sharedBox.write('verificationStatus', verificationStatus);
+  }
+
+  Future<String?> getUserVerification() async {
+    String? verificationStatus = sharedBox.read('verificationStatus') ?? "";
+
+    return verificationStatus;
+  }
+
   //<======================================== Menu Token Functionality
   Future<void> setMenuToken(String menuToken) async {
     sharedBox.write('menuToken', menuToken);
@@ -40,6 +51,7 @@ class SharedDataManageService {
   Future<void> clearTokenUserID() async {
     sharedBox.remove('token');
     sharedBox.remove('userID');
+    sharedBox.remove('verificationStatus');
 
     debugPrint("Token and UserID removed");
   }

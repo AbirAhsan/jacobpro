@@ -97,6 +97,9 @@ class DashBoardScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: GetBuilder<ProfileController>(
                     init: ProfileController(),
+                    initState: (state) {
+                      Get.put(ProfileController()).fetchMyProfileDetails();
+                    },
                     builder: (profileCtrl) {
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,12 +120,27 @@ class DashBoardScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Abir Ahsan".toUpperCase(),
+                                    "${profileCtrl.myProfileDetails.value!.profileGeneralData?.userFirstName ?? ""} ${profileCtrl.myProfileDetails.value!.profileGeneralData?.userLastName ?? ""}"
+                                        .toUpperCase(),
                                     style:
                                         CustomTextStyle.mediumRegularStyleBlack,
                                   ),
                                   Text(
-                                    "Permanent Staff",
+                                    profileCtrl
+                                                .myProfileDetails
+                                                .value!
+                                                .profileGeneralData
+                                                ?.workingMode ==
+                                            1
+                                        ? "Freelance Staff"
+                                        : profileCtrl
+                                                    .myProfileDetails
+                                                    .value!
+                                                    .profileGeneralData
+                                                    ?.workingMode ==
+                                                2
+                                            ? "Permanent Staff"
+                                            : "",
                                     style:
                                         CustomTextStyle.normalRegularStyleGrey,
                                   ),
