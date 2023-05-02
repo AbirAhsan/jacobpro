@@ -24,6 +24,7 @@ class RejectedJobView extends StatelessWidget {
                 padding: const EdgeInsets.all(15.0),
                 itemBuilder: (BuildContext buildContext, index) {
                   return JobCardWidget(
+                    showInspection: false,
                     jobdetails: jobCtrl.rejectedJobList[index],
                   );
                 }),

@@ -25,6 +25,7 @@ class CompletedJobView extends StatelessWidget {
                 itemBuilder: (BuildContext buildContext, index) {
                   return JobCardWidget(
                     hasDetailButton: true,
+                    showInspection: false,
                     jobdetails: jobCtrl.completedJobList[index],
                   );
                 }),

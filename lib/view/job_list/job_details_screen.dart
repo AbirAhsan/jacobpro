@@ -807,40 +807,42 @@ class JobDetailsScreen extends StatelessWidget {
 
                                                                                   CustomDialogShow.showInformation(
                                                                                       title: "Payment Information",
-                                                                                      contents: paymentCtrl.paymentInvoiceList.map((invoice) {
-                                                                                        return Card(
-                                                                                          margin: const EdgeInsets.only(bottom: 10),
-                                                                                          child: Padding(
-                                                                                            padding: const EdgeInsets.only(top: 5, bottom: 5),
-                                                                                            child: Row(
-                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                              children: [
-                                                                                                Flexible(
-                                                                                                  flex: 3,
-                                                                                                  child: Column(
+                                                                                      contents: paymentCtrl.paymentInvoiceList.isNotEmpty
+                                                                                          ? paymentCtrl.paymentInvoiceList.map((invoice) {
+                                                                                              return Card(
+                                                                                                margin: const EdgeInsets.only(bottom: 10),
+                                                                                                child: Padding(
+                                                                                                  padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                                                                                  child: Row(
                                                                                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                                                     children: [
-                                                                                                      Text(invoice.paymentSystemNo ?? "", style: CustomTextStyle.normalBoldStyleDarkGrey),
-                                                                                                      Text("${DateFormat.yMEd('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))} at ${DateFormat.jms('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))}", style: CustomTextStyle.normalRegularStyleGrey),
+                                                                                                      Flexible(
+                                                                                                        flex: 3,
+                                                                                                        child: Column(
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                          children: [
+                                                                                                            Text(invoice.paymentSystemNo ?? "", style: CustomTextStyle.normalBoldStyleDarkGrey),
+                                                                                                            Text("${DateFormat.yMEd('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))} at ${DateFormat.jms('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))}", style: CustomTextStyle.normalRegularStyleGrey),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      Flexible(
+                                                                                                        flex: 1,
+                                                                                                        child: Column(
+                                                                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                                          children: [
+                                                                                                            Text("\$${invoice.paymentAmount}", style: CustomTextStyle.normalBoldStyleDarkGrey),
+                                                                                                            Text(invoice.paymentMethodName ?? "", style: CustomTextStyle.normalRegularStyleGrey),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
                                                                                                     ],
                                                                                                   ),
                                                                                                 ),
-                                                                                                Flexible(
-                                                                                                  flex: 1,
-                                                                                                  child: Column(
-                                                                                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                                                                                    children: [
-                                                                                                      Text("\$${invoice.paymentAmount}", style: CustomTextStyle.normalBoldStyleDarkGrey),
-                                                                                                      Text(invoice.paymentMethodName ?? "", style: CustomTextStyle.normalRegularStyleGrey),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ],
-                                                                                            ),
-                                                                                          ),
-                                                                                        );
-                                                                                      }).toList(),
+                                                                                              );
+                                                                                            }).toList()
+                                                                                          : [Text("No payment done for this job yet!")],
                                                                                       okayButtonName: "Close",
                                                                                       btnOkOnPress: () {
                                                                                         PageNavigationService.backScreen();

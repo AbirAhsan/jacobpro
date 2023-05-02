@@ -15,13 +15,15 @@ class JobCardWidget extends StatelessWidget {
   final bool hasDetailButton;
   final bool hasRejectButton;
   final bool hasAcceptButton;
+  final bool showInspection;
   final JobGridDetailsModel? jobdetails;
   const JobCardWidget(
       {super.key,
       this.jobdetails,
       this.hasDetailButton = false,
       this.hasRejectButton = false,
-      this.hasAcceptButton = false});
+      this.hasAcceptButton = false,
+      this.showInspection = true});
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +56,22 @@ class JobCardWidget extends StatelessWidget {
                           "5 miles",
                           style: CustomTextStyle.normalBoldStyleDarkGrey,
                         )),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        padding: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(
-                          color: CustomColors.black,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
+                    Visibility(
+                      visible: showInspection,
+                      child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
+                            color: CustomColors.black,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          "inspection",
-                          style: CustomTextStyle.normalBoldStyleWhite,
-                        )),
+                          child: const Text(
+                            "inspection",
+                            style: CustomTextStyle.normalBoldStyleWhite,
+                          )),
+                    ),
                   ],
                 ),
               ],
