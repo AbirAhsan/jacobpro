@@ -90,11 +90,91 @@ class JobApiService {
     }
   }
 
+  //<======================== Get Ongoing Job List
+  Future<List<JobGridDetailsModel?>> getOngoingJobList() async {
+    String? token = await SharedDataManageService().getToken();
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/3?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    MultipartRequest request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    StreamedResponse streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
+
+    Response respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = json.decode(jsonResponse);
+
+      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
+          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
+          .toList();
+      print("ONgoing $mapdatalist");
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
   //<======================== Get Rejected Job List
   Future<List<JobGridDetailsModel?>> getMyRejectedJobList() async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
         "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/2?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    MultipartRequest request = http.MultipartRequest('GET', url);
+
+    request.headers.addAll(headers);
+
+    StreamedResponse streamedResponse = await request
+        .send()
+        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
+
+    Response respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200) {
+      var jsonResponse = respStr.body;
+      var decoded = json.decode(jsonResponse);
+
+      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
+          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
+          .toList();
+
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<======================== Get Completed Job List
+  Future<List<JobGridDetailsModel?>> getCompletedJobList() async {
+    String? token = await SharedDataManageService().getToken();
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/4?format=app");
 
     var headers = {
       'Accept': 'application/json',

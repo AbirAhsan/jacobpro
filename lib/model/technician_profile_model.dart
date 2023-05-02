@@ -53,7 +53,7 @@ class TechnicianProfileModel {
 }
 
 class ProfileGeneralData {
-  int? userSystemId;
+  int? technicianId;
   String? userFirstName;
   String? userLastName;
   String? userAddress;
@@ -61,19 +61,21 @@ class ProfileGeneralData {
   String? userMail;
   int? userVerificationStatus;
   int? workingMode;
+  String? userImgRef;
 
   ProfileGeneralData(
-      {this.userSystemId,
+      {this.technicianId,
       this.userFirstName,
       this.userLastName,
       this.userAddress,
       this.userContactNo,
       this.userMail,
       this.userVerificationStatus,
-      this.workingMode});
+      this.workingMode,
+      userImgRef});
 
   ProfileGeneralData.fromJson(Map<String, dynamic> json) {
-    userSystemId = json['userSystemId'];
+    technicianId = json['technicianId'];
     userFirstName = json['userFirstName'];
     userLastName = json['userLastName'];
     userAddress = json['userAddress'];
@@ -81,17 +83,20 @@ class ProfileGeneralData {
     userMail = json['userMail'];
     userVerificationStatus = json['userVerificationStatus'] ?? 0;
     workingMode = json['workingMode'];
+    userImgRef = "${AppConfig.imageBaseUrl}${json['userImgRef']}";
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['userSystemId'] = userSystemId;
+    data['technicianId'] = technicianId;
     data['userFirstName'] = userFirstName;
     data['userLastName'] = userLastName;
     data['userAddress'] = userAddress;
     data['userContactNo'] = userContactNo;
     data['userMail'] = userMail;
+    data['userVerificationStatus'] = userVerificationStatus;
     data['workingMode'] = workingMode;
+    data['userImgRef'] = userImgRef;
     return data;
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
 import 'package:service/controller/screen_controller.dart';
 
+import '../../../services/image_picker_service.dart';
 import '../../variables/text_style.dart';
 import '../../widgets/custom_company_button.dart';
 import '../../widgets/custom_text_field.dart';
@@ -33,10 +35,18 @@ class ContactDetailsView extends StatelessWidget {
                     Align(
                         alignment: Alignment.topCenter,
                         child: ProfileImageWidget(
-                          imageUrl: "",
+                          imageUrl: profileCtrl.myProfileDetails.value!
+                                  .profileGeneralData?.userImgRef ??
+                              "",
                           radius: 36,
                           isEditable: true,
-                          onEdit: () {},
+                          onEdit: () async {
+                            await ImagePickService()
+                                .getSingleImage(ImageSource.gallery)
+                                .then((imagePath) {
+                              profileCtrl.uploadUserFile(imagePath, 100);
+                            });
+                          },
                         )),
                     const SizedBox(
                       height: 20,

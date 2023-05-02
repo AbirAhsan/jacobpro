@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service/model/technician_profile_model.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
@@ -72,15 +71,22 @@ class EmployeeDetailsView extends StatelessWidget {
                           value: profileCtrl.selectedSKillId,
                           items: profileCtrl.skills?.map((skill) {
                                 return DropdownMenuItem<int?>(
+                                    onTap: () {
+                                      profileCtrl.selectedSkillList!.clear();
+                                      profileCtrl.selectedSkillList!.add(skill);
+                                    },
                                     value: skill!.skillId,
                                     child: Text(skill.skillName!));
                               }).toList() ??
                               [],
                           onChanged: (value) async {
+                            profileCtrl.selectedSkillIDList!.clear();
                             profileCtrl.selectedSKillId = value;
+                            profileCtrl.selectedSkillIDList!.add(value as int);
                             profileCtrl.myProfileDetails.value!.profileSkillData
                                 ?.profileSkillIdList!
                                 .add(value);
+                            print(profileCtrl.selectedSkillIDList);
                             profileCtrl.update();
                           })
                       : Container(
@@ -134,10 +140,8 @@ class EmployeeDetailsView extends StatelessWidget {
                                             .normalBoldStyleBlack,
                                         deleteIconColor: CustomColors.primary,
                                         deleteIcon: const Icon(Icons.add),
-                                        onDeleted: () {
-                                          profileCtrl
-                                              .selectSkill(skill.skillId);
-                                        }),
+                                        onDeleted: () => profileCtrl
+                                            .selectSkill(skill.skillId)),
                                   );
                                 }).toList() ??
                                 [],

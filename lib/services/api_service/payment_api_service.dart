@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import '../../app_config.dart';
 import '../../model/job_payment_summery_model.dart';
+import '../../model/payment_invoice_model.dart';
 import '../shared_data_manage_service.dart';
 
 class PaymentApiService {
@@ -265,6 +266,41 @@ class PaymentApiService {
     if (respStr.statusCode == 200) {
       List<CardData> mapdatalist = response['dataObj']
           .map<CardData>((b) => CardData.fromJson(b))
+          .toList();
+      // print(mapdatalist);
+      return mapdatalist;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=========== Get Payment Invoice List
+  Future<List<PaymentInvoiceModel>> getPaymentInvoiceList(
+      int? jobSystemId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Job/GetJobPaymentSummery/$jobSystemId/X?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('GET', url);
+    print(url);
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      List<PaymentInvoiceModel> mapdatalist = response['dataObj']['jobPayments']
+          .map<PaymentInvoiceModel>((b) => PaymentInvoiceModel.fromJson(b))
           .toList();
       // print(mapdatalist);
       return mapdatalist;

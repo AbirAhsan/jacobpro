@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:service/model/job_payment_summery_model.dart';
 import 'package:service/model/payment_model.dart';
 import 'package:service/services/api_service/payment_api_service.dart';
+import 'package:service/services/page_navigation_service.dart';
 
+import '../model/payment_invoice_model.dart';
 import '../services/api_service/address_api_services.dart';
 import '../services/custom_dialog_class.dart';
 import '../services/custom_eassy_loading.dart';
@@ -33,6 +35,8 @@ class PaymentController extends GetxController {
   TextEditingController? cardStateCtrl = TextEditingController();
   List suggestedAddressList = List.empty(growable: true);
   List<CardData> savedCardList = List<CardData>.empty(growable: true);
+  List<PaymentInvoiceModel> paymentInvoiceList =
+      List<PaymentInvoiceModel>.empty(growable: true);
   Rx<JobPaymentSummeryModel?> jobPaymentSummery = JobPaymentSummeryModel().obs;
   final debouncer = Debouncer(milliseconds: 1000);
   double? addressLat;
@@ -82,7 +86,13 @@ class PaymentController extends GetxController {
           .then((resp) async {
         CustomEassyLoading.stopLoading();
         CustomDialogShow.showSuccessDialog(
-            okayButtonName: "Home", btnOkOnPress: () {});
+            title: "Payment Added!",
+            description: "You've successfully added a payment for this job.",
+            okayButtonName: "DONE",
+            btnOkOnPress: () {
+              PageNavigationService.backScreen();
+              PageNavigationService.backScreen();
+            });
         update();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
@@ -107,7 +117,13 @@ class PaymentController extends GetxController {
           (resp) async {
         CustomEassyLoading.stopLoading();
         CustomDialogShow.showSuccessDialog(
-            okayButtonName: "Home", btnOkOnPress: () {});
+            title: "Payment Added!",
+            description: "You've successfully added a payment for this job.",
+            okayButtonName: "DONE",
+            btnOkOnPress: () {
+              PageNavigationService.backScreen();
+              PageNavigationService.backScreen();
+            });
         update();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
@@ -135,7 +151,13 @@ class PaymentController extends GetxController {
         CustomEassyLoading.stopLoading();
         if (resp) {
           CustomDialogShow.showSuccessDialog(
-              okayButtonName: "Home", btnOkOnPress: () {});
+              title: "Payment Added!",
+              description: "You've successfully added a payment for this job.",
+              okayButtonName: "DONE",
+              btnOkOnPress: () {
+                PageNavigationService.backScreen();
+                PageNavigationService.backScreen();
+              });
         }
         update();
       }, onError: (err) {
@@ -155,11 +177,19 @@ class PaymentController extends GetxController {
   Future<void> submitOtherPayment(String? jobUuid) async {
     try {
       CustomEassyLoading.startLoading();
-
+      CustomEassyLoading.stopLoading();
       await PaymentApiService()
           .submitOtherPayment(paymentDetails, jobUuid)
           .then((resp) async {
-        CustomEassyLoading.stopLoading();
+        CustomDialogShow.showSuccessDialog(
+            title: "Payment Added!",
+            description: "You've successfully added a payment for this job.",
+            okayButtonName: "DONE",
+            btnOkOnPress: () {
+              PageNavigationService.backScreen();
+              PageNavigationService.backScreen();
+            });
+
         update();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
@@ -308,5 +338,33 @@ class PaymentController extends GetxController {
       CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+  }
+
+  //<======================= Fetch  Payment invoice List
+  Future<void> getPaymentinvoiceList(int? jobSystemId) async {
+    paymentInvoiceList.clear();
+    try {
+      CustomEassyLoading.startLoading();
+
+      await PaymentApiService().getPaymentInvoiceList(jobSystemId).then(
+          (resp) async {
+        print("length is ${resp.length}");
+        paymentInvoiceList.addAll(resp);
+        print("length is ${paymentInvoiceList.length}");
+        CustomEassyLoading.stopLoading();
+        update();
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+        update();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+    update();
   }
 }

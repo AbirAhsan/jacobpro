@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/view/job_list/views/completed_joblist_view.dart';
+import 'package:service/view/job_list/views/ongoing_joblist_view.dart';
 import 'package:service/view/job_list/views/rejected_joblist_view.dart';
 
 import '../../controller/job_controller.dart';
@@ -104,13 +106,22 @@ class JobListScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 2
-                                    ? CustomColors.white
-                                    : CustomColors.white,
+                                color: screenCtrl.jobListCurrentIndex == 2 &&
+                                        jobCtrl.jobCount.any((element) =>
+                                            element['statusId'] == 31)
+                                    ? CustomColors.primary
+                                    : screenCtrl.jobListCurrentIndex != 2 &&
+                                            jobCtrl.jobCount.any((element) =>
+                                                element['statusId'] == 31)
+                                        ? CustomColors.grey
+                                        : CustomColors.white,
                               ),
                               alignment: Alignment.center,
-                              child: const Text(
-                                '',
+                              child: Text(
+                                jobCtrl.jobCount.any(
+                                        (element) => element['statusId'] == 31)
+                                    ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 31)['noOfJob']}'
+                                    : "",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -121,13 +132,22 @@ class JobListScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 3
-                                    ? CustomColors.white
-                                    : CustomColors.white,
+                                color: screenCtrl.jobListCurrentIndex == 3 &&
+                                        jobCtrl.jobCount.any((element) =>
+                                            element['statusId'] == 3)
+                                    ? CustomColors.primary
+                                    : screenCtrl.jobListCurrentIndex != 3 &&
+                                            jobCtrl.jobCount.any((element) =>
+                                                element['statusId'] == 3)
+                                        ? CustomColors.grey
+                                        : CustomColors.white,
                               ),
                               alignment: Alignment.center,
-                              child: const Text(
-                                '',
+                              child: Text(
+                                jobCtrl.jobCount.any(
+                                        (element) => element['statusId'] == 3)
+                                    ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 3)['noOfJob']}'
+                                    : "",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -138,13 +158,22 @@ class JobListScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 4
-                                    ? CustomColors.white
-                                    : CustomColors.white,
+                                color: screenCtrl.jobListCurrentIndex == 4 &&
+                                        jobCtrl.jobCount.any((element) =>
+                                            element['statusId'] == 4)
+                                    ? CustomColors.primary
+                                    : screenCtrl.jobListCurrentIndex != 4 &&
+                                            jobCtrl.jobCount.any((element) =>
+                                                element['statusId'] == 4)
+                                        ? CustomColors.grey
+                                        : CustomColors.white,
                               ),
                               alignment: Alignment.center,
-                              child: const Text(
-                                '2',
+                              child: Text(
+                                jobCtrl.jobCount.any(
+                                        (element) => element['statusId'] == 4)
+                                    ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 4)['noOfJob']}'
+                                    : "",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -192,8 +221,8 @@ class JobListScreen extends StatelessWidget {
                 PendingJobView(),
                 AssignedJobView(),
                 AssignedJobView(),
-                AssignedJobView(),
-                AssignedJobView(),
+                OngoingJobView(),
+                CompletedJobView(),
                 RejectedJobView(),
               ],
             );

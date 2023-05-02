@@ -1,11 +1,11 @@
 import 'package:url_launcher/url_launcher.dart';
 
-class UrlLauncherServie {
-  UrlLauncherServie._();
+class UrlLauncherService {
+  UrlLauncherService._();
   //<============================== Launch Url
-  static Future<void> launchUrl(String? url) async {
+  static Future<void> urlLaunch(String? url) async {
     if (await canLaunchUrl(Uri.parse(url!))) {
-      await launchUrl(url);
+      await launchUrl(Uri.parse(url));
     } else {
       throw "Could not launch $url";
     }
@@ -14,19 +14,18 @@ class UrlLauncherServie {
   //<============================== Make Phone call
   static Future<void> openDialer(String phoneNumber) async {
     Uri callUrl = Uri.parse('tel:=$phoneNumber');
-    print(callUrl);
     if (await canLaunchUrl(callUrl)) {
-      await launchUrl(callUrl.toString());
+      await launchUrl(callUrl);
     } else {
       throw 'Could not open the dialler.';
     }
   }
 
-  //<============================== Launch Mail
+  //<=============================== Launch Mail
   static Future<void> launchEmail(String email) async {
     Uri mailUrl = Uri.parse('mailto:$email');
     if (await canLaunchUrl(mailUrl)) {
-      await launchUrl("$mailUrl");
+      await launchUrl(mailUrl);
     } else {
       throw 'Could not launch';
     }
@@ -36,7 +35,7 @@ class UrlLauncherServie {
   static Future<void> launchMessage(String phoneNumber) async {
     Uri sms = Uri.parse('sms:$phoneNumber?body=');
     if (await canLaunchUrl(sms)) {
-      await launchUrl("$sms");
+      await launchUrl(sms);
     } else {
       throw 'Could not launch';
     }

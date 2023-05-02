@@ -27,7 +27,9 @@ class RegistrationOtpVerification extends StatelessWidget {
       body: GetBuilder<AuthController>(
           init: AuthController(),
           initState: (state) {
-            Get.put(AuthController()).startTimer();
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Get.put(AuthController()).startTimer();
+            });
           },
           builder: (authCtrl) {
             return ListView(

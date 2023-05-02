@@ -158,6 +158,8 @@ class JobPriceCalculationDto {
   String? jobBillAmountBeforeAdjustment;
   String? jobBillAdjustmentAmount;
   String? jobFinalBillAmount;
+  String? jobTotalPaidAmount;
+  String? jobTotalRemainAmount;
 
   JobPriceCalculationDto(
       {this.jobCalculatedBillAmount,
@@ -169,7 +171,9 @@ class JobPriceCalculationDto {
       this.jobTaxAmount,
       this.jobBillAmountBeforeAdjustment,
       this.jobBillAdjustmentAmount,
-      this.jobFinalBillAmount});
+      this.jobFinalBillAmount,
+      this.jobTotalPaidAmount,
+      this.jobTotalRemainAmount});
 
   JobPriceCalculationDto.fromJson(Map<String, dynamic> json) {
     jobCalculatedBillAmount = json['jobCalculatedBillAmount'].toString();
@@ -183,6 +187,8 @@ class JobPriceCalculationDto {
         json['jobBillAmountBeforeAdjustment'].toString();
     jobBillAdjustmentAmount = json['jobBillAdjustmentAmount'].toString();
     jobFinalBillAmount = json['jobFinalBillAmount'].toString();
+    jobTotalPaidAmount = json['jobTotalPaidAmount'].toString();
+    jobTotalRemainAmount = json['jobTotalRemainAmount'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -197,6 +203,8 @@ class JobPriceCalculationDto {
     data['jobBillAmountBeforeAdjustment'] = jobBillAmountBeforeAdjustment;
     data['jobBillAdjustmentAmount'] = jobBillAdjustmentAmount;
     data['jobFinalBillAmount'] = jobFinalBillAmount;
+    data['jobTotalPaidAmount'] = jobTotalPaidAmount;
+    data['jobTotalRemainAmount'] = jobTotalRemainAmount;
     return data;
   }
 }

@@ -29,7 +29,7 @@ class PaymentScreen extends StatelessWidget {
           initState: (state) {
             Get.put(PaymentController()).initializeTextCtrlData(
                 jobReport!.customerEmail,
-                jobReport.jobPriceCalculationDto!.jobFinalBillAmount);
+                jobReport.jobPriceCalculationDto!.jobTotalRemainAmount);
             Get.put(PaymentController()).fetchSavedCardList(
               jobReport.customerId,
             );
@@ -55,6 +55,11 @@ class PaymentScreen extends StatelessWidget {
                           marginLeft: 5,
                           controller: paymentCtrl.amountTxtCtrl,
                           labelText: "Amount",
+                          onChanged: (amount) {
+                            paymentCtrl.paymentDetails.paymentAmount = amount;
+                            paymentCtrl.update();
+                            print(paymentCtrl.paymentDetails.paymentAmount);
+                          },
                         ),
                       ),
                     ],

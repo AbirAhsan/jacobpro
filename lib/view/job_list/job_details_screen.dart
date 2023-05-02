@@ -162,7 +162,7 @@ class JobDetailsScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                         Align(
@@ -394,7 +394,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                         default:
                                                           return Column(
                                                             children: [
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                 height: 25,
                                                               ),
                                                               Row(
@@ -729,80 +729,132 @@ class JobDetailsScreen extends StatelessWidget {
                                                               ),
 
                                                               //<============ Pay system
-                                                              Visibility(
-                                                                visible: snapshot
-                                                                        .data!
-                                                                        .firstWhereOrNull(
-                                                                          (element) =>
-                                                                              element?.lifecycleStatusName ==
-                                                                              "Finished",
-                                                                        )
-                                                                        ?.jobOccuranceStatus ==
-                                                                    1,
-                                                                child: GetBuilder<
-                                                                        PaymentController>(
-                                                                    init:
-                                                                        PaymentController(),
-                                                                    builder:
-                                                                        (paymentCtrl) {
-                                                                      return SizedBox(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        child:
-                                                                            CustomCompanyButton(
-                                                                          topMargin:
-                                                                              30,
-                                                                          leftMargin:
-                                                                              30,
-                                                                          rightMargin:
-                                                                              30,
-                                                                          buttonName:
-                                                                              "MAKE PAYMENT",
-                                                                          isFitted:
-                                                                              false,
-                                                                          onPressed: double.parse(paymentCtrl.jobPaymentSummery.value!.jobTotalRemainAmount!) > 0
-                                                                              ? () => showCupertinoModalPopup(
-                                                                                  barrierDismissible: false,
-                                                                                  context: context,
-                                                                                  builder: (BuildContext context) {
-                                                                                    return MyCupertinoBottomSheet(
-                                                                                        title: Text(
-                                                                                          "Pay for inspection",
-                                                                                          style: CustomTextStyle.titleRegularStyleDarkGrey,
-                                                                                        ),
-                                                                                        confirmButtonName: "CONTINUE",
-                                                                                        onConfirm: () {
-                                                                                          //<========== Show bottom modal for payment
-                                                                                          PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobReportDetails);
-                                                                                        },
-                                                                                        onCancel: () {
-                                                                                          PageNavigationService.backScreen();
-                                                                                        },
-                                                                                        child: Column(
-                                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                          children: [
-                                                                                            Padding(
-                                                                                              padding: const EdgeInsets.all(8.0),
-                                                                                              child: Image.asset(
-                                                                                                CustomIcons.card,
-                                                                                                width: double.infinity,
+                                                              GetBuilder<
+                                                                      PaymentController>(
+                                                                  init:
+                                                                      PaymentController(),
+                                                                  builder:
+                                                                      (paymentCtrl) {
+                                                                    return Visibility(
+                                                                      visible: snapshot
+                                                                              .data!
+                                                                              .firstWhereOrNull(
+                                                                                (element) => element?.lifecycleStatusName == "Finished",
+                                                                              )
+                                                                              ?.jobOccuranceStatus ==
+                                                                          1,
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Flexible(
+                                                                            child:
+                                                                                SizedBox(
+                                                                              width: double.infinity,
+                                                                              child: CustomCompanyButton(
+                                                                                topMargin: 30,
+                                                                                leftMargin: 30,
+                                                                                rightMargin: 30,
+                                                                                buttonName: "MAKE PAYMENT",
+                                                                                isFitted: false,
+                                                                                onPressed: double.parse(paymentCtrl.jobPaymentSummery.value!.jobTotalRemainAmount ?? "0") > 0
+                                                                                    ? () => showCupertinoModalPopup(
+                                                                                        barrierDismissible: false,
+                                                                                        context: context,
+                                                                                        builder: (BuildContext context) {
+                                                                                          return MyCupertinoBottomSheet(
+                                                                                              title: Text(
+                                                                                                "Pay for inspection",
+                                                                                                style: CustomTextStyle.titleRegularStyleDarkGrey,
                                                                                               ),
+                                                                                              confirmButtonName: "CONTINUE",
+                                                                                              onConfirm: () {
+                                                                                                //<========== Show bottom modal for payment
+                                                                                                PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobReportDetails);
+                                                                                              },
+                                                                                              onCancel: () {
+                                                                                                PageNavigationService.backScreen();
+                                                                                              },
+                                                                                              child: Column(
+                                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                children: [
+                                                                                                  Padding(
+                                                                                                    padding: const EdgeInsets.all(8.0),
+                                                                                                    child: Image.asset(
+                                                                                                      CustomIcons.card,
+                                                                                                      width: double.infinity,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Text(
+                                                                                                    "Please choose the payment option for your inspection",
+                                                                                                    style: CustomTextStyle.normalBoldStyleBlack,
+                                                                                                  )
+                                                                                                ],
+                                                                                              ));
+                                                                                        })
+                                                                                    : () => CustomDialogShow.showInfoDialog(title: "No payment can be done!", description: "Payment is already done for this job. You can't add more payment.", okayButtonName: "OKAY", btnOkOnPress: () => PageNavigationService.backScreen()),
+                                                                                fizedSize: const Size(double.infinity, 40),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:
+                                                                                const EdgeInsets.only(top: 30.0),
+                                                                            child: IconButton(
+                                                                                onPressed: () async {
+                                                                                  await paymentCtrl.getPaymentinvoiceList(jobGridDetails!.jobSystemId);
+
+                                                                                  CustomDialogShow.showInformation(
+                                                                                      title: "Payment Information",
+                                                                                      contents: paymentCtrl.paymentInvoiceList.map((invoice) {
+                                                                                        return Card(
+                                                                                          margin: const EdgeInsets.only(bottom: 10),
+                                                                                          child: Padding(
+                                                                                            padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                                                                            child: Row(
+                                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                              children: [
+                                                                                                Flexible(
+                                                                                                  flex: 3,
+                                                                                                  child: Column(
+                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                    children: [
+                                                                                                      Text(invoice.paymentSystemNo ?? "", style: CustomTextStyle.normalBoldStyleDarkGrey),
+                                                                                                      Text("${DateFormat.yMEd('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))} at ${DateFormat.jms('en').format(DateTime.parse(invoice.paymentDatetime ?? ""))}", style: CustomTextStyle.normalRegularStyleGrey),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Flexible(
+                                                                                                  flex: 1,
+                                                                                                  child: Column(
+                                                                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                                                                    children: [
+                                                                                                      Text("\$${invoice.paymentAmount}", style: CustomTextStyle.normalBoldStyleDarkGrey),
+                                                                                                      Text(invoice.paymentMethodName ?? "", style: CustomTextStyle.normalRegularStyleGrey),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
                                                                                             ),
-                                                                                            Text(
-                                                                                              "Please choose the payment option for your inspection",
-                                                                                              style: CustomTextStyle.normalBoldStyleBlack,
-                                                                                            )
-                                                                                          ],
-                                                                                        ));
-                                                                                  })
-                                                                              : () => CustomDialogShow.showInfoDialog(title: "No payment can be done!", description: "Payment is already done for this job. You can't add more payment.", okayButtonName: "OKAY", btnOkOnPress: () => PageNavigationService.backScreen()),
-                                                                          fizedSize: Size(
-                                                                              double.infinity,
-                                                                              40),
-                                                                        ),
-                                                                      );
-                                                                    }),
-                                                              ),
+                                                                                          ),
+                                                                                        );
+                                                                                      }).toList(),
+                                                                                      okayButtonName: "Close",
+                                                                                      btnOkOnPress: () {
+                                                                                        PageNavigationService.backScreen();
+                                                                                      });
+                                                                                },
+                                                                                icon: const Icon(
+                                                                                  Icons.info_outline,
+                                                                                  size: 26,
+                                                                                )),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    );
+                                                                  }),
                                                             ],
                                                           );
                                                       }
@@ -882,10 +934,11 @@ class JobDetailsScreen extends StatelessWidget {
                                                       children: [
                                                         //call button
                                                         InkWell(
-                                                          onTap: () => UrlLauncherServie
-                                                              .openDialer(
-                                                                  jobReportDetails
-                                                                      .customerContactNo!),
+                                                          onTap: () =>
+                                                              UrlLauncherService
+                                                                  .openDialer(
+                                                                      jobReportDetails
+                                                                          .customerContactNo!),
                                                           child: Container(
                                                               height: 40,
                                                               width: 40,
@@ -910,7 +963,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                         ),
                                                         //message button
                                                         InkWell(
-                                                          onTap: () => UrlLauncherServie
+                                                          onTap: () => UrlLauncherService
                                                               .launchMessage(
                                                                   jobReportDetails
                                                                       .customerContactNo!),
@@ -1040,12 +1093,14 @@ class JobDetailsScreen extends StatelessWidget {
                                                             CustomColors.grey,
                                                       ),
                                                     ),
-                                                    Text(
-                                                      jobReportDetails
-                                                              .jobPrivateNote ??
-                                                          "",
-                                                      style: CustomTextStyle
-                                                          .normalRegularStyleDarkGrey,
+                                                    Expanded(
+                                                      child: Text(
+                                                        jobReportDetails
+                                                                .jobPrivateNote ??
+                                                            "",
+                                                        style: CustomTextStyle
+                                                            .normalRegularStyleDarkGrey,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

@@ -4,28 +4,28 @@ import 'package:service/controller/job_controller.dart';
 
 import '../job_card_widget.dart';
 
-class AssignedJobView extends StatelessWidget {
-  const AssignedJobView({super.key});
+class OngoingJobView extends StatelessWidget {
+  const OngoingJobView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<JobController>(
         init: JobController(),
         initState: (state) {
-          Get.put(JobController()).fetchAssignedJobList();
+          Get.put(JobController()).fetchOngoingJobList();
         },
         builder: (jobCtrl) {
           return RefreshIndicator(
             onRefresh: () async {
-              await jobCtrl.fetchAssignedJobList();
+              await jobCtrl.fetchOngoingJobList();
             },
             child: ListView.builder(
-                itemCount: jobCtrl.assignedJobList.length,
+                itemCount: jobCtrl.ongoingJobList.length,
                 padding: const EdgeInsets.all(15.0),
                 itemBuilder: (BuildContext buildContext, index) {
                   return JobCardWidget(
                     hasDetailButton: true,
-                    jobdetails: jobCtrl.assignedJobList[index],
+                    jobdetails: jobCtrl.ongoingJobList[index],
                   );
                 }),
           );

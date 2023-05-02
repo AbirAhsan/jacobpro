@@ -15,14 +15,19 @@ class RejectedJobView extends StatelessWidget {
           Get.put(JobController()).fetchRejectedJobList();
         },
         builder: (jobCtrl) {
-          return ListView.builder(
-              itemCount: jobCtrl.rejectedJobList.length,
-              padding: const EdgeInsets.all(15.0),
-              itemBuilder: (BuildContext buildContext, index) {
-                return JobCardWidget(
-                  jobdetails: jobCtrl.rejectedJobList[index],
-                );
-              });
+          return RefreshIndicator(
+            onRefresh: () async {
+              await jobCtrl.fetchRejectedJobList();
+            },
+            child: ListView.builder(
+                itemCount: jobCtrl.rejectedJobList.length,
+                padding: const EdgeInsets.all(15.0),
+                itemBuilder: (BuildContext buildContext, index) {
+                  return JobCardWidget(
+                    jobdetails: jobCtrl.rejectedJobList[index],
+                  );
+                }),
+          );
         });
   }
 }

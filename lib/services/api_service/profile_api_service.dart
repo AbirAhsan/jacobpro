@@ -93,7 +93,7 @@ class ProfileApiService {
 
     Uri url = Uri.parse(
         "${AppConfig.baseUrl}/Technician/UploadUserProfileDocument/$docType?mimeType=${lookupMimeType(imagePath!)}&app=format");
-
+    print(url);
     var headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -125,7 +125,10 @@ class ProfileApiService {
   }
 
   //<============================= Update Own Profile Details
-  static Future<bool> updateOwnProfile(TechnicianProfileModel? profileDetails,
+  static Future<bool> updateOwnProfile(
+      TechnicianProfileModel? profileDetails,
+      List<int>? profileSkillIdList,
+      String? profileOtherSkill,
       List<String?> profileDocExpiryDateList) async {
     String? token = await SharedDataManageService().getToken();
 
@@ -143,8 +146,8 @@ class ProfileApiService {
     request.body = json.encode({
       "profileGeneralData": profileDetails!.profileGeneralData,
       "profileEmergencyContactData": profileDetails.profileEmergencyContactData,
-      "profileSkillIdList": profileDetails.profileSkillData?.profileSkillIdList,
-      "profileOtherSkill": profileDetails.profileSkillData?.profileOtherSkill,
+      "profileSkillIdList": profileSkillIdList,
+      "profileOtherSkill": profileOtherSkill,
       "ProfileDocExpiryDateList": profileDocExpiryDateList
     });
 

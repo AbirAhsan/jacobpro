@@ -15,7 +15,11 @@ class JobController extends GetxController {
       List<JobGridDetailsModel?>.empty(growable: true).obs;
   RxList<JobGridDetailsModel?> assignedJobList =
       List<JobGridDetailsModel?>.empty(growable: true).obs;
+  RxList<JobGridDetailsModel?> ongoingJobList =
+      List<JobGridDetailsModel?>.empty(growable: true).obs;
   RxList<JobGridDetailsModel?> rejectedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true).obs;
+  RxList<JobGridDetailsModel?> completedJobList =
       List<JobGridDetailsModel?>.empty(growable: true).obs;
 
   Rx<Future<JobReportModel?>> jobReportFutureDetails =
@@ -81,11 +85,58 @@ class JobController extends GetxController {
   }
 
 //<=============== Fetch Assigned Job List
+  Future<void> fetchOngoingJobList() async {
+    print("working");
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().getOngoingJobList().then((resp) {
+        ongoingJobList.value = resp;
+
+        update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+//<=============== Fetch Assigned Job List
   Future<void> fetchRejectedJobList() async {
     try {
       CustomEassyLoading.startLoading();
       await JobApiService().getMyRejectedJobList().then((resp) {
         rejectedJobList.value = resp;
+
+        update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+  }
+
+//<=============== Fetch Completed Job List
+  Future<void> fetchCompletedJobList() async {
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().getCompletedJobList().then((resp) {
+        completedJobList.value = resp;
 
         update();
         CustomEassyLoading.stopLoading();

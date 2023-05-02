@@ -132,7 +132,10 @@ class ProfileController extends GetxController {
     try {
       CustomEassyLoading.startLoading();
 
-      await ProfileApiService.updateOwnProfile(myProfileDetails.value!, [
+      await ProfileApiService.updateOwnProfile(
+          myProfileDetails.value!,
+          selectedSkillList!.map((skill) => skill!.skillId!).toList(),
+          otherSkillTxtCtrl.text, [
         drivingLicenseExpiryTxtCtrl?.text ?? "",
         idCardExpiryTxtCtrl?.text ?? "",
         technicalLicenseExpiryTxtCtrl?.text ?? "",
@@ -171,6 +174,7 @@ class ProfileController extends GetxController {
         //   socialSecurityFrontImage = AppConfig.imageBaseUrl + resp!;
         // }
         await fetchMyProfileDetails();
+
         update();
 
         CustomEassyLoading.stopLoading();
@@ -215,6 +219,7 @@ class ProfileController extends GetxController {
   List<SkillSubCategoryData?>? skillSubCategories = [];
   List<SkillData?>? skills = [];
   List<SkillData?>? selectedSkillList = [];
+  List<int>? selectedSkillIDList = [];
 
   void getSkillSubCategories(int categoryId) {
     selectedSKillSubCategoryId = null;
@@ -248,15 +253,18 @@ class ProfileController extends GetxController {
 
   void selectSkill(int? id) {
     selectedSkillList!.add(skills!.firstWhere((skill) => skill!.skillId == id));
-
+    selectedSkillIDList!.add(id!);
     skills!.removeWhere((skill) => skill!.skillId == id);
-    if (!myProfileDetails.value!.profileSkillData!.profileSkillIdList!
-        .contains(id)) {
-      myProfileDetails.value!.profileSkillData?.profileSkillIdList!.add(id!);
+    if (myProfileDetails.value!.profileSkillData != null) {
+      if (!myProfileDetails.value!.profileSkillData!.profileSkillIdList!
+          .contains(id)) {
+        myProfileDetails.value!.profileSkillData!.profileSkillIdList!.add(id);
+      }
     }
 
-    print(myProfileDetails.value!.profileSkillData?.profileSkillIdList);
     update();
+
+    print(myProfileDetails.value!.profileSkillData?.profileSkillIdList);
   }
 
   void setselectedSkills(List<int?> ids) {
@@ -314,9 +322,12 @@ class ProfileController extends GetxController {
 
   void removeSkill(int? id) {
     skills!.add(selectedSkillList!.firstWhere((skill) => skill!.skillId == id));
+
     selectedSkillList!.removeWhere((skill) => skill!.skillId == id);
-    myProfileDetails.value!.profileSkillData!.profileSkillIdList!.remove(id!);
-    print(myProfileDetails.value!.profileSkillData!.profileSkillIdList);
+    selectedSkillIDList!.remove(id);
+    myProfileDetails.value!.profileSkillData?.profileSkillIdList?.remove(id!);
+    print("Object $id");
+
     update();
   }
 }
