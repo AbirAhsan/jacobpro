@@ -17,7 +17,7 @@ class EmployeeDetailsView extends StatelessWidget {
     return GetBuilder<ProfileController>(
         init: ProfileController(),
         initState: (state) {
-          Get.put(ProfileController()).fetchMyProfileSkills();
+          Get.put(ProfileController()).fetchMyProfileDetails();
         },
         builder: (profileCtrl) {
           return SingleChildScrollView(

@@ -32,7 +32,7 @@ class ProfileApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
     print(respStr.statusCode);
     var response = jsonDecode(respStr.body);
-
+    print("Print Profile details is $response");
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
 
@@ -71,7 +71,7 @@ class ProfileApiService {
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = jsonDecode(jsonResponse);
-
+      print(decoded);
       List<SkillDataModel?> mapdatalist = decoded['dataObj']
           .map<SkillDataModel?>((b) => SkillDataModel.fromJson(b))
           .toList();
@@ -146,7 +146,8 @@ class ProfileApiService {
     request.body = json.encode({
       "profileGeneralData": profileDetails!.profileGeneralData,
       "profileEmergencyContactData": profileDetails.profileEmergencyContactData,
-      "profileSkillIdList": profileSkillIdList,
+      "profileSkillIdList":
+          profileSkillIdList!.isNotEmpty ? profileSkillIdList : null,
       "profileOtherSkill": profileOtherSkill,
       "ProfileDocExpiryDateList": profileDocExpiryDateList
     });
@@ -154,7 +155,7 @@ class ProfileApiService {
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
-    print(request.body);
+    print("Request is ${request.body}");
     var response = json.decode(respStr.body);
     print(response);
     if (respStr.statusCode == 200 && response['statusCode'] == 200) {

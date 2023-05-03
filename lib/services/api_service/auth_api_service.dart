@@ -58,7 +58,10 @@ class AuthApiService {
       request.headers.addAll(headers);
       var streamedResponse = await request.send();
       var respStr = await http.Response.fromStream(streamedResponse);
-      Map response = jsonDecode(respStr.body);
+      print(url);
+      print(respStr.statusCode);
+      print(respStr.body);
+      var response = jsonDecode(respStr.body);
 
       if (respStr.statusCode == 200) {
         debugPrint(response.toString());

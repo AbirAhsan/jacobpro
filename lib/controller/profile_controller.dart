@@ -54,7 +54,7 @@ class ProfileController extends GetxController {
         myProfileDetails.value = resp;
         await SharedDataManageService().setUserVerification(
             resp.profileGeneralData!.userVerificationStatus.toString());
-
+        print("Skill is ${resp}");
         update();
         assignPersonalContact(
             myProfileDetails.value!.profileGeneralData?.userFirstName,
@@ -95,8 +95,10 @@ class ProfileController extends GetxController {
 
         update();
         //At first set saved category  ID
+
         selectedSkillCategoryId =
             myProfileDetails.value!.profileSkillData?.profileSkillCategoryId;
+
         //2nd  Get SubCategory list based on category ID
         getSkillSubCategories(
             myProfileDetails.value!.profileSkillData!.profileSkillCategoryId!);
@@ -134,12 +136,15 @@ class ProfileController extends GetxController {
 
       await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
-          selectedSkillList!.map((skill) => skill!.skillId!).toList(),
-          otherSkillTxtCtrl.text, [
-        drivingLicenseExpiryTxtCtrl?.text ?? "",
-        idCardExpiryTxtCtrl?.text ?? "",
-        technicalLicenseExpiryTxtCtrl?.text ?? "",
-      ]).then((resp) async {
+          selectedSkillList != null
+              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+          otherSkillTxtCtrl.text,
+          [
+            drivingLicenseExpiryTxtCtrl?.text ?? "",
+            idCardExpiryTxtCtrl?.text ?? "",
+            technicalLicenseExpiryTxtCtrl?.text ?? "",
+          ]).then((resp) async {
         await fetchMyProfileDetails();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);

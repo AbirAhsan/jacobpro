@@ -73,12 +73,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 11);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 11);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 11);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -113,12 +147,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 12);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 12);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 12);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -180,12 +248,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 13);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 13);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 13);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -220,12 +322,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 14);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: const Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 14);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: const Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 14);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -288,12 +424,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 15);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 15);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 15);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -354,12 +524,46 @@ class DocumentDetailsView extends StatelessWidget {
                                   ),
                                   child: IconButton(
                                       onPressed: () {
-                                        ImagePickService()
-                                            .getSingleImage(ImageSource.gallery)
-                                            .then((imagePath) {
-                                          profileCtrl.uploadUserFile(
-                                              imagePath, 17);
-                                        });
+                                        Get.dialog(AlertDialog(
+                                          title: Text("Choose"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                leading: Icon(
+                                                    Icons.camera_alt_outlined),
+                                                title: Text("Camera"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.camera)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 17);
+                                                  });
+                                                },
+                                              ),
+                                              ListTile(
+                                                leading: Icon(Icons
+                                                    .photo_camera_back_outlined),
+                                                title: Text("Gallery"),
+                                                onTap: () {
+                                                  PageNavigationService
+                                                      .backScreen();
+                                                  ImagePickService()
+                                                      .getSingleImage(
+                                                          ImageSource.gallery)
+                                                      .then((imagePath) {
+                                                    profileCtrl.uploadUserFile(
+                                                        imagePath, 17);
+                                                  });
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ));
                                       },
                                       icon: const Icon(Icons.camera_alt)),
                                 ),
@@ -381,10 +585,10 @@ class DocumentDetailsView extends StatelessWidget {
                           onPressed: () async {
                             await profileCtrl.updateOwnProfile();
                             CustomDialogShow.showSuccessDialog(
-                                title: "Successfully Submitted",
+                                title: "Submitted For Verification!",
                                 description:
-                                    "Your details has been submitted. Please wait Your details has been submitted. Please wait",
-                                okayButtonName: "HOME",
+                                    "You've successfully submitted your profile info. You'll get notified once the admin approve/decline your request",
+                                okayButtonName: "DONE",
                                 btnOkOnPress: () {
                                   PageNavigationService.removeAllAndNavigate(
                                       "/DashBoardScreen");
