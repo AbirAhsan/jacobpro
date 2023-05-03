@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/payment_controller.dart';
 
+import '../../controller/job_controller.dart';
+import '../../model/job_report_model.dart';
 import '../variables/colors_variable.dart';
 import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class OthersViewScreen extends StatelessWidget {
-  final String? jobUuid;
-  const OthersViewScreen({super.key, this.jobUuid});
+  final JobReportModel? jobReport;
+  const OthersViewScreen({super.key, this.jobReport});
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +57,6 @@ class OthersViewScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomSubmitButton(
-                        buttonName: "CANCEL",
-                        leftMargin: 5,
-                        rightMargin: 5,
-                        bottomRightBorderRadius: 0,
-                        bottomLeftBorderRadius: 0,
-                        topLeftBorderRadius: 0,
-                        topRightBorderRadius: 0,
-                        primaryColor: CustomColors.darkGrey,
-                        fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {}),
-                    CustomSubmitButton(
                         buttonName: "CONFIRM PAYMENT",
                         leftMargin: 5,
                         rightMargin: 5,
@@ -74,7 +65,16 @@ class OthersViewScreen extends StatelessWidget {
                         topLeftBorderRadius: 0,
                         topRightBorderRadius: 0,
                         fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {}),
+                        onPressed: () async {
+                          await paymentCtrl
+                              .submitOtherPayment(jobReport!.jobUuid);
+                          await paymentCtrl
+                              .fetchJobPaymentSummery(jobReport!.jobSystemId);
+                          await Get.put(JobController())
+                              .fetchJobLifeCycle(jobReport!.jobUuid);
+                          await Get.put(JobController())
+                              .fetchJobReportDetails(jobReport!.jobUuid);
+                        }),
                   ],
                 ),
               ],

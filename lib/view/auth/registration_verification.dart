@@ -63,7 +63,7 @@ class RegistrationOtpVerification extends StatelessWidget {
                               0, userId.indexOf("@") - 3, " *****")
                           : userId.replaceRange(2, 7, "*****")
                     ]),
-                    style: CustomTextStyle.mediumBoldStyleGrey,
+                    style: CustomTextStyle.mediumRegularStyleGrey,
                     textAlign: TextAlign.center,
                   ),
                 ),

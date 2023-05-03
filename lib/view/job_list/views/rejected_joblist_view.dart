@@ -17,6 +17,7 @@ class RejectedJobView extends StatelessWidget {
         builder: (jobCtrl) {
           return RefreshIndicator(
             onRefresh: () async {
+              await jobCtrl.fetchJobCount();
               await jobCtrl.fetchRejectedJobList();
             },
             child: ListView.builder(

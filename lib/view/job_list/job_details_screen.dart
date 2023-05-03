@@ -842,7 +842,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                                 ),
                                                                                               );
                                                                                             }).toList()
-                                                                                          : [Text("No payment done for this job yet!")],
+                                                                                          : [const Text("No payment done for this job yet!")],
                                                                                       okayButtonName: "Close",
                                                                                       btnOkOnPress: () {
                                                                                         PageNavigationService.backScreen();

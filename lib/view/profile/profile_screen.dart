@@ -104,7 +104,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                                                 .value!
                                                 .profileGeneralData
                                                 ?.userVerificationStatus ==
-                                            2
+                                            0
                                         ? Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

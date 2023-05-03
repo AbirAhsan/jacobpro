@@ -232,7 +232,7 @@ class AuthController extends GetxController {
             barrierDismissible: false,
             title: "CONGRATULATIONS!",
             description:
-                "You've successfully signed up.\nYou can login using your username and password now.\nYour temporary password is 1234.You can change it anytime later from settings.",
+                "You've successfully signed up.\nYou can login using your username and password now.\n\nYour temporary password is 1234.You can change it anytime later from settings.",
             okayButtonName: "Go To Login",
             btnOkOnPress: () {
               PageNavigationService.removeAllAndNavigate('/LoginScreen');

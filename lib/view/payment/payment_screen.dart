@@ -115,9 +115,9 @@ class PaymentScreen extends StatelessWidget {
                           controller: screenCtrl.paymentTabController,
                           children: [
                             CreditCardView(jobReport: jobReport),
-                            CashViewScreen(jobUuid: jobReport!.jobUuid),
-                            ChequeViewScreen(jobUuid: jobReport.jobUuid),
-                            OthersViewScreen(jobUuid: jobReport.jobUuid)
+                            CashViewScreen(jobReport: jobReport),
+                            ChequeViewScreen(jobReport: jobReport),
+                            OthersViewScreen(jobReport: jobReport)
                           ],
                         );
                       }),

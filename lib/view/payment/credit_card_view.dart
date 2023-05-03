@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
+import 'package:service/controller/job_controller.dart';
 import 'package:service/view/variables/text_style.dart';
 import 'package:service/view/widgets/cupertino_bottom_sheet.dart';
 import 'package:service/view/widgets/custom_submit_button.dart';
@@ -212,8 +213,15 @@ class CreditCardView extends StatelessWidget {
                         topLeftBorderRadius: 0,
                         topRightBorderRadius: 0,
                         fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {
-                          paymentCtrl.submitCardPayment(jobReport!.jobUuid);
+                        onPressed: () async {
+                          await paymentCtrl
+                              .submitCardPayment(jobReport!.jobUuid);
+                          await paymentCtrl
+                              .fetchJobPaymentSummery(jobReport!.jobSystemId);
+                          await Get.put(JobController())
+                              .fetchJobLifeCycle(jobReport!.jobUuid);
+                          await Get.put(JobController())
+                              .fetchJobReportDetails(jobReport!.jobUuid);
                         }),
                   ],
                 ),

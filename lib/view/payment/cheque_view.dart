@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controller/job_controller.dart';
 import '../../controller/payment_controller.dart';
+import '../../model/job_report_model.dart';
 import '../variables/colors_variable.dart';
 import '../widgets/custom_cupertino_datetime_picker.dart';
 import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class ChequeViewScreen extends StatelessWidget {
-  final String? jobUuid;
-  const ChequeViewScreen({super.key, this.jobUuid});
+  final JobReportModel? jobReport;
+  const ChequeViewScreen({super.key, this.jobReport});
 
   @override
   Widget build(BuildContext context) {
@@ -87,17 +89,6 @@ class ChequeViewScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     CustomSubmitButton(
-                        buttonName: "CANCEL",
-                        leftMargin: 5,
-                        rightMargin: 5,
-                        bottomRightBorderRadius: 0,
-                        bottomLeftBorderRadius: 0,
-                        topLeftBorderRadius: 0,
-                        topRightBorderRadius: 0,
-                        primaryColor: CustomColors.darkGrey,
-                        fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {}),
-                    CustomSubmitButton(
                         buttonName: "CONFIRM PAYMENT",
                         leftMargin: 5,
                         rightMargin: 5,
@@ -106,8 +97,15 @@ class ChequeViewScreen extends StatelessWidget {
                         topLeftBorderRadius: 0,
                         topRightBorderRadius: 0,
                         fizedSize: const Size(double.infinity, 30),
-                        onPressed: () {
-                          paymentCtrl.submitChequePayment(jobUuid);
+                        onPressed: () async {
+                          await paymentCtrl
+                              .submitChequePayment(jobReport!.jobUuid);
+                          await paymentCtrl
+                              .fetchJobPaymentSummery(jobReport!.jobSystemId);
+                          await Get.put(JobController())
+                              .fetchJobLifeCycle(jobReport!.jobUuid);
+                          await Get.put(JobController())
+                              .fetchJobReportDetails(jobReport!.jobUuid);
                         }),
                   ],
                 ),

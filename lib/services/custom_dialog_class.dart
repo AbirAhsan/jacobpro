@@ -246,96 +246,99 @@ class CustomDialogShow {
         barrierDismissible: barrierDismissible,
         context: Get.context!,
         builder: (buildContext) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.all(0),
-            insetPadding: EdgeInsets.zero,
-            content: MediaQuery.removeViewInsets(
-              removeLeft: true,
-              removeTop: true,
-              removeRight: true,
-              removeBottom: true,
-              context: Get.context!,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    title ?? "",
-                    style: CustomTextStyle.titleBoldStyleBlack,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          children: contents ?? [],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            btnCancelOnPress != null
-                                ? SizedBox(
-                                    width: btnOkOnPress != null
-                                        ? Get.width / 3
-                                        : Get.width / 2,
-                                    child: CustomSubmitButton(
-                                      leftMargin: 10,
-                                      rightMargin: 10,
-                                      topMargin: 10,
-                                      bottomMargin: 10,
-                                      primaryColor: CustomColors.darkGrey,
-                                      borderColor: CustomColors.darkGrey,
-                                      fizedSize: Size(Get.width / 2, 30),
-                                      topPadding: 0,
-                                      bottomPadding: 0,
-                                      topRightBorderRadius: 0,
-                                      topLeftBorderRadius: 0,
-                                      bottomLeftBorderRadius: 0,
-                                      bottomRightBorderRadius: 0,
-                                      buttonName: cancelButtonName ?? "",
-                                      onPressed: btnCancelOnPress,
-                                    ),
-                                  )
-                                : Container(),
-                            SizedBox(
-                              width: btnCancelOnPress != null
-                                  ? Get.width / 3
-                                  : Get.width / 2,
-                              child: CustomSubmitButton(
-                                leftMargin: 10,
-                                rightMargin: 10,
-                                topMargin: 10,
-                                bottomMargin: 10,
-                                topPadding: 0,
-                                bottomPadding: 0,
-                                primaryColor: CustomColors.warning,
-                                borderColor: CustomColors.warning,
-                                fizedSize: Size(Get.width / 2, 30),
-                                topRightBorderRadius: 0,
-                                topLeftBorderRadius: 0,
-                                bottomLeftBorderRadius: 0,
-                                bottomRightBorderRadius: 0,
-                                buttonName: okayButtonName ?? "",
-                                onPressed: btnOkOnPress,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              contentPadding: const EdgeInsets.all(0),
+              insetPadding: EdgeInsets.zero,
+              content: MediaQuery.removeViewInsets(
+                removeLeft: true,
+                removeTop: true,
+                removeRight: true,
+                removeBottom: true,
+                context: Get.context!,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    Text(
+                      title ?? "",
+                      style: CustomTextStyle.titleBoldStyleBlack,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            children: contents ?? [],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              btnCancelOnPress != null
+                                  ? SizedBox(
+                                      width: btnOkOnPress != null
+                                          ? Get.width / 3
+                                          : Get.width / 2,
+                                      child: CustomSubmitButton(
+                                        leftMargin: 10,
+                                        rightMargin: 10,
+                                        topMargin: 10,
+                                        bottomMargin: 10,
+                                        primaryColor: CustomColors.darkGrey,
+                                        borderColor: CustomColors.darkGrey,
+                                        fizedSize: Size(Get.width / 2, 30),
+                                        topPadding: 0,
+                                        bottomPadding: 0,
+                                        topRightBorderRadius: 0,
+                                        topLeftBorderRadius: 0,
+                                        bottomLeftBorderRadius: 0,
+                                        bottomRightBorderRadius: 0,
+                                        buttonName: cancelButtonName ?? "",
+                                        onPressed: btnCancelOnPress,
+                                      ),
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                width: btnCancelOnPress != null
+                                    ? Get.width / 3
+                                    : Get.width / 2,
+                                child: CustomSubmitButton(
+                                  leftMargin: 10,
+                                  rightMargin: 10,
+                                  topMargin: 10,
+                                  bottomMargin: 10,
+                                  topPadding: 0,
+                                  bottomPadding: 0,
+                                  primaryColor: CustomColors.warning,
+                                  borderColor: CustomColors.warning,
+                                  fizedSize: Size(Get.width / 2, 30),
+                                  topRightBorderRadius: 0,
+                                  topLeftBorderRadius: 0,
+                                  bottomLeftBorderRadius: 0,
+                                  bottomRightBorderRadius: 0,
+                                  buttonName: okayButtonName ?? "",
+                                  onPressed: btnOkOnPress,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -17,6 +17,8 @@ class OngoingJobView extends StatelessWidget {
         builder: (jobCtrl) {
           return RefreshIndicator(
             onRefresh: () async {
+              await jobCtrl.fetchJobCount();
+
               await jobCtrl.fetchOngoingJobList();
             },
             child: ListView.builder(

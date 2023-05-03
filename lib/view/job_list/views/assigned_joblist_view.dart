@@ -17,6 +17,7 @@ class AssignedJobView extends StatelessWidget {
         builder: (jobCtrl) {
           return RefreshIndicator(
             onRefresh: () async {
+              await jobCtrl.fetchJobCount();
               await jobCtrl.fetchAssignedJobList();
             },
             child: ListView.builder(
