@@ -46,37 +46,30 @@ class AuthApiService {
   Future<bool?> sendOtpRequestToMail(
     String? email,
   ) async {
-    try {
-      Uri url = Uri.parse("${AppConfig.baseUrl}/email/sendemail/otp/$email");
+    Uri url = Uri.parse("${AppConfig.baseUrl}/email/sendemail/otp/$email");
 
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request('GET', url);
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('GET', url);
 
-      request.headers.addAll(headers);
-      var streamedResponse = await request.send();
-      var respStr = await http.Response.fromStream(streamedResponse);
-      print(url);
-      print(respStr.statusCode);
-      print(respStr.body);
-      var response = jsonDecode(respStr.body);
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    print(url);
+    print(respStr.statusCode);
+    print(respStr.body);
+    var response = jsonDecode(respStr.body);
 
-      if (respStr.statusCode == 200) {
-        debugPrint(response.toString());
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
 
-        return true;
-      } else {
-        throw {
-          "code": respStr.statusCode,
-          "message": response["message"],
-        };
-      }
-    } catch (e) {
+      return true;
+    } else {
       throw {
-        "code": 500,
-        "message": "Server Error",
+        "code": respStr.statusCode,
+        "message": response["message"],
       };
     }
   }
@@ -84,42 +77,33 @@ class AuthApiService {
   Future<bool> sendOtpRequestToPhone(
     String? phone,
   ) async {
-    try {
-      Uri url = Uri.parse("${AppConfig.baseUrl}/Sms/SendSms");
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Sms/SendSms");
 
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request('POST', url);
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', url);
 
-      request.headers.addAll(headers);
-      request.body = json.encode({
-        "smsBody": "",
-        "smsSendTo": phone,
-        "smsType": "otp",
-      });
+    request.headers.addAll(headers);
+    request.body = json.encode({
+      "smsBody": "",
+      "smsSendTo": phone,
+      "smsType": "otp",
+    });
 
-      var streamedResponse = await request.send();
-      var respStr = await http.Response.fromStream(streamedResponse);
-      var response = json.decode(respStr.body);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
 
-      if (respStr.statusCode == 200) {
-        debugPrint(response.toString());
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
 
-        return true;
-      } else {
-        throw {
-          "code": respStr.statusCode,
-          "message": response["message"],
-        };
-      }
-    } catch (e) {
-      // Handle the exception
-      print(e.toString());
+      return true;
+    } else {
       throw {
-        "code": 500,
-        "message": "Server Error",
+        "code": respStr.statusCode,
+        "message": response["message"],
       };
     }
   }
@@ -157,48 +141,39 @@ class AuthApiService {
   Future registrationRequest(
       {String? userName, ProfileGeneralData? profileData}) async {
     // String? fcmToken = await NotificationController().getFcmToken();
-    try {
-      Uri url = Uri.parse(
-          "${AppConfig.baseUrl}/Technician/RegisterTechnician/$userName?format=app");
 
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST', url);
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Technician/RegisterTechnician/$userName?format=app");
 
-      request.body = json.encode({
-        "userFirstName": profileData!.userFirstName,
-        "userLastName": profileData.userLastName,
-        "userAddress": "",
-        "userContactNo": profileData.userContactNo,
-        "userMail": profileData.userMail,
-        "userVerificationStatus": 0,
-        "workingMode": 0
-      });
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('POST', url);
 
-      debugPrint(request.body);
-      request.headers.addAll(headers);
-      var streamedResponse = await request.send();
-      var respStr = await http.Response.fromStream(streamedResponse);
-      var response = json.decode(respStr.body);
-      debugPrint(url.toString());
+    request.body = json.encode({
+      "userFirstName": profileData!.userFirstName,
+      "userLastName": profileData.userLastName,
+      "userAddress": "",
+      "userContactNo": profileData.userContactNo,
+      "userMail": profileData.userMail,
+      "userVerificationStatus": 0,
+      "workingMode": 0
+    });
+
+    debugPrint(request.body);
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    debugPrint(url.toString());
+    debugPrint(response.toString());
+    debugPrint("Code ${respStr.statusCode}");
+    if (respStr.statusCode == 200) {
       debugPrint(response.toString());
-      debugPrint("Code ${respStr.statusCode}");
-      if (respStr.statusCode == 200) {
-        debugPrint(response.toString());
 
-        return response;
-      } else {
-        throw {
-          "code": respStr.statusCode,
-          "message": response["message"],
-        };
-      }
-    } catch (e) {
-      //  print("Throw 2Response is $e");
-      // Handle the exception
-      //  print(e.toString());
+      return response;
+    } else {
       throw {
-        "code": 500,
-        "message": "Server Error",
+        "code": respStr.statusCode,
+        "message": response["message"],
       };
     }
   }

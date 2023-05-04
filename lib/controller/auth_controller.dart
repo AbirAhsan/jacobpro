@@ -229,7 +229,7 @@ class AuthController extends GetxController {
           .then((resp) {
         CustomEassyLoading.stopLoading();
         CustomDialogShow.showSuccessDialog(
-            barrierDismissible: false,
+            barrierDismissible: true,
             title: "CONGRATULATIONS!",
             description:
                 "You've successfully signed up.\nYou can login using your username and password now.\n\nYour temporary password is 1234.You can change it anytime later from settings.",
