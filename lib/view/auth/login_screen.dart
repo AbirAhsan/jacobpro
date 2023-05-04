@@ -150,15 +150,18 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Card(
-                            elevation: 2.5,
-                            child: Container(
-                              margin: const EdgeInsets.all(15),
-                              height: 30,
-                              width: 50,
-                              child: Image.asset(
-                                CustomIcons.apple,
-                                fit: BoxFit.contain,
+                          InkWell(
+                            onTap: () {},
+                            child: Card(
+                              elevation: 2.5,
+                              child: Container(
+                                margin: const EdgeInsets.all(15),
+                                height: 30,
+                                width: 50,
+                                child: Image.asset(
+                                  CustomIcons.apple,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),

@@ -152,7 +152,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                               labelStyle: CustomTextStyle.normalBoldStyleBlack,
                               automaticIndicatorColorAdjustment: true,
                               labelColor: CustomColors.primary,
-                              isScrollable: false,
+                              isScrollable: true,
                               onTap: (value) {
                                 screenCtrl.changeProfileTabbar(value);
                               },
