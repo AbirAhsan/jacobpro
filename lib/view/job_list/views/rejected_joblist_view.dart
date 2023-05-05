@@ -13,6 +13,7 @@ class RejectedJobView extends StatelessWidget {
         init: JobController(),
         initState: (state) {
           Get.put(JobController()).fetchRejectedJobList();
+          Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
           return RefreshIndicator(

@@ -133,7 +133,7 @@ class ProfileController extends GetxController {
   Future<void> updateOwnProfile() async {
     try {
       CustomEassyLoading.startLoading();
-
+      FocusManager.instance.primaryFocus?.unfocus();
       await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
           selectedSkillList != null

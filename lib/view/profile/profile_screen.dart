@@ -145,190 +145,199 @@ class ProfileDetailsScreen extends StatelessWidget {
                       GetBuilder<ScreenController>(
                           init: ScreenController(),
                           builder: (screenCtrl) {
-                            return TabBar(
-                              indicatorColor: CustomColors.primary,
-                              unselectedLabelColor: CustomColors.grey,
-                              controller: screenCtrl.profileTabController,
-                              labelStyle: CustomTextStyle.normalBoldStyleBlack,
-                              automaticIndicatorColorAdjustment: true,
-                              labelColor: CustomColors.primary,
-                              isScrollable: true,
-                              onTap: (value) {
-                                screenCtrl.changeProfileTabbar(value);
-                              },
-                              tabs: [
-                                Tab(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Text('GENERAL'),
-                                      const SizedBox(width: 8),
-                                      profileCtrl.pFirstNameTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl
-                                                      .pLastNameTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl
-                                                      .pPhoneTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl
-                                                      .pEmailTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl.eFirstNameTxtCtrl!
-                                                      .text ==
-                                                  "" ||
-                                              profileCtrl
-                                                      .eLastNameTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl.ePhoneTxtCtrl!.text ==
-                                                  "" ||
-                                              profileCtrl.eEmailTxtCtrl!.text ==
-                                                  ""
-                                          ? Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.warning),
-                                              child: const Icon(
-                                                Icons.error_outline,
-                                                size: 18,
-                                                color: CustomColors.white,
+                            return Center(
+                              child: TabBar(
+                                indicatorColor: CustomColors.primary,
+                                unselectedLabelColor: CustomColors.grey,
+                                controller: screenCtrl.profileTabController,
+                                labelStyle:
+                                    CustomTextStyle.normalBoldStyleBlack,
+                                automaticIndicatorColorAdjustment: true,
+                                labelColor: CustomColors.primary,
+                                isScrollable: true,
+                                onTap: (value) {
+                                  screenCtrl.changeProfileTabbar(value);
+                                },
+                                tabs: [
+                                  Tab(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text('GENERAL'),
+                                        const SizedBox(width: 8),
+                                        profileCtrl.pFirstNameTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .pLastNameTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .pPhoneTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .pEmailTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .eFirstNameTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .eLastNameTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .ePhoneTxtCtrl!.text ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .eEmailTxtCtrl!.text ==
+                                                    ""
+                                            ? Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        CustomColors.warning),
+                                                child: const Icon(
+                                                  Icons.error_outline,
+                                                  size: 18,
+                                                  color: CustomColors.white,
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: CustomColors.green),
+                                                child: const Icon(
+                                                  Icons.check,
+                                                  size: 14,
+                                                  color: CustomColors.white,
+                                                ),
                                               ),
-                                            )
-                                          : Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.green),
-                                              child: const Icon(
-                                                Icons.check,
-                                                size: 14,
-                                                color: CustomColors.white,
-                                              ),
-                                            ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Tab(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Text('SKILLS'),
-                                      const SizedBox(width: 8),
-                                      (profileCtrl.selectedSKillSubCategoryId ==
-                                                      17 &&
-                                                  (profileCtrl
-                                                          .selectedSkillList!
-                                                          .isEmpty ||
-                                                      (profileCtrl
-                                                              .selectedSkillList!
-                                                              .any((skill) =>
-                                                                  skill!.skillId ==
-                                                                  30) &&
-                                                          profileCtrl
-                                                                  .otherSkillTxtCtrl
-                                                                  .text ==
-                                                              ""))) ||
-                                              (profileCtrl.selectedSKillSubCategoryId !=
-                                                      17 &&
-                                                  profileCtrl.selectedSKillId ==
-                                                      null) ||
-                                              profileCtrl
-                                                      .myProfileDetails
-                                                      .value
-                                                      ?.profileGeneralData
-                                                      ?.workingMode ==
-                                                  null
-                                          ? Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.warning),
-                                              child: const Icon(
-                                                Icons.error_outline,
-                                                size: 18,
-                                                color: CustomColors.white,
-                                              ),
-                                            )
-                                          : Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.green),
-                                              child: const Icon(
-                                                Icons.check,
-                                                size: 14,
-                                                color: CustomColors.white,
-                                              ),
-                                            )
-                                    ],
+                                  Tab(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text('SKILLS'),
+                                        const SizedBox(width: 8),
+                                        (profileCtrl.selectedSKillSubCategoryId ==
+                                                        17 &&
+                                                    (profileCtrl
+                                                            .selectedSkillList!
+                                                            .isEmpty ||
+                                                        (profileCtrl.selectedSkillList!
+                                                                .any((skill) =>
+                                                                    skill!
+                                                                        .skillId ==
+                                                                    30) &&
+                                                            profileCtrl
+                                                                    .otherSkillTxtCtrl
+                                                                    .text ==
+                                                                ""))) ||
+                                                (profileCtrl.selectedSKillSubCategoryId !=
+                                                        17 &&
+                                                    profileCtrl
+                                                            .selectedSKillId ==
+                                                        null) ||
+                                                profileCtrl
+                                                        .myProfileDetails
+                                                        .value
+                                                        ?.profileGeneralData
+                                                        ?.workingMode ==
+                                                    null
+                                            ? Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        CustomColors.warning),
+                                                child: const Icon(
+                                                  Icons.error_outline,
+                                                  size: 18,
+                                                  color: CustomColors.white,
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: CustomColors.green),
+                                                child: const Icon(
+                                                  Icons.check,
+                                                  size: 14,
+                                                  color: CustomColors.white,
+                                                ),
+                                              )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Tab(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Text('DOCUMENTS'),
-                                      const SizedBox(width: 8),
-                                      profileCtrl.drivingLicenseExpiryTxtCtrl!.text != "" &&
-                                              profileCtrl.idCardExpiryTxtCtrl!.text !=
-                                                  "" &&
-                                              profileCtrl.technicalLicenseExpiryTxtCtrl!.text !=
-                                                  "" &&
-                                              profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
-                                                  .any((doc) =>
-                                                      doc.profileDocumentTypeId ==
-                                                      11) &&
-                                              profileCtrl
-                                                  .myProfileDetails
-                                                  .value!
-                                                  .profileDocumentsWrapperData![
-                                                      0]
-                                                  .profileDocumentsData!
-                                                  .any((doc) =>
-                                                      doc.profileDocumentTypeId ==
-                                                      12) &&
-                                              profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 13) &
-                                                  profileCtrl
-                                                      .myProfileDetails
-                                                      .value!
-                                                      .profileDocumentsWrapperData![1]
-                                                      .profileDocumentsData!
-                                                      .any((doc) => doc.profileDocumentTypeId == 14) &&
-                                              profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 15) &&
-                                              profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 17)
-                                          ? Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.green),
-                                              child: const Icon(
-                                                Icons.check,
-                                                size: 14,
-                                                color: CustomColors.white,
-                                              ),
-                                            )
-                                          : Container(
-                                              width: 18,
-                                              height: 18,
-                                              decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: CustomColors.warning),
-                                              child: const Icon(
-                                                Icons.error_outline,
-                                                size: 18,
-                                                color: CustomColors.white,
-                                              ),
-                                            )
-                                    ],
+                                  Tab(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text('DOCUMENTS'),
+                                        const SizedBox(width: 8),
+                                        profileCtrl.drivingLicenseExpiryTxtCtrl!.text != "" &&
+                                                profileCtrl.idCardExpiryTxtCtrl!.text !=
+                                                    "" &&
+                                                profileCtrl.technicalLicenseExpiryTxtCtrl!.text !=
+                                                    "" &&
+                                                profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
+                                                    .any((doc) =>
+                                                        doc.profileDocumentTypeId ==
+                                                        11) &&
+                                                profileCtrl
+                                                    .myProfileDetails
+                                                    .value!
+                                                    .profileDocumentsWrapperData![
+                                                        0]
+                                                    .profileDocumentsData!
+                                                    .any((doc) =>
+                                                        doc.profileDocumentTypeId ==
+                                                        12) &&
+                                                profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 13) &
+                                                    profileCtrl
+                                                        .myProfileDetails
+                                                        .value!
+                                                        .profileDocumentsWrapperData![1]
+                                                        .profileDocumentsData!
+                                                        .any((doc) => doc.profileDocumentTypeId == 14) &&
+                                                profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 15) &&
+                                                profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 17)
+                                            ? Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: CustomColors.green),
+                                                child: const Icon(
+                                                  Icons.check,
+                                                  size: 14,
+                                                  color: CustomColors.white,
+                                                ),
+                                              )
+                                            : Container(
+                                                width: 18,
+                                                height: 18,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        CustomColors.warning),
+                                                child: const Icon(
+                                                  Icons.error_outline,
+                                                  size: 18,
+                                                  color: CustomColors.white,
+                                                ),
+                                              )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             );
                           }),
                     ],

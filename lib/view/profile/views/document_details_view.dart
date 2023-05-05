@@ -590,8 +590,7 @@ class DocumentDetailsView extends StatelessWidget {
                                     "You've successfully submitted your profile info. You'll get notified once the admin approve/decline your request",
                                 okayButtonName: "DONE",
                                 btnOkOnPress: () {
-                                  PageNavigationService.removeAllAndNavigate(
-                                      "/DashBoardScreen");
+                                  PageNavigationService.backScreen();
                                 });
                           })),
                 ],

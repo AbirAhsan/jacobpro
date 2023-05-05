@@ -13,6 +13,7 @@ class AssignedJobView extends StatelessWidget {
         init: JobController(),
         initState: (state) {
           Get.put(JobController()).fetchAssignedJobList();
+          Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
           return RefreshIndicator(

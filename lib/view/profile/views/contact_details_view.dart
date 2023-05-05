@@ -42,18 +42,11 @@ class ContactDetailsView extends StatelessWidget {
                           radius: 36,
                           isEditable: true,
                           onEdit: () async {
-                            var status = await Permission.photos.status;
-                            if (status.isDenied) {
-                              // We didn't ask for permission yet or the permission has been denied before but not permanently.
-                            } else if (status.isPermanentlyDenied) {
-                              await openAppSettings();
-                            } else if (status.isGranted) {
-                              await ImagePickService()
-                                  .getSingleImage(ImageSource.gallery)
-                                  .then((imagePath) {
-                                profileCtrl.uploadUserFile(imagePath, 100);
-                              });
-                            }
+                            await ImagePickService()
+                                .getSingleImage(ImageSource.gallery)
+                                .then((imagePath) {
+                              profileCtrl.uploadUserFile(imagePath, 100);
+                            });
                           },
                         )),
                     const SizedBox(

@@ -13,6 +13,7 @@ class OngoingJobView extends StatelessWidget {
         init: JobController(),
         initState: (state) {
           Get.put(JobController()).fetchOngoingJobList();
+          Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
           return RefreshIndicator(

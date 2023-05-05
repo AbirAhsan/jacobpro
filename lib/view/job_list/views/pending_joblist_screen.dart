@@ -13,6 +13,7 @@ class PendingJobView extends StatelessWidget {
         init: JobController(),
         initState: (state) {
           Get.put(JobController()).fetchPendingJobList();
+          Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
           return RefreshIndicator(

@@ -559,6 +559,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                       okayButtonName: "YES",
                                                                                       btnOkOnPress: () async {
                                                                                         await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 13);
+
                                                                                         PageNavigationService.backScreen();
                                                                                       },
                                                                                       cancelButtonName: "BACK",
@@ -771,6 +772,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                               confirmButtonName: "CONTINUE",
                                                                                               onConfirm: () {
                                                                                                 //<========== Show bottom modal for payment
+                                                                                                paymentCtrl.paymentDetails.paymentNote = '';
                                                                                                 PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobReportDetails);
                                                                                               },
                                                                                               onCancel: () {

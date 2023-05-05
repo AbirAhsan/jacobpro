@@ -89,7 +89,7 @@ class PaymentScreen extends StatelessWidget {
                             onTap: (value) {
                               screenCtrl.changePaymentTabbar(value);
                             },
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 text: 'CREDIT',
                               ),
