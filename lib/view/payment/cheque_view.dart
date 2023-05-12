@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../controller/job_controller.dart';
 import '../../controller/payment_controller.dart';
 import '../../model/job_report_model.dart';
-import '../variables/colors_variable.dart';
 import '../widgets/custom_cupertino_datetime_picker.dart';
 import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';

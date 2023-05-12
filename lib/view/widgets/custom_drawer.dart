@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:service/controller/auth_controller.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/icon_variables.dart';
