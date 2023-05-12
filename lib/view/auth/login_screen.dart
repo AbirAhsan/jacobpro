@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/controller/auth_controller.dart';
-import 'package:service/services/custom_dialog_class.dart';
 import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/icon_variables.dart';
 import 'package:service/view/variables/text_style.dart';
@@ -92,7 +91,6 @@ class LoginScreen extends StatelessWidget {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               //Code to launch your URL
-                              print("Forget password");
                               PageNavigationService.generalNavigation(
                                   "/ForgetPassFindAccount");
                             },
@@ -184,7 +182,6 @@ class LoginScreen extends StatelessWidget {
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
                                       //Code to launch your URL
-                                      print("Sign up");
                                       PageNavigationService
                                           .removeAllAndNavigate(
                                               '/RegistrationScreen');

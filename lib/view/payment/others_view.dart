@@ -4,7 +4,6 @@ import 'package:service/controller/payment_controller.dart';
 
 import '../../controller/job_controller.dart';
 import '../../model/job_report_model.dart';
-import '../variables/colors_variable.dart';
 import '../widgets/custom_submit_button.dart';
 import '../widgets/custom_text_field.dart';
 

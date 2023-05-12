@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:service/model/skill_model.dart';
 import 'package:service/services/api_service/profile_api_service.dart';
 
-import '../app_config.dart';
 import '../model/technician_profile_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
@@ -54,7 +53,7 @@ class ProfileController extends GetxController {
         myProfileDetails.value = resp;
         await SharedDataManageService().setUserVerification(
             resp.profileGeneralData!.userVerificationStatus.toString());
-        print("Skill is ${resp}");
+        await fetchMyProfileSkills();
         update();
         assignPersonalContact(
             myProfileDetails.value!.profileGeneralData?.userFirstName,
@@ -71,7 +70,6 @@ class ProfileController extends GetxController {
             myProfileDetails
                 .value!.profileEmergencyContactData?.emergencyContactContactNo);
 
-        await fetchMyProfileSkills();
         assignExpiryDate();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);

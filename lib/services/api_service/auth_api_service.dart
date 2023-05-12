@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:service/services/custom_eassy_loading.dart';
 import 'dart:convert';
 
 import '../../app_config.dart';
@@ -30,7 +29,7 @@ class AuthApiService {
     var streamedResponse = await request.send();
     var respStr = await http.Response.fromStream(streamedResponse);
     Map response = json.decode(respStr.body);
-    print(respStr.statusCode);
+
     if (respStr.statusCode == 200) {
       debugPrint(response.toString());
 
@@ -57,9 +56,7 @@ class AuthApiService {
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var respStr = await http.Response.fromStream(streamedResponse);
-    print(url);
-    print(respStr.statusCode);
-    print(respStr.body);
+
     var response = jsonDecode(respStr.body);
 
     if (respStr.statusCode == 200) {
@@ -114,7 +111,7 @@ class AuthApiService {
   }) async {
     Uri url =
         Uri.parse("${AppConfig.baseUrl}/Technician/VerifyOtp/$otp/$userName");
-    print(url);
+
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -126,11 +123,9 @@ class AuthApiService {
     var streamedResponse = await request.send();
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);
-    print("Response is $response");
     if (respStr.statusCode == 200) {
       return true;
     } else {
-      print("Throw 1Response is $response");
       throw {
         "code": respStr.statusCode,
         "message": response["message"],

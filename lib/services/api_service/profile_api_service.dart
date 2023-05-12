@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 import 'package:service/model/technician_profile_model.dart';
@@ -30,9 +29,8 @@ class ProfileApiService {
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
-    print(respStr.statusCode);
+
     var response = jsonDecode(respStr.body);
-    print("Print Profile details is $response");
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
 
@@ -71,7 +69,7 @@ class ProfileApiService {
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = jsonDecode(jsonResponse);
-      print(decoded);
+
       List<SkillDataModel?> mapdatalist = decoded['dataObj']
           .map<SkillDataModel?>((b) => SkillDataModel.fromJson(b))
           .toList();
@@ -93,7 +91,7 @@ class ProfileApiService {
 
     Uri url = Uri.parse(
         "${AppConfig.baseUrl}/Technician/UploadUserProfileDocument/$docType?mimeType=${lookupMimeType(imagePath!)}&app=format");
-    print(url);
+
     var headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -155,9 +153,9 @@ class ProfileApiService {
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
-    print("Request is ${request.body}");
+
     var response = json.decode(respStr.body);
-    print(response);
+
     if (respStr.statusCode == 200 && response['statusCode'] == 200) {
       return true;
     } else {

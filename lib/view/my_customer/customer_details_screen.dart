@@ -7,7 +7,6 @@ import 'package:service/view/variables/text_style.dart';
 
 import '../../controller/customer_controller.dart';
 import '../../model/customer_details_model.dart';
-import '../../model/customer_model.dart';
 import '../variables/colors_variable.dart';
 import '../widgets/custom_shimmer_effect.dart';
 import '../widgets/no_internet_widget.dart';

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:service/model/technician_profile_model.dart';
 import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
@@ -170,8 +169,7 @@ class RegistrationScreen extends StatelessWidget {
                                           onTap: () {
                                             authCtrl.selectedUserType!.value =
                                                 type;
-                                            print(authCtrl
-                                                .selectedUserType!.value);
+
                                             authCtrl.update();
                                           },
                                           child: Icon(
