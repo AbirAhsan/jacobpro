@@ -35,9 +35,9 @@ class ProfileDetailsScreen extends StatelessWidget {
                                     .profileGeneralData
                                     ?.userVerificationStatus ==
                                 -1
-                            ? Column(
+                            ? const Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     "SUBMISSION PENDING",
                                     style: CustomTextStyle.titleBoldStyleGreen,
@@ -57,10 +57,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                                         .profileGeneralData
                                         ?.userVerificationStatus ==
                                     1
-                                ? Column(
+                                ? const Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Text(
                                         "ACCOUNT VERIFIED",
                                         style:
@@ -81,10 +81,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                                             .profileGeneralData
                                             ?.userVerificationStatus ==
                                         2
-                                    ? Column(
+                                    ? const Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: const [
+                                        children: [
                                           Text(
                                             "VERIFICATION DECLINED",
                                             style: CustomTextStyle
@@ -105,10 +105,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                                                 .profileGeneralData
                                                 ?.userVerificationStatus ==
                                             0
-                                        ? Column(
+                                        ? const Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            children: const [
+                                            children: [
                                               Text(
                                                 "VERIFICATION PENDING!",
                                                 style: CustomTextStyle
@@ -123,10 +123,10 @@ class ProfileDetailsScreen extends StatelessWidget {
                                               ),
                                             ],
                                           )
-                                        : Column(
+                                        : const Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            children: const [
+                                            children: [
                                               Text(
                                                 "",
                                                 style: CustomTextStyle

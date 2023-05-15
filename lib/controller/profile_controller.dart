@@ -3,15 +3,21 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/controller/screen_controller.dart';
 import 'package:service/model/skill_model.dart';
 import 'package:service/services/api_service/profile_api_service.dart';
 
 import '../model/technician_profile_model.dart';
+import '../services/custom_dialog_class.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
+import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
+import '../services/validator_service.dart';
 
 class ProfileController extends GetxController {
+  GlobalKey<FormState> profileContactFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> profileSkillFormKey = GlobalKey<FormState>();
   TextEditingController? drivingLicenseExpiryTxtCtrl = TextEditingController();
   TextEditingController? idCardExpiryTxtCtrl = TextEditingController();
   TextEditingController? technicalLicenseExpiryTxtCtrl =
@@ -128,32 +134,138 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> updateOwnProfile() async {
-    try {
-      CustomEassyLoading.startLoading();
-      FocusManager.instance.primaryFocus?.unfocus();
-      await ProfileApiService.updateOwnProfile(
-          myProfileDetails.value!,
-          selectedSkillList != null
-              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-          otherSkillTxtCtrl.text,
-          [
-            drivingLicenseExpiryTxtCtrl?.text ?? "",
-            idCardExpiryTxtCtrl?.text ?? "",
-            technicalLicenseExpiryTxtCtrl?.text ?? "",
-          ]).then((resp) async {
-        await fetchMyProfileDetails();
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
+  Future<void> updateProfileContact() async {
+    if (ValidatorService().validateAndSave(profileContactFormKey)) {
+      try {
+        CustomEassyLoading.startLoading();
+        FocusManager.instance.primaryFocus?.unfocus();
+        await ProfileApiService.updateOwnProfile(
+            myProfileDetails.value!,
+            selectedSkillList != null
+                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+            otherSkillTxtCtrl.text,
+            [
+              drivingLicenseExpiryTxtCtrl?.text ?? "",
+              idCardExpiryTxtCtrl?.text ?? "",
+              technicalLicenseExpiryTxtCtrl?.text ?? "",
+            ]).then((resp) async {
+          await fetchMyProfileDetails();
+          Get.put(ScreenController()).changeProfileTabbar(1);
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
         CustomEassyLoading.stopLoading();
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
+    }
+  }
+
+  Future<void> updateProfileSkill() async {
+    if (ValidatorService().validateAndSave(profileSkillFormKey)) {
+      if (selectedSkillList!.isEmpty) {
+        ApiErrorHandleService.handleStatusCodeError(
+            {"code": 404, "message": 'Please select a skill'});
+      } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==
+          null) {
+        ApiErrorHandleService.handleStatusCodeError(
+            {"code": 404, "message": 'Please select woking mode'});
+      } else {
+        try {
+          CustomEassyLoading.startLoading();
+          FocusManager.instance.primaryFocus?.unfocus();
+          await ProfileApiService.updateOwnProfile(
+              myProfileDetails.value!,
+              selectedSkillList != null
+                  ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+                  : myProfileDetails
+                      .value!.profileSkillData?.profileSkillIdList,
+              otherSkillTxtCtrl.text,
+              [
+                drivingLicenseExpiryTxtCtrl?.text ?? "",
+                idCardExpiryTxtCtrl?.text ?? "",
+                technicalLicenseExpiryTxtCtrl?.text ?? "",
+              ]).then((resp) async {
+            await fetchMyProfileDetails();
+            Get.put(ScreenController()).changeProfileTabbar(2);
+          }, onError: (err) {
+            ApiErrorHandleService.handleStatusCodeError(err);
+            CustomEassyLoading.stopLoading();
+          });
+        } on SocketException catch (e) {
+          debugPrint('error $e');
+          CustomEassyLoading.stopLoading();
+        } catch (e) {
+          CustomEassyLoading.stopLoading();
+          debugPrint("$e");
+        }
+      }
+    }
+  }
+
+  Future<void> updateOwnProfile() async {
+    if (drivingLicenseExpiryTxtCtrl!.text == "" ||
+        !myProfileDetails
+            .value!.profileDocumentsWrapperData![0].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 11) ||
+        !myProfileDetails
+            .value!.profileDocumentsWrapperData![0].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 12)) {
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 404,
+        "message": 'Please complete driving license requirements'
       });
-    } on SocketException catch (e) {
-      debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
-    } catch (e) {
-      CustomEassyLoading.stopLoading();
-      debugPrint("$e");
+    } else if (technicalLicenseExpiryTxtCtrl!.text == "" ||
+        !myProfileDetails
+            .value!.profileDocumentsWrapperData![2].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 15)) {
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 404,
+        "message": 'Please complete technician license requirements'
+      });
+    } else if (!myProfileDetails
+        .value!.profileDocumentsWrapperData![3].profileDocumentsData!
+        .any((doc) => doc.profileDocumentTypeId == 17)) {
+    } else {
+      try {
+        CustomEassyLoading.startLoading();
+        FocusManager.instance.primaryFocus?.unfocus();
+        await ProfileApiService.updateOwnProfile(
+            myProfileDetails.value!,
+            selectedSkillList != null
+                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+            otherSkillTxtCtrl.text,
+            [
+              drivingLicenseExpiryTxtCtrl?.text ?? "",
+              idCardExpiryTxtCtrl?.text ?? "",
+              technicalLicenseExpiryTxtCtrl?.text ?? "",
+            ]).then((resp) async {
+          await fetchMyProfileDetails();
+          CustomDialogShow.showSuccessDialog(
+              title: "Submitted For Verification!",
+              description:
+                  "You've successfully submitted your profile info. You'll get notified once the admin approve/decline your request",
+              okayButtonName: "DONE",
+              btnOkOnPress: () {
+                PageNavigationService.backScreen();
+              });
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
+        CustomEassyLoading.stopLoading();
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
     }
   }
 

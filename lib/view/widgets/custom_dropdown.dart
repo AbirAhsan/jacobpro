@@ -13,6 +13,7 @@ class CustomDropDown extends StatelessWidget {
   final double marginTop;
   final double marginBottom;
   final double marginLeft;
+  final bool isRequired;
   final double marginRight;
   final double topLeftBorderRadius;
   final double topRightBorderRadius;
@@ -30,6 +31,7 @@ class CustomDropDown extends StatelessWidget {
     this.marginTop = 10.0,
     this.marginBottom = 10.0,
     this.marginLeft = 20.0,
+    this.isRequired = false,
     this.marginRight = 20.0,
     this.topLeftBorderRadius = 5.0,
     this.topRightBorderRadius = 5.0,
@@ -58,7 +60,21 @@ class CustomDropDown extends StatelessWidget {
         decoration: InputDecoration(
           fillColor: CustomColors.white,
           filled: true,
-          label: Text(label ?? ""),
+          label: RichText(
+            text: TextSpan(
+              text: '',
+              style: DefaultTextStyle.of(context).style,
+              children: [
+                TextSpan(
+                  text: label,
+                  style: labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
+                ),
+                TextSpan(
+                    text: isRequired ? ' *' : '',
+                    style: CustomTextStyle.titleRegularStyleError),
+              ],
+            ),
+          ),
           isDense: true,
           contentPadding: EdgeInsets.all(10),
           border: isBorderEnabeld

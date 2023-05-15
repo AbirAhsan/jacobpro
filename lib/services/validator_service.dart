@@ -80,4 +80,12 @@ class ValidatorService {
     }
     return null;
   }
+
+  //<============================================= Simple Dropdown Validaor
+  static String? validateDropdown(value) {
+    if (value == null) {
+      return 'Please select an option';
+    }
+    return null;
+  }
 }

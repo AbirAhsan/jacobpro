@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final int? maxLines;
   final int? minLines;
+  final bool isRequired;
   final Widget? prefixIcon;
   final TextStyle? style;
   final TextStyle? hintStyle;
@@ -64,6 +65,7 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.minLines,
+    this.isRequired = false,
     this.maxLines = 1,
     this.onChanged,
     this.onTap,
@@ -181,7 +183,23 @@ class CustomTextField extends StatelessWidget {
                 : const UnderlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-            labelText: labelText,
+            label: RichText(
+              text: TextSpan(
+                text: '',
+                style: DefaultTextStyle.of(context).style,
+                children: [
+                  TextSpan(
+                    text: labelText,
+                    style:
+                        labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
+                  ),
+                  TextSpan(
+                      text: isRequired ? '*' : '',
+                      style: CustomTextStyle.normalRegularStyleError),
+                ],
+              ),
+            ),
+            //labelText: labelText,
             labelStyle: labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
             hintText: hintText,
             hintStyle: hintStyle,

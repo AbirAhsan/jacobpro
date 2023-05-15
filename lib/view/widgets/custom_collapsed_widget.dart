@@ -5,6 +5,7 @@ import '../variables/text_style.dart';
 class CustomCollapsibleWidget extends StatefulWidget {
   final Widget child;
   final String? name;
+  final bool isRequired;
   final bool initiallyCollapsed;
   final TextStyle? textStyle;
 
@@ -13,6 +14,7 @@ class CustomCollapsibleWidget extends StatefulWidget {
       required this.child,
       required this.initiallyCollapsed,
       this.name,
+      this.isRequired = false,
       this.textStyle = CustomTextStyle.mediumBoldStyleDarkGrey});
 
   @override
@@ -67,9 +69,20 @@ class _CustomCollapsibleWidgetState extends State<CustomCollapsibleWidget>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  widget.name ?? "",
-                  style: widget.textStyle,
+                RichText(
+                  text: TextSpan(
+                    text: '',
+                    style: DefaultTextStyle.of(context).style,
+                    children: [
+                      TextSpan(
+                        text: widget.name,
+                        style: widget.textStyle,
+                      ),
+                      TextSpan(
+                          text: widget.isRequired ? ' *' : '',
+                          style: CustomTextStyle.mediumBoldStyleError),
+                    ],
+                  ),
                 ),
                 Icon(
                     _isCollapsed ? Icons.arrow_drop_down : Icons.arrow_drop_up),

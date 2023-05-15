@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
-import 'package:service/services/custom_dialog_class.dart';
 import 'package:service/services/image_picker_service.dart';
 import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
@@ -33,6 +32,7 @@ class DocumentDetailsView extends StatelessWidget {
                       width: double.infinity,
                       child: CustomCollapsibleWidget(
                         name: "DRIVING LICENSE",
+                        isRequired: true,
                         initiallyCollapsed: true,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -345,7 +345,7 @@ class DocumentDetailsView extends StatelessWidget {
                                               ListTile(
                                                 leading: const Icon(Icons
                                                     .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
+                                                title: const Text("Gallery"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -386,6 +386,7 @@ class DocumentDetailsView extends StatelessWidget {
                       child: CustomCollapsibleWidget(
                         name: "TECHNICAL LICENSE CARD",
                         initiallyCollapsed: true,
+                        isRequired: true,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -486,6 +487,7 @@ class DocumentDetailsView extends StatelessWidget {
                       width: double.infinity,
                       child: CustomCollapsibleWidget(
                         name: "SOCIAL SECURITY  CARD",
+                        isRequired: true,
                         initiallyCollapsed: true,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -583,14 +585,6 @@ class DocumentDetailsView extends StatelessWidget {
                           isFitted: true,
                           onPressed: () async {
                             await profileCtrl.updateOwnProfile();
-                            CustomDialogShow.showSuccessDialog(
-                                title: "Submitted For Verification!",
-                                description:
-                                    "You've successfully submitted your profile info. You'll get notified once the admin approve/decline your request",
-                                okayButtonName: "DONE",
-                                btnOkOnPress: () {
-                                  PageNavigationService.backScreen();
-                                });
                           })),
                 ],
               );
