@@ -116,26 +116,26 @@ class RegistrationScreen extends StatelessWidget {
                               authCtrl.update();
                             },
                           ),
-                          CustomTextField(
-                            enabled: false,
-                            prefixIcon:
-                                const Icon(Icons.card_membership_outlined),
-                            labelText: LocaleKeys.auth_userID.tr(),
-                            controller:
-                                authCtrl.selectedUserType!.value == "Email"
-                                    ? authCtrl.registrationEmailCtrl
-                                    : authCtrl.registrationMobileCtrl,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          // CustomTextField(
+                          //   enabled: false,
+                          //   prefixIcon:
+                          //       const Icon(Icons.card_membership_outlined),
+                          //   labelText: LocaleKeys.auth_userID.tr(),
+                          //   controller:
+                          //       authCtrl.selectedUserType!.value == "Email"
+                          //           ? authCtrl.registrationEmailCtrl
+                          //           : authCtrl.registrationMobileCtrl,
+                          // ),
+                          // const SizedBox(
+                          //   height: 10,
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               RichText(
                                   textAlign: TextAlign.end,
                                   text: TextSpan(
-                                      text: "Choose Your User ID\n",
+                                      text: "Choose your verification method\n",
                                       style: CustomTextStyle
                                           .normalRegularStyleBlack,
                                       children: [
