@@ -24,6 +24,14 @@ class ApiErrorHandleService {
         //  duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
       );
+    } else if (status["code"] == 405) {
+      Get.snackbar(
+        "Warning",
+        "${status["message"]}",
+        backgroundColor: CustomColors.warning,
+        //  duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+      );
     } else if (status["code"] > 499) {
       Get.snackbar(
         "Attention",

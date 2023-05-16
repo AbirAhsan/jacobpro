@@ -240,7 +240,7 @@ class EmployeeDetailsView extends StatelessWidget {
                             //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                             isFitted: true,
                             onPressed: () async {
-                              await profileCtrl.updateOwnProfile();
+                              await profileCtrl.updateProfileSkill();
                               // screenCtrl.changeProfileTabbar(2);
                             },
                           );

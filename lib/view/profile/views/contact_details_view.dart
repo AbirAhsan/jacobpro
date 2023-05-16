@@ -60,6 +60,7 @@ class ContactDetailsView extends StatelessWidget {
                       ),
                       const Divider(),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: CustomTextField(
@@ -72,7 +73,15 @@ class ContactDetailsView extends StatelessWidget {
                                     .profileGeneralData!.userFirstName = value;
                                 profileCtrl.update();
                               },
-                              validator: ValidatorService.validateName,
+                              validator: (value) {
+                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                                if (value!.isEmpty) {
+                                  return "Enter your first name";
+                                } else if (!nameRegExp.hasMatch(value)) {
+                                  return 'Enter a Valid Name';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                           const SizedBox(
@@ -89,7 +98,15 @@ class ContactDetailsView extends StatelessWidget {
                                     .profileGeneralData!.userLastName = value;
                                 profileCtrl.update();
                               },
-                              validator: ValidatorService.validateName,
+                              validator: (value) {
+                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                                if (value!.isEmpty) {
+                                  return "Enter your last name";
+                                } else if (!nameRegExp.hasMatch(value)) {
+                                  return 'Enter a Valid Name';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         ],
@@ -143,7 +160,15 @@ class ContactDetailsView extends StatelessWidget {
                                     .emergencyContactFirstName = value;
                                 profileCtrl.update();
                               },
-                              validator: ValidatorService.validateName,
+                              validator: (value) {
+                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                                if (value!.isEmpty) {
+                                  return "Enter your emergency first name";
+                                } else if (!nameRegExp.hasMatch(value)) {
+                                  return 'Enter a Valid Name';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                           const SizedBox(
@@ -163,7 +188,15 @@ class ContactDetailsView extends StatelessWidget {
                                     .emergencyContactLastName = value;
                                 profileCtrl.update();
                               },
-                              validator: ValidatorService.validateName,
+                              validator: (value) {
+                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                                if (value!.isEmpty) {
+                                  return "Enter your emergency last name";
+                                } else if (!nameRegExp.hasMatch(value)) {
+                                  return 'Enter a Valid Name';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         ],
@@ -181,7 +214,17 @@ class ContactDetailsView extends StatelessWidget {
                               .emergencyContactMail = value;
                           profileCtrl.update();
                         },
-                        validator: ValidatorService.validateEmail,
+                        validator: (String? value) {
+                          String? pattern =
+                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                          RegExp regex = RegExp(pattern);
+                          if (value!.isEmpty) {
+                            return "Enter your emergency email address";
+                          } else if (!regex.hasMatch(value)) {
+                            return "Emergency email address is not valid";
+                          }
+                          return null;
+                        },
                       ),
                       CustomTextField(
                         labelText: "Phone",
@@ -196,7 +239,14 @@ class ContactDetailsView extends StatelessWidget {
                               .emergencyContactContactNo = value;
                           profileCtrl.update();
                         },
-                        validator: ValidatorService.validateMobile,
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return "Enter you emergency phone number";
+                          } else if (value.length != 11) {
+                            return "Emergency phone number is not valid";
+                          }
+                          return null;
+                        },
                       ),
                       GetBuilder<ScreenController>(
                           init: ScreenController(),
@@ -208,7 +258,7 @@ class ContactDetailsView extends StatelessWidget {
                                     //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                                     isFitted: true,
                                     onPressed: () async {
-                                      await profileCtrl.updateProfileSkill();
+                                      await profileCtrl.updateProfileContact();
                                       //  screenCtrl.changeProfileTabbar(1);
                                     }));
                           }),

@@ -170,11 +170,11 @@ class ProfileController extends GetxController {
     if (ValidatorService().validateAndSave(profileSkillFormKey)) {
       if (selectedSkillList!.isEmpty) {
         ApiErrorHandleService.handleStatusCodeError(
-            {"code": 404, "message": 'Please select a skill'});
+            {"code": 405, "message": 'Select a skill'});
       } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==
           null) {
         ApiErrorHandleService.handleStatusCodeError(
-            {"code": 404, "message": 'Please select woking mode'});
+            {"code": 405, "message": 'Select your woking mode'});
       } else {
         try {
           CustomEassyLoading.startLoading();
@@ -209,28 +209,104 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updateOwnProfile() async {
-    if (drivingLicenseExpiryTxtCtrl!.text == "" ||
-        !myProfileDetails
-            .value!.profileDocumentsWrapperData![0].profileDocumentsData!
-            .any((doc) => doc.profileDocumentTypeId == 11) ||
-        !myProfileDetails
-            .value!.profileDocumentsWrapperData![0].profileDocumentsData!
-            .any((doc) => doc.profileDocumentTypeId == 12)) {
+    if (myProfileDetails.value!.profileGeneralData!.userFirstName!.isEmpty ||
+        myProfileDetails.value!.profileGeneralData!.userFirstName!.length < 3) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
-        "code": 404,
-        "message": 'Please complete driving license requirements'
-      });
-    } else if (technicalLicenseExpiryTxtCtrl!.text == "" ||
-        !myProfileDetails
-            .value!.profileDocumentsWrapperData![2].profileDocumentsData!
-            .any((doc) => doc.profileDocumentTypeId == 15)) {
+        "code": 405,
+        "message": 'Enter your first name'
+      }); //Personal contact First name warning
+    } else if (myProfileDetails.value!.profileGeneralData!.userLastName!.isEmpty ||
+        myProfileDetails.value!.profileGeneralData!.userLastName!.length < 3) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
-        "code": 404,
-        "message": 'Please complete technician license requirements'
-      });
+        "code": 405,
+        "message": 'Enter your last name'
+      }); //Personal contact Last name warning
+    } else if (!myProfileDetails.value!.profileGeneralData!.userMail!.isEmail) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter your email'
+      }); //Personal contact email warning
     } else if (!myProfileDetails
-        .value!.profileDocumentsWrapperData![3].profileDocumentsData!
+        .value!.profileGeneralData!.userContactNo!.isPhoneNumber) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter your phone number'
+      }); //Personal contact phone number warning
+    } else if (myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.isEmpty ||
+        myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.length <
+            3) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter emergency first name'
+      }); //Emergency contact first name warning
+    } else if (myProfileDetails.value!.profileEmergencyContactData!.emergencyContactLastName!.isEmpty ||
+        myProfileDetails.value!.profileEmergencyContactData!.emergencyContactLastName!.length <
+            3) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter emergency last name'
+      }); //Emergency contact Last name warning
+    } else if (!myProfileDetails
+        .value!.profileEmergencyContactData!.emergencyContactMail!.isEmail) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter emergency email'
+      }); //Emergency contact email warning
+    } else if (!myProfileDetails.value!.profileEmergencyContactData!
+        .emergencyContactContactNo!.isPhoneNumber) {
+      Get.put(ScreenController()).changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter emergency phone number'
+      }); //Emergency contact phone number warning
+    } else if (selectedSkillCategoryId == null) {
+      Get.put(ScreenController()).changeProfileTabbar(1);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Select a skill category'
+      }); //Skill category warning
+    } else if (selectedSKillSubCategoryId == null) {
+      Get.put(ScreenController()).changeProfileTabbar(1);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Select a skill sub-category'
+      }); //Skill sub-category warning
+    } else if (selectedSkillList!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(1);
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Select a skill'}); //Skill  warning
+    } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==
+        null) {
+      Get.put(ScreenController()).changeProfileTabbar(1);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Select your woking mode'
+      }); //Working mode warning
+    } else if (drivingLicenseExpiryTxtCtrl!.text == "" ||
+        !myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 11) ||
+        !myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 12)) {
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Provide your driving license details'});
+    } else if (technicalLicenseExpiryTxtCtrl!.text == "" ||
+        !myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 15)) {
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Provide your technician license details'});
+    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!
         .any((doc) => doc.profileDocumentTypeId == 17)) {
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Provide your social security card details'
+      });
     } else {
       try {
         CustomEassyLoading.startLoading();

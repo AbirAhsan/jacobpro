@@ -33,7 +33,7 @@ class CodegenLoader extends AssetLoader{
     "nameRule2": "Enter a Valid Name",
     "enteruserID": "Enter Your User ID",
     "phoneNumber": "Phone Number",
-    "phoneNumberRule1": "Please Enter Your Mobile Number",
+    "phoneNumberRule1": "Enter Your Mobile Number",
     "phoneNumberRule2": "Mobile number is not valid",
     "password": "Password",
     "enterYourPassword": "Enter Your Password",
@@ -52,7 +52,7 @@ class CodegenLoader extends AssetLoader{
     "firstName": "First Name",
     "lastName": "Last Name",
     "email ": "Email",
-    "emailRule1": "Please  Your Email Address",
+    "emailRule1": "Enter your email address",
     "emailRule2": "Email address is not valid",
     "loginWelcome": "Welcome {}, to Jacob Pro"
   },
