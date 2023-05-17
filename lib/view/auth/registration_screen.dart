@@ -62,6 +62,7 @@ class RegistrationScreen extends StatelessWidget {
                                   labelText: LocaleKeys.auth_firstName.tr(),
                                   controller:
                                       authCtrl.registrationFirstNameCtrl,
+                                  keyboardType: TextInputType.name,
                                   validator:
                                       ValidatorService.validateSimpleFiled,
                                   onChanged: (value) {
@@ -78,6 +79,7 @@ class RegistrationScreen extends StatelessWidget {
                                 child: CustomTextField(
                                   prefixIcon: const Icon(Icons.person),
                                   labelText: LocaleKeys.auth_lastName.tr(),
+                                  keyboardType: TextInputType.name,
                                   controller: authCtrl.registrationLastNameCtrl,
                                   validator:
                                       ValidatorService.validateSimpleFiled,
@@ -92,6 +94,7 @@ class RegistrationScreen extends StatelessWidget {
                           CustomTextField(
                             prefixIcon: const Icon(Icons.email),
                             labelText: LocaleKeys.auth_email.tr(),
+                            keyboardType: TextInputType.emailAddress,
                             controller: authCtrl.registrationEmailCtrl,
                             validator: ValidatorService.validateEmail,
                             onChanged: (value) {
@@ -102,15 +105,9 @@ class RegistrationScreen extends StatelessWidget {
                           CustomTextField(
                             prefixIcon: const Icon(Icons.phone_android_rounded),
                             labelText: LocaleKeys.auth_phoneNumber.tr(),
+                            keyboardType: TextInputType.phone,
                             controller: authCtrl.registrationMobileCtrl,
-                            validator: (phone) {
-                              if (phone!.isEmpty) {
-                                return LocaleKeys.auth_phoneNumberRule1.tr();
-                              } else if (!phone.isPhoneNumber) {
-                                return LocaleKeys.auth_phoneNumberRule2.tr();
-                              }
-                              return null;
-                            },
+                            validator: ValidatorService.validateMobile,
                             onChanged: (value) {
                               authCtrl.profile.value.userContactNo = value;
                               authCtrl.update();

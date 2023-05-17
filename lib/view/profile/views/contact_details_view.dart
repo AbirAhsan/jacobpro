@@ -242,7 +242,9 @@ class ContactDetailsView extends StatelessWidget {
                         validator: (String? value) {
                           if (value!.isEmpty) {
                             return "Enter you emergency phone number";
-                          } else if (value.length != 11) {
+                          } else if (!value.isPhoneNumber) {
+                            return "Phone number is not valid";
+                          } else if (value.length != 10) {
                             return "Emergency phone number is not valid";
                           }
                           return null;

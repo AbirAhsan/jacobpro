@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 
 import '../generated/locale_keys.g.dart';
 
@@ -21,7 +22,9 @@ class ValidatorService {
 
     if (value!.isEmpty) {
       return LocaleKeys.auth_phoneNumberRule1.tr();
-    } else if (value.length != 11) {
+    } else if (!value.isPhoneNumber) {
+      return "Phone number is not valid";
+    } else if (value.length != 10) {
       return LocaleKeys.auth_phoneNumberRule1.tr();
     }
     return null;
