@@ -278,7 +278,8 @@ class ProfileController extends GetxController {
         "code": 405,
         "message": 'Select a skill sub-category'
       }); //Skill sub-category warning
-    } else if (selectedSkillList!.isEmpty) {
+    } else if (myProfileDetails
+        .value!.profileSkillData!.profileSkillIdList!.isEmpty) {
       Get.put(ScreenController()).changeProfileTabbar(1);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Select a skill'}); //Skill  warning
