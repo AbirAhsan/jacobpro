@@ -53,43 +53,27 @@ class RegistrationScreen extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: CustomTextField(
-                                  prefixIcon: const Icon(Icons.person),
-                                  labelText: LocaleKeys.auth_firstName.tr(),
-                                  controller:
-                                      authCtrl.registrationFirstNameCtrl,
-                                  keyboardType: TextInputType.name,
-                                  validator:
-                                      ValidatorService.validateSimpleFiled,
-                                  onChanged: (value) {
-                                    authCtrl.profile.value.userFirstName =
-                                        value;
-                                    authCtrl.update();
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: CustomTextField(
-                                  prefixIcon: const Icon(Icons.person),
-                                  labelText: LocaleKeys.auth_lastName.tr(),
-                                  keyboardType: TextInputType.name,
-                                  controller: authCtrl.registrationLastNameCtrl,
-                                  validator:
-                                      ValidatorService.validateSimpleFiled,
-                                  onChanged: (value) {
-                                    authCtrl.profile.value.userLastName = value;
-                                    authCtrl.update();
-                                  },
-                                ),
-                              ),
-                            ],
+                          CustomTextField(
+                            prefixIcon: const Icon(Icons.person),
+                            labelText: LocaleKeys.auth_firstName.tr(),
+                            controller: authCtrl.registrationFirstNameCtrl,
+                            keyboardType: TextInputType.name,
+                            validator: ValidatorService.validateSimpleFiled,
+                            onChanged: (value) {
+                              authCtrl.profile.value.userFirstName = value;
+                              authCtrl.update();
+                            },
+                          ),
+                          CustomTextField(
+                            prefixIcon: const Icon(Icons.person),
+                            labelText: LocaleKeys.auth_lastName.tr(),
+                            keyboardType: TextInputType.name,
+                            controller: authCtrl.registrationLastNameCtrl,
+                            validator: ValidatorService.validateSimpleFiled,
+                            onChanged: (value) {
+                              authCtrl.profile.value.userLastName = value;
+                              authCtrl.update();
+                            },
                           ),
                           CustomTextField(
                             prefixIcon: const Icon(Icons.email),

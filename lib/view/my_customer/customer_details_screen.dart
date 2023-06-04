@@ -136,9 +136,15 @@ class CustomerDetailsScreen extends StatelessWidget {
                                   children: [
                                     CustomerInfoView(
                                         customerDetails: customerDetails),
-                                    CustomerEstimateView(),
-                                    CustomerEstimateView(),
-                                    CustomerEstimateView(),
+                                    CustomerEstimateView(
+                                      customerDetails: customerDetails,
+                                    ),
+                                    CustomerEstimateView(
+                                      customerDetails: customerDetails,
+                                    ),
+                                    CustomerEstimateView(
+                                      customerDetails: customerDetails,
+                                    ),
                                   ]);
                             }),
                       );

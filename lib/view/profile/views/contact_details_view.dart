@@ -59,57 +59,45 @@ class ContactDetailsView extends StatelessWidget {
                         style: CustomTextStyle.mediumBoldStyleDarkGrey,
                       ),
                       const Divider(),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              labelText: "First Name",
-                              prefixIcon: const Icon(Icons.person),
-                              isRequired: true,
-                              controller: profileCtrl.pFirstNameTxtCtrl,
-                              onChanged: (value) {
-                                profileCtrl.myProfileDetails.value!
-                                    .profileGeneralData!.userFirstName = value;
-                                profileCtrl.update();
-                              },
-                              validator: (value) {
-                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
-                                if (value!.isEmpty) {
-                                  return "Enter your first name";
-                                } else if (!nameRegExp.hasMatch(value)) {
-                                  return 'Enter a Valid Name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: CustomTextField(
-                              labelText: "Last Name",
-                              prefixIcon: const Icon(Icons.person),
-                              controller: profileCtrl.pLastNameTxtCtrl,
-                              isRequired: true,
-                              onChanged: (value) {
-                                profileCtrl.myProfileDetails.value!
-                                    .profileGeneralData!.userLastName = value;
-                                profileCtrl.update();
-                              },
-                              validator: (value) {
-                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
-                                if (value!.isEmpty) {
-                                  return "Enter your last name";
-                                } else if (!nameRegExp.hasMatch(value)) {
-                                  return 'Enter a Valid Name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
+                      CustomTextField(
+                        labelText: "First Name",
+                        prefixIcon: const Icon(Icons.person),
+                        isRequired: true,
+                        controller: profileCtrl.pFirstNameTxtCtrl,
+                        onChanged: (value) {
+                          profileCtrl.myProfileDetails.value!
+                              .profileGeneralData!.userFirstName = value;
+                          profileCtrl.update();
+                        },
+                        validator: (value) {
+                          final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                          if (value!.isEmpty) {
+                            return "Enter your first name";
+                          } else if (!nameRegExp.hasMatch(value)) {
+                            return 'Enter a Valid Name';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextField(
+                        labelText: "Last Name",
+                        prefixIcon: const Icon(Icons.person),
+                        controller: profileCtrl.pLastNameTxtCtrl,
+                        isRequired: true,
+                        onChanged: (value) {
+                          profileCtrl.myProfileDetails.value!
+                              .profileGeneralData!.userLastName = value;
+                          profileCtrl.update();
+                        },
+                        validator: (value) {
+                          final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                          if (value!.isEmpty) {
+                            return "Enter your last name";
+                          } else if (!nameRegExp.hasMatch(value)) {
+                            return 'Enter a Valid Name';
+                          }
+                          return null;
+                        },
                       ),
                       CustomTextField(
                         labelText: "Email",
@@ -143,63 +131,51 @@ class ContactDetailsView extends StatelessWidget {
                         style: CustomTextStyle.mediumBoldStyleDarkGrey,
                       ),
                       const Divider(),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              labelText: "First Name",
-                              prefixIcon: const Icon(Icons.person),
-                              controller: profileCtrl.eFirstNameTxtCtrl,
-                              isRequired: true,
-                              onChanged: (value) {
-                                profileCtrl
-                                    .myProfileDetails
-                                    .value!
-                                    .profileEmergencyContactData!
-                                    .emergencyContactFirstName = value;
-                                profileCtrl.update();
-                              },
-                              validator: (value) {
-                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
-                                if (value!.isEmpty) {
-                                  return "Enter your emergency first name";
-                                } else if (!nameRegExp.hasMatch(value)) {
-                                  return 'Enter a Valid Name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: CustomTextField(
-                              labelText: "Last Name",
-                              prefixIcon: const Icon(Icons.person),
-                              controller: profileCtrl.eLastNameTxtCtrl,
-                              isRequired: true,
-                              onChanged: (value) {
-                                profileCtrl
-                                    .myProfileDetails
-                                    .value!
-                                    .profileEmergencyContactData!
-                                    .emergencyContactLastName = value;
-                                profileCtrl.update();
-                              },
-                              validator: (value) {
-                                final RegExp nameRegExp = RegExp('[a-zA-Z]');
-                                if (value!.isEmpty) {
-                                  return "Enter your emergency last name";
-                                } else if (!nameRegExp.hasMatch(value)) {
-                                  return 'Enter a Valid Name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
+                      CustomTextField(
+                        labelText: "First Name",
+                        prefixIcon: const Icon(Icons.person),
+                        controller: profileCtrl.eFirstNameTxtCtrl,
+                        isRequired: true,
+                        onChanged: (value) {
+                          profileCtrl
+                              .myProfileDetails
+                              .value!
+                              .profileEmergencyContactData!
+                              .emergencyContactFirstName = value;
+                          profileCtrl.update();
+                        },
+                        validator: (value) {
+                          final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                          if (value!.isEmpty) {
+                            return "Enter your emergency first name";
+                          } else if (!nameRegExp.hasMatch(value)) {
+                            return 'Enter a Valid Name';
+                          }
+                          return null;
+                        },
+                      ),
+                      CustomTextField(
+                        labelText: "Last Name",
+                        prefixIcon: const Icon(Icons.person),
+                        controller: profileCtrl.eLastNameTxtCtrl,
+                        isRequired: true,
+                        onChanged: (value) {
+                          profileCtrl
+                              .myProfileDetails
+                              .value!
+                              .profileEmergencyContactData!
+                              .emergencyContactLastName = value;
+                          profileCtrl.update();
+                        },
+                        validator: (value) {
+                          final RegExp nameRegExp = RegExp('[a-zA-Z]');
+                          if (value!.isEmpty) {
+                            return "Enter your emergency last name";
+                          } else if (!nameRegExp.hasMatch(value)) {
+                            return 'Enter a Valid Name';
+                          }
+                          return null;
+                        },
                       ),
                       CustomTextField(
                         labelText: "Email",

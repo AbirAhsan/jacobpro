@@ -7,7 +7,6 @@ import 'package:service/services/page_navigation_service.dart';
 
 import '../model/customer_details_model.dart';
 import '../model/customer_model.dart';
-import '../model/material_item_model.dart';
 import '../model/service_item_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/debouncher_service.dart';
@@ -117,12 +116,7 @@ class CustomerController extends GetxController {
 
 //
 //
-  List<MaterialItemModel?> materialItemList =
-      List<MaterialItemModel?>.empty(growable: true);
-  Rx<MaterialItemModel?> materialItem = MaterialItemModel().obs;
 
-  MaterialItemModel? selectedMaterial;
-  MaterialPrices? selectedMaterialPrice;
   TextEditingController materialUnitCostTxtCtrl = TextEditingController();
   TextEditingController materialUnitQuantityTxtCtrl = TextEditingController();
 
@@ -223,29 +217,6 @@ class CustomerController extends GetxController {
   }
 
   //<======================= Fetch Service Item List
-  Future<void> getServiceItemList() async {
-    try {
-      CustomEassyLoading.startLoading();
-
-      await CustomerApiService().getServiceItemList().then((resp) async {
-        serviceItemList = resp;
-        print(serviceItemList.length);
-        CustomEassyLoading.stopLoading();
-        update();
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
-        CustomEassyLoading.stopLoading();
-      });
-    } on SocketException catch (e) {
-      debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
-    } catch (e) {
-      CustomEassyLoading.stopLoading();
-      debugPrint("$e");
-    }
-  }
-
-  //<======================= Fetch Service Item List
   Future<void> getServiceItem(int? serviceId) async {
     selectedServicePrice = null;
     update();
@@ -272,54 +243,31 @@ class CustomerController extends GetxController {
     }
   }
 
-  //<======================= Fetch Material Item List
-  Future<void> getMaterialItemList() async {
-    try {
-      CustomEassyLoading.startLoading();
+  // //<======================= Fetch Material Item
+  // Future<void> getMaterialItem(int? materialId) async {
+  //   selectedMaterialPrice = null;
+  //   update();
+  //   try {
+  //     CustomEassyLoading.startLoading();
 
-      await CustomerApiService().getMaterialItemList().then((resp) async {
-        materialItemList = resp;
+  //     await CustomerApiService().getMaterialDetails(materialId).then(
+  //         (resp) async {
+  //       materialItem.value = resp;
 
-        CustomEassyLoading.stopLoading();
-        update();
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
-        CustomEassyLoading.stopLoading();
-      });
-    } on SocketException catch (e) {
-      debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
-    } catch (e) {
-      CustomEassyLoading.stopLoading();
-      debugPrint("$e");
-    }
-  }
-
-  //<======================= Fetch Material Item
-  Future<void> getMaterialItem(int? materialId) async {
-    selectedMaterialPrice = null;
-    update();
-    try {
-      CustomEassyLoading.startLoading();
-
-      await CustomerApiService().getMaterialDetails(materialId).then(
-          (resp) async {
-        materialItem.value = resp;
-
-        CustomEassyLoading.stopLoading();
-        update();
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
-        CustomEassyLoading.stopLoading();
-      });
-    } on SocketException catch (e) {
-      debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
-    } catch (e) {
-      CustomEassyLoading.stopLoading();
-      debugPrint("$e");
-    }
-  }
+  //       CustomEassyLoading.stopLoading();
+  //       update();
+  //     }, onError: (err) {
+  //       ApiErrorHandleService.handleStatusCodeError(err);
+  //       CustomEassyLoading.stopLoading();
+  //     });
+  //   } on SocketException catch (e) {
+  //     debugPrint('error $e');
+  //     CustomEassyLoading.stopLoading();
+  //   } catch (e) {
+  //     CustomEassyLoading.stopLoading();
+  //     debugPrint("$e");
+  //   }
+  // }
 
   //<======================= Fetch Customer Address List
   Future<void> getCustomerList() async {

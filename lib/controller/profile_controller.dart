@@ -139,6 +139,7 @@ class ProfileController extends GetxController {
       try {
         CustomEassyLoading.startLoading();
         FocusManager.instance.primaryFocus?.unfocus();
+        Get.put(ScreenController()).changeProfileTabbar(1);
         await ProfileApiService.updateOwnProfile(
             myProfileDetails.value!,
             selectedSkillList != null
@@ -151,7 +152,6 @@ class ProfileController extends GetxController {
               technicalLicenseExpiryTxtCtrl?.text ?? "",
             ]).then((resp) async {
           await fetchMyProfileDetails();
-          Get.put(ScreenController()).changeProfileTabbar(1);
         }, onError: (err) {
           ApiErrorHandleService.handleStatusCodeError(err);
           CustomEassyLoading.stopLoading();
@@ -179,6 +179,7 @@ class ProfileController extends GetxController {
         try {
           CustomEassyLoading.startLoading();
           FocusManager.instance.primaryFocus?.unfocus();
+          Get.put(ScreenController()).changeProfileTabbar(2);
           await ProfileApiService.updateOwnProfile(
               myProfileDetails.value!,
               selectedSkillList != null
@@ -192,7 +193,6 @@ class ProfileController extends GetxController {
                 technicalLicenseExpiryTxtCtrl?.text ?? "",
               ]).then((resp) async {
             await fetchMyProfileDetails();
-            Get.put(ScreenController()).changeProfileTabbar(2);
           }, onError: (err) {
             ApiErrorHandleService.handleStatusCodeError(err);
             CustomEassyLoading.stopLoading();

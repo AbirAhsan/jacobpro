@@ -34,7 +34,7 @@ class AuthController extends GetxController {
   RxString? selectedUserType = "Email".obs;
 
   String? currentOtpPin;
-  int secondsRemaining = 30;
+  int secondsRemaining = 60;
   Timer? timer;
 
   @override
@@ -232,7 +232,7 @@ class AuthController extends GetxController {
             barrierDismissible: true,
             title: "CONGRATULATIONS!",
             description:
-                "You've successfully signed up.\nYou can login using your username and password now.\n\nYour temporary password is 1234.You can change it anytime later from settings.",
+                "You are successfully signed up for Jacob Pro. You can login to your account using username and password to submit your documents for further verificaon.\n\nYour temporary password is 1234. You can reset your password later.",
             okayButtonName: "Go To Login",
             btnOkOnPress: () {
               PageNavigationService.removeAllAndNavigate('/LoginScreen');
@@ -258,7 +258,7 @@ class AuthController extends GetxController {
 //<=================== Start Timer
   startTimer() {
     print("Working");
-    secondsRemaining = 30;
+    secondsRemaining = 60;
     update();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (secondsRemaining != 0) {

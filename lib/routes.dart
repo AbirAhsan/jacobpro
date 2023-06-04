@@ -11,6 +11,7 @@ import 'view/job_list/job_details_screen.dart';
 import 'view/job_list/job_list_screen.dart';
 import 'view/my_customer/add_new_customer_screen.dart';
 import 'view/my_customer/customer_details_screen.dart';
+import 'view/my_customer/estimate/estimate_screen.dart';
 import 'view/my_customer/my_customer_screen.dart';
 import 'view/notification/notification_screen.dart';
 import 'view/on going job/on_going_job_screen.dart';
@@ -63,6 +64,7 @@ class ScreenRoutes {
     GetPage(
         name: '/AddNewCustomerScreen',
         page: () => const AddNewCustomerScreen()),
+    GetPage(name: '/EstimateScreen', page: () => const EstimateScreen()),
     GetPage(name: '/PaymentScreen', page: () => const PaymentScreen()),
   ];
 }
