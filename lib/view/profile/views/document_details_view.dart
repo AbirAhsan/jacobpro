@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
+import 'package:service/services/file_picker_service.dart';
 import 'package:service/services/image_picker_service.dart';
 import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
@@ -10,6 +11,7 @@ import 'package:service/view/variables/text_style.dart';
 
 import '../../widgets/custom_collapsed_widget.dart';
 import '../../widgets/custom_company_button.dart';
+import '../../widgets/custom_company_button_with_icon.dart';
 import '../../widgets/custom_cupertino_datetime_picker.dart';
 
 class DocumentDetailsView extends StatelessWidget {
@@ -25,6 +27,16 @@ class DocumentDetailsView extends StatelessWidget {
             builder: (profileCtrl) {
               return Column(
                 children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: CustomCompanyButtonWithIcon(
+                        isFitted: true,
+                        topPadding: 0,
+                        bottomPadding: 0,
+                        buttonName: "Download ",
+                        icon: Icons.download,
+                        onPressed: () {}),
+                  ),
                   //<============== Drving License
                   Card(
                     elevation: 5,
@@ -572,6 +584,33 @@ class DocumentDetailsView extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                  ),
+
+                  Card(
+                    elevation: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    FilePickService().getSingleFile();
+                                  },
+                                  icon: const Icon(Icons.attach_file)),
+                              const Text(
+                                "Attachments",
+                                style: CustomTextStyle.mediumBoldStyleDarkGrey,
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.info)),
+                        ],
                       ),
                     ),
                   ),
