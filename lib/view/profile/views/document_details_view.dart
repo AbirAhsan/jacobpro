@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
+import 'package:service/services/error_code_handle_service.dart';
 import 'package:service/services/file_picker_service.dart';
 import 'package:service/services/image_picker_service.dart';
 import 'package:service/services/page_navigation_service.dart';
@@ -35,7 +36,31 @@ class DocumentDetailsView extends StatelessWidget {
                         bottomPadding: 0,
                         buttonName: "Download ",
                         icon: Icons.download,
-                        onPressed: () {}),
+                        onPressed: () {
+                          //<=====
+                          Get.dialog(AlertDialog(
+                            title: Text("Form List"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  leading: const Icon(Icons.file_copy_outlined),
+                                  title: Text("W4 Form"),
+                                  trailing: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.file_download)),
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.file_copy_outlined),
+                                  title: Text("I-9 Form"),
+                                  trailing: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.file_download)),
+                                ),
+                              ],
+                            ),
+                          ));
+                        }),
                   ),
                   //<============== Drving License
                   Card(
@@ -83,49 +108,50 @@ class DocumentDetailsView extends StatelessWidget {
                                         CustomColors.offWhite.withOpacity(0.5),
                                   ),
                                   child: IconButton(
-                                      onPressed: () {
-                                        Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                leading: Icon(
-                                                    Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.camera)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 11);
-                                                  });
-                                                },
-                                              ),
-                                              ListTile(
-                                                leading: Icon(Icons
-                                                    .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.gallery)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 11);
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                                      },
-                                      icon: const Icon(Icons.camera_alt)),
+                                    onPressed: () {
+                                      Get.dialog(AlertDialog(
+                                        title: Text("Choose"),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ListTile(
+                                              leading: Icon(
+                                                  Icons.camera_alt_outlined),
+                                              title: Text("Camera"),
+                                              onTap: () {
+                                                PageNavigationService
+                                                    .backScreen();
+                                                ImagePickService()
+                                                    .getSingleImage(
+                                                        ImageSource.camera)
+                                                    .then((imagePath) {
+                                                  profileCtrl.uploadUserFile(
+                                                      imagePath, 11);
+                                                });
+                                              },
+                                            ),
+                                            ListTile(
+                                              leading: Icon(Icons
+                                                  .photo_camera_back_outlined),
+                                              title: Text("Gallery"),
+                                              onTap: () {
+                                                PageNavigationService
+                                                    .backScreen();
+                                                ImagePickService()
+                                                    .getSingleImage(
+                                                        ImageSource.gallery)
+                                                    .then((imagePath) {
+                                                  profileCtrl.uploadUserFile(
+                                                      imagePath, 11);
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                                    },
+                                    icon: const Icon(Icons.camera_alt),
+                                  ),
                                 ),
                               ),
                             ),
@@ -609,7 +635,14 @@ class DocumentDetailsView extends StatelessWidget {
                             ],
                           ),
                           IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.info)),
+                              onPressed: () {
+                                ApiErrorHandleService.handleStatusCodeError({
+                                  "code": 101,
+                                  "message":
+                                      "Please fill out W4 and I-9 Forms and upload, you can download those forms in the link above"
+                                });
+                              },
+                              icon: const Icon(Icons.info)),
                         ],
                       ),
                     ),

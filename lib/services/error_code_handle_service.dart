@@ -40,6 +40,14 @@ class ApiErrorHandleService {
         //  duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
       );
+    } else if (status["code"] == 101) {
+      Get.snackbar(
+        "Info",
+        "${status["message"]}",
+        backgroundColor: CustomColors.grey,
+        //  duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+      );
     } else {
       Get.snackbar(
         "Warning",
