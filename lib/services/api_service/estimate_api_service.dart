@@ -97,8 +97,8 @@ class EstimateApiService {
   ) async {
     String? token = await SharedDataManageService().getToken();
 
-    Uri url =
-        Uri.parse("${AppConfig.baseUrl}/Estimate/AddEstimationByCustomer");
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Estimate/AddEstimationByCustomer?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -119,7 +119,7 @@ class EstimateApiService {
 
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);
-
+    print(respStr);
     if (respStr.statusCode == 200) {
       return response["dataObj"];
     } else {
@@ -133,7 +133,7 @@ class EstimateApiService {
   //<=============================================== Fetch  Estimate Details
   Future<EstimateDetailsModel?> getEstimationDetails({String? jobUuid}) async {
     String? token = await SharedDataManageService().getToken();
-
+    print(jobUuid);
     Uri url = Uri.parse(
         "${AppConfig.baseUrl}/Estimate/GetEstimateDetails/$jobUuid?format=app");
 
@@ -158,6 +158,139 @@ class EstimateApiService {
 
       var decoded = json.decode(jsonResponse);
       return EstimateDetailsModel.fromJson(decoded["dataObj"]);
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=================== Add Estimate Service and Material Item
+  Future<bool> addServiceAndMaterialItem(
+      String? jobUuid,
+      ServiceandMaterialItemModel serviceandMaterialItem,
+      String? totalBill) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Estimate/AddLineItem/$jobUuid/$totalBill");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode(serviceandMaterialItem);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    print(response);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=================== Delete Estimate Item
+  Future<bool> deleteEstimateItem(String? jobUuid,
+      ServiceandMaterialItemModel? item, String? totalBill) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Estimate/DeleteLineItem/$jobUuid/$totalBill?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode(item);
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    print(request.body);
+    print(response);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<=================== Update Estimate Details
+  Future<bool> updateEstimateDetails({
+    String? jobUuid,
+    String? subTotalBill,
+    String? totalBill,
+    String? discountType,
+    String? jobDiscountRate,
+    String? jobDiscountAmount,
+    String? jobDiscountNote,
+    int? jobTaxTypeId,
+    String? jobTaxAmount,
+  }) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Estimate/UpdateEstimationBill/$jobUuid");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "jobCalculatedBillAmount": subTotalBill ?? "0", // SUB Total
+      "jobDiscountType": discountType, // P or F
+      "jobDiscountRate": jobDiscountRate,
+      "jobDiscountAmount": jobDiscountAmount, // calculated discount amount
+      "jobDiscountNote": jobDiscountNote,
+      "jobTaxTypeId": jobTaxTypeId,
+      "jobTaxAmount": jobTaxAmount,
+      "jobBillAmountBeforeAdjustment": 0, // N/A
+      "jobBillAdjustmentAmount": 0, // N/A
+      "jobFinalBillAmount": totalBill, // Final Bill
+      "jobTotalPaidAmount": 0, // Paid Bill
+      "jobTotalRemainAmount": 0 // Remain Bill
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    print(url);
+    print(request.body);
+    print(respStr.statusCode);
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      return true;
     } else {
       throw {
         "code": respStr.statusCode,

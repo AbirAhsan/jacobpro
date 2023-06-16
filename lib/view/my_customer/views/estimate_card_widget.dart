@@ -1,7 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:service/controller/estimate_controller.dart';
 
 import '../../../model/estimate_grid_model.dart';
 import '../../variables/colors_variable.dart';
@@ -9,12 +7,15 @@ import '../../variables/text_style.dart';
 import '../../widgets/custom_company_button_with_icon.dart';
 
 class EstimateCardWidget extends StatelessWidget {
-  final bool hasDetailButton;
+  // final bool hasDetailButton;
+  final void Function()? seeDetailsPressed;
   final EstimateGridModel? estimatedetails;
+
   const EstimateCardWidget({
     super.key,
     this.estimatedetails,
-    this.hasDetailButton = false,
+    // this.hasDetailButton = false,
+    this.seeDetailsPressed,
   });
 
   @override
@@ -149,41 +150,31 @@ class EstimateCardWidget extends StatelessWidget {
                 )
               ],
             ),
-            !hasDetailButton
-                ? Container()
-                : const Divider(
-                    height: 20,
-                  ),
-            GetBuilder<EstimatedController>(
-                init: EstimatedController(),
-                builder: (jobCtrl) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: hasDetailButton,
-                        child: CustomCompanyButtonWithIcon(
-                            leftMargin: 10,
-                            topPadding: 0,
-                            topMargin: 0,
-                            bottomMargin: 0,
-                            bottomPadding: 0,
-                            bottomLeftBorderRadius: 0,
-                            bottomRightBorderRadius: 0,
-                            topLeftBorderRadius: 0,
-                            topRightBorderRadius: 0,
-                            fizedSize: const Size(120, 30),
-                            buttonName: "SEE DETAIL",
-                            onPressed: () {
-                              // PageNavigationService.generalNavigation(
-                              //     '/JobDetailsScreen',
-                              //     arguments: estimatedetails);
-                            }),
-                      ),
-                    ],
-                  );
-                })
+            // !hasDetailButton
+            //     ? Container()
+            //     : const Divider(
+            //         height: 20,
+            //       ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomCompanyButtonWithIcon(
+                  leftMargin: 10,
+                  topPadding: 0,
+                  topMargin: 0,
+                  bottomMargin: 0,
+                  bottomPadding: 0,
+                  bottomLeftBorderRadius: 0,
+                  bottomRightBorderRadius: 0,
+                  topLeftBorderRadius: 0,
+                  topRightBorderRadius: 0,
+                  fizedSize: const Size(120, 30),
+                  buttonName: "SEE DETAIL",
+                  onPressed: seeDetailsPressed,
+                ),
+              ],
+            )
           ],
         ),
       ),

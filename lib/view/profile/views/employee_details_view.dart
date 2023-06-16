@@ -176,6 +176,22 @@ class EmployeeDetailsView extends StatelessWidget {
                             },
                           )
                         : Container(),
+                    CustomTextField(
+                      marginLeft: 20,
+                      marginRight: 20,
+                      labelText: "Years of Experience",
+                      isRequired: true,
+                      prefixIcon: Icon(Icons.av_timer),
+                      keyboardType: TextInputType.number,
+                    ),
+                    CustomTextField(
+                      marginLeft: 20,
+                      marginRight: 20,
+                      labelText: "Wages",
+                      isRequired: true,
+                      prefixIcon: Icon(Icons.attach_money_rounded),
+                      keyboardType: TextInputType.number,
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
                       child: Card(

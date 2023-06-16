@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
-import 'package:service/services/error_code_handle_service.dart';
 import 'package:service/services/file_picker_service.dart';
 import 'package:service/services/image_picker_service.dart';
 import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/variables/text_style.dart';
 
+import '../../../services/custom_dialog_class.dart';
 import '../../widgets/custom_collapsed_widget.dart';
 import '../../widgets/custom_company_button.dart';
 import '../../widgets/custom_company_button_with_icon.dart';
@@ -34,15 +34,13 @@ class DocumentDetailsView extends StatelessWidget {
                         isFitted: true,
                         topPadding: 0,
                         bottomPadding: 0,
-                        buttonName: "Download ",
+                        buttonName: "FORMS ",
                         icon: Icons.download,
                         onPressed: () {
                           //<=====
-                          Get.dialog(AlertDialog(
-                            title: Text("Form List"),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
+                          CustomDialogShow.showInformation(
+                              title: "Form List",
+                              contents: [
                                 ListTile(
                                   leading: const Icon(Icons.file_copy_outlined),
                                   title: Text("W4 Form"),
@@ -50,6 +48,7 @@ class DocumentDetailsView extends StatelessWidget {
                                       onPressed: () {},
                                       icon: Icon(Icons.file_download)),
                                 ),
+                                Divider(),
                                 ListTile(
                                   leading: const Icon(Icons.file_copy_outlined),
                                   title: Text("I-9 Form"),
@@ -58,8 +57,10 @@ class DocumentDetailsView extends StatelessWidget {
                                       icon: Icon(Icons.file_download)),
                                 ),
                               ],
-                            ),
-                          ));
+                              cancelButtonName: "Close",
+                              btnCancelOnPress: () {
+                                PageNavigationService.backScreen();
+                              });
                         }),
                   ),
                   //<============== Drving License
@@ -625,22 +626,87 @@ class DocumentDetailsView extends StatelessWidget {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    FilePickService().getSingleFile();
+                                    CustomDialogShow.showInformation(
+                                        title: "My Attachment List",
+                                        contents: [
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.file_copy_outlined),
+                                            title: Text("W4 Form"),
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      FilePickService()
+                                                          .getSingleFile()
+                                                          .then((file) {
+                                                        profileCtrl
+                                                            .uploadUserFile(
+                                                                file!.path,
+                                                                101);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.file_upload)),
+                                                IconButton(
+                                                    onPressed: () async {},
+                                                    icon: Icon(
+                                                        Icons.file_download)),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(),
+                                          ListTile(
+                                            leading: const Icon(
+                                                Icons.file_copy_outlined),
+                                            title: Text("I-9 Form"),
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      FilePickService()
+                                                          .getSingleFile()
+                                                          .then((file) {
+                                                        profileCtrl
+                                                            .uploadUserFile(
+                                                                file!.path,
+                                                                102);
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.file_upload)),
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                        Icons.file_download)),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                        cancelButtonName: "Close",
+                                        btnCancelOnPress: () {
+                                          PageNavigationService.backScreen();
+                                        });
+                                    // FilePickService().getSingleFile();
                                   },
                                   icon: const Icon(Icons.attach_file)),
                               const Text(
-                                "Attachments",
+                                "My Attachments",
                                 style: CustomTextStyle.mediumBoldStyleDarkGrey,
                               ),
                             ],
                           ),
                           IconButton(
                               onPressed: () {
-                                ApiErrorHandleService.handleStatusCodeError({
-                                  "code": 101,
-                                  "message":
-                                      "Please fill out W4 and I-9 Forms and upload, you can download those forms in the link above"
-                                });
+                                CustomDialogShow.showInfoDialog(
+                                    title: "Info",
+                                    description:
+                                        "Please fill out W4 and I-9 Forms and upload, you can download those forms in the link above",
+                                    cancelButtonName: "Close",
+                                    btnCancelOnPress: () =>
+                                        PageNavigationService.backScreen());
                               },
                               icon: const Icon(Icons.info)),
                         ],

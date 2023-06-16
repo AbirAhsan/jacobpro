@@ -33,62 +33,6 @@ class DashBoardScreen extends StatelessWidget {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Card(
-          //     elevation: 5,
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: GetBuilder<ProfileController>(
-          //           init: ProfileController(),
-          //           builder: (profileCtrl) {
-          //             return ListTile(
-          //               leading: ProfileImageWidget(
-          //                 imageUrl: "",
-          //                 radius: 26,
-          //               ),
-          //               title: Text(
-          //                 "Abir Ahsan".toUpperCase(),
-          //                 style: CustomTextStyle.mediumBoldStyleBlack,
-          //               ),
-          //               subtitle: RichText(
-          //                   text: TextSpan(text: "", children: [
-          //                 TextSpan(
-          //                   text: "ID : ",
-          //                   style: CustomTextStyle.smallRegularStyleDarkGrey,
-          //                 ),
-          //                 TextSpan(
-          //                   text: "846268372",
-          //                   style: CustomTextStyle.smallRegularStyleDarkGrey,
-          //                 ),
-          //                 TextSpan(
-          //                   text: "\nPermenent Staff",
-          //                   style: CustomTextStyle.smallRegularStylePrimary,
-          //                 ),
-          //               ])),
-          //               trailing: Row(
-          //                 mainAxisSize: MainAxisSize.min,
-          //                 children: [
-          //                   CupertinoSwitch(
-          //                     value: profileCtrl.isOnline,
-          //                     onChanged: (value) {
-          //                       profileCtrl.isOnline = value;
-          //                       profileCtrl.update();
-          //                     },
-          //                   ),
-          //                   Text(
-          //                     profileCtrl.isOnline ? "ONLINE" : "OFFLINE",
-          //                     style: profileCtrl.isOnline
-          //                         ? CustomTextStyle.normalBoldStyleGreen
-          //                         : CustomTextStyle.normalBoldStyleGrey,
-          //                   ),
-          //                 ],
-          //               ),
-          //             );
-          //           }),
-          //     ),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -178,8 +122,8 @@ class DashBoardScreen extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //  mainAxisExtent: _width / 2,
-              childAspectRatio: 1.7,
+              // mainAxisExtent: 200,
+              childAspectRatio: 1.5,
               crossAxisCount: 2,
               crossAxisSpacing: 2.0,
               mainAxisSpacing: 2.0,

@@ -24,34 +24,37 @@ class DashBoardCardWidget1 extends StatelessWidget {
           debugPrint(name);
           await SemanticsService.announce("$name", TextDirection.ltr);
         },
-        child: Card(
-          elevation: 8.0,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                CustomImageIcon(
-                  size: 32,
-                  imagepath: assetImage,
-                  color: CustomColors.primary,
-                ),
-                const Spacer(),
-                FittedBox(
-                  child: Text(
-                    "$name",
-                    style: CustomTextStyle.mediumBoldStyleDarkGrey,
+        child: SizedBox(
+          height: 100,
+          child: Card(
+            elevation: 8.0,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  CustomImageIcon(
+                    size: 32,
+                    imagepath: assetImage,
+                    color: CustomColors.primary,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                FittedBox(
-                  child: Text(
-                    "$quantity",
-                    style: CustomTextStyle.mediumBoldStylePrimary,
+                  const Spacer(),
+                  FittedBox(
+                    child: Text(
+                      "$name",
+                      style: CustomTextStyle.mediumBoldStyleDarkGrey,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  FittedBox(
+                    child: Text(
+                      "$quantity",
+                      style: CustomTextStyle.mediumBoldStylePrimary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

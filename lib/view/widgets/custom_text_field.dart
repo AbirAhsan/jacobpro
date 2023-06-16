@@ -132,6 +132,7 @@ class CustomTextField extends StatelessWidget {
           decoration: InputDecoration(
             fillColor: backgroundColor,
             filled: true,
+            alignLabelWithHint: true,
             contentPadding: contentPadding,
             // EdgeInsets.only(
             //     left: 10.0,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/estimate_controller.dart';
-import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/my_customer/views/estimate_card_widget.dart';
 import '../../../model/customer_details_model.dart';
+import '../../../services/page_navigation_service.dart';
 import '../../widgets/custom_submit_button.dart';
 
 class CustomerEstimateView extends StatelessWidget {
@@ -44,9 +44,14 @@ class CustomerEstimateView extends StatelessWidget {
                       itemCount: estimatedCtrl.customerEstimateList.length,
                       itemBuilder: (buildContext, index) {
                         return EstimateCardWidget(
-                          hasDetailButton: true,
                           estimatedetails:
                               estimatedCtrl.customerEstimateList[index],
+                          seeDetailsPressed: () {
+                            PageNavigationService.generalNavigation(
+                                "/EstimateDetailsScreen",
+                                arguments: estimatedCtrl
+                                    .customerEstimateList[index]!.jobUuid);
+                          },
                         );
                       })
                 ],

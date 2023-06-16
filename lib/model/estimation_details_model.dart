@@ -2,12 +2,16 @@ import 'service_and_material_item_model.dart';
 
 class EstimateDetailsModel {
   JobDto? jobDto;
+  JobPriceCalculationDto? jobPriceCalculationDto;
   List<ServiceandMaterialItemModel>? lineItems;
 
   EstimateDetailsModel({this.jobDto, this.lineItems});
 
   EstimateDetailsModel.fromJson(Map<String, dynamic> json) {
     jobDto = json['jobDto'] != null ? JobDto.fromJson(json['jobDto']) : null;
+    jobPriceCalculationDto = json['jobPriceCalculationDto'] != null
+        ? JobPriceCalculationDto.fromJson(json['jobPriceCalculationDto'])
+        : null;
     if (json['lineItems'] != null) {
       lineItems = <ServiceandMaterialItemModel>[];
       json['lineItems'].forEach((v) {
@@ -20,6 +24,9 @@ class EstimateDetailsModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (jobDto != null) {
       data['jobDto'] = jobDto!.toJson();
+    }
+    if (jobPriceCalculationDto != null) {
+      data['jobPriceCalculationDto'] = jobPriceCalculationDto!.toJson();
     }
     if (lineItems != null) {
       data['lineItems'] = lineItems!.map((v) => v.toJson()).toList();
@@ -121,6 +128,75 @@ class JobDto {
     data['isEligibleForConvertToJob'] = isEligibleForConvertToJob;
     data['jobScheduleStartDateInText'] = jobScheduleStartDateInText;
     data['jobScheduleEndDateInText'] = jobScheduleEndDateInText;
+    return data;
+  }
+}
+
+//
+class JobPriceCalculationDto {
+  double? jobCalculatedBillAmount;
+  String? jobDiscountType;
+  double? jobDiscountRate;
+  double? jobDiscountAmount;
+  String? jobDiscountNote;
+  int? jobTaxTypeId;
+  double? jobTaxAmount;
+  double? jobBillAmountBeforeAdjustment;
+  double? jobBillAdjustmentAmount;
+  double? jobFinalBillAmount;
+  double? jobTotalPaidAmount;
+  double? jobTotalRemainAmount;
+
+  JobPriceCalculationDto(
+      {this.jobCalculatedBillAmount,
+      this.jobDiscountType,
+      this.jobDiscountRate,
+      this.jobDiscountAmount,
+      this.jobDiscountNote,
+      this.jobTaxTypeId,
+      this.jobTaxAmount,
+      this.jobBillAmountBeforeAdjustment,
+      this.jobBillAdjustmentAmount,
+      this.jobFinalBillAmount,
+      this.jobTotalPaidAmount,
+      this.jobTotalRemainAmount});
+
+  JobPriceCalculationDto.fromJson(Map<String, dynamic> json) {
+    jobCalculatedBillAmount =
+        double.tryParse("${json['jobCalculatedBillAmount'] ?? 0.0}");
+    jobDiscountType = json['jobDiscountType'];
+    jobDiscountRate = double.tryParse("${json['jobDiscountRate'] ?? 0.0}");
+    jobDiscountAmount = double.tryParse("${json['jobDiscountRate'] ?? 0.0}");
+    json['jobDiscountAmount'];
+    jobDiscountNote = json['jobDiscountNote'];
+    jobTaxTypeId = json['jobTaxTypeId'];
+    jobTaxAmount = double.tryParse("${json['jobTaxAmount'] ?? 0.0}");
+    jobBillAmountBeforeAdjustment =
+        double.tryParse("${json['jobBillAmountBeforeAdjustment'] ?? 0.0}");
+    jobBillAdjustmentAmount =
+        double.tryParse("${json['jobBillAdjustmentAmount'] ?? 0.0}");
+    jobFinalBillAmount =
+        double.tryParse("${json['jobFinalBillAmount'] ?? 0.0}");
+    jobTotalPaidAmount =
+        double.tryParse("${json['jobTotalPaidAmount'] ?? 0.0}");
+    jobTotalRemainAmount =
+        double.tryParse("${json['jobTotalRemainAmount'] ?? 0.0}");
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['jobCalculatedBillAmount'] = jobCalculatedBillAmount;
+    data['jobDiscountType'] = jobDiscountType;
+    data['jobDiscountRate'] = jobDiscountRate;
+    data['jobDiscountAmount'] = jobDiscountAmount;
+    data['jobDiscountNote'] = jobDiscountNote;
+    data['jobTaxTypeId'] = jobTaxTypeId;
+    data['jobTaxAmount'] = jobTaxAmount;
+    data['jobBillAmountBeforeAdjustment'] = jobBillAmountBeforeAdjustment;
+    data['jobBillAdjustmentAmount'] = jobBillAdjustmentAmount;
+    data['jobFinalBillAmount'] = jobFinalBillAmount;
+    data['jobTotalPaidAmount'] = jobTotalPaidAmount;
+    data['jobTotalRemainAmount'] = jobTotalRemainAmount;
     return data;
   }
 }
