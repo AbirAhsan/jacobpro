@@ -5,22 +5,29 @@ import 'package:file_picker/file_picker.dart';
 import 'error_code_handle_service.dart';
 
 class FilePickService {
-  Future<File?> getSingleFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+  static Future<File?> getSingleFile({List<String>? allowedExtensions}) async {
+    try {
+      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: allowedExtensions ?? ['pdf'],
+      );
 
-    if (result != null) {
-      File file = File(result.files.single.path!);
+      if (result != null && result.files.isNotEmpty) {
+        final String? filePath = result.files.single.path;
+        if (filePath != null) {
+          final File file = File(filePath);
+          return file;
+        }
+      }
 
-      return file;
-    } else {
       // User canceled the picker
+      throw FileSelectionError("No File Selected");
+    } catch (e) {
       ApiErrorHandleService.handleStatusCodeError({
         "code": 404,
-        "message": "No File Selected",
+        "message": "File Selection Error",
       });
-      throw {
-        "message": "Something went to Wrong",
-      };
+      throw FileSelectionError("Something went wrong");
     }
   }
 
@@ -42,4 +49,10 @@ class FilePickService {
       };
     }
   }
+}
+
+class FileSelectionError implements Exception {
+  final String message;
+
+  FileSelectionError(this.message);
 }

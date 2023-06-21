@@ -242,6 +242,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                   icon: null,
                                   isFitted: true,
                                   onPressed: () async {
+                                    estimatedCtrl.clearForTextCtrl();
                                     PageNavigationService.generalNavigation(
                                         '/AddItemFormScreen',
                                         arguments: [
@@ -461,6 +462,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                   icon: null,
                                   isFitted: true,
                                   onPressed: () async {
+                                    estimatedCtrl.clearForTextCtrl();
                                     PageNavigationService.generalNavigation(
                                         '/AddItemFormScreen',
                                         arguments: [
@@ -568,7 +570,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       InkWell(
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.edit_document,
                                           color: CustomColors.primary,
                                         ),
@@ -789,6 +791,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                             ),
                             const Divider(),
                             //<= Tax
+
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -815,7 +818,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                       );
                                     }).toList(),
                                     onChanged: (value) {
-                                      estimatedCtrl.selectedTaxCategory = value;
+                                      estimatedCtrl.selectedTaxCategory =
+                                          value as int?;
                                       estimatedCtrl.update();
                                       estimatedCtrl.updateEstimate(jobUuid);
                                     },

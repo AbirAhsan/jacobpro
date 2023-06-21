@@ -11,6 +11,7 @@ import 'package:service/services/page_navigation_service.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/debouncher_service.dart';
 import '../services/error_code_handle_service.dart';
+import 'search_controller.dart';
 
 class EstimatedController extends GetxController {
   double totalServicePrice = 0.0;
@@ -44,11 +45,11 @@ class EstimatedController extends GetxController {
   int? selectedTaxCategory;
   double? selectedTaxRate = 0.0;
   List taxCategoryList = [
-    {"id": 1, "text": "Out of scopes", "percent": 0.0},
-    {"id": 2, "text": "Sales Tax", "percent": 10.0},
-    {"id": 3, "text": "WA-Federal Way", "percent": 10.1},
-    {"id": 4, "text": "WA-Kent", "percent": 10.1},
-    {"id": 5, "text": "WA-Seattle", "percent": 10.1},
+    {"id": 0, "text": "Out of scopes", "percent": 0.0},
+    {"id": 1, "text": "Sales Tax", "percent": 10.0},
+    {"id": 2, "text": "WA-Federal Way", "percent": 10.1},
+    {"id": 3, "text": "WA-Kent", "percent": 10.1},
+    {"id": 4, "text": "WA-Seattle", "percent": 10.1},
   ];
   //<== Discount
   String? selectedDiscount;
@@ -135,6 +136,7 @@ class EstimatedController extends GetxController {
             resp.jobPriceCalculationDto?.jobDiscountNote ?? "";
         discountAmount =
             "${resp.jobPriceCalculationDto?.jobDiscountRate ?? 0.0}";
+
         selectedTaxCategory = resp.jobPriceCalculationDto?.jobTaxTypeId;
         totalTaxAmount = resp.jobPriceCalculationDto?.jobTaxAmount ?? 0.0;
         update();
@@ -260,7 +262,8 @@ class EstimatedController extends GetxController {
   }
 
   assignDataForEditItemForm(ServiceandMaterialItemModel? item) {
-    itemDescriptionTxtCtrl.text = item!.itemDescription ?? "";
+    Get.put(SearchControl()).searchTextEditingCtrl!.text = item!.itemName ?? "";
+    itemDescriptionTxtCtrl.text = item.itemDescription ?? "";
     itemQuantityTxtCtrl.text = "${item.itemQty ?? 0}";
     itemUnitPriceTxtCtrl.text = item.itemUnitPrice ?? "0";
     itemTotalTxtCtrl.text =
@@ -335,9 +338,11 @@ class EstimatedController extends GetxController {
   }
 
   clearForTextCtrl() {
+    Get.put(SearchControl()).searchTextEditingCtrl!.clear();
     itemDescriptionTxtCtrl.clear();
     itemQuantityTxtCtrl.clear();
     itemUnitPriceTxtCtrl.clear();
     itemTotalTxtCtrl.clear();
+    update();
   }
 }

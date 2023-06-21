@@ -638,8 +638,8 @@ class DocumentDetailsView extends StatelessWidget {
                                               children: [
                                                 IconButton(
                                                     onPressed: () {
-                                                      FilePickService()
-                                                          .getSingleFile()
+                                                      FilePickService
+                                                              .getSingleFile()
                                                           .then((file) {
                                                         profileCtrl
                                                             .uploadUserFile(
@@ -666,8 +666,8 @@ class DocumentDetailsView extends StatelessWidget {
                                               children: [
                                                 IconButton(
                                                     onPressed: () {
-                                                      FilePickService()
-                                                          .getSingleFile()
+                                                      FilePickService
+                                                              .getSingleFile()
                                                           .then((file) {
                                                         profileCtrl
                                                             .uploadUserFile(
@@ -675,7 +675,7 @@ class DocumentDetailsView extends StatelessWidget {
                                                                 102);
                                                       });
                                                     },
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                         Icons.file_upload)),
                                                 IconButton(
                                                     onPressed: () {},
