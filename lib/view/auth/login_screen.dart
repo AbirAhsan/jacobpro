@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/controller/auth_controller.dart';
 import 'package:service/services/page_navigation_service.dart';
@@ -81,6 +82,9 @@ class LoginScreen extends StatelessWidget {
                                   size: 20,
                                 ),
                               ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                              ],
                               validator: ValidatorService.validatePassword,
                             );
                           }),

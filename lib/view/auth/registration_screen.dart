@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
@@ -80,6 +81,9 @@ class RegistrationScreen extends StatelessWidget {
                             labelText: LocaleKeys.auth_email.tr(),
                             keyboardType: TextInputType.emailAddress,
                             controller: authCtrl.registrationEmailCtrl,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                            ],
                             validator: ValidatorService.validateEmail,
                             onChanged: (value) {
                               authCtrl.profile.value.userMail = value;
