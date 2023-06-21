@@ -36,14 +36,17 @@ class LoginScreen extends StatelessWidget {
                     physics: const ScrollPhysics(),
                     padding: const EdgeInsets.all(20),
                     children: [
-                      Image.asset(
-                        CustomIcons.logo,
-                        width: 200,
-                        height: 80,
+                      SizedBox(
+                        // width: Get.width / 2,
+                        height: Get.width / 2,
+                        child: Image.asset(
+                          CustomIcons.logo,
+                          // width: 200,
+
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      const SizedBox(
-                        height: 50,
-                      ),
+
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
