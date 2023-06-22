@@ -16,7 +16,7 @@ class FileDownloaderService {
     String? fileName,
   ) async {
     final status = await Permission.storage.request();
-    String savedDir = "";
+
     if (status.isGranted) {
       // await getExternalStorageDirectory()
       //     .then((value) => savedDir = value!.path);
