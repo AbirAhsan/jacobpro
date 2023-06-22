@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
+import 'package:service/services/file_downloader_service.dart';
 import 'package:service/services/file_picker_service.dart';
 import 'package:service/services/image_picker_service.dart';
 import 'package:service/services/page_navigation_service.dart';
@@ -53,7 +54,12 @@ class DocumentDetailsView extends StatelessWidget {
                                   leading: const Icon(Icons.file_copy_outlined),
                                   title: Text("I-9 Form"),
                                   trailing: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        FileDownloaderService().startDownload(
+                                            context,
+                                            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                                            "filename.pdf");
+                                      },
                                       icon: Icon(Icons.file_download)),
                                 ),
                               ],
