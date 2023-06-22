@@ -9,6 +9,7 @@ import '../../controller/screen_controller.dart';
 import '../variables/colors_variable.dart';
 import '../variables/text_style.dart';
 import '../widgets/custom_drawer.dart';
+import 'views/bank_details_view.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
   const ProfileDetailsScreen({super.key});
@@ -224,16 +225,14 @@ class ProfileDetailsScreen extends StatelessWidget {
                                         const SizedBox(width: 8),
                                         (profileCtrl.selectedSKillSubCategoryId ==
                                                         17 &&
-                                                    (profileCtrl
-                                                            .selectedSkillList!
+                                                    (profileCtrl.selectedSkillList!
                                                             .isEmpty ||
-                                                        (profileCtrl.selectedSkillList!
+                                                        (profileCtrl
+                                                                .selectedSkillList!
                                                                 .any((skill) =>
-                                                                    skill!
-                                                                        .skillId ==
+                                                                    skill!.skillId ==
                                                                     30) &&
-                                                            profileCtrl
-                                                                    .otherSkillTxtCtrl
+                                                            profileCtrl.otherSkillTxtCtrl
                                                                     .text ==
                                                                 ""))) ||
                                                 (profileCtrl.selectedSKillSubCategoryId !=
@@ -246,7 +245,19 @@ class ProfileDetailsScreen extends StatelessWidget {
                                                         .value
                                                         ?.profileGeneralData
                                                         ?.workingMode ==
-                                                    null
+                                                    null ||
+                                                profileCtrl
+                                                        .myProfileDetails
+                                                        .value!
+                                                        .profileSkillData
+                                                        ?.userYearOfExperience ==
+                                                    "" ||
+                                                profileCtrl
+                                                        .myProfileDetails
+                                                        .value!
+                                                        .profileSkillData
+                                                        ?.userPerHourWage ==
+                                                    ""
                                             ? Container(
                                                 width: 18,
                                                 height: 18,
@@ -275,6 +286,13 @@ class ProfileDetailsScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                  Tab(
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                        const Text('BANK DETAILS'),
+                                        const SizedBox(width: 8),
+                                      ])),
                                   Tab(
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -357,6 +375,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                     children: const [
                       ContactDetailsView(),
                       EmployeeDetailsView(),
+                      BankDetailsView(),
                       DocumentDetailsView(),
                     ],
                   );

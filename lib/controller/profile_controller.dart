@@ -18,6 +18,7 @@ import '../services/validator_service.dart';
 class ProfileController extends GetxController {
   GlobalKey<FormState> profileContactFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> profileSkillFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> profileBankFormKey = GlobalKey<FormState>();
   TextEditingController? drivingLicenseExpiryTxtCtrl = TextEditingController();
   TextEditingController? idCardExpiryTxtCtrl = TextEditingController();
   TextEditingController? technicalLicenseExpiryTxtCtrl =
@@ -36,6 +37,16 @@ class ProfileController extends GetxController {
   TextEditingController? eLastNameTxtCtrl = TextEditingController();
   TextEditingController? eEmailTxtCtrl = TextEditingController();
   TextEditingController? ePhoneTxtCtrl = TextEditingController();
+
+  ///
+  TextEditingController? userYearOfExperienceTxtCtrl = TextEditingController();
+  TextEditingController? userPerHourWageTxtCtrl = TextEditingController();
+
+  ///
+  TextEditingController? bankNameTxtCtrl = TextEditingController();
+  TextEditingController? branchNameTxtCtrl = TextEditingController();
+  TextEditingController? accountNumberTxtCtrl = TextEditingController();
+  TextEditingController? routingNumberTxtCtrl = TextEditingController();
   List workingModeList = [
     {"id": 1, "name": "Freelance"},
     {"id": 2, "name": "Permanent"}
@@ -118,7 +129,11 @@ class ProfileController extends GetxController {
         setselectedSkills(
             myProfileDetails.value!.profileSkillData!.profileSkillIdList!);
         print(myProfileDetails.value!.profileSkillData!.profileSkillIdList!);
-
+        userYearOfExperienceTxtCtrl!.text =
+            myProfileDetails.value!.profileSkillData!.userYearOfExperience ??
+                "";
+        userPerHourWageTxtCtrl!.text =
+            myProfileDetails.value!.profileSkillData!.userPerHourWage ?? "";
         update();
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
@@ -141,16 +156,58 @@ class ProfileController extends GetxController {
         FocusManager.instance.primaryFocus?.unfocus();
         Get.put(ScreenController()).changeProfileTabbar(1);
         await ProfileApiService.updateOwnProfile(
-            myProfileDetails.value!,
-            selectedSkillList != null
-                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-            otherSkillTxtCtrl.text,
-            [
-              drivingLicenseExpiryTxtCtrl?.text ?? "",
-              idCardExpiryTxtCtrl?.text ?? "",
-              technicalLicenseExpiryTxtCtrl?.text ?? "",
-            ]).then((resp) async {
+          myProfileDetails.value!,
+          selectedSkillList != null
+              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+          otherSkillTxtCtrl.text,
+          [
+            drivingLicenseExpiryTxtCtrl?.text ?? "",
+            idCardExpiryTxtCtrl?.text ?? "",
+            technicalLicenseExpiryTxtCtrl?.text ?? "",
+          ],
+          userYearOfExperienceTxtCtrl!.text,
+          userPerHourWageTxtCtrl!.text,
+        ).then((resp) async {
+          await fetchMyProfileDetails();
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
+        CustomEassyLoading.stopLoading();
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
+    }
+  }
+
+  Future<void> updateProfileBankDetails() async {
+    if (ValidatorService().validateAndSave(profileBankFormKey)) {
+      CustomEassyLoading.startLoading();
+      FocusManager.instance.primaryFocus?.unfocus();
+      Get.put(ScreenController()).changeProfileTabbar(3);
+
+      try {
+        CustomEassyLoading.startLoading();
+        FocusManager.instance.primaryFocus?.unfocus();
+        Get.put(ScreenController()).changeProfileTabbar(3);
+        await ProfileApiService.updateOwnProfile(
+          myProfileDetails.value!,
+          selectedSkillList != null
+              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+          otherSkillTxtCtrl.text,
+          [
+            drivingLicenseExpiryTxtCtrl?.text ?? "",
+            idCardExpiryTxtCtrl?.text ?? "",
+            technicalLicenseExpiryTxtCtrl?.text ?? "",
+          ],
+          userYearOfExperienceTxtCtrl!.text,
+          userPerHourWageTxtCtrl!.text,
+        ).then((resp) async {
           await fetchMyProfileDetails();
         }, onError: (err) {
           ApiErrorHandleService.handleStatusCodeError(err);
@@ -181,17 +238,19 @@ class ProfileController extends GetxController {
           FocusManager.instance.primaryFocus?.unfocus();
           Get.put(ScreenController()).changeProfileTabbar(2);
           await ProfileApiService.updateOwnProfile(
-              myProfileDetails.value!,
-              selectedSkillList != null
-                  ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-                  : myProfileDetails
-                      .value!.profileSkillData?.profileSkillIdList,
-              otherSkillTxtCtrl.text,
-              [
-                drivingLicenseExpiryTxtCtrl?.text ?? "",
-                idCardExpiryTxtCtrl?.text ?? "",
-                technicalLicenseExpiryTxtCtrl?.text ?? "",
-              ]).then((resp) async {
+            myProfileDetails.value!,
+            selectedSkillList != null
+                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+            otherSkillTxtCtrl.text,
+            [
+              drivingLicenseExpiryTxtCtrl?.text ?? "",
+              idCardExpiryTxtCtrl?.text ?? "",
+              technicalLicenseExpiryTxtCtrl?.text ?? "",
+            ],
+            userYearOfExperienceTxtCtrl!.text,
+            userPerHourWageTxtCtrl!.text,
+          ).then((resp) async {
             await fetchMyProfileDetails();
           }, onError: (err) {
             ApiErrorHandleService.handleStatusCodeError(err);
@@ -313,16 +372,19 @@ class ProfileController extends GetxController {
         CustomEassyLoading.startLoading();
         FocusManager.instance.primaryFocus?.unfocus();
         await ProfileApiService.updateOwnProfile(
-            myProfileDetails.value!,
-            selectedSkillList != null
-                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-            otherSkillTxtCtrl.text,
-            [
-              drivingLicenseExpiryTxtCtrl?.text ?? "",
-              idCardExpiryTxtCtrl?.text ?? "",
-              technicalLicenseExpiryTxtCtrl?.text ?? "",
-            ]).then((resp) async {
+          myProfileDetails.value!,
+          selectedSkillList != null
+              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
+              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
+          otherSkillTxtCtrl.text,
+          [
+            drivingLicenseExpiryTxtCtrl?.text ?? "",
+            idCardExpiryTxtCtrl?.text ?? "",
+            technicalLicenseExpiryTxtCtrl?.text ?? "",
+          ],
+          userYearOfExperienceTxtCtrl!.text,
+          userPerHourWageTxtCtrl!.text,
+        ).then((resp) async {
           await fetchMyProfileDetails();
           CustomDialogShow.showSuccessDialog(
               title: "Submitted For Verification!",
@@ -389,6 +451,15 @@ class ProfileController extends GetxController {
     pLastNameTxtCtrl!.text = lastName!;
     pEmailTxtCtrl!.text = email!;
     pPhoneTxtCtrl!.text = phone!;
+    update();
+  }
+
+  assignBankDetails(String? bankName, String? branchName, String? accountNumber,
+      String? routingNumber) {
+    bankNameTxtCtrl!.text = bankName ?? "";
+    branchNameTxtCtrl!.text = branchName ?? "";
+    accountNumberTxtCtrl!.text = accountNumber ?? "";
+    routingNumberTxtCtrl!.text = routingNumber ?? "";
     update();
   }
 

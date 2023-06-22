@@ -124,10 +124,13 @@ class ProfileApiService {
 
   //<============================= Update Own Profile Details
   static Future<bool> updateOwnProfile(
-      TechnicianProfileModel? profileDetails,
-      List<int>? profileSkillIdList,
-      String? profileOtherSkill,
-      List<String?> profileDocExpiryDateList) async {
+    TechnicianProfileModel? profileDetails,
+    List<int>? profileSkillIdList,
+    String? profileOtherSkill,
+    List<String?> profileDocExpiryDateList,
+    String? userYearOfExperience,
+    String? userPerHourWage,
+  ) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
@@ -147,7 +150,9 @@ class ProfileApiService {
       "profileSkillIdList":
           profileSkillIdList!.isNotEmpty ? profileSkillIdList : null,
       "profileOtherSkill": profileOtherSkill,
-      "ProfileDocExpiryDateList": profileDocExpiryDateList
+      "ProfileDocExpiryDateList": profileDocExpiryDateList,
+      "userYearOfExperience": userYearOfExperience,
+      "userPerHourWage": userPerHourWage,
     });
 
     var streamedResponse = await request.send();

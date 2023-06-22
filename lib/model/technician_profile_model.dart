@@ -135,18 +135,27 @@ class ProfileSkillData {
   int? profileSkillSubCategoryId;
   List<int>? profileSkillIdList;
   String? profileOtherSkill;
+  String? userYearOfExperience;
+  String? userPerHourWage;
 
   ProfileSkillData(
       {this.profileSkillCategoryId,
       this.profileSkillSubCategoryId,
       this.profileSkillIdList,
-      this.profileOtherSkill});
+      this.profileOtherSkill,
+      this.userYearOfExperience,
+      this.userPerHourWage});
 
   ProfileSkillData.fromJson(Map<String, dynamic> json) {
     profileSkillCategoryId = json['profileSkillCategoryId'];
     profileSkillSubCategoryId = json['profileSkillSubCategoryId'];
     profileSkillIdList = json['profileSkillIdList'].cast<int>();
-    profileOtherSkill = json['profileOtherSkill'];
+    userYearOfExperience = json['userYearOfExperience'] != null
+        ? json['userYearOfExperience'].toString()
+        : json['userYearOfExperience'];
+    userPerHourWage = json['userPerHourWage'] != null
+        ? json['userPerHourWage'].toString()
+        : json['userPerHourWage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -155,6 +164,8 @@ class ProfileSkillData {
     data['profileSkillSubCategoryId'] = profileSkillSubCategoryId;
     data['profileSkillIdList'] = profileSkillIdList;
     data['profileOtherSkill'] = profileOtherSkill;
+    data['userYearOfExperience'] = userYearOfExperience;
+    data['userPerHourWage'] = userPerHourWage;
     return data;
   }
 }

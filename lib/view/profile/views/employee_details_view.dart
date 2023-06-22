@@ -179,18 +179,32 @@ class EmployeeDetailsView extends StatelessWidget {
                     CustomTextField(
                       marginLeft: 20,
                       marginRight: 20,
+                      controller: profileCtrl.userYearOfExperienceTxtCtrl,
                       labelText: "Years of Experience",
                       isRequired: true,
                       prefixIcon: Icon(Icons.av_timer),
                       keyboardType: TextInputType.number,
+                      validator: ValidatorService.validateSimpleFiled,
+                      onChanged: (value) {
+                        profileCtrl.myProfileDetails.value!.profileSkillData
+                            ?.userYearOfExperience = value;
+                        profileCtrl.update();
+                      },
                     ),
                     CustomTextField(
                       marginLeft: 20,
                       marginRight: 20,
                       labelText: "Wages",
                       isRequired: true,
+                      controller: profileCtrl.userPerHourWageTxtCtrl,
                       prefixIcon: Icon(Icons.attach_money_rounded),
                       keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        profileCtrl.myProfileDetails.value!.profileSkillData
+                            ?.userPerHourWage = value;
+                        profileCtrl.update();
+                      },
+                      validator: ValidatorService.validateSimpleFiled,
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
