@@ -29,13 +29,35 @@ class BankDetailsView extends StatelessWidget {
                     isRequired: true,
                     labelText: "Bank Name",
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
+                          .paymentMethodName = value;
+                      profileCtrl.update();
+                    },
                     validator: ValidatorService.validateSimpleFiled,
                   ),
                   CustomTextField(
-                    controller: profileCtrl.bankNameTxtCtrl,
+                    controller: profileCtrl.branchNameTxtCtrl,
                     isRequired: true,
                     labelText: "Branch Name",
                     keyboardType: TextInputType.name,
+                    onChanged: (value) {
+                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
+                          .paymentAccountBranchName = value;
+                      profileCtrl.update();
+                    },
+                    validator: ValidatorService.validateSimpleFiled,
+                  ),
+                  CustomTextField(
+                    controller: profileCtrl.accountHolderNameTxtCtrl,
+                    isRequired: true,
+                    labelText: "Account Holder Name",
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
+                          .paymentAccountName = value;
+                      profileCtrl.update();
+                    },
                     validator: ValidatorService.validateSimpleFiled,
                   ),
                   CustomTextField(
@@ -43,6 +65,11 @@ class BankDetailsView extends StatelessWidget {
                     isRequired: true,
                     labelText: "Account Number",
                     keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
+                          .paymentAccountNo = value;
+                      profileCtrl.update();
+                    },
                     validator: ValidatorService.validateSimpleFiled,
                   ),
                   CustomTextField(
@@ -50,6 +77,11 @@ class BankDetailsView extends StatelessWidget {
                     isRequired: true,
                     labelText: "Routing Number",
                     keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
+                          .paymentRoutingNo = value;
+                      profileCtrl.update();
+                    },
                     validator: ValidatorService.validateSimpleFiled,
                   ),
                   Align(
@@ -62,7 +94,7 @@ class BankDetailsView extends StatelessWidget {
                           //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                           isFitted: true,
                           onPressed: () async {
-                            await profileCtrl.updateProfileSkill();
+                            await profileCtrl.updateProfileBankDetails();
                             // screenCtrl.changeProfileTabbar(2);
                           },
                         );

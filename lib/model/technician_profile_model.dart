@@ -4,12 +4,14 @@ class TechnicianProfileModel {
   ProfileGeneralData? profileGeneralData;
   ProfileEmergencyContactData? profileEmergencyContactData;
   ProfileSkillData? profileSkillData;
+  ProfilePaymentMethod? profilePaymentMethod;
   List<ProfileDocumentsWrapperData>? profileDocumentsWrapperData;
 
   TechnicianProfileModel(
       {this.profileGeneralData,
       this.profileEmergencyContactData,
       this.profileSkillData,
+      this.profilePaymentMethod,
       this.profileDocumentsWrapperData});
 
   TechnicianProfileModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,9 @@ class TechnicianProfileModel {
         : null;
     profileSkillData = json['profileSkillData'] != null
         ? ProfileSkillData.fromJson(json['profileSkillData'])
+        : null;
+    profilePaymentMethod = json['profilePaymentMethod'] != null
+        ? ProfilePaymentMethod.fromJson(json['profilePaymentMethod'])
         : null;
     if (json['profileDocumentsWrapperData'] != null) {
       profileDocumentsWrapperData = <ProfileDocumentsWrapperData>[];
@@ -43,6 +48,9 @@ class TechnicianProfileModel {
     }
     if (profileSkillData != null) {
       data['profileSkillData'] = profileSkillData!.toJson();
+    }
+    if (profilePaymentMethod != null) {
+      data['profilePaymentMethod'] = profilePaymentMethod!.toJson();
     }
     if (profileDocumentsWrapperData != null) {
       data['profileDocumentsWrapperData'] =
@@ -214,6 +222,39 @@ class ProfileDocumentsData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['profileDocumentURL'] = profileDocumentURL;
     data['profileDocumentTypeId'] = profileDocumentTypeId;
+    return data;
+  }
+}
+
+class ProfilePaymentMethod {
+  String? paymentMethodName;
+  String? paymentAccountNo;
+  String? paymentAccountName;
+  String? paymentAccountBranchName;
+  String? paymentRoutingNo;
+
+  ProfilePaymentMethod(
+      {this.paymentMethodName,
+      this.paymentAccountNo,
+      this.paymentAccountName,
+      this.paymentAccountBranchName,
+      this.paymentRoutingNo});
+
+  ProfilePaymentMethod.fromJson(Map<String, dynamic> json) {
+    paymentMethodName = json['paymentMethodName'];
+    paymentAccountNo = json['paymentAccountNo'];
+    paymentAccountName = json['paymentAccountName'];
+    paymentAccountBranchName = json['paymentAccountBranchName'];
+    paymentRoutingNo = json['paymentRoutingNo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['paymentMethodName'] = paymentMethodName;
+    data['paymentAccountNo'] = paymentAccountNo;
+    data['paymentAccountName'] = paymentAccountName;
+    data['paymentAccountBranchName'] = paymentAccountBranchName;
+    data['paymentRoutingNo'] = paymentRoutingNo;
     return data;
   }
 }

@@ -150,10 +150,12 @@ class ProfileApiService {
       "profileSkillIdList":
           profileSkillIdList!.isNotEmpty ? profileSkillIdList : null,
       "profileOtherSkill": profileOtherSkill,
+      "profilePaymentMethod": profileDetails.profilePaymentMethod,
       "ProfileDocExpiryDateList": profileDocExpiryDateList,
       "userYearOfExperience": userYearOfExperience,
       "userPerHourWage": userPerHourWage,
     });
+    print(request.body);
 
     var streamedResponse = await request.send();
 

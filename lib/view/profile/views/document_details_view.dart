@@ -44,23 +44,30 @@ class DocumentDetailsView extends StatelessWidget {
                               contents: [
                                 ListTile(
                                   leading: const Icon(Icons.file_copy_outlined),
-                                  title: Text("W4 Form"),
+                                  title: const Text("W4 Form"),
                                   trailing: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.file_download)),
+                                      onPressed: () async {
+                                        PageNavigationService.backScreen();
+                                        await FileDownloaderService().startDownload(
+                                            context,
+                                            "http://jacobpro.api.jacobpro.net/Files/W4_Form.pdf",
+                                            "W4_Form.pdf");
+                                      },
+                                      icon: const Icon(Icons.file_download)),
                                 ),
-                                Divider(),
+                                const Divider(),
                                 ListTile(
                                   leading: const Icon(Icons.file_copy_outlined),
-                                  title: Text("I-9 Form"),
+                                  title: const Text("I-9 Form"),
                                   trailing: IconButton(
-                                      onPressed: () {
-                                        FileDownloaderService().startDownload(
+                                      onPressed: () async {
+                                        PageNavigationService.backScreen();
+                                        await FileDownloaderService().startDownload(
                                             context,
-                                            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                                            "filename.pdf");
+                                            "http://jacobpro.api.jacobpro.net/Files/I9_Form.pdf",
+                                            "I9_Form.pdf");
                                       },
-                                      icon: Icon(Icons.file_download)),
+                                      icon: const Icon(Icons.file_download)),
                                 ),
                               ],
                               cancelButtonName: "Close",
@@ -82,13 +89,13 @@ class DocumentDetailsView extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Divider(
+                            const Divider(
                               height: 0,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               "Front",
                               style: CustomTextStyle.normalBoldStyleDarkGrey,
                             ),
@@ -117,14 +124,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                     onPressed: () {
                                       Get.dialog(AlertDialog(
-                                        title: Text("Choose"),
+                                        title: const Text("Choose"),
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             ListTile(
-                                              leading: Icon(
+                                              leading: const Icon(
                                                   Icons.camera_alt_outlined),
-                                              title: Text("Camera"),
+                                              title: const Text("Camera"),
                                               onTap: () {
                                                 PageNavigationService
                                                     .backScreen();
@@ -138,9 +145,9 @@ class DocumentDetailsView extends StatelessWidget {
                                               },
                                             ),
                                             ListTile(
-                                              leading: Icon(Icons
+                                              leading: const Icon(Icons
                                                   .photo_camera_back_outlined),
-                                              title: Text("Gallery"),
+                                              title: const Text("Gallery"),
                                               onTap: () {
                                                 PageNavigationService
                                                     .backScreen();
@@ -162,7 +169,7 @@ class DocumentDetailsView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             const Text(
@@ -192,14 +199,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
+                                          title: const Text("Choose"),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               ListTile(
-                                                leading: Icon(
+                                                leading: const Icon(
                                                     Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
+                                                title: const Text("Camera"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -213,9 +220,9 @@ class DocumentDetailsView extends StatelessWidget {
                                                 },
                                               ),
                                               ListTile(
-                                                leading: Icon(Icons
+                                                leading: const Icon(Icons
                                                     .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
+                                                title: const Text("Gallery"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -293,14 +300,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
+                                          title: const Text("Choose"),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               ListTile(
-                                                leading: Icon(
+                                                leading: const Icon(
                                                     Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
+                                                title: const Text("Camera"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -314,9 +321,9 @@ class DocumentDetailsView extends StatelessWidget {
                                                 },
                                               ),
                                               ListTile(
-                                                leading: Icon(Icons
+                                                leading: const Icon(Icons
                                                     .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
+                                                title: const Text("Gallery"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -367,14 +374,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
+                                          title: const Text("Choose"),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               ListTile(
                                                 leading: const Icon(
                                                     Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
+                                                title: const Text("Camera"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -470,14 +477,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
+                                          title: const Text("Choose"),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               ListTile(
-                                                leading: Icon(
+                                                leading: const Icon(
                                                     Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
+                                                title: const Text("Camera"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -491,9 +498,9 @@ class DocumentDetailsView extends StatelessWidget {
                                                 },
                                               ),
                                               ListTile(
-                                                leading: Icon(Icons
+                                                leading: const Icon(Icons
                                                     .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
+                                                title: const Text("Gallery"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -571,14 +578,14 @@ class DocumentDetailsView extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         Get.dialog(AlertDialog(
-                                          title: Text("Choose"),
+                                          title: const Text("Choose"),
                                           content: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               ListTile(
-                                                leading: Icon(
+                                                leading: const Icon(
                                                     Icons.camera_alt_outlined),
-                                                title: Text("Camera"),
+                                                title: const Text("Camera"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -592,9 +599,9 @@ class DocumentDetailsView extends StatelessWidget {
                                                 },
                                               ),
                                               ListTile(
-                                                leading: Icon(Icons
+                                                leading: const Icon(Icons
                                                     .photo_camera_back_outlined),
-                                                title: Text("Gallery"),
+                                                title: const Text("Gallery"),
                                                 onTap: () {
                                                   PageNavigationService
                                                       .backScreen();
@@ -622,12 +629,34 @@ class DocumentDetailsView extends StatelessWidget {
                   ),
 
                   Card(
-                    elevation: 10,
+                    elevation: 8,
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 15.0),
+                            child: RichText(
+                              text: TextSpan(
+                                  text: "",
+                                  style: CustomTextStyle
+                                      .normalRegularStyleDarkGrey,
+                                  children: [
+                                    TextSpan(
+                                      text: "MY ATTACHMENTS",
+                                      style: CustomTextStyle
+                                          .mediumBoldStyleDarkGrey,
+                                    ),
+                                    TextSpan(
+                                      text: " *",
+                                      style:
+                                          CustomTextStyle.mediumBoldStyleError,
+                                    ),
+                                  ]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           Row(
                             children: [
                               IconButton(
@@ -638,7 +667,7 @@ class DocumentDetailsView extends StatelessWidget {
                                           ListTile(
                                             leading: const Icon(
                                                 Icons.file_copy_outlined),
-                                            title: Text("W4 Form"),
+                                            title: const Text("W4 Form"),
                                             trailing: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -653,20 +682,50 @@ class DocumentDetailsView extends StatelessWidget {
                                                                 101);
                                                       });
                                                     },
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                         Icons.file_upload)),
                                                 IconButton(
-                                                    onPressed: () async {},
+                                                    onPressed: profileCtrl
+                                                            .myProfileDetails
+                                                            .value!
+                                                            .profileDocumentsWrapperData![
+                                                                4]
+                                                            .profileDocumentsData!
+                                                            .any((doc) =>
+                                                                doc.profileDocumentTypeId ==
+                                                                101)
+                                                        ? () async {
+                                                            PageNavigationService
+                                                                .backScreen();
+                                                            await FileDownloaderService()
+                                                                .startDownload(
+                                                                    context,
+                                                                    "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 101)?.profileDocumentURL : ""}",
+                                                                    "My_W4_File.pdf");
+                                                          }
+                                                        : null,
                                                     icon: Icon(
-                                                        Icons.file_download)),
+                                                      Icons.file_download,
+                                                      color: profileCtrl
+                                                              .myProfileDetails
+                                                              .value!
+                                                              .profileDocumentsWrapperData![
+                                                                  4]
+                                                              .profileDocumentsData!
+                                                              .any((doc) =>
+                                                                  doc.profileDocumentTypeId ==
+                                                                  101)
+                                                          ? CustomColors.green
+                                                          : CustomColors.grey,
+                                                    )),
                                               ],
                                             ),
                                           ),
-                                          Divider(),
+                                          const Divider(),
                                           ListTile(
                                             leading: const Icon(
                                                 Icons.file_copy_outlined),
-                                            title: Text("I-9 Form"),
+                                            title: const Text("I-9 Form"),
                                             trailing: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -684,9 +743,39 @@ class DocumentDetailsView extends StatelessWidget {
                                                     icon: const Icon(
                                                         Icons.file_upload)),
                                                 IconButton(
-                                                    onPressed: () {},
+                                                    onPressed: profileCtrl
+                                                            .myProfileDetails
+                                                            .value!
+                                                            .profileDocumentsWrapperData![
+                                                                4]
+                                                            .profileDocumentsData!
+                                                            .any((doc) =>
+                                                                doc.profileDocumentTypeId ==
+                                                                102)
+                                                        ? () async {
+                                                            PageNavigationService
+                                                                .backScreen();
+                                                            await FileDownloaderService()
+                                                                .startDownload(
+                                                                    context,
+                                                                    "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 102)?.profileDocumentURL : ""}",
+                                                                    "My_I9_File.pdf");
+                                                          }
+                                                        : null,
                                                     icon: Icon(
-                                                        Icons.file_download)),
+                                                      Icons.file_download,
+                                                      color: profileCtrl
+                                                              .myProfileDetails
+                                                              .value!
+                                                              .profileDocumentsWrapperData![
+                                                                  4]
+                                                              .profileDocumentsData!
+                                                              .any((doc) =>
+                                                                  doc.profileDocumentTypeId ==
+                                                                  102)
+                                                          ? CustomColors.green
+                                                          : CustomColors.grey,
+                                                    )),
                                               ],
                                             ),
                                           ),
@@ -698,23 +787,19 @@ class DocumentDetailsView extends StatelessWidget {
                                     // FilePickService().getSingleFile();
                                   },
                                   icon: const Icon(Icons.attach_file)),
-                              const Text(
-                                "My Attachments",
-                                style: CustomTextStyle.mediumBoldStyleDarkGrey,
-                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    CustomDialogShow.showInfoDialog(
+                                        title: "Info",
+                                        description:
+                                            "Please fill out W4 and I-9 Forms and upload, you can download those forms in the link above",
+                                        cancelButtonName: "Close",
+                                        btnCancelOnPress: () =>
+                                            PageNavigationService.backScreen());
+                                  },
+                                  icon: const Icon(Icons.info)),
                             ],
                           ),
-                          IconButton(
-                              onPressed: () {
-                                CustomDialogShow.showInfoDialog(
-                                    title: "Info",
-                                    description:
-                                        "Please fill out W4 and I-9 Forms and upload, you can download those forms in the link above",
-                                    cancelButtonName: "Close",
-                                    btnCancelOnPress: () =>
-                                        PageNavigationService.backScreen());
-                              },
-                              icon: const Icon(Icons.info)),
                         ],
                       ),
                     ),

@@ -45,6 +45,7 @@ class ProfileController extends GetxController {
   ///
   TextEditingController? bankNameTxtCtrl = TextEditingController();
   TextEditingController? branchNameTxtCtrl = TextEditingController();
+  TextEditingController? accountHolderNameTxtCtrl = TextEditingController();
   TextEditingController? accountNumberTxtCtrl = TextEditingController();
   TextEditingController? routingNumberTxtCtrl = TextEditingController();
   List workingModeList = [
@@ -77,6 +78,13 @@ class ProfileController extends GetxController {
             myProfileDetails.value!.profileGeneralData?.userLastName,
             myProfileDetails.value!.profileGeneralData?.userMail,
             myProfileDetails.value!.profileGeneralData?.userContactNo);
+        assignBankDetails(
+            myProfileDetails.value!.profilePaymentMethod?.paymentMethodName,
+            myProfileDetails
+                .value!.profilePaymentMethod?.paymentAccountBranchName,
+            myProfileDetails.value!.profilePaymentMethod?.paymentAccountName,
+            myProfileDetails.value!.profilePaymentMethod?.paymentAccountNo,
+            myProfileDetails.value!.profilePaymentMethod?.paymentRoutingNo);
         assignEmergencyContact(
             myProfileDetails
                 .value!.profileEmergencyContactData?.emergencyContactFirstName,
@@ -151,10 +159,11 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileContact() async {
     if (ValidatorService().validateAndSave(profileContactFormKey)) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      Get.put(ScreenController()).changeProfileTabbar(1);
       try {
         CustomEassyLoading.startLoading();
-        FocusManager.instance.primaryFocus?.unfocus();
-        Get.put(ScreenController()).changeProfileTabbar(1);
+
         await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
           selectedSkillList != null
@@ -186,14 +195,12 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileBankDetails() async {
     if (ValidatorService().validateAndSave(profileBankFormKey)) {
-      CustomEassyLoading.startLoading();
-      FocusManager.instance.primaryFocus?.unfocus();
       Get.put(ScreenController()).changeProfileTabbar(3);
+      FocusManager.instance.primaryFocus?.unfocus();
 
       try {
         CustomEassyLoading.startLoading();
-        FocusManager.instance.primaryFocus?.unfocus();
-        Get.put(ScreenController()).changeProfileTabbar(3);
+
         await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
           selectedSkillList != null
@@ -234,9 +241,9 @@ class ProfileController extends GetxController {
             {"code": 405, "message": 'Select your woking mode'});
       } else {
         try {
-          CustomEassyLoading.startLoading();
           FocusManager.instance.primaryFocus?.unfocus();
           Get.put(ScreenController()).changeProfileTabbar(2);
+          CustomEassyLoading.startLoading();
           await ProfileApiService.updateOwnProfile(
             myProfileDetails.value!,
             selectedSkillList != null
@@ -349,6 +356,35 @@ class ProfileController extends GetxController {
         "code": 405,
         "message": 'Select your woking mode'
       }); //Working mode warning
+    } else if (myProfileDetails
+        .value!.profilePaymentMethod!.paymentMethodName!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(2);
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Enter bank name'});
+    } else if (myProfileDetails
+        .value!.profilePaymentMethod!.paymentAccountBranchName!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(2);
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Enter branch name'});
+    } else if (myProfileDetails
+        .value!.profilePaymentMethod!.paymentAccountName!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(2);
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Enter account name'});
+    } else if (myProfileDetails
+        .value!.profilePaymentMethod!.paymentAccountNo!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(2);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter account number'
+      }); 
+    } else if (myProfileDetails
+        .value!.profilePaymentMethod!.paymentRoutingNo!.isEmpty) {
+      Get.put(ScreenController()).changeProfileTabbar(2);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter routing number'
+      }); 
     } else if (drivingLicenseExpiryTxtCtrl!.text == "" ||
         !myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
             .any((doc) => doc.profileDocumentTypeId == 11) ||
@@ -357,16 +393,17 @@ class ProfileController extends GetxController {
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Provide your driving license details'});
     } else if (technicalLicenseExpiryTxtCtrl!.text == "" ||
-        !myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!
-            .any((doc) => doc.profileDocumentTypeId == 15)) {
+        !myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 15)) {
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Provide your technician license details'});
-    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!
-        .any((doc) => doc.profileDocumentTypeId == 17)) {
+    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 17)) {
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Provide your social security card details'
       });
+    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 101) || !myProfileDetails.value!.profileDocumentsWrapperData![4].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 102)) {
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Provide your all attachment files'});
     } else {
       try {
         CustomEassyLoading.startLoading();
@@ -454,11 +491,12 @@ class ProfileController extends GetxController {
     update();
   }
 
-  assignBankDetails(String? bankName, String? branchName, String? accountNumber,
-      String? routingNumber) {
+  assignBankDetails(String? bankName, String? branchName,
+      String? accountHolderName, String? accountNumber, String? routingNumber) {
     bankNameTxtCtrl!.text = bankName ?? "";
     branchNameTxtCtrl!.text = branchName ?? "";
     accountNumberTxtCtrl!.text = accountNumber ?? "";
+    accountHolderNameTxtCtrl!.text = accountHolderName ?? "";
     routingNumberTxtCtrl!.text = routingNumber ?? "";
     update();
   }

@@ -87,7 +87,7 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   }
 
   //<============================ Change Profile Tabbar
-  void changeProfileTabbar(int index) async {
+  Future<void> changeProfileTabbar(int index) async {
     print("Change Profile Tab 1st: $index");
     profileTabController!.animateTo(
       index >= 0 && index < 4 ? index : 0,
@@ -96,7 +96,8 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
     );
     print("Change Profile Tab 2nd: ${profileTabController!.index}");
     profileTabController!.index = index >= 0 && index < 4 ? index : 0;
-    profileCurrentIndex = index >= 0 && index < 4 ? index : 0;
+    profileCurrentIndex = index;
+
     print("Change Profile Tab 3rd: $profileCurrentIndex");
     update();
   }
