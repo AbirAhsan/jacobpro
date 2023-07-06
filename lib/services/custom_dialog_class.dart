@@ -8,6 +8,7 @@ import 'package:service/view/widgets/custom_submit_button.dart';
 class CustomDialogShow {
   static showSuccessDialog({
     String? title,
+    Widget? descriptionWidget,
     String? description,
     String? okayButtonName,
     bool barrierDismissible = true,
@@ -55,10 +56,11 @@ class CustomDialogShow {
                         ),
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                            description ?? "",
-                            style: CustomTextStyle.mediumRegularStyleBlack,
-                          ),
+                          child: descriptionWidget ??
+                              Text(
+                                description ?? "",
+                                style: CustomTextStyle.mediumRegularStyleBlack,
+                              ),
                         ),
                         const SizedBox(
                           height: 20,

@@ -12,6 +12,7 @@ import '../services/error_code_handle_service.dart';
 import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
 import '../services/validator_service.dart';
+import '../view/variables/text_style.dart';
 
 class AuthController extends GetxController {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
@@ -231,8 +232,35 @@ class AuthController extends GetxController {
         CustomDialogShow.showSuccessDialog(
             barrierDismissible: true,
             title: "CONGRATULATIONS!",
-            description:
-                "You are successfully signed up for Jacob Pro. You can login to your account using username and password to submit your documents for further verificaon.\n\nYour temporary password is 1234. You can reset your password later.",
+            descriptionWidget: RichText(
+              text: const TextSpan(
+                  text: "",
+                  style: CustomTextStyle.mediumRegularStyleBlack,
+                  children: [
+                    TextSpan(
+                      text:
+                          "You are successfully signed up for Jacob Pro. You can login to your account using username and password to submit your documents for further verificaon.",
+                      style: CustomTextStyle.mediumRegularStyleBlack,
+                    ),
+                    TextSpan(
+                      text: "\n\n",
+                      style: CustomTextStyle.mediumRegularStyleBlack,
+                    ),
+                    TextSpan(
+                      text: "Your temporary password is ",
+                      style: CustomTextStyle.mediumRegularStyleBlack,
+                    ),
+                    TextSpan(
+                      text: "1234 ",
+                      style: CustomTextStyle.mediumBoldStyleBlack,
+                    ),
+                    TextSpan(
+                      text: "You can reset your password later.",
+                      style: CustomTextStyle.mediumRegularStyleBlack,
+                    ),
+                  ]),
+              textAlign: TextAlign.center,
+            ),
             okayButtonName: "Go To Login",
             btnOkOnPress: () {
               PageNavigationService.removeAllAndNavigate('/LoginScreen');
