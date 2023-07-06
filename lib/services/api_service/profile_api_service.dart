@@ -152,8 +152,13 @@ class ProfileApiService {
       "profileOtherSkill": profileOtherSkill,
       "profilePaymentMethod": profileDetails.profilePaymentMethod,
       "ProfileDocExpiryDateList": profileDocExpiryDateList,
-      "userYearOfExperience": userYearOfExperience ?? '0',
-      "userPerHourWage": userPerHourWage ?? "0",
+      "userYearOfExperience":
+          userYearOfExperience == null || userYearOfExperience == ""
+              ? '0'
+              : userYearOfExperience,
+      "userPerHourWage": userPerHourWage == null || userPerHourWage == ""
+          ? '0'
+          : userPerHourWage,
     });
     print(request.body);
 
