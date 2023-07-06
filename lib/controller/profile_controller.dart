@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/controller/auth_controller.dart';
 import 'package:service/controller/screen_controller.dart';
 import 'package:service/model/skill_model.dart';
 import 'package:service/services/api_service/profile_api_service.dart';
@@ -11,11 +12,13 @@ import '../model/technician_profile_model.dart';
 import '../services/custom_dialog_class.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
-import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
 import '../services/validator_service.dart';
 
 class ProfileController extends GetxController {
+  final ScreenController screenCtrl = Get.find<ScreenController>();
+  final AuthController authCtrl = Get.find<AuthController>();
+
   GlobalKey<FormState> profileContactFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> profileSkillFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> profileBankFormKey = GlobalKey<FormState>();
@@ -160,7 +163,8 @@ class ProfileController extends GetxController {
   Future<void> updateProfileContact() async {
     if (ValidatorService().validateAndSave(profileContactFormKey)) {
       FocusManager.instance.primaryFocus?.unfocus();
-      Get.put(ScreenController()).changeProfileTabbar(1);
+      screenCtrl.changeProfileTabbar(1);
+
       try {
         CustomEassyLoading.startLoading();
 
@@ -195,7 +199,7 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileBankDetails() async {
     if (ValidatorService().validateAndSave(profileBankFormKey)) {
-      Get.put(ScreenController()).changeProfileTabbar(3);
+      screenCtrl.changeProfileTabbar(3);
       FocusManager.instance.primaryFocus?.unfocus();
 
       try {
@@ -242,7 +246,7 @@ class ProfileController extends GetxController {
       } else {
         try {
           FocusManager.instance.primaryFocus?.unfocus();
-          Get.put(ScreenController()).changeProfileTabbar(2);
+          screenCtrl.changeProfileTabbar(2);
           CustomEassyLoading.startLoading();
           await ProfileApiService.updateOwnProfile(
             myProfileDetails.value!,
@@ -277,27 +281,27 @@ class ProfileController extends GetxController {
   Future<void> updateOwnProfile() async {
     if (myProfileDetails.value!.profileGeneralData!.userFirstName!.isEmpty ||
         myProfileDetails.value!.profileGeneralData!.userFirstName!.length < 3) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter your first name'
       }); //Personal contact First name warning
     } else if (myProfileDetails.value!.profileGeneralData!.userLastName!.isEmpty ||
         myProfileDetails.value!.profileGeneralData!.userLastName!.length < 3) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter your last name'
       }); //Personal contact Last name warning
     } else if (!myProfileDetails.value!.profileGeneralData!.userMail!.isEmail) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter your email'
       }); //Personal contact email warning
     } else if (!myProfileDetails
         .value!.profileGeneralData!.userContactNo!.isPhoneNumber) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter your phone number'
@@ -305,7 +309,7 @@ class ProfileController extends GetxController {
     } else if (myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.isEmpty ||
         myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.length <
             3) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter emergency first name'
@@ -313,72 +317,72 @@ class ProfileController extends GetxController {
     } else if (myProfileDetails.value!.profileEmergencyContactData!.emergencyContactLastName!.isEmpty ||
         myProfileDetails.value!.profileEmergencyContactData!.emergencyContactLastName!.length <
             3) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter emergency last name'
       }); //Emergency contact Last name warning
     } else if (!myProfileDetails
         .value!.profileEmergencyContactData!.emergencyContactMail!.isEmail) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter emergency email'
       }); //Emergency contact email warning
     } else if (!myProfileDetails.value!.profileEmergencyContactData!
         .emergencyContactContactNo!.isPhoneNumber) {
-      Get.put(ScreenController()).changeProfileTabbar(0);
+      screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Enter emergency phone number'
       }); //Emergency contact phone number warning
     } else if (selectedSkillCategoryId == null) {
-      Get.put(ScreenController()).changeProfileTabbar(1);
+      screenCtrl.changeProfileTabbar(1);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Select a skill category'
       }); //Skill category warning
     } else if (selectedSKillSubCategoryId == null) {
-      Get.put(ScreenController()).changeProfileTabbar(1);
+      screenCtrl.changeProfileTabbar(1);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Select a skill sub-category'
       }); //Skill sub-category warning
     } else if (myProfileDetails
         .value!.profileSkillData!.profileSkillIdList!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(1);
+      screenCtrl.changeProfileTabbar(1);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Select a skill'}); //Skill  warning
     } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==
         null) {
-      Get.put(ScreenController()).changeProfileTabbar(1);
+      screenCtrl.changeProfileTabbar(1);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Select your woking mode'
       }); //Working mode warning
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentMethodName!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(2);
+      screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter bank name'});
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentAccountBranchName!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(2);
+      screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter branch name'});
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentAccountName!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(2);
+      screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter account name'});
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentAccountNo!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(2);
+      screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter account number'});
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentRoutingNo!.isEmpty) {
-      Get.put(ScreenController()).changeProfileTabbar(2);
+      screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter routing number'});
     } else if (drivingLicenseExpiryTxtCtrl!.text == "" ||
@@ -425,7 +429,7 @@ class ProfileController extends GetxController {
                   "You've successfully submitted your profile info. You'll get notified once the admin approve/decline your request",
               okayButtonName: "DONE",
               btnOkOnPress: () {
-                PageNavigationService.backScreen();
+                authCtrl.tryToLogOut();
               });
         }, onError: (err) {
           ApiErrorHandleService.handleStatusCodeError(err);

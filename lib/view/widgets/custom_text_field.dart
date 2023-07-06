@@ -203,6 +203,7 @@ class CustomTextField extends StatelessWidget {
             //labelText: labelText,
             labelStyle: labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
             hintText: hintText,
+            floatingLabelStyle: CustomTextStyle.normalRegularStyleBlack,
             hintStyle: hintStyle,
             prefixIcon: prefixIcon,
             prefixIconColor: CustomColors.grey,

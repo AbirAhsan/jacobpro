@@ -236,8 +236,9 @@ class ContactDetailsView extends StatelessWidget {
                                     //  textStyle: CustomTextStyle.mediumBoldStylePrimary,
                                     isFitted: true,
                                     onPressed: () async {
-                                      await profileCtrl.updateProfileContact();
-                                      //  screenCtrl.changeProfileTabbar(1);
+                                      profileCtrl.updateProfileContact();
+
+                                      //  screenCtrl.update();
                                     }));
                           }),
                     ],

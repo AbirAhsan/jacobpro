@@ -152,8 +152,8 @@ class ProfileApiService {
       "profileOtherSkill": profileOtherSkill,
       "profilePaymentMethod": profileDetails.profilePaymentMethod,
       "ProfileDocExpiryDateList": profileDocExpiryDateList,
-      "userYearOfExperience": userYearOfExperience,
-      "userPerHourWage": userPerHourWage,
+      "userYearOfExperience": userYearOfExperience ?? '0',
+      "userPerHourWage": userPerHourWage ?? "0",
     });
     print(request.body);
 
@@ -162,7 +162,8 @@ class ProfileApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
-
+    print(respStr.statusCode);
+    print(response);
     if (respStr.statusCode == 200 && response['statusCode'] == 200) {
       return true;
     } else {

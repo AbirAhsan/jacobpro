@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:service/controller/auth_controller.dart';
+import 'package:service/controller/screen_controller.dart';
 import 'generated/codegen_loader.g.dart';
 import 'routes.dart';
 import 'view/variables/colors_variable.dart';
@@ -24,7 +26,8 @@ void main() async {
 //  await AppConfig.getVersionStatus();
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
-
+  Get.put(ScreenController());
+  Get.put(AuthController());
   runApp(
     EasyLocalization(
       path: "assets/langs",

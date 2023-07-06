@@ -301,7 +301,7 @@ class AuthController extends GetxController {
   //<<============================================================= Try to Logout
   void tryToLogOut() {
     SharedDataManageService().clearTokenUserID();
-    PageNavigationService.removeAndNavigate("/LoginScreen");
+    PageNavigationService.removeAllAndNavigate("/LoginScreen");
   }
 
   //<=================== Intialize Login TexEdition Controller

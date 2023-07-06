@@ -58,70 +58,71 @@ class CustomDropDown extends StatelessWidget {
         value: value,
         onChanged: onChanged,
         decoration: InputDecoration(
-          fillColor: CustomColors.white,
-          filled: true,
-          label: RichText(
-            text: TextSpan(
-              text: '',
-              style: DefaultTextStyle.of(context).style,
-              children: [
-                TextSpan(
-                  text: label,
-                  style: labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
-                ),
-                TextSpan(
-                    text: isRequired ? ' *' : '',
-                    style: CustomTextStyle.titleRegularStyleError),
-              ],
+            fillColor: CustomColors.lightgrey,
+            filled: true,
+            label: RichText(
+              text: TextSpan(
+                text: '',
+                style: DefaultTextStyle.of(context).style,
+                children: [
+                  TextSpan(
+                    text: label,
+                    style:
+                        labelStyle ?? CustomTextStyle.normalRegularStyleBlack,
+                  ),
+                  TextSpan(
+                      text: isRequired ? ' *' : '',
+                      style: CustomTextStyle.titleRegularStyleError),
+                ],
+              ),
             ),
-          ),
-          isDense: true,
-          contentPadding: EdgeInsets.all(10),
-          border: isBorderEnabeld
-              ? OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: CustomColors.primary, width: 1),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(bottomLeftBorderRadius),
-                    bottomRight: Radius.circular(bottomRightBorderRadius),
-                    topLeft: Radius.circular(topLeftBorderRadius),
-                    topRight: Radius.circular(topRightBorderRadius),
+            isDense: true,
+            contentPadding: EdgeInsets.all(10),
+            border: isBorderEnabeld
+                ? OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: CustomColors.primary, width: 1),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(bottomLeftBorderRadius),
+                      bottomRight: Radius.circular(bottomRightBorderRadius),
+                      topLeft: Radius.circular(topLeftBorderRadius),
+                      topRight: Radius.circular(topRightBorderRadius),
+                    ),
+                  )
+                : const UnderlineInputBorder(
+                    borderSide: BorderSide(color: CustomColors.lightgrey),
                   ),
-                )
-              : const UnderlineInputBorder(
-                  borderSide: BorderSide(color: CustomColors.lightgrey),
-                ),
-          focusedBorder: isBorderEnabeld
-              ? OutlineInputBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(bottomLeftBorderRadius),
-                    bottomRight: Radius.circular(bottomRightBorderRadius),
-                    topLeft: Radius.circular(topLeftBorderRadius),
-                    topRight: Radius.circular(topRightBorderRadius),
+            focusedBorder: isBorderEnabeld
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(bottomLeftBorderRadius),
+                      bottomRight: Radius.circular(bottomRightBorderRadius),
+                      topLeft: Radius.circular(topLeftBorderRadius),
+                      topRight: Radius.circular(topRightBorderRadius),
+                    ),
+                    borderSide: const BorderSide(
+                      color: CustomColors.primary,
+                    ),
+                  )
+                : const UnderlineInputBorder(
+                    borderSide: BorderSide.none,
                   ),
-                  borderSide: const BorderSide(
-                    color: CustomColors.primary,
+            enabledBorder: isBorderEnabeld
+                ? OutlineInputBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(bottomLeftBorderRadius),
+                      bottomRight: Radius.circular(bottomRightBorderRadius),
+                      topLeft: Radius.circular(topLeftBorderRadius),
+                      topRight: Radius.circular(topRightBorderRadius),
+                    ),
+                    borderSide: BorderSide(
+                      color: borderSideColor,
+                    ))
+                : const UnderlineInputBorder(
+                    borderSide: BorderSide.none,
                   ),
-                )
-              : const UnderlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-          enabledBorder: isBorderEnabeld
-              ? OutlineInputBorder(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(bottomLeftBorderRadius),
-                    bottomRight: Radius.circular(bottomRightBorderRadius),
-                    topLeft: Radius.circular(topLeftBorderRadius),
-                    topRight: Radius.circular(topRightBorderRadius),
-                  ),
-                  borderSide: BorderSide(
-                    color: borderSideColor,
-                  ))
-              : const UnderlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-          labelStyle: labelStyle,
-        ),
+            labelStyle: labelStyle,
+            floatingLabelStyle: CustomTextStyle.normalRegularStyleBlack),
         validator: validator,
       ),
     );
