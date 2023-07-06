@@ -34,7 +34,7 @@
         <!-- <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> -->
     </queries>
    <application
-        android:label="service"
+        android:label="Jacob Pro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
