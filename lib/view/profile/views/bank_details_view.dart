@@ -52,7 +52,7 @@ class BankDetailsView extends StatelessWidget {
                     controller: profileCtrl.accountHolderNameTxtCtrl,
                     isRequired: true,
                     labelText: "Account Holder Name",
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.name,
                     onChanged: (value) {
                       profileCtrl.myProfileDetails.value!.profilePaymentMethod!
                           .paymentAccountName = value;

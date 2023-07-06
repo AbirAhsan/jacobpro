@@ -374,17 +374,13 @@ class ProfileController extends GetxController {
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentAccountNo!.isEmpty) {
       Get.put(ScreenController()).changeProfileTabbar(2);
-      ApiErrorHandleService.handleStatusCodeError({
-        "code": 405,
-        "message": 'Enter account number'
-      }); 
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Enter account number'});
     } else if (myProfileDetails
         .value!.profilePaymentMethod!.paymentRoutingNo!.isEmpty) {
       Get.put(ScreenController()).changeProfileTabbar(2);
-      ApiErrorHandleService.handleStatusCodeError({
-        "code": 405,
-        "message": 'Enter routing number'
-      }); 
+      ApiErrorHandleService.handleStatusCodeError(
+          {"code": 405, "message": 'Enter routing number'});
     } else if (drivingLicenseExpiryTxtCtrl!.text == "" ||
         !myProfileDetails.value!.profileDocumentsWrapperData![0].profileDocumentsData!
             .any((doc) => doc.profileDocumentTypeId == 11) ||

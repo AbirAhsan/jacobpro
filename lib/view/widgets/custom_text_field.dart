@@ -91,7 +91,7 @@ class CustomTextField extends StatelessWidget {
     this.onSaved,
     this.onEditingComplete,
     this.onFocusChange,
-    this.backgroundColor = CustomColors.white,
+    this.backgroundColor = CustomColors.lightgrey,
     this.initialValue,
   }) : super(key: key);
 
