@@ -29,6 +29,7 @@ class ProfileController extends GetxController {
   bool isOnline = false;
 
   Rx<TechnicianProfileModel?> myProfileDetails = TechnicianProfileModel().obs;
+  Rx<ProfilePaymentMethod?> profilePaymentMethod = ProfilePaymentMethod().obs;
   List<SkillDataModel?> myProfileSkills =
       List<SkillDataModel?>.empty(growable: true);
 
@@ -170,6 +171,7 @@ class ProfileController extends GetxController {
 
         await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
+          profilePaymentMethod.value,
           selectedSkillList != null
               ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
               : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
@@ -207,6 +209,7 @@ class ProfileController extends GetxController {
 
         await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
+          profilePaymentMethod.value,
           selectedSkillList != null
               ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
               : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
@@ -250,6 +253,7 @@ class ProfileController extends GetxController {
           CustomEassyLoading.startLoading();
           await ProfileApiService.updateOwnProfile(
             myProfileDetails.value!,
+            profilePaymentMethod.value,
             selectedSkillList != null
                 ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
                 : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
@@ -360,28 +364,23 @@ class ProfileController extends GetxController {
         "code": 405,
         "message": 'Select your woking mode'
       }); //Working mode warning
-    } else if (myProfileDetails
-        .value!.profilePaymentMethod!.paymentMethodName!.isEmpty) {
+    } else if (profilePaymentMethod.value!.paymentMethodName!.isEmpty) {
       screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter bank name'});
-    } else if (myProfileDetails
-        .value!.profilePaymentMethod!.paymentAccountBranchName!.isEmpty) {
+    } else if (profilePaymentMethod.value!.paymentAccountBranchName!.isEmpty) {
       screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter branch name'});
-    } else if (myProfileDetails
-        .value!.profilePaymentMethod!.paymentAccountName!.isEmpty) {
+    } else if (profilePaymentMethod.value!.paymentAccountName!.isEmpty) {
       screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter account name'});
-    } else if (myProfileDetails
-        .value!.profilePaymentMethod!.paymentAccountNo!.isEmpty) {
+    } else if (profilePaymentMethod.value!.paymentAccountNo!.isEmpty) {
       screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter account number'});
-    } else if (myProfileDetails
-        .value!.profilePaymentMethod!.paymentRoutingNo!.isEmpty) {
+    } else if (profilePaymentMethod.value!.paymentRoutingNo!.isEmpty) {
       screenCtrl.changeProfileTabbar(2);
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Enter routing number'});
@@ -393,10 +392,12 @@ class ProfileController extends GetxController {
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Provide your driving license details'});
     } else if (technicalLicenseExpiryTxtCtrl!.text == "" ||
-        !myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 15)) {
+        !myProfileDetails.value!.profileDocumentsWrapperData![2].profileDocumentsData!
+            .any((doc) => doc.profileDocumentTypeId == 15)) {
       ApiErrorHandleService.handleStatusCodeError(
           {"code": 405, "message": 'Provide your technician license details'});
-    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!.any((doc) => doc.profileDocumentTypeId == 17)) {
+    } else if (!myProfileDetails.value!.profileDocumentsWrapperData![3].profileDocumentsData!
+        .any((doc) => doc.profileDocumentTypeId == 17)) {
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
         "message": 'Provide your social security card details'
@@ -410,6 +411,7 @@ class ProfileController extends GetxController {
         FocusManager.instance.primaryFocus?.unfocus();
         await ProfileApiService.updateOwnProfile(
           myProfileDetails.value!,
+          profilePaymentMethod.value,
           selectedSkillList != null
               ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
               : myProfileDetails.value!.profileSkillData?.profileSkillIdList,

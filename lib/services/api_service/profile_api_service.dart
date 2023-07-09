@@ -125,6 +125,7 @@ class ProfileApiService {
   //<============================= Update Own Profile Details
   static Future<bool> updateOwnProfile(
     TechnicianProfileModel? profileDetails,
+    ProfilePaymentMethod? profilePaymentMethod,
     List<int>? profileSkillIdList,
     String? profileOtherSkill,
     List<String?> profileDocExpiryDateList,
@@ -150,7 +151,7 @@ class ProfileApiService {
       "profileSkillIdList":
           profileSkillIdList!.isNotEmpty ? profileSkillIdList : null,
       "profileOtherSkill": profileOtherSkill,
-      "profilePaymentMethod": profileDetails.profilePaymentMethod,
+      "profilePaymentMethod": profilePaymentMethod,
       "ProfileDocExpiryDateList": profileDocExpiryDateList,
       "userYearOfExperience":
           userYearOfExperience == null || userYearOfExperience == ""

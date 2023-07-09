@@ -68,8 +68,7 @@ class AuthController extends GetxController {
         )
             .then((resp) async {
           if (resp.isNotEmpty) {
-            loginUserNameCtrl!.clear();
-            loginPasswordCtrl!.clear();
+            clearLoginTextEditingController();
             await SharedDataManageService().setToken(resp["token"]);
             await SharedDataManageService().setMenuToken(resp["menuToken"]);
             await SharedDataManageService()
@@ -121,7 +120,7 @@ class AuthController extends GetxController {
                 .then((resp) async {
                 CustomEassyLoading.stopLoading();
                 if (resp!) {
-                  print(selectedUserType!.value);
+                  print(resp);
                   PageNavigationService.generalNavigation(
                       "/RegistrationOtpVerification",
                       arguments: [registrationEmailCtrl.text, profile.value]);
@@ -141,6 +140,7 @@ class AuthController extends GetxController {
                   PageNavigationService.generalNavigation(
                       "/RegistrationOtpVerification",
                       arguments: [registrationMobileCtrl.text, profile.value]);
+                  clearRegistrationTextEditingController();
                 }
               }, onError: (err) {
                 ApiErrorHandleService.handleStatusCodeError(err);
@@ -315,5 +315,19 @@ class AuthController extends GetxController {
     registrationLastNameCtrl = TextEditingController();
     registrationEmailCtrl = TextEditingController();
     registrationMobileCtrl = TextEditingController();
+  }
+
+  //clear Registration Controller
+  clearRegistrationTextEditingController() {
+    registrationFirstNameCtrl.clear();
+    registrationLastNameCtrl.clear();
+    registrationEmailCtrl.clear();
+    registrationMobileCtrl.clear();
+  }
+
+  //clear Login Controller
+  clearLoginTextEditingController() {
+    loginUserNameCtrl!.clear();
+    loginPasswordCtrl!.clear();
   }
 }
