@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:service/services/validator_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
@@ -183,7 +184,13 @@ class EmployeeDetailsView extends StatelessWidget {
                       labelText: "Years of Experience",
                       isRequired: true,
                       prefixIcon: Icon(Icons.av_timer),
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
+                      ],
                       validator: ValidatorService.validateSimpleFiled,
                       onChanged: (value) {
                         profileCtrl.myProfileDetails.value!.profileSkillData
@@ -197,8 +204,14 @@ class EmployeeDetailsView extends StatelessWidget {
                       labelText: "Wages",
                       isRequired: true,
                       controller: profileCtrl.userPerHourWageTxtCtrl,
-                      prefixIcon: Icon(Icons.attach_money_rounded),
-                      keyboardType: TextInputType.number,
+                      prefixIcon: const Icon(Icons.attach_money_rounded),
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,2}')),
+                      ],
                       onChanged: (value) {
                         profileCtrl.myProfileDetails.value!.profileSkillData
                             ?.userPerHourWage = value;
