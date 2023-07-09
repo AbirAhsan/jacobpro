@@ -199,8 +199,8 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileBankDetails() async {
     if (ValidatorService().validateAndSave(profileBankFormKey)) {
-      screenCtrl.changeProfileTabbar(3);
       FocusManager.instance.primaryFocus?.unfocus();
+      screenCtrl.changeProfileTabbar(3);
 
       try {
         CustomEassyLoading.startLoading();
@@ -236,7 +236,7 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileSkill() async {
     if (ValidatorService().validateAndSave(profileSkillFormKey)) {
-      if (selectedSkillList!.isEmpty) {
+      if (selectedSkillList!.isEmpty || selectedSKillId == null) {
         ApiErrorHandleService.handleStatusCodeError(
             {"code": 405, "message": 'Select a skill'});
       } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==

@@ -3,6 +3,7 @@ import 'dart:io';
 // import 'package:background_downloader/background_downloader.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -115,7 +116,9 @@ class FileDownloaderService {
     final status = await Permission.storage.request();
 
     if (status.isGranted) {
-      final dir = await getApplicationDocumentsDirectory();
+      final dir = Platform.isIOS
+          ? await getApplicationDocumentsDirectory()
+          : Directory('/storage/emulated/0/Download');
       final file = File('${dir.path}/$fileName');
 
       // Create a Dio instance
@@ -151,7 +154,9 @@ class FileDownloaderService {
         await raf.close();
         CustomEassyLoading.stopLoading();
         print('File downloaded successfully to ${file.path}');
+        //  Scaffold.of(context)!.showSnackBar(SnackBar(Text(value)));
         await OpenFile.open(file.path);
+
         // } else {
       } catch (e) {
         CustomEassyLoading.stopLoading();

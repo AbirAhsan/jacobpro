@@ -13,6 +13,7 @@ import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
 import '../services/validator_service.dart';
 import '../view/variables/text_style.dart';
+import 'screen_controller.dart';
 
 class AuthController extends GetxController {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
@@ -58,7 +59,7 @@ class AuthController extends GetxController {
       // fcmToken = await getFCMToken();
       try {
         CustomEassyLoading.startLoading();
-
+        Get.put(ScreenController()).changeProfileTabbar(0);
         AuthApiService()
             .loginRequest(
           loginUserNameCtrl!.text,
@@ -67,6 +68,8 @@ class AuthController extends GetxController {
         )
             .then((resp) async {
           if (resp.isNotEmpty) {
+            loginUserNameCtrl!.clear();
+            loginPasswordCtrl!.clear();
             await SharedDataManageService().setToken(resp["token"]);
             await SharedDataManageService().setMenuToken(resp["menuToken"]);
             await SharedDataManageService()

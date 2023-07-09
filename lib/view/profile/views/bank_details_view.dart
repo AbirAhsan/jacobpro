@@ -30,8 +30,10 @@ class BankDetailsView extends StatelessWidget {
                     labelText: "Bank Name",
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
-                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
-                          .paymentMethodName = value;
+                      profileCtrl.myProfileDetails.value?.profilePaymentMethod
+                          ?.paymentMethodName = value;
+                      print(profileCtrl.myProfileDetails.value
+                          ?.profilePaymentMethod?.paymentMethodName);
                       profileCtrl.update();
                     },
                     validator: ValidatorService.validateSimpleFiled,
@@ -39,11 +41,11 @@ class BankDetailsView extends StatelessWidget {
                   CustomTextField(
                     controller: profileCtrl.branchNameTxtCtrl,
                     isRequired: true,
-                    labelText: "Branch Name",
-                    keyboardType: TextInputType.name,
+                    labelText: "Branch Address",
+                    keyboardType: TextInputType.streetAddress,
                     onChanged: (value) {
-                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
-                          .paymentAccountBranchName = value;
+                      profileCtrl.myProfileDetails.value?.profilePaymentMethod
+                          ?.paymentAccountBranchName = value;
                       profileCtrl.update();
                     },
                     validator: ValidatorService.validateSimpleFiled,
@@ -54,8 +56,8 @@ class BankDetailsView extends StatelessWidget {
                     labelText: "Account Holder Name",
                     keyboardType: TextInputType.name,
                     onChanged: (value) {
-                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
-                          .paymentAccountName = value;
+                      profileCtrl.myProfileDetails.value?.profilePaymentMethod
+                          ?.paymentAccountName = value;
                       profileCtrl.update();
                     },
                     validator: ValidatorService.validateSimpleFiled,
@@ -66,8 +68,8 @@ class BankDetailsView extends StatelessWidget {
                     labelText: "Account Number",
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
-                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
-                          .paymentAccountNo = value;
+                      profileCtrl.myProfileDetails.value?.profilePaymentMethod
+                          ?.paymentAccountNo = value;
                       profileCtrl.update();
                     },
                     validator: ValidatorService.validateSimpleFiled,
@@ -78,8 +80,8 @@ class BankDetailsView extends StatelessWidget {
                     labelText: "Routing Number",
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
-                      profileCtrl.myProfileDetails.value!.profilePaymentMethod!
-                          .paymentRoutingNo = value;
+                      profileCtrl.myProfileDetails.value?.profilePaymentMethod
+                          ?.paymentRoutingNo = value;
                       profileCtrl.update();
                     },
                     validator: ValidatorService.validateSimpleFiled,

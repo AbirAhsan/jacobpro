@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
+import 'auth_controller.dart';
 
 class ScreenController extends GetxController with GetTickerProviderStateMixin {
   RxBool isObscureText = true.obs;
@@ -27,11 +28,14 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
   @override
   onInit() {
     // AppConfig.getVersionStatus();
+    Get.put(AuthController());
+
     profileTabController = TabController(
       vsync: this,
       length: 4,
       initialIndex: profileInitialIndex,
     );
+
     jobListTabController = TabController(
       vsync: this,
       length: 6,
@@ -52,6 +56,8 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
 
   //<================================= Splash Delay
   Future<void> splashDelay() async {
+    Get.put(ScreenController());
+    Get.put(AuthController());
     Future.delayed(const Duration(seconds: 3)).then((value) {
       SharedDataManageService().getToken().then((token) async {
         if (token!.isNotEmpty) {
