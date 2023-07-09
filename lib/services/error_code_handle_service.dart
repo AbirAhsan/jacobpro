@@ -1,5 +1,6 @@
 import 'package:get/get.dart' hide Trans;
 
+import '../controller/auth_controller.dart';
 import '../view/variables/colors_variable.dart';
 
 class ApiErrorHandleService {
@@ -15,7 +16,7 @@ class ApiErrorHandleService {
         // duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.TOP,
       );
-      //  Get.put(AuthController()).tryToLogOut();
+      Get.put(AuthController()).tryToLogOut();
     } else if (status["code"] == 404) {
       Get.snackbar(
         "Not Found",
