@@ -73,6 +73,7 @@ class ProfileController extends GetxController {
 
       await ProfileApiService.getMyProfileDetails().then((resp) async {
         myProfileDetails.value = resp;
+        profilePaymentMethod.value = resp.profilePaymentMethod;
         await SharedDataManageService().setUserVerification(
             resp.profileGeneralData!.userVerificationStatus.toString());
         await fetchMyProfileSkills();
@@ -239,7 +240,9 @@ class ProfileController extends GetxController {
 
   Future<void> updateProfileSkill() async {
     if (ValidatorService().validateAndSave(profileSkillFormKey)) {
-      if (selectedSkillList!.isEmpty || selectedSKillId == null) {
+      if (selectedSkillList!.isEmpty &&
+          myProfileDetails
+              .value!.profileSkillData!.profileSkillIdList!.isEmpty) {
         ApiErrorHandleService.handleStatusCodeError(
             {"code": 405, "message": 'Select a skill'});
       } else if (myProfileDetails.value?.profileGeneralData?.workingMode ==
@@ -495,6 +498,12 @@ class ProfileController extends GetxController {
 
   assignBankDetails(String? bankName, String? branchName,
       String? accountHolderName, String? accountNumber, String? routingNumber) {
+    profilePaymentMethod.value = ProfilePaymentMethod(
+        paymentMethodName: bankName,
+        paymentAccountBranchName: branchName,
+        paymentAccountName: accountHolderName,
+        paymentAccountNo: accountNumber,
+        paymentRoutingNo: routingNumber);
     bankNameTxtCtrl!.text = bankName ?? "";
     branchNameTxtCtrl!.text = branchName ?? "";
     accountNumberTxtCtrl!.text = accountNumber ?? "";
