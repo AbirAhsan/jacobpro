@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
@@ -64,6 +65,7 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.person),
                         isRequired: true,
                         controller: profileCtrl.pFirstNameTxtCtrl,
+                        keyboardType: TextInputType.name,
                         onChanged: (value) {
                           profileCtrl.myProfileDetails.value!
                               .profileGeneralData!.userFirstName = value;
@@ -84,6 +86,7 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.person),
                         controller: profileCtrl.pLastNameTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.name,
                         onChanged: (value) {
                           profileCtrl.myProfileDetails.value!
                               .profileGeneralData!.userLastName = value;
@@ -104,6 +107,11 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.email),
                         controller: profileCtrl.pEmailTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.emailAddress,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                        ],
                         onChanged: (value) {
                           profileCtrl.myProfileDetails.value!
                               .profileGeneralData!.userMail = value;
@@ -116,6 +124,11 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.call),
                         controller: profileCtrl.pPhoneTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                        ],
                         onChanged: (value) {
                           profileCtrl.myProfileDetails.value!
                               .profileGeneralData!.userContactNo = value;
@@ -136,6 +149,7 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.person),
                         controller: profileCtrl.eFirstNameTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.name,
                         onChanged: (value) {
                           profileCtrl
                               .myProfileDetails
@@ -159,6 +173,7 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.person),
                         controller: profileCtrl.eLastNameTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.name,
                         onChanged: (value) {
                           profileCtrl
                               .myProfileDetails
@@ -182,6 +197,10 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.email),
                         controller: profileCtrl.eEmailTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.emailAddress,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                        ],
                         onChanged: (value) {
                           profileCtrl
                               .myProfileDetails
@@ -207,6 +226,11 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.call),
                         controller: profileCtrl.ePhoneTxtCtrl,
                         isRequired: true,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                        ],
                         onChanged: (value) {
                           profileCtrl
                               .myProfileDetails

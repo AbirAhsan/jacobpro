@@ -242,7 +242,7 @@ class AuthController extends GetxController {
                   children: [
                     TextSpan(
                       text:
-                          "You are successfully signed up for Jacob Pro. You can login to your account using username and password to submit your documents for further verificaon.",
+                          "You are successfully signed up for Jacob Pro. You can login to your account using username and password to submit your documents for further verification",
                       style: CustomTextStyle.mediumRegularStyleBlack,
                     ),
                     TextSpan(

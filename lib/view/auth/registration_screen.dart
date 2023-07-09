@@ -94,6 +94,10 @@ class RegistrationScreen extends StatelessWidget {
                             prefixIcon: const Icon(Icons.phone_android_rounded),
                             labelText: LocaleKeys.auth_phoneNumber.tr(),
                             keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                            ],
                             controller: authCtrl.registrationMobileCtrl,
                             validator: ValidatorService.validateMobile,
                             onChanged: (value) {

@@ -62,6 +62,9 @@ class LoginScreen extends StatelessWidget {
                         controller: authCtrl.loginUserNameCtrl,
                         contentPadding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                         prefixIcon: const Icon(Icons.person),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                        ],
                         labelText: LocaleKeys.auth_userID.tr(),
                         validator: ValidatorService.validateSimpleFiled,
                       ),
