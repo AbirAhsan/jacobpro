@@ -255,179 +255,179 @@ class DocumentDetailsView extends StatelessWidget {
                     ),
                   ),
 
-                  //<============== Identification License
-                  Card(
-                    elevation: 5,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: CustomCollapsibleWidget(
-                        name: "IDENTIFICATION",
-                        initiallyCollapsed: true,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Divider(
-                              height: 0,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            const Text(
-                              "Front",
-                              style: CustomTextStyle.normalBoldStyleDarkGrey,
-                            ),
-                            Card(
-                              elevation: 5,
-                              child: Container(
-                                width: Get.width,
-                                height: Get.width / 2.2,
-                                alignment: Alignment.topRight,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                        profileCtrl.identificationFrontImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 13)?.profileDocumentURL : ""}",
-                                      ),
-                                      fit: BoxFit.cover),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        CustomColors.offWhite.withOpacity(0.5),
-                                  ),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        Get.dialog(AlertDialog(
-                                          title: const Text("Choose"),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                leading: const Icon(
-                                                    Icons.camera_alt_outlined),
-                                                title: const Text("Camera"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.camera)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 13);
-                                                  });
-                                                },
-                                              ),
-                                              ListTile(
-                                                leading: const Icon(Icons
-                                                    .photo_camera_back_outlined),
-                                                title: const Text("Gallery"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.gallery)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 13);
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                                      },
-                                      icon: const Icon(Icons.camera_alt)),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              "Back",
-                              style: CustomTextStyle.normalBoldStyleDarkGrey,
-                            ),
-                            Card(
-                              elevation: 5,
-                              child: Container(
-                                width: Get.width,
-                                height: Get.width / 2.2,
-                                alignment: Alignment.topRight,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                        profileCtrl.identificationBackImage ??
-                                            "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 14)?.profileDocumentURL : ""}",
-                                      ),
-                                      fit: BoxFit.cover),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        CustomColors.offWhite.withOpacity(0.5),
-                                  ),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        Get.dialog(AlertDialog(
-                                          title: const Text("Choose"),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ListTile(
-                                                leading: const Icon(
-                                                    Icons.camera_alt_outlined),
-                                                title: const Text("Camera"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.camera)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 14);
-                                                  });
-                                                },
-                                              ),
-                                              ListTile(
-                                                leading: const Icon(Icons
-                                                    .photo_camera_back_outlined),
-                                                title: const Text("Gallery"),
-                                                onTap: () {
-                                                  PageNavigationService
-                                                      .backScreen();
-                                                  ImagePickService()
-                                                      .getSingleImage(
-                                                          ImageSource.gallery)
-                                                      .then((imagePath) {
-                                                    profileCtrl.uploadUserFile(
-                                                        imagePath, 14);
-                                                  });
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                                      },
-                                      icon: const Icon(Icons.camera_alt)),
-                                ),
-                              ),
-                            ),
-                            CupertinoDateTimePicker(
-                              labelText: "Expiry Date",
-                              minimumYear: 2023,
-                              controller: profileCtrl.idCardExpiryTxtCtrl,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // //<============== Identification License
+                  // Card(
+                  //   elevation: 5,
+                  //   child: SizedBox(
+                  //     width: double.infinity,
+                  //     child: CustomCollapsibleWidget(
+                  //       name: "IDENTIFICATION",
+                  //       initiallyCollapsed: true,
+                  //       child: Column(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           const Divider(
+                  //             height: 0,
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 20,
+                  //           ),
+                  //           const Text(
+                  //             "Front",
+                  //             style: CustomTextStyle.normalBoldStyleDarkGrey,
+                  //           ),
+                  //           Card(
+                  //             elevation: 5,
+                  //             child: Container(
+                  //               width: Get.width,
+                  //               height: Get.width / 2.2,
+                  //               alignment: Alignment.topRight,
+                  //               decoration: BoxDecoration(
+                  //                 image: DecorationImage(
+                  //                     image: CachedNetworkImageProvider(
+                  //                       profileCtrl.identificationFrontImage ??
+                  //                           "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 13)?.profileDocumentURL : ""}",
+                  //                     ),
+                  //                     fit: BoxFit.cover),
+                  //               ),
+                  //               child: Container(
+                  //                 decoration: BoxDecoration(
+                  //                   shape: BoxShape.circle,
+                  //                   color:
+                  //                       CustomColors.offWhite.withOpacity(0.5),
+                  //                 ),
+                  //                 child: IconButton(
+                  //                     onPressed: () {
+                  //                       Get.dialog(AlertDialog(
+                  //                         title: const Text("Choose"),
+                  //                         content: Column(
+                  //                           mainAxisSize: MainAxisSize.min,
+                  //                           children: [
+                  //                             ListTile(
+                  //                               leading: const Icon(
+                  //                                   Icons.camera_alt_outlined),
+                  //                               title: const Text("Camera"),
+                  //                               onTap: () {
+                  //                                 PageNavigationService
+                  //                                     .backScreen();
+                  //                                 ImagePickService()
+                  //                                     .getSingleImage(
+                  //                                         ImageSource.camera)
+                  //                                     .then((imagePath) {
+                  //                                   profileCtrl.uploadUserFile(
+                  //                                       imagePath, 13);
+                  //                                 });
+                  //                               },
+                  //                             ),
+                  //                             ListTile(
+                  //                               leading: const Icon(Icons
+                  //                                   .photo_camera_back_outlined),
+                  //                               title: const Text("Gallery"),
+                  //                               onTap: () {
+                  //                                 PageNavigationService
+                  //                                     .backScreen();
+                  //                                 ImagePickService()
+                  //                                     .getSingleImage(
+                  //                                         ImageSource.gallery)
+                  //                                     .then((imagePath) {
+                  //                                   profileCtrl.uploadUserFile(
+                  //                                       imagePath, 13);
+                  //                                 });
+                  //                               },
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ));
+                  //                     },
+                  //                     icon: const Icon(Icons.camera_alt)),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 10,
+                  //           ),
+                  //           const Text(
+                  //             "Back",
+                  //             style: CustomTextStyle.normalBoldStyleDarkGrey,
+                  //           ),
+                  //           Card(
+                  //             elevation: 5,
+                  //             child: Container(
+                  //               width: Get.width,
+                  //               height: Get.width / 2.2,
+                  //               alignment: Alignment.topRight,
+                  //               decoration: BoxDecoration(
+                  //                 image: DecorationImage(
+                  //                     image: CachedNetworkImageProvider(
+                  //                       profileCtrl.identificationBackImage ??
+                  //                           "${profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.isNotEmpty ? profileCtrl.myProfileDetails.value!.profileDocumentsWrapperData![1].profileDocumentsData!.firstWhereOrNull((doc) => doc.profileDocumentTypeId == 14)?.profileDocumentURL : ""}",
+                  //                     ),
+                  //                     fit: BoxFit.cover),
+                  //               ),
+                  //               child: Container(
+                  //                 decoration: BoxDecoration(
+                  //                   shape: BoxShape.circle,
+                  //                   color:
+                  //                       CustomColors.offWhite.withOpacity(0.5),
+                  //                 ),
+                  //                 child: IconButton(
+                  //                     onPressed: () {
+                  //                       Get.dialog(AlertDialog(
+                  //                         title: const Text("Choose"),
+                  //                         content: Column(
+                  //                           mainAxisSize: MainAxisSize.min,
+                  //                           children: [
+                  //                             ListTile(
+                  //                               leading: const Icon(
+                  //                                   Icons.camera_alt_outlined),
+                  //                               title: const Text("Camera"),
+                  //                               onTap: () {
+                  //                                 PageNavigationService
+                  //                                     .backScreen();
+                  //                                 ImagePickService()
+                  //                                     .getSingleImage(
+                  //                                         ImageSource.camera)
+                  //                                     .then((imagePath) {
+                  //                                   profileCtrl.uploadUserFile(
+                  //                                       imagePath, 14);
+                  //                                 });
+                  //                               },
+                  //                             ),
+                  //                             ListTile(
+                  //                               leading: const Icon(Icons
+                  //                                   .photo_camera_back_outlined),
+                  //                               title: const Text("Gallery"),
+                  //                               onTap: () {
+                  //                                 PageNavigationService
+                  //                                     .backScreen();
+                  //                                 ImagePickService()
+                  //                                     .getSingleImage(
+                  //                                         ImageSource.gallery)
+                  //                                     .then((imagePath) {
+                  //                                   profileCtrl.uploadUserFile(
+                  //                                       imagePath, 14);
+                  //                                 });
+                  //                               },
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ));
+                  //                     },
+                  //                     icon: const Icon(Icons.camera_alt)),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           CupertinoDateTimePicker(
+                  //             labelText: "Expiry Date",
+                  //             minimumYear: 2023,
+                  //             controller: profileCtrl.idCardExpiryTxtCtrl,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
                   //<========================== Technician License Card
 
