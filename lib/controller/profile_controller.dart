@@ -37,6 +37,7 @@ class ProfileController extends GetxController {
   TextEditingController? pLastNameTxtCtrl = TextEditingController();
   TextEditingController? pEmailTxtCtrl = TextEditingController();
   TextEditingController? pPhoneTxtCtrl = TextEditingController();
+  TextEditingController? pAddressTxtCtrl = TextEditingController();
   TextEditingController? eFirstNameTxtCtrl = TextEditingController();
   TextEditingController? eLastNameTxtCtrl = TextEditingController();
   TextEditingController? eEmailTxtCtrl = TextEditingController();
@@ -82,7 +83,8 @@ class ProfileController extends GetxController {
             myProfileDetails.value!.profileGeneralData?.userFirstName,
             myProfileDetails.value!.profileGeneralData?.userLastName,
             myProfileDetails.value!.profileGeneralData?.userMail,
-            myProfileDetails.value!.profileGeneralData?.userContactNo);
+            myProfileDetails.value!.profileGeneralData?.userContactNo,
+            myProfileDetails.value!.profileGeneralData?.userAddress);
         assignBankDetails(
             myProfileDetails.value!.profilePaymentMethod?.paymentMethodName,
             myProfileDetails
@@ -313,6 +315,13 @@ class ProfileController extends GetxController {
         "code": 405,
         "message": 'Enter your phone number'
       }); //Personal contact phone number warning
+    } else if (myProfileDetails
+        .value!.profileGeneralData!.userAddress!.isNotEmpty) {
+      screenCtrl.changeProfileTabbar(0);
+      ApiErrorHandleService.handleStatusCodeError({
+        "code": 405,
+        "message": 'Enter your address'
+      }); //Personal contact phone number warning
     } else if (myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.isEmpty ||
         myProfileDetails.value!.profileEmergencyContactData!.emergencyContactFirstName!.length <
             3) {
@@ -487,12 +496,13 @@ class ProfileController extends GetxController {
     }
   }
 
-  assignPersonalContact(
-      String? firstName, String? lastName, String? email, String? phone) {
+  assignPersonalContact(String? firstName, String? lastName, String? email,
+      String? phone, String? address) {
     pFirstNameTxtCtrl!.text = firstName!;
     pLastNameTxtCtrl!.text = lastName!;
     pEmailTxtCtrl!.text = email!;
     pPhoneTxtCtrl!.text = phone!;
+    pAddressTxtCtrl!.text = address!;
     update();
   }
 

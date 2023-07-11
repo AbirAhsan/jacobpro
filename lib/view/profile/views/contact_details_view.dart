@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service/controller/profile_controller.dart';
 import 'package:service/controller/screen_controller.dart';
 import 'package:service/services/validator_service.dart';
 
+import '../../../controller/customer_controller.dart';
 import '../../../services/image_picker_service.dart';
+import '../../../services/page_navigation_service.dart';
 import '../../variables/text_style.dart';
 import '../../widgets/custom_company_button.dart';
 import '../../widgets/custom_text_field.dart';
@@ -136,6 +139,27 @@ class ContactDetailsView extends StatelessWidget {
                         },
                         validator: ValidatorService.validateMobile,
                       ),
+                      GetBuilder<CustomerController>(
+                          init: CustomerController(),
+                          builder: (customerCtrl) {
+                            return CustomTextField(
+                              labelText: "Address",
+                              prefixIcon:
+                                  const Icon(Icons.location_on_outlined),
+                              controller: profileCtrl.pAddressTxtCtrl,
+                              isRequired: true,
+                              minLines: 1,
+                              maxLines: 3,
+                              readOnly: true,
+                              validator: ValidatorService.validateSimpleFiled,
+                              onTap: () {
+                                customerCtrl.searchTextCtrl.clear();
+                                customerCtrl.suggestedAddressList.clear();
+                                customerCtrl.update();
+                                searchAddress();
+                              },
+                            );
+                          }),
                       const SizedBox(
                         height: 30,
                       ),
@@ -273,4 +297,148 @@ class ContactDetailsView extends StatelessWidget {
           );
         });
   }
+}
+
+searchAddress() {
+  return showModalBottomSheet<void>(
+      context: Get.context!,
+      enableDrag: false,
+      isDismissible: false,
+      builder: (BuildContext context) {
+        return GetBuilder<CustomerController>(
+            init: CustomerController(),
+            builder: (customerCtrl) {
+              return SizedBox(
+                height: Get.height,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: TextButton.icon(
+                            onPressed: () {
+                              PageNavigationService.backScreen();
+                            },
+                            icon: const Icon(Icons.close),
+                            label: const Text("Close")),
+                      ),
+                      CustomTextField(
+                        labelText: "Search Address Here",
+                        controller: customerCtrl.searchTextCtrl,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            customerCtrl.getSuggestedAddressList();
+                          },
+                          icon: const Icon(
+                            Icons.search_sharp,
+                            size: 36,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          customerCtrl.debouncer.run(() {
+                            customerCtrl.getSuggestedAddressList();
+                            //perform search here
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            customerCtrl.suggestedAddressList.isNotEmpty
+                                ? SizedBox(
+                                    height: 200,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(10),
+                                        itemCount: customerCtrl
+                                            .suggestedAddressList.length,
+                                        itemBuilder: (buildContext, index) {
+                                          return Card(
+                                            child: ListTile(
+                                              title: Text(customerCtrl
+                                                      .suggestedAddressList[
+                                                  index]!),
+                                              onTap: () {
+                                                customerCtrl.searchTextCtrl
+                                                    .text = customerCtrl
+                                                        .suggestedAddressList[
+                                                    index]!;
+
+                                                customerCtrl
+                                                    .getAddressDetails();
+                                              },
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                : Container(),
+                            customerCtrl.addressLat != null ||
+                                    customerCtrl.addressLong != null
+                                ? Image(
+                                    image: StaticMapController(
+                                    googleApiKey:
+                                        "AIzaSyDfVYnKtLaoJJSFXxCQZ54U4udtIwv4ahk",
+                                    width: Get.width.toInt(),
+                                    height: (Get.width ~/ 2).toInt(),
+                                    zoom: 8,
+                                    language: "EN",
+                                    visible: [
+                                      // Location(
+                                      //     double.parse(topicDetails
+                                      //             .locationLat!.isNotEmpty
+                                      //         ? topicDetails.locationLat!
+                                      //         : "0.0"),
+                                      //     double.parse(topicDetails
+                                      //             .locationLong!.isNotEmpty
+                                      //         ? topicDetails.locationLong!
+                                      //         : "0.0")),
+                                    ],
+                                    // maptype: StaticMapType.satellite,
+                                    markers: [
+                                      Marker(locations: [
+                                        Location(
+                                          customerCtrl.addressLat ?? 0.0,
+                                          customerCtrl.addressLong ?? 0.0,
+                                        )
+                                      ]),
+                                    ],
+                                    scale: MapScale.scale1,
+                                    center: Location(
+                                      customerCtrl.addressLat ?? 0.0,
+                                      customerCtrl.addressLong ?? 0.0,
+                                    ),
+                                  ).image)
+                                : Container(),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GetBuilder<ProfileController>(
+                                  init: ProfileController(),
+                                  builder: (profileCtrl) {
+                                    return CustomCompanyButton(
+                                        fizedSize: Size(100, 50),
+                                        buttonName: "Confirm",
+                                        onPressed: () {
+                                          profileCtrl.pAddressTxtCtrl!.text =
+                                              customerCtrl.searchTextCtrl.text;
+                                          profileCtrl
+                                                  .myProfileDetails
+                                                  .value!
+                                                  .profileGeneralData!
+                                                  .userAddress =
+                                              customerCtrl.searchTextCtrl.text;
+                                          profileCtrl.update();
+                                          PageNavigationService.backScreen();
+                                        });
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
+      });
 }

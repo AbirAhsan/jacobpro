@@ -183,7 +183,7 @@ class EmployeeDetailsView extends StatelessWidget {
                       controller: profileCtrl.userYearOfExperienceTxtCtrl,
                       labelText: "Years of Experience",
                       isRequired: true,
-                      prefixIcon: Icon(Icons.av_timer),
+                      prefixIcon: const Icon(Icons.av_timer),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [
