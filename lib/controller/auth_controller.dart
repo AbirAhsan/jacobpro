@@ -18,6 +18,12 @@ import 'screen_controller.dart';
 class AuthController extends GetxController {
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> registrationFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> forgetPasswordFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> forgetResetPasswordFormKey = GlobalKey<FormState>();
+  TextEditingController? forgetPassUserNameCtrl = TextEditingController();
+  TextEditingController? forgetNewPassCtrl = TextEditingController();
+  TextEditingController? forgetConfirmNewPassCtrl = TextEditingController();
+
   TextEditingController? loginUserNameCtrl = TextEditingController();
   TextEditingController? loginPasswordCtrl = TextEditingController();
   //
@@ -106,7 +112,44 @@ class AuthController extends GetxController {
     }
   }
 
-  //<============================== Login Request
+  //<============================== Find User for Forget Password
+  Future<void> findUser() async {
+    if (ValidatorService().validateAndSave(forgetPasswordFormKey)) {
+      // fcmToken = await getFCMToken();
+      try {
+        CustomEassyLoading.startLoading();
+        AuthApiService()
+            .findUser(
+          forgetPassUserNameCtrl!.text,
+        )
+            .then((resp) async {
+          CustomEassyLoading.stopLoading();
+          if (resp.isNotEmpty) {
+            PageNavigationService.generalNavigation(
+                "/ForgetPassMakeSelectionScreen",
+                arguments: resp);
+            forgetPassUserNameCtrl!.clear();
+          }
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
+        CustomEassyLoading.stopLoading();
+      } on Exception catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
+
+      update();
+    }
+  }
+
+  //<============================== Registration Request
   Future<void> sendOtp() async {
     if (ValidatorService().validateAndSave(registrationFormKey)) {
       // fcmToken = await getFCMToken();
@@ -179,6 +222,134 @@ class AuthController extends GetxController {
         ApiErrorHandleService.handleStatusCodeError(err);
         CustomEassyLoading.stopLoading();
       });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
+  //<============================== Forget Password otp Request
+  Future<void> forgetPassSendOtp(String mailOrPhone, userSystemId) async {
+    // fcmToken = await getFCMToken();
+    try {
+      CustomEassyLoading.startLoading();
+      selectedUserType!.value == "Email"
+          ? AuthApiService()
+              .sendForgetOtpRequestToMail(
+              mailOrPhone,
+            )
+              .then((resp) async {
+              CustomEassyLoading.stopLoading();
+              if (resp!) {
+                await startTimer();
+                PageNavigationService.removeAndNavigate(
+                  "/ForgetPassOTP",
+                  arguments: [mailOrPhone, userSystemId],
+                );
+              }
+            }, onError: (err) {
+              ApiErrorHandleService.handleStatusCodeError(err);
+              CustomEassyLoading.stopLoading();
+            })
+          : AuthApiService()
+              .sendForgetOtpRequestToPhone(
+              mailOrPhone,
+            )
+              .then((resp) async {
+              CustomEassyLoading.stopLoading();
+              if (resp) {
+                await startTimer();
+                PageNavigationService.removeAndNavigate("/ForgetPassOTP",
+                    arguments: [mailOrPhone, userSystemId]);
+              }
+            }, onError: (err) {
+              ApiErrorHandleService.handleStatusCodeError(err);
+              CustomEassyLoading.stopLoading();
+            });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
+  //<================ Forget Password  VerifyOtp
+  Future<void> tryToVerifyOtpForgetpassword(
+      {String? userName, String? systemId}) async {
+    try {
+      CustomEassyLoading.startLoading();
+      AuthApiService.verifyOtp(otp: currentOtpPin ?? "12", userName: userName)
+          .then((resp) {
+        CustomEassyLoading.stopLoading();
+        if (resp) {
+          PageNavigationService.generalNavigation("/ForgetResetPassScreen",
+              arguments: [userName, systemId]);
+        }
+      }, onError: (err) {
+        ApiErrorHandleService.handleStatusCodeError(err);
+        CustomEassyLoading.stopLoading();
+      });
+    } on SocketException catch (e) {
+      debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
+    } on Exception catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+
+    update();
+  }
+
+  //<============================== Forget Password Resend OTP Request
+  Future<void> forgetPassResendOtp(String mailOrPhone) async {
+    // fcmToken = await getFCMToken();
+    try {
+      CustomEassyLoading.startLoading();
+      selectedUserType!.value == "Email"
+          ? AuthApiService()
+              .sendForgetOtpRequestToMail(
+              mailOrPhone,
+            )
+              .then((resp) async {
+              CustomEassyLoading.stopLoading();
+              if (resp!) {
+                await startTimer();
+              }
+            }, onError: (err) {
+              ApiErrorHandleService.handleStatusCodeError(err);
+              CustomEassyLoading.stopLoading();
+            })
+          : AuthApiService()
+              .sendForgetOtpRequestToPhone(
+              mailOrPhone,
+            )
+              .then((resp) async {
+              CustomEassyLoading.stopLoading();
+              if (resp) {
+                await startTimer();
+              }
+            }, onError: (err) {
+              ApiErrorHandleService.handleStatusCodeError(err);
+              CustomEassyLoading.stopLoading();
+            });
     } on SocketException catch (e) {
       debugPrint('error $e');
       CustomEassyLoading.stopLoading();
@@ -284,6 +455,47 @@ class AuthController extends GetxController {
     }
 
     update();
+  }
+
+  //<================ Reset Password Request
+  Future<void> resetPasswordRequest(
+      {String? userName, String? userSystemId}) async {
+    if (ValidatorService().validateAndSave(forgetResetPasswordFormKey)) {
+      try {
+        CustomEassyLoading.startLoading();
+        AuthApiService()
+            .resetPasswordRequest(
+                userName: userName,
+                userSystemId: userSystemId,
+                password: forgetConfirmNewPassCtrl!.text)
+            .then((resp) {
+          CustomEassyLoading.stopLoading();
+          CustomDialogShow.showSuccessDialog(
+              title: "CONGRATULATIONS!",
+              description:
+                  "You've successfully reset your password.\nYou'll receive a mail/sms with access credential shortly.",
+              okayButtonName: "Go To Login",
+              btnOkOnPress: () {
+                PageNavigationService.backScreen();
+                PageNavigationService.removeAllAndNavigate("/LoginScreen");
+              });
+        }, onError: (err) {
+          CustomEassyLoading.stopLoading();
+          ApiErrorHandleService.handleStatusCodeError(err);
+        });
+      } on SocketException catch (e) {
+        debugPrint('error $e');
+        CustomEassyLoading.stopLoading();
+      } on Exception catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      } catch (e) {
+        CustomEassyLoading.stopLoading();
+        debugPrint("$e");
+      }
+
+      update();
+    }
   }
 
 //<=================== Start Timer

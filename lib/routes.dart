@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'view/auth/forget_pass/forget_pass_find_account.dart';
 import 'view/auth/forget_pass/forget_pass_otp.dart';
+import 'view/auth/forget_pass/forget_pass_reset_password.dart';
 import 'view/auth/forget_pass/forget_pass_selection.dart';
 import 'view/auth/login_screen.dart';
 import 'view/auth/registration_screen.dart';
@@ -39,6 +40,9 @@ class ScreenRoutes {
         name: '/ForgetPassMakeSelectionScreen',
         page: () => const ForgetPassMakeSelectionScreen()),
     GetPage(name: '/ForgetPassOTP', page: () => const ForgetPassOTP()),
+    GetPage(
+        name: '/ForgetResetPassScreen',
+        page: () => const ForgetResetPassScreen()),
 
     //
     GetPage(

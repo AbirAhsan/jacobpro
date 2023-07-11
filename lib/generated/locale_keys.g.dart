@@ -67,6 +67,11 @@ abstract class  LocaleKeys {
   static const forgetPassword_cPassRule2 = 'forgetPassword.cPassRule2';
   static const forgetPassword_passUpdateTitle = 'forgetPassword.passUpdateTitle';
   static const forgetPassword_passUpdatebody = 'forgetPassword.passUpdatebody';
+  static const forgetPassword_resetPass = 'forgetPassword.resetPass';
+  static const forgetPassword_resetPassBody = 'forgetPassword.resetPassBody';
+  static const forgetPassword_newPassword = 'forgetPassword.newPassword';
+  static const forgetPassword_cNewPassword = 'forgetPassword.cNewPassword';
+  static const forgetPassword_confirm = 'forgetPassword.confirm';
   static const forgetPassword_button1 = 'forgetPassword.button1';
   static const forgetPassword_button2 = 'forgetPassword.button2';
   static const forgetPassword_button3 = 'forgetPassword.button3';

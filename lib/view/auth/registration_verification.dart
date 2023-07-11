@@ -97,7 +97,7 @@ class RegistrationOtpVerification extends StatelessWidget {
                       rightPadding: 0,
                       primaryColor: CustomColors.white,
                       textStyle: CustomTextStyle.normalBoldStylePrimary,
-                      fizedSize: const Size(115, 15),
+                      fizedSize: const Size(130, 15),
                       buttonName: authCtrl.secondsRemaining == 0
                           ? LocaleKeys.otpVerification_resend.tr()
                           : LocaleKeys.otpVerification_wait

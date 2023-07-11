@@ -7,7 +7,6 @@ import 'package:service/view/widgets/custom_company_button.dart';
 
 import '../../../controller/auth_controller.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../../services/page_navigation_service.dart';
 import '../../widgets/custom_appbar.dart';
 
 class ForgetPassMakeSelectionScreen extends StatelessWidget {
@@ -15,6 +14,7 @@ class ForgetPassMakeSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userDetails = Get.arguments;
     return Scaffold(
       appBar: const CustomAppBar(
         elevation: 0,
@@ -73,11 +73,12 @@ class ForgetPassMakeSelectionScreen extends StatelessWidget {
                         ),
                         subtitle: Text(
                           userName == "Email"
-                              ? 'abirahsan122@gmail.com'.replaceRange(
+                              ? userDetails["userMail"].replaceRange(
                                   0,
-                                  'abirahsan122@gmail.com'.indexOf("@") - 3,
+                                  userDetails["userMail"].indexOf("@") - 3,
                                   " * * * * * ")
-                              : "01716422666".replaceRange(3, 8, " * * * * * "),
+                              : userDetails["userContactNo"]
+                                  .replaceRange(3, 8, " * * * * * "),
                           style: CustomTextStyle.mediumBoldStyleWhite,
                         ),
                       ),
@@ -90,10 +91,12 @@ class ForgetPassMakeSelectionScreen extends StatelessWidget {
                 CustomCompanyButton(
                     buttonName: LocaleKeys.forgetPassword_button1.tr(),
                     onPressed: () async {
-                      //    authCtrl.sendOtp();
-                      await authCtrl.startTimer();
-                      PageNavigationService.generalNavigation("/ForgetPassOTP",
-                          arguments: "01716422666");
+                      authCtrl.selectedUserType!.value == "Email"
+                          ? authCtrl.forgetPassSendOtp(userDetails["userMail"],
+                              userDetails["userSystemId"].toString())
+                          : authCtrl.forgetPassSendOtp(
+                              userDetails["userContactNo"],
+                              userDetails["userSystemId"].toString());
                     })
               ],
             );

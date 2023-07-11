@@ -42,7 +42,62 @@ class AuthApiService {
     }
   }
 
+  Future<Map> findUser(String? userName) async {
+    // String? fcmToken = await NotificationController().getFcmToken();
+
+    Uri url = Uri.parse(
+        "${AppConfig.baseUrl}/Emp/GetEmpBasicDataByUsername/$userName");
+
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('GET', url);
+
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    Map response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
+
+      return response;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
   Future<bool?> sendOtpRequestToMail(
+    String? email,
+  ) async {
+    Uri url = Uri.parse("${AppConfig.baseUrl}/email/sendemail/reg_otp/$email");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('GET', url);
+
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+
+    var response = jsonDecode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
+
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  Future<bool?> sendForgetOtpRequestToMail(
     String? email,
   ) async {
     Uri url = Uri.parse("${AppConfig.baseUrl}/email/sendemail/otp/$email");
@@ -72,6 +127,40 @@ class AuthApiService {
   }
 
   Future<bool> sendOtpRequestToPhone(
+    String? phone,
+  ) async {
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Sms/SendSms");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', url);
+
+    request.headers.addAll(headers);
+    request.body = json.encode({
+      "smsBody": "",
+      "smsSendTo": phone,
+      "smsType": "reg_otp",
+    });
+
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
+
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  Future<bool> sendForgetOtpRequestToPhone(
     String? phone,
   ) async {
     Uri url = Uri.parse("${AppConfig.baseUrl}/Sms/SendSms");
@@ -159,6 +248,44 @@ class AuthApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);
     debugPrint(url.toString());
+    debugPrint(response.toString());
+    debugPrint("Code ${respStr.statusCode}");
+    if (respStr.statusCode == 200) {
+      debugPrint(response.toString());
+
+      return response;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  Future resetPasswordRequest(
+      {String? userName, String? userSystemId, String? password}) async {
+    // String? fcmToken = await NotificationController().getFcmToken();
+
+    Uri url = Uri.parse("${AppConfig.baseUrl}/Emp/ResetPassword");
+
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "userSystemId": int.parse(userSystemId!),
+      "userName": userName,
+      "currentPassword": null,
+      "newPassword": password,
+      "isReset": true
+    });
+
+    debugPrint(request.body);
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+    var respStr = await http.Response.fromStream(streamedResponse);
+    debugPrint("Code ${respStr.statusCode}");
+    var response = json.decode(jsonEncode(respStr.body));
+
     debugPrint(response.toString());
     debugPrint("Code ${respStr.statusCode}");
     if (respStr.statusCode == 200) {

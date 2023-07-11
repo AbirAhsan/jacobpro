@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
+  Future<Map<String, dynamic>?> load(String path, Locale locale) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -85,6 +85,11 @@ class CodegenLoader extends AssetLoader{
     "cPassRule2": "Not matched to Password",
     "passUpdateTitle": "Congratulation",
     "passUpdatebody": "Password Update Successfully",
+    "resetPass": "Reset Password",
+    "resetPassBody": "Enter your new password",
+    "newPassword": "New Password",
+    "cNewPassword": "Confirm New Password",
+    "confirm": "Confirm",
     "button1": "Continue",
     "button2": "Check",
     "button3": "Update"

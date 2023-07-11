@@ -69,6 +69,11 @@
         "cPassRule2": "Not matched to Password",
         "passUpdateTitle": "Congratulation",
         "passUpdatebody": "Password Update Successfully",
+        "resetPass": "Reset Password",
+        "resetPassBody": "Enter your new password to reset previous one",
+        "newPassword": "New Password",
+        "cNewPassword": "Confirm New Password",
+        "confirm": "Confirm",
         "button1": "Continue",
         "button2": "Check",
         "button3": "Update"

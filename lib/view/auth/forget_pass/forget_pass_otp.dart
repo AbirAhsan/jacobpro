@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:service/services/page_navigation_service.dart';
 
 import '../../../controller/auth_controller.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../../services/custom_dialog_class.dart';
 import '../../variables/colors_variable.dart';
 import '../../variables/icon_variables.dart';
 import '../../variables/text_style.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_company_button.dart';
 import '../../widgets/custom_otp_screen.dart';
 
@@ -17,11 +16,13 @@ class ForgetPassOTP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? userId = Get.arguments;
+    String? selectedUser = Get.arguments[0];
+    String? userSystemId = Get.arguments[1];
     return Scaffold(
-      appBar: AppBar(
+      appBar: const CustomAppBar(
         elevation: 0,
-        automaticallyImplyLeading: false,
+        title: "",
+        hideNotificationIcon: true,
       ),
       body: GetBuilder<AuthController>(
           init: AuthController(),
@@ -57,7 +58,7 @@ class ForgetPassOTP extends StatelessWidget {
                       //     ? userId!.replaceRange(
                       //         0, userId.indexOf("@") - 3, " *****")
                       //     :
-                      userId!.replaceRange(2, 7, "*****")
+                      selectedUser!.replaceRange(2, 7, "*****")
                     ]),
                     style: CustomTextStyle.mediumBoldStyleGrey,
                     textAlign: TextAlign.center,
@@ -93,14 +94,14 @@ class ForgetPassOTP extends StatelessWidget {
                       rightPadding: 0,
                       primaryColor: CustomColors.white,
                       textStyle: CustomTextStyle.normalBoldStylePrimary,
-                      fizedSize: const Size(110, 15),
+                      fizedSize: const Size(130, 15),
                       buttonName: authCtrl.secondsRemaining == 0
                           ? LocaleKeys.otpVerification_resend.tr()
                           : LocaleKeys.otpVerification_wait
                               .tr(args: [authCtrl.secondsRemaining.toString()]),
                       onPressed: () {
                         if (authCtrl.secondsRemaining == 0) {
-                          authCtrl.startTimer();
+                          authCtrl.forgetPassResendOtp(selectedUser);
                         }
                       },
                     ),
@@ -114,17 +115,10 @@ class ForgetPassOTP extends StatelessWidget {
                   child: CustomCompanyButton(
                     leftPadding: 30,
                     rightPadding: 30.0,
-                    buttonName: LocaleKeys.otpVerification_reset.tr(),
+                    buttonName: LocaleKeys.auth_continue.tr(),
                     onPressed: () {
-                      CustomDialogShow.showSuccessDialog(
-                          title: "CONGRATULATIONS!",
-                          description:
-                              "You've successfully reset your password.\nYou'll receive a mail/sms with access credential shortly.",
-                          okayButtonName: "Go To Login",
-                          btnOkOnPress: () {
-                            PageNavigationService.generalNavigation(
-                                "/LoginScreen");
-                          });
+                      authCtrl.tryToVerifyOtpForgetpassword(
+                          userName: selectedUser, systemId: userSystemId);
                     },
                   ),
                 ),
