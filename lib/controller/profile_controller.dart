@@ -316,7 +316,7 @@ class ProfileController extends GetxController {
         "message": 'Enter your phone number'
       }); //Personal contact phone number warning
     } else if (myProfileDetails
-        .value!.profileGeneralData!.userAddress!.isNotEmpty) {
+        .value!.profileGeneralData!.userAddress!.isEmpty) {
       screenCtrl.changeProfileTabbar(0);
       ApiErrorHandleService.handleStatusCodeError({
         "code": 405,
