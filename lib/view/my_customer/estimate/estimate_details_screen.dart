@@ -645,8 +645,10 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                     child: CustomTextField(
                                                       marginLeft: 0,
                                                       marginRight: 5,
+                                                      minLines: 1,
+                                                      maxLines: 3,
                                                       labelText:
-                                                          "Description (optional)",
+                                                          "Description (opt.)",
                                                       controller: estimatedCtrl
                                                           .discountDesTxtCrtl,
                                                     ),
