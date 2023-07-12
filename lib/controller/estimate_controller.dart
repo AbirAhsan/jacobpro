@@ -139,8 +139,10 @@ class EstimatedController extends GetxController {
 
         selectedTaxCategory = resp.jobPriceCalculationDto?.jobTaxTypeId;
         totalTaxAmount = resp.jobPriceCalculationDto?.jobTaxAmount ?? 0.0;
+        print("Total Tax amount ${resp.jobPriceCalculationDto?.jobTaxAmount}");
+
         update();
-        print("Data fetch ${resp.jobPriceCalculationDto?.jobDiscountType}");
+
         await calculateTotalPriceOfServiceItem(
             resp.lineItems?.where((item) => item.itemType == "S").toList() ??
                 []);
@@ -151,7 +153,8 @@ class EstimatedController extends GetxController {
                 ?.where((item) => item.itemIsTaxable == true)
                 .toList() ??
             []);
-        await calculateTax();
+
+        //  await calculateTax();
 
         CustomEassyLoading.stopLoading();
 
@@ -206,11 +209,15 @@ class EstimatedController extends GetxController {
 
   calculateTax() async {
     double subTotal = totalServicePrice + totalMaterialPrice;
+    print("totalServicePrice : $totalServicePrice");
+    print("totalMaterialPrice : $totalMaterialPrice");
+
     if (subTotal == 0.0) {
       totalTaxAmount = 0.0;
     } else {
       double weightAvgDiscountOfTaxableAmount =
           (discount * totalTaxableItemPrice) / subTotal;
+      print("discount : $discount");
 
       double finalTaxableItemPrice =
           totalTaxableItemPrice - weightAvgDiscountOfTaxableAmount;
@@ -218,6 +225,7 @@ class EstimatedController extends GetxController {
       totalTaxAmount = double.tryParse(
           ((finalTaxableItemPrice * selectedTaxRate!) / 100)
               .toStringAsFixed(2))!;
+      print("Total Tax amount $totalTaxAmount");
     }
     update();
   }

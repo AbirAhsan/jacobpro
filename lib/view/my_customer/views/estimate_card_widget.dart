@@ -90,6 +90,7 @@ class EstimateCardWidget extends StatelessWidget {
             // Location
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Icon(
                   Icons.location_on_outlined,
@@ -99,9 +100,11 @@ class EstimateCardWidget extends StatelessWidget {
                 const SizedBox(
                   width: 5,
                 ),
-                Text(
-                  estimatedetails!.jobAddress ?? "",
-                  style: CustomTextStyle.normalRegularStyleDarkGrey,
+                Flexible(
+                  child: Text(
+                    estimatedetails!.jobAddress ?? "",
+                    style: CustomTextStyle.normalRegularStyleDarkGrey,
+                  ),
                 )
               ],
             ),

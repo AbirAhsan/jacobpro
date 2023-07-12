@@ -139,12 +139,8 @@ class CustomerDetailsScreen extends StatelessWidget {
                                     CustomerEstimateView(
                                       customerDetails: customerDetails,
                                     ),
-                                    CustomerEstimateView(
-                                      customerDetails: customerDetails,
-                                    ),
-                                    CustomerEstimateView(
-                                      customerDetails: customerDetails,
-                                    ),
+                                    Container(),
+                                    Container(),
                                   ]);
                             }),
                       );
