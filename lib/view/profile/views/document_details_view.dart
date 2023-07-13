@@ -636,9 +636,9 @@ class DocumentDetailsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 15.0),
+                            padding: const EdgeInsets.only(left: 15.0),
                             child: RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                   text: "",
                                   style: CustomTextStyle
                                       .normalRegularStyleDarkGrey,
@@ -675,11 +675,13 @@ class DocumentDetailsView extends StatelessWidget {
                                                     onPressed: () {
                                                       FilePickService
                                                               .getSingleFile()
-                                                          .then((file) {
-                                                        profileCtrl
+                                                          .then((file) async {
+                                                        await profileCtrl
                                                             .uploadUserFile(
                                                                 file!.path,
                                                                 101);
+                                                        PageNavigationService
+                                                            .backScreen();
                                                       });
                                                     },
                                                     icon: const Icon(
@@ -733,11 +735,13 @@ class DocumentDetailsView extends StatelessWidget {
                                                     onPressed: () {
                                                       FilePickService
                                                               .getSingleFile()
-                                                          .then((file) {
-                                                        profileCtrl
+                                                          .then((file) async {
+                                                        await profileCtrl
                                                             .uploadUserFile(
                                                                 file!.path,
                                                                 102);
+                                                        PageNavigationService
+                                                            .backScreen();
                                                       });
                                                     },
                                                     icon: const Icon(
