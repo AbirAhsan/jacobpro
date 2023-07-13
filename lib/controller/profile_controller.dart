@@ -75,6 +75,7 @@ class ProfileController extends GetxController {
       await ProfileApiService.getMyProfileDetails().then((resp) async {
         myProfileDetails.value = resp;
         profilePaymentMethod.value = resp.profilePaymentMethod;
+
         await SharedDataManageService().setUserVerification(
             resp.profileGeneralData!.userVerificationStatus.toString());
         await fetchMyProfileSkills();

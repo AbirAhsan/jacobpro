@@ -31,6 +31,7 @@ class ProfileApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = jsonDecode(respStr.body);
+    print("Profile payment method ${response}");
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
 
@@ -161,14 +162,14 @@ class ProfileApiService {
           ? '0'
           : userPerHourWage,
     });
-    print(request.body);
+    print("body is ${request.body}");
 
     var streamedResponse = await request.send();
 
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
-    print(respStr.statusCode);
+    print("Status code is respStr.statusCode");
     print(response);
     if (respStr.statusCode == 200 && response['statusCode'] == 200) {
       return true;

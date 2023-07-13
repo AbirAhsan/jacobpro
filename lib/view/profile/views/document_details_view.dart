@@ -82,7 +82,7 @@ class DocumentDetailsView extends StatelessWidget {
                     child: SizedBox(
                       width: double.infinity,
                       child: CustomCollapsibleWidget(
-                        name: "DRIVING LICENSE",
+                        name: "ID or DRIVING LICENSE",
                         isRequired: true,
                         initiallyCollapsed: true,
                         child: Column(

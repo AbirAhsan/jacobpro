@@ -844,17 +844,17 @@ class EstimateDetailsScreen extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Expanded(flex: 2, child: Text('')),
+                                // const Expanded(flex: 2, child: Text('')),
                                 const Expanded(
-                                    flex: 1,
+                                    flex: 7,
                                     child: Text(
                                       'FINAL BILL',
                                       style:
                                           CustomTextStyle.mediumBoldStyleBlack,
-                                      textAlign: TextAlign.left,
+                                      textAlign: TextAlign.right,
                                     )),
                                 Expanded(
-                                    flex: 1,
+                                    flex: 3,
                                     child: Text(
                                       "\$${(estimatedCtrl.totalServicePrice + estimatedCtrl.totalMaterialPrice - estimatedCtrl.discount + estimatedCtrl.totalTaxAmount)}",
                                       style:

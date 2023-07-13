@@ -183,7 +183,6 @@ class AuthController extends GetxController {
                   PageNavigationService.generalNavigation(
                       "/RegistrationOtpVerification",
                       arguments: [registrationMobileCtrl.text, profile.value]);
-                  clearRegistrationTextEditingController();
                 }
               }, onError: (err) {
                 ApiErrorHandleService.handleStatusCodeError(err);
@@ -402,6 +401,7 @@ class AuthController extends GetxController {
       AuthApiService()
           .registrationRequest(userName: userName, profileData: profileData)
           .then((resp) {
+        clearRegistrationTextEditingController();
         CustomEassyLoading.stopLoading();
         CustomDialogShow.showSuccessDialog(
             barrierDismissible: true,
