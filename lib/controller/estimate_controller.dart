@@ -138,6 +138,7 @@ class EstimatedController extends GetxController {
             "${resp.jobPriceCalculationDto?.jobDiscountRate ?? 0.0}";
 
         selectedTaxCategory = resp.jobPriceCalculationDto?.jobTaxTypeId;
+
         totalTaxAmount = resp.jobPriceCalculationDto?.jobTaxAmount ?? 0.0;
         print("Total Tax amount ${resp.jobPriceCalculationDto?.jobTaxAmount}");
 
@@ -154,7 +155,7 @@ class EstimatedController extends GetxController {
                 .toList() ??
             []);
 
-        //  await calculateTax();
+        await calculateTax();
 
         CustomEassyLoading.stopLoading();
 
@@ -196,13 +197,13 @@ class EstimatedController extends GetxController {
   calculateTotalPriceOfTaxableItem(
       List<ServiceandMaterialItemModel> item) async {
     totalTaxableItemPrice = 0.0;
-
+    print("Length is ${item.length}");
     for (var element in item) {
       totalTaxableItemPrice +=
           (element.itemQty ?? 0) * (double.parse(element.itemUnitPrice ?? "0"));
-      print(element.itemQty);
-      print(element.itemUnitPrice);
-      print(totalTaxableItemPrice);
+      print("Item Quantity is ${element.itemQty}");
+      print("Item unit price is ${element.itemUnitPrice}");
+      print("Total taxable item  price :${totalTaxableItemPrice}");
     }
     update();
   }
@@ -211,7 +212,8 @@ class EstimatedController extends GetxController {
     double subTotal = totalServicePrice + totalMaterialPrice;
     print("totalServicePrice : $totalServicePrice");
     print("totalMaterialPrice : $totalMaterialPrice");
-
+    selectedTaxRate = taxCategoryList.firstWhere(
+        (element) => element['id'] == selectedTaxCategory)['percent'];
     if (subTotal == 0.0) {
       totalTaxAmount = 0.0;
     } else {
@@ -221,7 +223,7 @@ class EstimatedController extends GetxController {
 
       double finalTaxableItemPrice =
           totalTaxableItemPrice - weightAvgDiscountOfTaxableAmount;
-
+      print("selectedTaxRate : $selectedTaxRate");
       totalTaxAmount = double.tryParse(
           ((finalTaxableItemPrice * selectedTaxRate!) / 100)
               .toStringAsFixed(2))!;
@@ -331,6 +333,7 @@ class EstimatedController extends GetxController {
         jobTaxAmount: totalTaxAmount.toString(),
       )
           .then((resp) async {
+        fetchEstimationDetails(jobUuid);
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
