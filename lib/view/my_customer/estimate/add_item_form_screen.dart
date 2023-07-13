@@ -96,21 +96,24 @@ class AddItemFormScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CheckboxListTile(
-                        value: estimatedCtrl
-                            .serviceAndMaterialItemDetailsForm!.itemIsTaxable,
-                        onChanged: (value) {
-                          estimatedCtrl.serviceAndMaterialItemDetailsForm!
-                              .itemIsTaxable = value;
-                          estimatedCtrl.update();
-                        },
-                        contentPadding: EdgeInsets.zero,
-                        controlAffinity: ListTileControlAffinity.leading,
-                        activeColor: CustomColors.green,
-                        title: const Text(
-                          "Tax",
-                          style: CustomTextStyle.mediumBoldStyleBlack,
-                        ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: estimatedCtrl
+                                .serviceAndMaterialItemDetailsForm!
+                                .itemIsTaxable,
+                            onChanged: (value) {
+                              estimatedCtrl.serviceAndMaterialItemDetailsForm!
+                                  .itemIsTaxable = value;
+                              estimatedCtrl.update();
+                            },
+                            activeColor: CustomColors.green,
+                          ),
+                          const Text(
+                            "Tax",
+                            style: CustomTextStyle.mediumBoldStyleBlack,
+                          ),
+                        ],
                       ),
                       Align(
                         alignment: Alignment.topRight,

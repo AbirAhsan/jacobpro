@@ -57,179 +57,162 @@ class EstimateDetailsScreen extends StatelessWidget {
                               height: 15.0,
                             ),
                             const Divider(),
-                            estimatedCtrl.estimationDetails!.lineItems!
-                                    .where((item) => item.itemType == "S")
-                                    .toList()
-                                    .isEmpty
-                                ? Container()
-                                : ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding: const EdgeInsets.all(0),
-                                    shrinkWrap: true,
-                                    itemCount: estimatedCtrl
-                                        .estimationDetails!.lineItems!
-                                        .where((item) => item.itemType == "S")
+                            ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(0),
+                                shrinkWrap: true,
+                                itemCount: estimatedCtrl
+                                        .estimationDetails!.lineItems
+                                        ?.where((item) => item.itemType == "S")
                                         .toList()
-                                        .length,
-                                    itemBuilder: (buildContex, index) {
-                                      ServiceandMaterialItemModel serviceItem =
-                                          estimatedCtrl
-                                              .estimationDetails!.lineItems!
-                                              .where((item) =>
-                                                  item.itemType == "S")
-                                              .toList()[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Column(
+                                        .length ??
+                                    0,
+                                itemBuilder: (buildContex, index) {
+                                  ServiceandMaterialItemModel serviceItem =
+                                      estimatedCtrl
+                                          .estimationDetails!.lineItems!
+                                          .where((item) => item.itemType == "S")
+                                          .toList()[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                InkWell(
-                                                    onTap: () {
+                                            InkWell(
+                                                onTap: () {
+                                                  estimatedCtrl
+                                                      .assignDataForEditItemForm(
+                                                          serviceItem);
+                                                  PageNavigationService
+                                                      .generalNavigation(
+                                                          '/AddItemFormScreen',
+                                                          arguments: [
+                                                        estimatedCtrl
+                                                            .estimationDetails!
+                                                            .jobDto!
+                                                            .jobUuid,
+                                                        "S"
+                                                      ]);
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                      Icons
+                                                          .edit_calendar_outlined,
+                                                      color:
+                                                          CustomColors.primary,
+                                                      size: 16,
+                                                    ))),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                                onTap: () async {
+                                                  await estimatedCtrl.deleteItem(
                                                       estimatedCtrl
-                                                          .assignDataForEditItemForm(
-                                                              serviceItem);
-                                                      PageNavigationService
-                                                          .generalNavigation(
-                                                              '/AddItemFormScreen',
-                                                              arguments: [
-                                                            estimatedCtrl
-                                                                .estimationDetails!
-                                                                .jobDto!
-                                                                .jobUuid,
-                                                            "S"
-                                                          ]);
-                                                    },
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: CustomColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.1)),
-                                                        child: const Icon(
-                                                          Icons
-                                                              .edit_calendar_outlined,
-                                                          color: CustomColors
-                                                              .primary,
-                                                          size: 16,
-                                                        ))),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                InkWell(
-                                                    onTap: () async {
-                                                      await estimatedCtrl.deleteItem(
-                                                          estimatedCtrl
-                                                              .estimationDetails!
-                                                              .jobDto!
-                                                              .jobUuid,
-                                                          serviceItem,
-                                                          (double.tryParse(serviceItem
-                                                                      .itemQty
-                                                                      .toString())! *
-                                                                  double.tryParse(
-                                                                      serviceItem
-                                                                              .itemUnitPrice ??
-                                                                          "0")!)
-                                                              .toString());
-                                                    },
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: CustomColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.1)),
-                                                        child: const Icon(
-                                                          Icons.delete_outline,
-                                                          color: CustomColors
-                                                              .primary,
-                                                          size: 16,
-                                                        ))),
-                                              ],
-                                            ),
-                                            CustomTextBox(
-                                              label: "Item",
-                                              text: serviceItem.itemName,
-                                              topMargin: 0,
-                                            ),
-                                            CustomTextBox(
-                                              label: "Description ",
-                                              text: serviceItem.itemDescription,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Quantity",
-                                                    text:
-                                                        "${serviceItem.itemQty}",
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Unit Price",
-                                                    text: serviceItem
-                                                        .itemUnitPrice,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Total",
-                                                    text: (double.tryParse(
-                                                                serviceItem
-                                                                    .itemQty
-                                                                    .toString())! *
-                                                            double.tryParse(
-                                                                serviceItem
-                                                                        .itemUnitPrice ??
-                                                                    "0")!)
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            CheckboxListTile(
-                                              value: serviceItem.itemIsTaxable,
-                                              onChanged: null,
-                                              dense: true,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0.0),
-                                              controlAffinity:
-                                                  ListTileControlAffinity
-                                                      .leading,
-                                              activeColor: CustomColors.green,
-                                              title: const Text(
-                                                "Tax",
-                                                style: CustomTextStyle
-                                                    .mediumBoldStyleBlack,
+                                                          .estimationDetails!
+                                                          .jobDto!
+                                                          .jobUuid,
+                                                      serviceItem,
+                                                      (double.tryParse(serviceItem
+                                                                  .itemQty
+                                                                  .toString())! *
+                                                              double.tryParse(
+                                                                  serviceItem
+                                                                          .itemUnitPrice ??
+                                                                      "0")!)
+                                                          .toString());
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                      Icons.delete_outline,
+                                                      color:
+                                                          CustomColors.primary,
+                                                      size: 16,
+                                                    ))),
+                                          ],
+                                        ),
+                                        CustomTextBox(
+                                          label: "Item",
+                                          text: serviceItem.itemName,
+                                          topMargin: 0,
+                                        ),
+                                        CustomTextBox(
+                                          label: "Description ",
+                                          text: serviceItem.itemDescription,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Quantity",
+                                                text: "${serviceItem.itemQty}",
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 10,
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Unit Price",
+                                                text: serviceItem.itemUnitPrice,
+                                              ),
                                             ),
-                                            const Divider(
-                                              color: CustomColors.grey,
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Total",
+                                                text: (double.tryParse(
+                                                            serviceItem.itemQty
+                                                                .toString())! *
+                                                        double.tryParse(serviceItem
+                                                                .itemUnitPrice ??
+                                                            "0")!)
+                                                    .toString(),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      );
-                                    }),
+                                        CheckboxListTile(
+                                          value: serviceItem.itemIsTaxable,
+                                          onChanged: null,
+                                          dense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          activeColor: CustomColors.green,
+                                          title: const Text(
+                                            "Tax",
+                                            style: CustomTextStyle
+                                                .mediumBoldStyleBlack,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Divider(
+                                          color: CustomColors.grey,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
                             Align(
                               alignment: Alignment.topRight,
                               child: CustomCompanyButtonWithIcon(
@@ -276,180 +259,163 @@ class EstimateDetailsScreen extends StatelessWidget {
                               height: 15.0,
                             ),
                             const Divider(),
-                            estimatedCtrl.estimationDetails!.lineItems!
-                                    .where((item) => item.itemType == "M")
-                                    .toList()
-                                    .isEmpty
-                                ? Container()
-                                : ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    padding: const EdgeInsets.all(0),
-                                    shrinkWrap: true,
-                                    itemCount: estimatedCtrl
-                                        .estimationDetails!.lineItems!
-                                        .where((item) => item.itemType == "M")
+                            ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(0),
+                                shrinkWrap: true,
+                                itemCount: estimatedCtrl
+                                        .estimationDetails!.lineItems
+                                        ?.where((item) => item.itemType == "M")
                                         .toList()
-                                        .length,
-                                    itemBuilder: (buildContex, index) {
-                                      ServiceandMaterialItemModel materialItem =
-                                          estimatedCtrl
-                                              .estimationDetails!.lineItems!
-                                              .where((item) =>
-                                                  item.itemType == "M")
-                                              .toList()[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Column(
+                                        .length ??
+                                    0,
+                                itemBuilder: (buildContex, index) {
+                                  ServiceandMaterialItemModel materialItem =
+                                      estimatedCtrl
+                                          .estimationDetails!.lineItems!
+                                          .where((item) => item.itemType == "M")
+                                          .toList()[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                InkWell(
-                                                    onTap: () {
+                                            InkWell(
+                                                onTap: () {
+                                                  estimatedCtrl
+                                                      .assignDataForEditItemForm(
+                                                          materialItem);
+                                                  PageNavigationService
+                                                      .generalNavigation(
+                                                          '/AddItemFormScreen',
+                                                          arguments: [
+                                                        estimatedCtrl
+                                                            .estimationDetails!
+                                                            .jobDto!
+                                                            .jobUuid,
+                                                        "M"
+                                                      ]);
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                      Icons
+                                                          .edit_calendar_outlined,
+                                                      color:
+                                                          CustomColors.primary,
+                                                      size: 16,
+                                                    ))),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            InkWell(
+                                                onTap: () async {
+                                                  await estimatedCtrl.deleteItem(
                                                       estimatedCtrl
-                                                          .assignDataForEditItemForm(
-                                                              materialItem);
-                                                      PageNavigationService
-                                                          .generalNavigation(
-                                                              '/AddItemFormScreen',
-                                                              arguments: [
-                                                            estimatedCtrl
-                                                                .estimationDetails!
-                                                                .jobDto!
-                                                                .jobUuid,
-                                                            "M"
-                                                          ]);
-                                                    },
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: CustomColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.1)),
-                                                        child: const Icon(
-                                                          Icons
-                                                              .edit_calendar_outlined,
-                                                          color: CustomColors
-                                                              .primary,
-                                                          size: 16,
-                                                        ))),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                InkWell(
-                                                    onTap: () async {
-                                                      await estimatedCtrl.deleteItem(
-                                                          estimatedCtrl
-                                                              .estimationDetails!
-                                                              .jobDto!
-                                                              .jobUuid,
-                                                          materialItem,
-                                                          (double.tryParse(materialItem
-                                                                      .itemQty
-                                                                      .toString())! *
-                                                                  double.tryParse(
-                                                                      materialItem
-                                                                              .itemUnitPrice ??
-                                                                          "0")!)
-                                                              .toString());
-                                                    },
-                                                    child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: CustomColors
-                                                                .primary
-                                                                .withOpacity(
-                                                                    0.1)),
-                                                        child: const Icon(
-                                                          Icons.delete_outline,
-                                                          color: CustomColors
-                                                              .primary,
-                                                          size: 16,
-                                                        ))),
-                                              ],
-                                            ),
-                                            CustomTextBox(
-                                              label: "Item",
-                                              text: materialItem.itemName,
-                                              topMargin: 0,
-                                            ),
-                                            CustomTextBox(
-                                              label: "Description ",
-                                              text:
-                                                  materialItem.itemDescription,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Quantity",
-                                                    text:
-                                                        "${materialItem.itemQty}",
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Unit Price",
-                                                    text: materialItem
-                                                        .itemUnitPrice,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: CustomTextBox(
-                                                    label: "Total",
-                                                    text: (double.tryParse(
-                                                                materialItem
-                                                                    .itemQty
-                                                                    .toString())! *
-                                                            double.tryParse(
-                                                                materialItem
-                                                                        .itemUnitPrice ??
-                                                                    "0")!)
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            CheckboxListTile(
-                                              value: materialItem.itemIsTaxable,
-                                              onChanged: null,
-                                              dense: true,
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0.0),
-                                              controlAffinity:
-                                                  ListTileControlAffinity
-                                                      .leading,
-                                              activeColor: CustomColors.green,
-                                              title: const Text(
-                                                "Tax",
-                                                style: CustomTextStyle
-                                                    .mediumBoldStyleBlack,
+                                                          .estimationDetails!
+                                                          .jobDto!
+                                                          .jobUuid,
+                                                      materialItem,
+                                                      (double.tryParse(materialItem
+                                                                  .itemQty
+                                                                  .toString())! *
+                                                              double.tryParse(
+                                                                  materialItem
+                                                                          .itemUnitPrice ??
+                                                                      "0")!)
+                                                          .toString());
+                                                },
+                                                child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: CustomColors
+                                                            .primary
+                                                            .withOpacity(0.1)),
+                                                    child: const Icon(
+                                                      Icons.delete_outline,
+                                                      color:
+                                                          CustomColors.primary,
+                                                      size: 16,
+                                                    ))),
+                                          ],
+                                        ),
+                                        CustomTextBox(
+                                          label: "Item",
+                                          text: materialItem.itemName,
+                                          topMargin: 0,
+                                        ),
+                                        CustomTextBox(
+                                          label: "Description ",
+                                          text: materialItem.itemDescription,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Quantity",
+                                                text: "${materialItem.itemQty}",
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 10,
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Unit Price",
+                                                text:
+                                                    materialItem.itemUnitPrice,
+                                              ),
                                             ),
-                                            const Divider(
-                                              color: CustomColors.grey,
+                                            Expanded(
+                                              child: CustomTextBox(
+                                                label: "Total",
+                                                text: (double.tryParse(
+                                                            materialItem.itemQty
+                                                                .toString())! *
+                                                        double.tryParse(materialItem
+                                                                .itemUnitPrice ??
+                                                            "0")!)
+                                                    .toString(),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      );
-                                    }),
+                                        CheckboxListTile(
+                                          value: materialItem.itemIsTaxable,
+                                          onChanged: null,
+                                          dense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 0.0),
+                                          controlAffinity:
+                                              ListTileControlAffinity.leading,
+                                          activeColor: CustomColors.green,
+                                          title: const Text(
+                                            "Tax",
+                                            style: CustomTextStyle
+                                                .mediumBoldStyleBlack,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Divider(
+                                          color: CustomColors.grey,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
                             Align(
                               alignment: Alignment.topRight,
                               child: CustomCompanyButtonWithIcon(
