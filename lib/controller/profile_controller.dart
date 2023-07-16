@@ -174,20 +174,24 @@ class ProfileController extends GetxController {
         CustomEassyLoading.startLoading();
 
         await ProfileApiService.updateOwnProfile(
-          myProfileDetails.value!,
-          profilePaymentMethod.value,
-          selectedSkillList != null
-              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-          otherSkillTxtCtrl.text,
-          [
-            drivingLicenseExpiryTxtCtrl?.text ?? "",
-            idCardExpiryTxtCtrl?.text ?? "",
-            technicalLicenseExpiryTxtCtrl?.text ?? "",
-          ],
-          userYearOfExperienceTxtCtrl!.text,
-          userPerHourWageTxtCtrl!.text,
-        ).then((resp) async {
+                myProfileDetails.value!,
+                profilePaymentMethod.value,
+                selectedSkillList != null
+                    ? selectedSkillList!
+                        .map((skill) => skill!.skillId!)
+                        .toList()
+                    : myProfileDetails
+                        .value!.profileSkillData?.profileSkillIdList,
+                otherSkillTxtCtrl.text,
+                [
+                  drivingLicenseExpiryTxtCtrl?.text ?? "",
+                  idCardExpiryTxtCtrl?.text ?? "",
+                  technicalLicenseExpiryTxtCtrl?.text ?? "",
+                ],
+                userYearOfExperienceTxtCtrl!.text,
+                userPerHourWageTxtCtrl!.text,
+                false)
+            .then((resp) async {
           await fetchMyProfileDetails();
         }, onError: (err) {
           ApiErrorHandleService.handleStatusCodeError(err);
@@ -225,6 +229,7 @@ class ProfileController extends GetxController {
           ],
           userYearOfExperienceTxtCtrl!.text,
           userPerHourWageTxtCtrl!.text,
+          false,
         ).then((resp) async {
           await fetchMyProfileDetails();
         }, onError: (err) {
@@ -271,6 +276,7 @@ class ProfileController extends GetxController {
             ],
             userYearOfExperienceTxtCtrl!.text,
             userPerHourWageTxtCtrl!.text,
+            false
           ).then((resp) async {
             await fetchMyProfileDetails();
           }, onError: (err) {
@@ -423,20 +429,24 @@ class ProfileController extends GetxController {
         CustomEassyLoading.startLoading();
         FocusManager.instance.primaryFocus?.unfocus();
         await ProfileApiService.updateOwnProfile(
-          myProfileDetails.value!,
-          profilePaymentMethod.value,
-          selectedSkillList != null
-              ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-              : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-          otherSkillTxtCtrl.text,
-          [
-            drivingLicenseExpiryTxtCtrl?.text ?? "",
-            idCardExpiryTxtCtrl?.text ?? "",
-            technicalLicenseExpiryTxtCtrl?.text ?? "",
-          ],
-          userYearOfExperienceTxtCtrl!.text,
-          userPerHourWageTxtCtrl!.text,
-        ).then((resp) async {
+                myProfileDetails.value!,
+                profilePaymentMethod.value,
+                selectedSkillList != null
+                    ? selectedSkillList!
+                        .map((skill) => skill!.skillId!)
+                        .toList()
+                    : myProfileDetails
+                        .value!.profileSkillData?.profileSkillIdList,
+                otherSkillTxtCtrl.text,
+                [
+                  drivingLicenseExpiryTxtCtrl?.text ?? "",
+                  idCardExpiryTxtCtrl?.text ?? "",
+                  technicalLicenseExpiryTxtCtrl?.text ?? "",
+                ],
+                userYearOfExperienceTxtCtrl!.text,
+                userPerHourWageTxtCtrl!.text,
+                true)
+            .then((resp) async {
           await fetchMyProfileDetails();
           CustomDialogShow.showSuccessDialog(
               title: "Submitted For Verification!",

@@ -248,6 +248,7 @@ class JobController extends GetxController {
       CustomEassyLoading.startLoading();
       await JobApiService().getJobCountList().then((resp) {
         jobCount = resp;
+        print("Job count $resp");
         update();
         CustomEassyLoading.stopLoading();
       }, onError: (err) {

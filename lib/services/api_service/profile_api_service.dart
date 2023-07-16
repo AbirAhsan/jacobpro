@@ -125,18 +125,18 @@ class ProfileApiService {
 
   //<============================= Update Own Profile Details
   static Future<bool> updateOwnProfile(
-    TechnicianProfileModel? profileDetails,
-    ProfilePaymentMethod? profilePaymentMethod,
-    List<int>? profileSkillIdList,
-    String? profileOtherSkill,
-    List<String?> profileDocExpiryDateList,
-    String? userYearOfExperience,
-    String? userPerHourWage,
-  ) async {
+      TechnicianProfileModel? profileDetails,
+      ProfilePaymentMethod? profilePaymentMethod,
+      List<int>? profileSkillIdList,
+      String? profileOtherSkill,
+      List<String?> profileDocExpiryDateList,
+      String? userYearOfExperience,
+      String? userPerHourWage,
+      bool isFinal) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/UpdateTechnicianProfile/0?format=app");
+        "${AppConfig.baseUrl}/Technician/UpdateTechnicianProfile/0/$isFinal?format=app");
 
     var headers = {
       'Accept': 'application/json',

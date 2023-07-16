@@ -33,6 +33,7 @@ class JobApiService {
     Response respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
+    print("Response is $response");
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);
@@ -374,6 +375,7 @@ class JobApiService {
     Response respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
+    print("Job count is $response");
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);
