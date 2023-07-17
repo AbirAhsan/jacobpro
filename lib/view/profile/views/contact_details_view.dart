@@ -107,12 +107,12 @@ class ContactDetailsView extends StatelessWidget {
                       ),
                       CustomTextField(
                         labelText: "Email",
+                        readOnly: true,
                         prefixIcon: const Icon(Icons.email),
                         controller: profileCtrl.pEmailTxtCtrl,
                         isRequired: true,
                         keyboardType: TextInputType.emailAddress,
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
                           FilteringTextInputFormatter.deny(RegExp(r'\s')),
                         ],
                         onChanged: (value) {
@@ -127,6 +127,7 @@ class ContactDetailsView extends StatelessWidget {
                         prefixIcon: const Icon(Icons.call),
                         controller: profileCtrl.pPhoneTxtCtrl,
                         isRequired: true,
+                        readOnly: true,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
