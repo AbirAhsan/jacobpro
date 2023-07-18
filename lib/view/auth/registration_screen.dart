@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:service/services/validator_service.dart';
-import 'package:service/view/variables/colors_variable.dart';
 import 'package:service/view/widgets/custom_text_field.dart';
 
 import '../../controller/auth_controller.dart';
@@ -94,8 +93,10 @@ class RegistrationScreen extends StatelessWidget {
                             prefixIcon: const Icon(Icons.phone_android_rounded),
                             labelText: LocaleKeys.auth_phoneNumber.tr(),
                             keyboardType: TextInputType.phone,
+                            maxLength: 10,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(10),
                               FilteringTextInputFormatter.deny(RegExp(r'\s')),
                             ],
                             controller: authCtrl.registrationMobileCtrl,
@@ -118,70 +119,71 @@ class RegistrationScreen extends StatelessWidget {
                           // const SizedBox(
                           //   height: 10,
                           // ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              RichText(
-                                  textAlign: TextAlign.end,
-                                  text: TextSpan(
-                                      text: "Choose your verification method\n",
-                                      style: CustomTextStyle
-                                          .normalRegularStyleBlack,
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              "OTP will be sent to your ${authCtrl.selectedUserType}",
-                                          style: CustomTextStyle
-                                              .smallRegularStyleDarkGrey,
-                                        )
-                                      ])),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: authCtrl.userTypeList.map((type) {
-                                    return Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: authCtrl.selectedUserType!
-                                                        .value ==
-                                                    type
-                                                ? CustomColors.primary
-                                                : CustomColors.white,
-                                            border: Border.all(
-                                                color: CustomColors.primary)),
-                                        padding: const EdgeInsets.all(8),
-                                        margin: const EdgeInsets.all(5),
-                                        child: InkWell(
-                                          onTap: () {
-                                            authCtrl.selectedUserType!.value =
-                                                type;
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.end,
+                          //   children: [
+                          //     RichText(
+                          //         textAlign: TextAlign.end,
+                          //         text: TextSpan(
+                          //             text: "Choose your verification method\n",
+                          //             style: CustomTextStyle
+                          //                 .normalRegularStyleBlack,
+                          //             children: [
+                          //               TextSpan(
+                          //                 text:
+                          //                     "OTP will be sent to your ${authCtrl.selectedUserType}",
+                          //                 style: CustomTextStyle
+                          //                     .smallRegularStyleDarkGrey,
+                          //               )
+                          //             ])),
+                          //     const SizedBox(
+                          //       width: 5,
+                          //     ),
+                          //     Row(
+                          //         mainAxisAlignment:
+                          //             MainAxisAlignment.spaceEvenly,
+                          //         children: authCtrl.userTypeList.map((type) {
+                          //           return Container(
+                          //               decoration: BoxDecoration(
+                          //                   shape: BoxShape.circle,
+                          //                   color: authCtrl.selectedUserType!
+                          //                               .value ==
+                          //                           type
+                          //                       ? CustomColors.primary
+                          //                       : CustomColors.white,
+                          //                   border: Border.all(
+                          //                       color: CustomColors.primary)),
+                          //               padding: const EdgeInsets.all(8),
+                          //               margin: const EdgeInsets.all(5),
+                          //               child: InkWell(
+                          //                 onTap: () {
+                          //                   authCtrl.selectedUserType!.value =
+                          //                       type;
 
-                                            authCtrl.update();
-                                          },
-                                          child: Icon(
-                                            type == "Email"
-                                                ? Icons.email_outlined
-                                                : Icons.call,
-                                            color: type ==
-                                                    authCtrl
-                                                        .selectedUserType!.value
-                                                ? CustomColors.white
-                                                : CustomColors.primary,
-                                          ),
-                                        ));
-                                  }).toList()),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          //                   authCtrl.update();
+                          //                 },
+                          //                 child: Icon(
+                          //                   type == "Email"
+                          //                       ? Icons.email_outlined
+                          //                       : Icons.call,
+                          //                   color: type ==
+                          //                           authCtrl
+                          //                               .selectedUserType!.value
+                          //                       ? CustomColors.white
+                          //                       : CustomColors.primary,
+                          //                 ),
+                          //               ));
+                          //         }).toList()),
+                          //   ],
+                          // ),
+                          // const SizedBox(
+                          //   height: 20,
+                          // ),
                           CustomCompanyButton(
                             buttonName: LocaleKeys.auth_continue.tr(),
                             onPressed: () async {
-                              await authCtrl.sendOtp();
+                              authCtrl.selectedUserType!.value = "Email";
+                              await authCtrl.sendOtp(authCtrl.profile.value);
                             },
                           ),
                           const SizedBox(

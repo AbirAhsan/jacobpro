@@ -149,8 +149,9 @@ class AuthController extends GetxController {
     }
   }
 
-  //<============================== Registration Request
-  Future<void> sendOtp() async {
+  //<============================== Registration Send Otp to Request
+
+  Future<void> sendOtp(ProfileGeneralData? profileData) async {
     if (ValidatorService().validateAndSave(registrationFormKey)) {
       // fcmToken = await getFCMToken();
       try {
@@ -158,15 +159,15 @@ class AuthController extends GetxController {
         selectedUserType!.value == "Email"
             ? AuthApiService()
                 .sendOtpRequestToMail(
-                registrationEmailCtrl.text,
+                profileData!.userMail,
               )
                 .then((resp) async {
                 CustomEassyLoading.stopLoading();
                 if (resp!) {
                   print(resp);
                   PageNavigationService.generalNavigation(
-                      "/RegistrationOtpVerification",
-                      arguments: [registrationEmailCtrl.text, profile.value]);
+                      "/RegistrationEmailOtpVerification",
+                      arguments: [profileData.userMail, profileData]);
                 }
               }, onError: (err) {
                 ApiErrorHandleService.handleStatusCodeError(err);
@@ -174,15 +175,16 @@ class AuthController extends GetxController {
               })
             : AuthApiService()
                 .sendOtpRequestToPhone(
-                registrationMobileCtrl.text,
+                profileData!.userContactNo,
               )
                 .then((resp) async {
+                selectedUserType!.value == "Mobile";
                 CustomEassyLoading.stopLoading();
                 if (resp) {
                   print(selectedUserType!.value);
-                  PageNavigationService.generalNavigation(
-                      "/RegistrationOtpVerification",
-                      arguments: [registrationMobileCtrl.text, profile.value]);
+                  PageNavigationService.removeAndNavigate(
+                      "/RegistrationPhoneOtpVerification",
+                      arguments: [profileData.userContactNo, profileData]);
                 }
               }, onError: (err) {
                 ApiErrorHandleService.handleStatusCodeError(err);
@@ -208,19 +210,35 @@ class AuthController extends GetxController {
     // fcmToken = await getFCMToken();
     try {
       CustomEassyLoading.startLoading();
-      AuthApiService()
-          .sendOtpRequestToMail(
-        userName,
-      )
-          .then((resp) async {
-        CustomEassyLoading.stopLoading();
-        if (resp!) {
-          startTimer();
-        }
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
-        CustomEassyLoading.stopLoading();
-      });
+      if (selectedUserType!.value == "Email") {
+        AuthApiService()
+            .sendOtpRequestToMail(
+          userName,
+        )
+            .then((resp) async {
+          CustomEassyLoading.stopLoading();
+          if (resp!) {
+            startTimer();
+          }
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      } else {
+        AuthApiService()
+            .sendOtpRequestToPhone(
+          userName,
+        )
+            .then((resp) async {
+          CustomEassyLoading.stopLoading();
+          if (resp) {
+            startTimer();
+          }
+        }, onError: (err) {
+          ApiErrorHandleService.handleStatusCodeError(err);
+          CustomEassyLoading.stopLoading();
+        });
+      }
     } on SocketException catch (e) {
       debugPrint('error $e');
       CustomEassyLoading.stopLoading();
@@ -363,7 +381,7 @@ class AuthController extends GetxController {
     update();
   }
 
-  //<================ VerifyOtp
+  //<================ Verify Otp  and
   Future<void> tryToVerifyOtp(
       {String? userName, ProfileGeneralData? profileData}) async {
     try {
@@ -373,7 +391,14 @@ class AuthController extends GetxController {
         CustomEassyLoading.stopLoading();
         if (resp) {
           print("verified");
-          tryToRegister(userName: userName, profileData: profileData);
+          if (selectedUserType!.value == "Email") {
+            selectedUserType!.value = "Mobile";
+            sendOtp(profileData);
+          } else {
+            tryToRegister(userName: userName, profileData: profileData);
+          }
+
+          //
         }
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
@@ -393,7 +418,7 @@ class AuthController extends GetxController {
     update();
   }
 
-  //<================ VerifyOtp
+  //<================ Register
   Future<void> tryToRegister(
       {String? userName, ProfileGeneralData? profileData}) async {
     try {

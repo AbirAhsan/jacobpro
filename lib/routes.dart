@@ -5,8 +5,9 @@ import 'view/auth/forget_pass/forget_pass_otp.dart';
 import 'view/auth/forget_pass/forget_pass_reset_password.dart';
 import 'view/auth/forget_pass/forget_pass_selection.dart';
 import 'view/auth/login_screen.dart';
+import 'view/auth/registration_phone_verification.dart';
 import 'view/auth/registration_screen.dart';
-import 'view/auth/registration_verification.dart';
+import 'view/auth/registration_email_verification.dart';
 import 'view/dashboard/dashboard_screen.dart';
 import 'view/job_list/job_details_screen.dart';
 import 'view/job_list/job_list_screen.dart';
@@ -31,8 +32,11 @@ class ScreenRoutes {
     GetPage(
         name: '/RegistrationScreen', page: () => const RegistrationScreen()),
     GetPage(
-        name: '/RegistrationOtpVerification',
-        page: () => const RegistrationOtpVerification()),
+        name: '/RegistrationEmailOtpVerification',
+        page: () => const RegistrationEmailOtpVerification()),
+    GetPage(
+        name: '/RegistrationPhoneOtpVerification',
+        page: () => const RegistrationPhoneOtpVerification()),
     GetPage(
         name: '/ForgetPassFindAccount',
         page: () => const ForgetPassFindAccount()),

@@ -241,11 +241,11 @@ class ProfilePaymentMethod {
       this.paymentRoutingNo});
 
   ProfilePaymentMethod.fromJson(Map<String, dynamic> json) {
-    paymentMethodName = json['paymentMethodName'];
-    paymentAccountNo = json['paymentAccountNo'];
-    paymentAccountName = json['paymentAccountName'];
-    paymentAccountBranchName = json['paymentAccountBranchName'];
-    paymentRoutingNo = json['paymentRoutingNo'];
+    paymentMethodName = json['paymentMethodName'] ?? "";
+    paymentAccountNo = json['paymentAccountNo'] ?? "";
+    paymentAccountName = json['paymentAccountName'] ?? "";
+    paymentAccountBranchName = json['paymentAccountBranchName'] ?? "";
+    paymentRoutingNo = json['paymentRoutingNo'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

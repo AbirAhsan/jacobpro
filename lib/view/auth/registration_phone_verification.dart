@@ -11,8 +11,8 @@ import '../variables/icon_variables.dart';
 import '../widgets/custom_company_button.dart';
 import '../widgets/custom_otp_screen.dart';
 
-class RegistrationOtpVerification extends StatelessWidget {
-  const RegistrationOtpVerification({super.key});
+class RegistrationPhoneOtpVerification extends StatelessWidget {
+  const RegistrationPhoneOtpVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +57,7 @@ class RegistrationOtpVerification extends StatelessWidget {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    LocaleKeys.otpVerification_msg.tr(args: [
-                      userId!.isEmail
-                          ? userId.replaceRange(
-                              0, userId.indexOf("@") - 3, " *****")
-                          : userId.replaceRange(2, 7, "*****")
-                    ]),
+                    LocaleKeys.otpVerification_msg.tr(args: [userId!]),
                     style: CustomTextStyle.mediumRegularStyleGrey,
                     textAlign: TextAlign.center,
                   ),

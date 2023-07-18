@@ -109,6 +109,7 @@ class ContactDetailsView extends StatelessWidget {
                         labelText: "Email",
                         readOnly: true,
                         prefixIcon: const Icon(Icons.email),
+                        suffixIcon: const Icon(Icons.lock),
                         controller: profileCtrl.pEmailTxtCtrl,
                         isRequired: true,
                         keyboardType: TextInputType.emailAddress,
@@ -125,12 +126,14 @@ class ContactDetailsView extends StatelessWidget {
                       CustomTextField(
                         labelText: "Phone",
                         prefixIcon: const Icon(Icons.call),
+                        suffixIcon: const Icon(Icons.lock),
                         controller: profileCtrl.pPhoneTxtCtrl,
                         isRequired: true,
                         readOnly: true,
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.deny(RegExp(r'\s')),
                         ],
                         onChanged: (value) {
@@ -254,6 +257,7 @@ class ContactDetailsView extends StatelessWidget {
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.deny(RegExp(r'\s')),
                         ],
                         onChanged: (value) {
@@ -270,7 +274,7 @@ class ContactDetailsView extends StatelessWidget {
                           } else if (!value.isPhoneNumber) {
                             return "Phone number is not valid";
                           } else if (value.length != 10) {
-                            return "Emergency phone number is not valid";
+                            return "Emergency phone number must be 10 digits";
                           }
                           return null;
                         },

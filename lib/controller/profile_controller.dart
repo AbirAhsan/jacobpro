@@ -263,21 +263,24 @@ class ProfileController extends GetxController {
           screenCtrl.changeProfileTabbar(2);
           CustomEassyLoading.startLoading();
           await ProfileApiService.updateOwnProfile(
-            myProfileDetails.value!,
-            profilePaymentMethod.value,
-            selectedSkillList != null
-                ? selectedSkillList!.map((skill) => skill!.skillId!).toList()
-                : myProfileDetails.value!.profileSkillData?.profileSkillIdList,
-            otherSkillTxtCtrl.text,
-            [
-              drivingLicenseExpiryTxtCtrl?.text ?? "",
-              idCardExpiryTxtCtrl?.text ?? "",
-              technicalLicenseExpiryTxtCtrl?.text ?? "",
-            ],
-            userYearOfExperienceTxtCtrl!.text,
-            userPerHourWageTxtCtrl!.text,
-            false
-          ).then((resp) async {
+                  myProfileDetails.value!,
+                  profilePaymentMethod.value,
+                  selectedSkillList != null
+                      ? selectedSkillList!
+                          .map((skill) => skill!.skillId!)
+                          .toList()
+                      : myProfileDetails
+                          .value!.profileSkillData?.profileSkillIdList,
+                  otherSkillTxtCtrl.text,
+                  [
+                    drivingLicenseExpiryTxtCtrl?.text ?? "",
+                    idCardExpiryTxtCtrl?.text ?? "",
+                    technicalLicenseExpiryTxtCtrl?.text ?? "",
+                  ],
+                  userYearOfExperienceTxtCtrl!.text,
+                  userPerHourWageTxtCtrl!.text,
+                  false)
+              .then((resp) async {
             await fetchMyProfileDetails();
           }, onError: (err) {
             ApiErrorHandleService.handleStatusCodeError(err);

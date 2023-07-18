@@ -23,9 +23,9 @@ class ValidatorService {
     if (value!.isEmpty) {
       return LocaleKeys.auth_phoneNumberRule1.tr();
     } else if (!value.isPhoneNumber) {
-      return "Phone number is not valid";
+      return LocaleKeys.auth_phoneNumberRule2.tr();
     } else if (value.length != 10) {
-      return LocaleKeys.auth_phoneNumberRule1.tr();
+      return "Phone number must be 10 digits";
     }
     return null;
   }
