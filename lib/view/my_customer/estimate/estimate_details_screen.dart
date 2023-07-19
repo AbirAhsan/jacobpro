@@ -18,7 +18,8 @@ class EstimateDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? jobUuid = Get.arguments;
+    String? jobUuid = Get.arguments[0];
+    String? jobOptionId = Get.arguments[1].toString();
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -29,7 +30,8 @@ class EstimateDetailsScreen extends StatelessWidget {
             init: EstimatedController(),
             initState: (state) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                Get.put(EstimatedController()).fetchEstimationDetails(jobUuid);
+                Get.put(EstimatedController())
+                    .fetchEstimationDetails(jobUuid, jobOptionId);
               });
             },
             builder: (estimatedCtrl) {
@@ -94,7 +96,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                             .estimationDetails!
                                                             .jobDto!
                                                             .jobUuid,
-                                                        "S"
+                                                        "S",
+                                                        jobOptionId
                                                       ]);
                                                 },
                                                 child: Container(
@@ -122,6 +125,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                           .estimationDetails!
                                                           .jobDto!
                                                           .jobUuid,
+                                                      jobOptionId,
                                                       serviceItem,
                                                       (double.tryParse(serviceItem
                                                                   .itemQty
@@ -225,13 +229,17 @@ class EstimateDetailsScreen extends StatelessWidget {
                                   icon: null,
                                   isFitted: true,
                                   onPressed: () async {
+                                    //  print(
+                                    //  "Job Option id ${estimatedCtrl.estimationDetails!.jobDto!.jobUuid}, $jobOptionId}");
                                     estimatedCtrl.clearForTextCtrl();
+                                    print("object");
                                     PageNavigationService.generalNavigation(
                                         '/AddItemFormScreen',
                                         arguments: [
                                           estimatedCtrl.estimationDetails!
                                               .jobDto!.jobUuid,
-                                          "S"
+                                          "S",
+                                          jobOptionId
                                         ]);
                                   }),
                             ),
@@ -296,7 +304,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                             .estimationDetails!
                                                             .jobDto!
                                                             .jobUuid,
-                                                        "M"
+                                                        "M",
+                                                        jobOptionId,
                                                       ]);
                                                 },
                                                 child: Container(
@@ -324,6 +333,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                           .estimationDetails!
                                                           .jobDto!
                                                           .jobUuid,
+                                                      jobOptionId,
                                                       materialItem,
                                                       (double.tryParse(materialItem
                                                                   .itemQty
@@ -434,7 +444,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                         arguments: [
                                           estimatedCtrl.estimationDetails!
                                               .jobDto!.jobUuid,
-                                          "M"
+                                          "M",
+                                          jobOptionId
                                         ]);
                                   }),
                             ),
@@ -647,8 +658,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                               estimatedCtrl.update();
                                               PageNavigationService
                                                   .backScreen();
-                                              estimatedCtrl
-                                                  .updateEstimate(jobUuid);
+                                              estimatedCtrl.updateEstimate(
+                                                  jobUuid, jobOptionId);
                                             },
                                             okayButtonName: "Save",
                                             btnOkOnPress: () {
@@ -679,8 +690,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                         "0");
                                               }
                                               estimatedCtrl.update();
-                                              estimatedCtrl
-                                                  .updateEstimate(jobUuid);
+                                              estimatedCtrl.updateEstimate(
+                                                  jobUuid, jobOptionId);
                                               PageNavigationService
                                                   .backScreen();
                                             },
@@ -789,7 +800,8 @@ class EstimateDetailsScreen extends StatelessWidget {
                                       estimatedCtrl.selectedTaxCategory =
                                           value as int?;
                                       estimatedCtrl.update();
-                                      estimatedCtrl.updateEstimate(jobUuid);
+                                      estimatedCtrl.updateEstimate(
+                                          jobUuid, jobOptionId);
                                     },
                                   ),
                                 ),

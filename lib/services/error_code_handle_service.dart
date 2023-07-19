@@ -51,7 +51,7 @@ class ApiErrorHandleService {
       );
     } else {
       Get.snackbar(
-        "Warning",
+        "Warning ${status["code"]}",
         status["message"] ?? "Somthing went to wrong",
         backgroundColor: CustomColors.error,
         // duration: const Duration(seconds: 2),

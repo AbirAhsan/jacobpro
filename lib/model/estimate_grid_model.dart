@@ -1,6 +1,7 @@
 class EstimateGridModel {
   int? jobSystemId;
   String? jobUuid;
+  int? jobOptionId;
   String? jobSystemNo;
   String? jobScheduleStartDate;
   String? billingCustomerDisplayName;
@@ -15,6 +16,7 @@ class EstimateGridModel {
   EstimateGridModel(
       {this.jobSystemId,
       this.jobUuid,
+      this.jobOptionId,
       this.jobSystemNo,
       this.jobScheduleStartDate,
       this.billingCustomerDisplayName,
@@ -29,6 +31,7 @@ class EstimateGridModel {
   EstimateGridModel.fromJson(Map<String, dynamic> json) {
     jobSystemId = json['jobSystemId'];
     jobUuid = json['jobUuid'];
+    jobOptionId = json['jobOptionId'];
     jobSystemNo = json['jobSystemNo'];
     jobScheduleStartDate = json['jobScheduleStartDate'];
     billingCustomerDisplayName = json['billingCustomerDisplayName'];
@@ -45,6 +48,7 @@ class EstimateGridModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['jobSystemId'] = jobSystemId;
     data['jobUuid'] = jobUuid;
+    data['jobOptionId'] = jobOptionId;
     data['jobSystemNo'] = jobSystemNo;
     data['jobScheduleStartDate'] = jobScheduleStartDate;
     data['billingCustomerDisplayName'] = billingCustomerDisplayName;

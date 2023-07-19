@@ -107,7 +107,7 @@ class CustomerDetailsScreen extends StatelessWidget {
                                               : Colors.white;
                                         },
                                       ),
-                                      isScrollable: false,
+                                      isScrollable: true,
                                       onTap: (value) {
                                         screenCtrl.changeCustomerTabbar(value);
                                       },

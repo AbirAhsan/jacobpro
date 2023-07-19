@@ -92,7 +92,7 @@ class EstimateApiService {
   }
 
   //<=================== Create Estimate
-  Future<String> createEstimate(
+  Future createEstimate(
     String? customerId,
   ) async {
     String? token = await SharedDataManageService().getToken();
@@ -119,7 +119,7 @@ class EstimateApiService {
 
     var respStr = await http.Response.fromStream(streamedResponse);
     var response = json.decode(respStr.body);
-    print(respStr);
+    print("Add estimate Response is $response");
     if (respStr.statusCode == 200) {
       return response["dataObj"];
     } else {
@@ -131,11 +131,12 @@ class EstimateApiService {
   }
 
   //<=============================================== Fetch  Estimate Details
-  Future<EstimateDetailsModel?> getEstimationDetails({String? jobUuid}) async {
+  Future<EstimateDetailsModel?> getEstimationDetails(
+      {String? jobUuid, String? jobOptionId}) async {
     String? token = await SharedDataManageService().getToken();
     print(jobUuid);
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Estimate/GetEstimateDetails/$jobUuid?format=app");
+        "${AppConfig.baseUrl}/Estimate/GetEstimateDetails/$jobUuid/$jobOptionId?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -152,7 +153,8 @@ class EstimateApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = jsonDecode(respStr.body);
-
+    print(url);
+    print("Details Response is $response \n  code ${respStr.statusCode}");
     if (respStr.statusCode == 200 && response["statusCode"] == 200) {
       var jsonResponse = respStr.body;
 
@@ -169,12 +171,13 @@ class EstimateApiService {
   //<=================== Add Estimate Service and Material Item
   Future<bool> addServiceAndMaterialItem(
       String? jobUuid,
+      String? jobOptionId,
       ServiceandMaterialItemModel serviceandMaterialItem,
       String? totalBill) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Estimate/AddLineItem/$jobUuid/$totalBill");
+        "${AppConfig.baseUrl}/Estimate/AddLineItem/$jobUuid/$jobOptionId/$totalBill");
 
     var headers = {
       'Accept': 'application/json',
@@ -204,12 +207,12 @@ class EstimateApiService {
   }
 
   //<=================== Delete Estimate Item
-  Future<bool> deleteEstimateItem(String? jobUuid,
+  Future<bool> deleteEstimateItem(String? jobUuid, String? jobOptionId,
       ServiceandMaterialItemModel? item, String? totalBill) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Estimate/DeleteLineItem/$jobUuid/$totalBill?format=app");
+        "${AppConfig.baseUrl}/Estimate/DeleteLineItem/$jobUuid/$jobOptionId/$totalBill?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -242,6 +245,7 @@ class EstimateApiService {
   //<=================== Update Estimate Details
   Future<bool> updateEstimateDetails({
     String? jobUuid,
+    String? jobOptionId,
     String? subTotalBill,
     String? totalBill,
     String? discountType,
@@ -254,7 +258,7 @@ class EstimateApiService {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Estimate/UpdateEstimationBill/$jobUuid");
+        "${AppConfig.baseUrl}/Estimate/UpdateEstimationBill/$jobUuid/$jobOptionId");
 
     var headers = {
       'Accept': 'application/json',

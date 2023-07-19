@@ -16,6 +16,7 @@ class AddItemFormScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String jobUuid = Get.arguments[0];
     String itemType = Get.arguments[1];
+    String jobOptionId = Get.arguments[2];
     return GetBuilder<EstimatedController>(
         init: EstimatedController(),
         builder: (estimatedCtrl) {
@@ -122,7 +123,7 @@ class AddItemFormScreen extends StatelessWidget {
                             fizedSize: const Size(double.infinity, 35),
                             buttonName: "Confirm",
                             onPressed: () {
-                              estimatedCtrl.addItem(jobUuid);
+                              estimatedCtrl.addItem(jobUuid, jobOptionId);
                             }),
                       ),
                     ],

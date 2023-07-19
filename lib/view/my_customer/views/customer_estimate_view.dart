@@ -21,40 +21,51 @@ class CustomerEstimateView extends StatelessWidget {
           });
         },
         builder: (estimatedCtrl) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: CustomSubmitButton(
-                        rightMargin: 4,
-                        fizedSize: const Size(double.infinity, 30),
-                        buttonName: "Add Estimate",
-                        onPressed: () {
-                          estimatedCtrl.createEstimate(customerDetails!
-                              .customerDto!.customerId
-                              .toString());
-                        }),
-                  ),
-                  ListView.builder(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: estimatedCtrl.customerEstimateList.length,
-                      itemBuilder: (buildContext, index) {
-                        return EstimateCardWidget(
-                          estimatedetails:
-                              estimatedCtrl.customerEstimateList[index],
-                          seeDetailsPressed: () {
-                            PageNavigationService.generalNavigation(
-                                "/EstimateDetailsScreen",
-                                arguments: estimatedCtrl
-                                    .customerEstimateList[index]!.jobUuid);
-                          },
-                        );
-                      })
-                ],
+          return RefreshIndicator(
+            onRefresh: () async {
+              Get.put(EstimatedController()).getCustomerEstimateList(
+                  customerDetails!.customerDto!.customerId.toString());
+            },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: CustomSubmitButton(
+                          rightMargin: 4,
+                          fizedSize: const Size(double.infinity, 30),
+                          buttonName: "Add Estimate",
+                          onPressed: () {
+                            estimatedCtrl.createEstimate(customerDetails!
+                                .customerDto!.customerId
+                                .toString());
+                          }),
+                    ),
+                    ListView.builder(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: estimatedCtrl.customerEstimateList.length,
+                        itemBuilder: (buildContext, index) {
+                          return EstimateCardWidget(
+                            estimatedetails:
+                                estimatedCtrl.customerEstimateList[index],
+                            seeDetailsPressed: () {
+                              PageNavigationService.generalNavigation(
+                                  "/EstimateDetailsScreen",
+                                  arguments: [
+                                    estimatedCtrl
+                                        .customerEstimateList[index]!.jobUuid,
+                                    estimatedCtrl.customerEstimateList[index]!
+                                        .jobOptionId
+                                        .toString(),
+                                  ]);
+                            },
+                          );
+                        })
+                  ],
+                ),
               ),
             ),
           );

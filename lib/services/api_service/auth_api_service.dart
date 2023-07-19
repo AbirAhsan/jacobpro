@@ -227,13 +227,13 @@ class AuthApiService {
     // String? fcmToken = await NotificationController().getFcmToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/RegisterTechnician/$userName?format=app");
+        "${AppConfig.baseUrl}/Technician/RegisterTechnician/$userName/${profileData!.userMail}?format=app");
 
     var headers = {'Content-Type': 'application/json'};
     var request = http.Request('POST', url);
 
     request.body = json.encode({
-      "userFirstName": profileData!.userFirstName,
+      "userFirstName": profileData.userFirstName,
       "userLastName": profileData.userLastName,
       "userAddress": "",
       "userContactNo": profileData.userContactNo,

@@ -101,8 +101,9 @@ class EstimatedController extends GetxController {
       )
           .then((resp) async {
         CustomEassyLoading.stopLoading();
+
         PageNavigationService.generalNavigation("/EstimateDetailsScreen",
-            arguments: resp);
+            arguments: [resp['jobUuid'], resp['jobOptionId']]);
         update();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
@@ -118,15 +119,16 @@ class EstimatedController extends GetxController {
   }
 
   //<======================= Fetch  Estimate Details
-  Future<void> fetchEstimationDetails(String? jobUuid) async {
+  Future<void> fetchEstimationDetails(
+      String? jobUuid, String? jobOptionId) async {
     try {
       CustomEassyLoading.startLoading();
 
       await EstimateApiService()
-          .getEstimationDetails(
-        jobUuid: jobUuid,
-      )
+          .getEstimationDetails(jobUuid: jobUuid, jobOptionId: jobOptionId)
           .then((resp) async {
+        print("Working");
+        print("Job Option id is $jobOptionId");
         estimationDetails = resp;
 
         selectedDiscount = resp!.jobPriceCalculationDto?.jobDiscountType ?? "";
@@ -137,10 +139,10 @@ class EstimatedController extends GetxController {
         discountAmount =
             "${resp.jobPriceCalculationDto?.jobDiscountRate ?? 0.0}";
 
-        selectedTaxCategory = resp.jobPriceCalculationDto?.jobTaxTypeId;
+        selectedTaxCategory = resp.jobPriceCalculationDto?.jobTaxTypeId ?? 0;
 
         totalTaxAmount = resp.jobPriceCalculationDto?.jobTaxAmount ?? 0.0;
-        print("Total Tax amount ${resp.jobPriceCalculationDto?.jobTaxAmount}");
+        print("Total Tax amount ${resp.jobPriceCalculationDto?.jobTaxTypeId}");
 
         update();
 
@@ -213,7 +215,8 @@ class EstimatedController extends GetxController {
     print("totalServicePrice : $totalServicePrice");
     print("totalMaterialPrice : $totalMaterialPrice");
     selectedTaxRate = taxCategoryList.firstWhere(
-        (element) => element['id'] == selectedTaxCategory)['percent'];
+        (element) => element['id'] == selectedTaxCategory,
+        orElse: () => null)?['percent'];
     if (subTotal == 0.0) {
       totalTaxAmount = 0.0;
     } else {
@@ -245,19 +248,19 @@ class EstimatedController extends GetxController {
   }
 
   //<======================= Fetch  Estimate Item
-  Future<void> addItem(String? jobUuid) async {
+  Future<void> addItem(String? jobUuid, String? jobOptionId) async {
     try {
       CustomEassyLoading.startLoading();
 
       await EstimateApiService()
-          .addServiceAndMaterialItem(jobUuid,
+          .addServiceAndMaterialItem(jobUuid, jobOptionId,
               serviceAndMaterialItemDetailsForm!, itemTotalTxtCtrl.text)
           .then((resp) async {
         CustomEassyLoading.stopLoading();
         clearForTextCtrl();
         PageNavigationService.backScreen();
-        await fetchEstimationDetails(jobUuid);
-        await updateEstimate(jobUuid);
+        await fetchEstimationDetails(jobUuid, jobOptionId);
+        await updateEstimate(jobUuid, jobOptionId);
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);
         CustomEassyLoading.stopLoading();
@@ -285,13 +288,13 @@ class EstimatedController extends GetxController {
   }
 
   //<======================= Fetch  Estimate Item
-  Future<void> deleteItem(String? jobUuid, ServiceandMaterialItemModel? item,
-      String? totalBill) async {
+  Future<void> deleteItem(String? jobUuid, String? jobOptionId,
+      ServiceandMaterialItemModel? item, String? totalBill) async {
     try {
       CustomEassyLoading.startLoading();
 
       await EstimateApiService()
-          .deleteEstimateItem(jobUuid, item, totalBill)
+          .deleteEstimateItem(jobUuid, jobOptionId, item, totalBill)
           .then((resp) async {
         if (resp) {
           estimationDetails!.lineItems!
@@ -314,13 +317,14 @@ class EstimatedController extends GetxController {
   }
 
   //<======================= Update  Estimate Details
-  Future<void> updateEstimate(String? jobUuid) async {
+  Future<void> updateEstimate(String? jobUuid, String? jobOptionId) async {
     try {
       //  CustomEassyLoading.startLoading();
 
       await EstimateApiService()
           .updateEstimateDetails(
         jobUuid: jobUuid,
+        jobOptionId: jobOptionId,
         subTotalBill: (totalMaterialPrice + totalServicePrice).toString(),
         totalBill:
             (totalServicePrice + totalMaterialPrice - discount + totalTaxAmount)
@@ -333,7 +337,8 @@ class EstimatedController extends GetxController {
         jobTaxAmount: totalTaxAmount.toString(),
       )
           .then((resp) async {
-        fetchEstimationDetails(jobUuid);
+        print("object");
+        fetchEstimationDetails(jobUuid, jobOptionId);
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);

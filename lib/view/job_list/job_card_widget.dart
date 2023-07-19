@@ -94,11 +94,15 @@ class JobCardWidget extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  "${DateFormat.yMEd('en').format(
-                    DateTime.parse(jobdetails!.jobScheduleStartDate ?? ""),
-                  )} ${DateFormat.Hm('en').format(
-                    DateTime.parse(jobdetails!.jobScheduleStartDate ?? ""),
-                  )}",
+                  jobdetails!.jobScheduleStartDate != null
+                      ? "${DateFormat.yMEd('en').format(
+                          DateTime.parse(
+                              jobdetails!.jobScheduleStartDate ?? ""),
+                        )} ${DateFormat.Hm('en').format(
+                          DateTime.parse(
+                              jobdetails!.jobScheduleStartDate ?? ""),
+                        )}"
+                      : "",
                   style: CustomTextStyle.normalRegularStyleDarkGrey,
                 )
               ],
