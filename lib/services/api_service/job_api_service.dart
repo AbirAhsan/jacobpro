@@ -77,11 +77,11 @@ class JobApiService {
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);
-
+      print("Job list ${decoded["dataObj"].first}");
       List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
           .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
           .toList();
-
+      print("Job list 2 ${mapdatalist.last!.jobSystemId}");
       return mapdatalist;
     } else {
       throw {
@@ -244,11 +244,12 @@ class JobApiService {
   }
 
   //<===================================== Get Single Consutant Details
-  Future<JobReportModel> getJobReortDetails(String? jobUuid) async {
+  Future<JobReportModel> getJobReortDetails(
+      String? jobUuid, String? jobOptionId) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Job/GetJobReportData/$jobUuid?format=app");
+        "${AppConfig.baseUrl}/Estimate/GetEstimateReportData/$jobUuid/$jobOptionId?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -257,7 +258,7 @@ class JobApiService {
       'Charset': 'utf-8'
     };
     var request = http.MultipartRequest('GET', url);
-
+    print("Report data is $url ");
     request.headers.addAll(headers);
 
     var streamedResponse = await request
@@ -281,12 +282,13 @@ class JobApiService {
   }
 
   //<===================================== Get Job LifeCycle
-  Future<List<JobLifeCycleModel?>> getJobLifeCycle(String? jobUuid) async {
+  Future<List<JobLifeCycleModel?>> getJobLifeCycle(
+      String? jobUuid, String? jobOptionId) async {
     String? token = await SharedDataManageService().getToken();
 
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Job/GetJobLifecycle/$jobUuid?format=app");
-    print(jobUuid);
+        "${AppConfig.baseUrl}/Estimate/GetEstimationLifecycles/$jobUuid/$jobOptionId?format=app");
+    print("Job UIUID $jobUuid");
     var headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -302,12 +304,13 @@ class JobApiService {
         .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
 
     var respStr = await http.Response.fromStream(streamedResponse);
-
+    print("Request  is $url");
     var response = json.decode(respStr.body);
     if (respStr.statusCode == 200 && response["message"] == "Success") {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);
 
+      print("Response is $jsonResponse");
       List<JobLifeCycleModel?> mapdatalist = decoded["dataObj"]
           .map<JobLifeCycleModel?>((b) => JobLifeCycleModel.fromJson(b))
           .toList();
@@ -343,6 +346,123 @@ class JobApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = jsonDecode(respStr.body);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<================== Lifecycle declare start
+  Future<bool> lifeCycleDeclareStart(String? jobUuid, String? optionId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Lifecycle/DeclareStart?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "jobUuid": jobUuid,
+      "optionId": optionId,
+      "applicableOn": DateTime.now().toUtc().toIso8601String(),
+      "applicableOnInText": DateTime.now().toUtc().toIso8601String(),
+      "isNotifyCustomer": true
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<================== Lifecycle ON My Way
+  Future<bool> lifeCycleOnMyway(String? jobUuid, String? optionId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Lifecycle/DeclareOnMyWay?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "jobUuid": jobUuid,
+      "optionId": optionId,
+      "applicableOn": DateTime.now().toUtc().toIso8601String(),
+      "applicableOnInText": DateTime.now().toUtc().toIso8601String(),
+      "isNotifyCustomer": true
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
+    if (respStr.statusCode == 200) {
+      return true;
+    } else {
+      throw {
+        "code": respStr.statusCode,
+        "message": response["message"],
+      };
+    }
+  }
+
+  //<================== Lifecycle Finished
+  Future<bool> lifeCycleFinished(String? jobUuid, String? optionId) async {
+    String? token = await SharedDataManageService().getToken();
+
+    Uri url =
+        Uri.parse("${AppConfig.baseUrl}/Lifecycle/DeclareFinished?format=app");
+
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Charset': 'utf-8'
+    };
+    var request = http.Request('POST', url);
+
+    request.body = json.encode({
+      "jobUuid": jobUuid,
+      "optionId": optionId,
+      "applicableOn": DateTime.now().toUtc().toIso8601String(),
+      "applicableOnInText": DateTime.now().toUtc().toIso8601String(),
+      "isNotifyCustomer": true
+    });
+
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+
+    var respStr = await http.Response.fromStream(streamedResponse);
+    var response = json.decode(respStr.body);
     if (respStr.statusCode == 200) {
       return true;
     } else {

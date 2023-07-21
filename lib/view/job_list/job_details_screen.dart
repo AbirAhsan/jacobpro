@@ -36,11 +36,13 @@ class JobDetailsScreen extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) async {
               await Get.put(PaymentController())
                   .fetchJobPaymentSummery(jobGridDetails!.jobSystemId);
-              await Get.put(JobController())
-                  .fetchJobLifeCycle(jobGridDetails.jobUuid);
+              await Get.put(JobController()).fetchJobLifeCycle(
+                  jobGridDetails.jobUuid,
+                  jobGridDetails.jobOptionId.toString());
 
-              await Get.put(JobController())
-                  .fetchJobReportDetails(jobGridDetails.jobUuid);
+              await Get.put(JobController()).fetchJobReportDetails(
+                  jobGridDetails.jobUuid,
+                  jobGridDetails.jobOptionId.toString());
             });
           },
           builder: (jobCtrl) {
@@ -48,8 +50,10 @@ class JobDetailsScreen extends StatelessWidget {
               onRefresh: () async {
                 await Get.put(PaymentController())
                     .fetchJobPaymentSummery(jobGridDetails!.jobSystemId);
-                await jobCtrl.fetchJobLifeCycle(jobGridDetails.jobUuid);
-                await jobCtrl.fetchJobReportDetails(jobGridDetails.jobUuid);
+                await jobCtrl.fetchJobLifeCycle(jobGridDetails.jobUuid,
+                    jobGridDetails.jobOptionId.toString());
+                await jobCtrl.fetchJobReportDetails(jobGridDetails.jobUuid,
+                    jobGridDetails.jobOptionId.toString());
               },
               child: SingleChildScrollView(
                 child: Column(
@@ -285,10 +289,10 @@ class JobDetailsScreen extends StatelessWidget {
                                                       switch (snapshot
                                                           .connectionState) {
                                                         case ConnectionState
-                                                            .none:
+                                                              .none:
                                                           return const NoInternetWidget();
                                                         case ConnectionState
-                                                            .waiting:
+                                                              .waiting:
                                                           return Container(
                                                             margin:
                                                                 const EdgeInsets
@@ -451,7 +455,10 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                       description: "You're declaring that you're ON THE WAY towards the service location.",
                                                                                       okayButtonName: "YES",
                                                                                       btnOkOnPress: () async {
-                                                                                        await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 12);
+                                                                                        await jobCtrl.declareLifecycleOnMyWay(
+                                                                                          jobGridDetails!.jobUuid,
+                                                                                          jobGridDetails.jobOptionId.toString(),
+                                                                                        );
                                                                                         PageNavigationService.backScreen();
                                                                                       },
                                                                                       cancelButtonName: "BACK",
@@ -476,7 +483,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Text(
+                                                                      const Text(
                                                                           "ON MY WAY"),
                                                                       Visibility(
                                                                         visible: snapshot.data!
@@ -531,34 +538,49 @@ class JobDetailsScreen extends StatelessWidget {
                                                                             shape: BoxShape.circle, // border: Border.all(color: ),
                                                                             color: snapshot.data!
                                                                                         .firstWhereOrNull(
-                                                                                          (element) => element!.lifecycleStatusName == "Start",
+                                                                                          (element) => element!.lifecycleStatusName == "START",
                                                                                         )
                                                                                         ?.jobOccuranceStatus ==
                                                                                     1
                                                                                 ? CustomColors.primary
                                                                                 : snapshot.data!
-                                                                                            .firstWhereOrNull(
-                                                                                              (element) => element!.lifecycleStatusName == "Start",
-                                                                                            )
-                                                                                            ?.jobOccuranceStatus ==
-                                                                                        0
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "START",
+                                                                                                )
+                                                                                                ?.jobOccuranceStatus ==
+                                                                                            0 &&
+                                                                                        snapshot.data!
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "OMW",
+                                                                                                )
+                                                                                                ?.jobLifecycleDatetime !=
+                                                                                            null
                                                                                     ? CustomColors.primary.withOpacity(0.1)
                                                                                     : CustomColors.darkGrey.withOpacity(0.1)),
                                                                         child:
                                                                             IconButton(
                                                                           onPressed: snapshot.data!
-                                                                                      .firstWhereOrNull(
-                                                                                        (element) => element!.lifecycleStatusName == "Start",
-                                                                                      )
-                                                                                      ?.jobOccuranceStatus ==
-                                                                                  0
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "START",
+                                                                                          )
+                                                                                          ?.jobOccuranceStatus ==
+                                                                                      0 &&
+                                                                                  snapshot.data!
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "OMW",
+                                                                                          )
+                                                                                          ?.jobLifecycleDatetime !=
+                                                                                      null
                                                                               ? () {
                                                                                   CustomDialogShow.showInfoDialog(
                                                                                       title: "Are You Sure?",
                                                                                       description: "You're going to START the job",
                                                                                       okayButtonName: "YES",
                                                                                       btnOkOnPress: () async {
-                                                                                        await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 13);
+                                                                                        await jobCtrl.declareLifecycleStart(
+                                                                                          jobGridDetails!.jobUuid,
+                                                                                          jobGridDetails.jobOptionId.toString(),
+                                                                                        );
 
                                                                                         PageNavigationService.backScreen();
                                                                                       },
@@ -575,7 +597,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                 30,
                                                                             color: snapshot.data!
                                                                                         .firstWhereOrNull(
-                                                                                          (element) => element!.lifecycleStatusName == "Start",
+                                                                                          (element) => element!.lifecycleStatusName == "START",
                                                                                         )
                                                                                         ?.jobOccuranceStatus ==
                                                                                     1
@@ -589,7 +611,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                       Visibility(
                                                                         visible: snapshot.data!
                                                                                 .firstWhereOrNull(
-                                                                                  (element) => element?.lifecycleStatusName == "Start",
+                                                                                  (element) => element?.lifecycleStatusName == "START",
                                                                                 )
                                                                                 ?.jobLifecycleDatetime !=
                                                                             null,
@@ -600,7 +622,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               style: CustomTextStyle.normalRegularStyleDarkGrey,
                                                                               children: snapshot.data!
                                                                                           .firstWhereOrNull(
-                                                                                            (element) => element?.lifecycleStatusName == "Start",
+                                                                                            (element) => element?.lifecycleStatusName == "START",
                                                                                           )
                                                                                           ?.jobLifecycleDatetime !=
                                                                                       null
@@ -608,7 +630,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                       TextSpan(
                                                                                           text: DateFormat.jms('en').format(DateTime.parse(snapshot.data!
                                                                                                   .firstWhereOrNull(
-                                                                                                    (element) => element!.lifecycleStatusName == "Start",
+                                                                                                    (element) => element!.lifecycleStatusName == "START",
                                                                                                   )!
                                                                                                   .jobLifecycleDatetime ??
                                                                                               "")))
@@ -636,34 +658,51 @@ class JobDetailsScreen extends StatelessWidget {
                                                                             shape: BoxShape.circle, // border: Border.all(color: ),
                                                                             color: snapshot.data!
                                                                                         .firstWhereOrNull(
-                                                                                          (element) => element!.lifecycleStatusName == "Finished",
+                                                                                          (element) => element!.lifecycleStatusName == "FINISH",
                                                                                         )
                                                                                         ?.jobOccuranceStatus ==
                                                                                     1
                                                                                 ? CustomColors.primary
                                                                                 : snapshot.data!
-                                                                                            .firstWhereOrNull(
-                                                                                              (element) => element!.lifecycleStatusName == "Finished",
-                                                                                            )
-                                                                                            ?.jobOccuranceStatus ==
-                                                                                        0
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "FINISH",
+                                                                                                )
+                                                                                                ?.jobOccuranceStatus ==
+                                                                                            0 &&
+                                                                                        snapshot.data!
+                                                                                                .firstWhereOrNull(
+                                                                                                  (element) => element!.lifecycleStatusName == "START",
+                                                                                                )
+                                                                                                ?.jobLifecycleDatetime !=
+                                                                                            null
                                                                                     ? CustomColors.primary.withOpacity(0.1)
                                                                                     : CustomColors.darkGrey.withOpacity(0.1)),
                                                                         child:
                                                                             IconButton(
                                                                           onPressed: snapshot.data!
-                                                                                      .firstWhereOrNull(
-                                                                                        (element) => element!.lifecycleStatusName == "Finished",
-                                                                                      )
-                                                                                      ?.jobOccuranceStatus ==
-                                                                                  0
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "FINISH",
+                                                                                          )
+                                                                                          ?.jobOccuranceStatus ==
+                                                                                      0 &&
+                                                                                  snapshot.data!
+                                                                                          .firstWhereOrNull(
+                                                                                            (element) => element!.lifecycleStatusName == "START",
+                                                                                          )
+                                                                                          ?.jobLifecycleDatetime !=
+                                                                                      null
                                                                               ? () {
                                                                                   CustomDialogShow.showInfoDialog(
                                                                                       title: "Confirm",
                                                                                       description: "You've completed this job and have tricked everything on the scope of work.",
                                                                                       okayButtonName: "YES",
                                                                                       btnOkOnPress: () async {
-                                                                                        await jobCtrl.gotoNextJobLifeCycle(jobGridDetails!.jobSystemId, jobGridDetails.jobUuid, 14).then((resp) {
+                                                                                        await jobCtrl
+                                                                                            .declareLifecycleFinished(
+                                                                                          jobGridDetails!.jobUuid,
+                                                                                          jobGridDetails.jobOptionId.toString(),
+                                                                                        )
+                                                                                            .then((resp) {
                                                                                           if (resp) {}
                                                                                         });
                                                                                         PageNavigationService.backScreen();
@@ -681,7 +720,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                 30,
                                                                             color: snapshot.data!
                                                                                         .firstWhereOrNull(
-                                                                                          (element) => element!.lifecycleStatusName == "Finished",
+                                                                                          (element) => element!.lifecycleStatusName == "FINISH",
                                                                                         )
                                                                                         ?.jobOccuranceStatus ==
                                                                                     1
@@ -690,12 +729,12 @@ class JobDetailsScreen extends StatelessWidget {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      Text(
+                                                                      const Text(
                                                                           "FINISH"),
                                                                       Visibility(
                                                                         visible: snapshot.data!
                                                                                 .firstWhereOrNull(
-                                                                                  (element) => element?.lifecycleStatusName == "Finished",
+                                                                                  (element) => element?.lifecycleStatusName == "FINISH",
                                                                                 )
                                                                                 ?.jobLifecycleDatetime !=
                                                                             null,
@@ -706,7 +745,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               style: CustomTextStyle.normalRegularStyleDarkGrey,
                                                                               children: snapshot.data!
                                                                                           .firstWhereOrNull(
-                                                                                            (element) => element?.lifecycleStatusName == "Finished",
+                                                                                            (element) => element?.lifecycleStatusName == "FINISH",
                                                                                           )
                                                                                           ?.jobLifecycleDatetime !=
                                                                                       null
@@ -714,7 +753,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                                       TextSpan(
                                                                                           text: DateFormat.jms('en').format(DateTime.parse(snapshot.data!
                                                                                                   .firstWhereOrNull(
-                                                                                                    (element) => element!.lifecycleStatusName == "Finished",
+                                                                                                    (element) => element!.lifecycleStatusName == "FINISH",
                                                                                                   )!
                                                                                                   .jobLifecycleDatetime ??
                                                                                               "")))
@@ -740,7 +779,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                       visible: snapshot
                                                                               .data!
                                                                               .firstWhereOrNull(
-                                                                                (element) => element?.lifecycleStatusName == "Finished",
+                                                                                (element) => element?.lifecycleStatusName == "FINISH",
                                                                               )
                                                                               ?.jobOccuranceStatus ==
                                                                           1,
@@ -1007,30 +1046,40 @@ class JobDetailsScreen extends StatelessWidget {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    5.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .location_on_outlined,
-                                                              color:
-                                                                  CustomColors
-                                                                      .grey,
-                                                            )),
-                                                        Text(
-                                                          jobReportDetails
-                                                                  .customerAddressStreetUnit ??
-                                                              "",
-                                                          style: CustomTextStyle
-                                                              .normalRegularStyleDarkGrey,
-                                                        ),
-                                                      ],
+                                                    Flexible(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(5.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .location_on_outlined,
+                                                                color:
+                                                                    CustomColors
+                                                                        .grey,
+                                                              )),
+                                                          Flexible(
+                                                            child: Text(
+                                                              jobReportDetails
+                                                                      .customerAddressStreetUnit ??
+                                                                  "",
+                                                              style: CustomTextStyle
+                                                                  .normalRegularStyleDarkGrey,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                     Container(
                                                         height: 40,
@@ -1280,7 +1329,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                         children: [
                                                                           Expanded(
                                                                             flex:
-                                                                                4,
+                                                                                5,
                                                                             child:
                                                                                 Padding(
                                                                               padding: const EdgeInsets.all(15.0),
@@ -1303,12 +1352,12 @@ class JobDetailsScreen extends StatelessWidget {
                                                                           ),
                                                                           Expanded(
                                                                             flex:
-                                                                                1,
+                                                                                2,
                                                                             child:
                                                                                 Padding(
                                                                               padding: const EdgeInsets.all(15.0),
                                                                               child: Text(
-                                                                                "\$${jobItem.itemSUBTotal}",
+                                                                                "\$${double.tryParse(jobItem.itemUnitPrice ?? "0")! * double.tryParse(jobItem.itemQty ?? "0")!}",
                                                                                 style: CustomTextStyle.normalRegularStyleDarkGrey,
                                                                                 textAlign: TextAlign.end,
                                                                               ),

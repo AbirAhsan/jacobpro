@@ -69,6 +69,8 @@ class JobController extends GetxController {
         assignedJobList.value = resp;
 
         update();
+        print("Print job uiuid ${resp.first!.jobUuid}");
+
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         debugPrint(err.toString());
@@ -184,10 +186,11 @@ class JobController extends GetxController {
   }
 
   //<======================================================== Fetch Job Report Details
-  Future<void> fetchJobReportDetails(String? jobUuid) async {
+  Future<void> fetchJobReportDetails(
+      String? jobUuid, String? jobOptionId) async {
     try {
       jobReportFutureDetails.value =
-          JobApiService().getJobReortDetails(jobUuid!);
+          JobApiService().getJobReortDetails(jobUuid!, jobOptionId);
 
       // consultantProfile.value = profile;
 
@@ -200,9 +203,10 @@ class JobController extends GetxController {
   }
 
   //<======================================================== Fetch Job LifeCycle
-  Future<void> fetchJobLifeCycle(String? jobUuid) async {
+  Future<void> fetchJobLifeCycle(String? jobUuid, String? jobOptionId) async {
     try {
-      jobLifeCycle.value = JobApiService().getJobLifeCycle(jobUuid!);
+      jobLifeCycle.value =
+          JobApiService().getJobLifeCycle(jobUuid!, jobOptionId);
 
       update();
     } on SocketException catch (e) {
@@ -212,18 +216,84 @@ class JobController extends GetxController {
     }
   }
 
-  //<======================================================== Go to next Job LifeCycle
-  Future<bool> gotoNextJobLifeCycle(
-      int? jobSystemId, String? jobUuid, int? lifeCycleId) async {
+  //<======================================================== Job LifeCycle Declare On My Way
+  Future<bool> declareLifecycleOnMyWay(
+    String? jobUuid,
+    String? optionId,
+  ) async {
     bool resp = false;
     try {
       CustomEassyLoading.startLoading();
-      await JobApiService().goJobNextLifeCycle(jobSystemId!, lifeCycleId!).then(
+      await JobApiService().lifeCycleOnMyway(jobUuid!, optionId).then(
           (resp) async {
         CustomEassyLoading.stopLoading();
         if (resp) {
           resp = resp;
-          await fetchJobLifeCycle(jobUuid);
+          await fetchJobLifeCycle(jobUuid, optionId);
+        }
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+
+      CustomEassyLoading.stopLoading();
+    } on SocketException catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint('error $e');
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+    return resp;
+  }
+
+  //<======================================================== Job LifeCycle Declare Start
+  Future<bool> declareLifecycleStart(
+    String? jobUuid,
+    String? optionId,
+  ) async {
+    bool resp = false;
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().lifeCycleDeclareStart(jobUuid!, optionId).then(
+          (resp) async {
+        CustomEassyLoading.stopLoading();
+        if (resp) {
+          resp = resp;
+          await fetchJobLifeCycle(jobUuid, optionId);
+        }
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
+
+      CustomEassyLoading.stopLoading();
+    } on SocketException catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint('error $e');
+    } catch (e) {
+      CustomEassyLoading.stopLoading();
+      debugPrint("$e");
+    }
+    return resp;
+  }
+
+//<======================================================== Job LifeCycle Declare Finished
+  Future<bool> declareLifecycleFinished(
+    String? jobUuid,
+    String? optionId,
+  ) async {
+    bool resp = false;
+    try {
+      CustomEassyLoading.startLoading();
+      await JobApiService().lifeCycleFinished(jobUuid!, optionId).then(
+          (resp) async {
+        CustomEassyLoading.stopLoading();
+        if (resp) {
+          resp = resp;
+          await fetchJobLifeCycle(jobUuid, optionId);
         }
       }, onError: (err) {
         debugPrint(err.toString());

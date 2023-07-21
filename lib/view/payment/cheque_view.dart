@@ -101,10 +101,12 @@ class ChequeViewScreen extends StatelessWidget {
                               .submitChequePayment(jobReport!.jobUuid);
                           await paymentCtrl
                               .fetchJobPaymentSummery(jobReport!.jobSystemId);
-                          await Get.put(JobController())
-                              .fetchJobLifeCycle(jobReport!.jobUuid);
-                          await Get.put(JobController())
-                              .fetchJobReportDetails(jobReport!.jobUuid);
+                          await Get.put(JobController()).fetchJobLifeCycle(
+                              jobReport!.jobUuid,
+                              jobReport!.jobOptionId.toString());
+                          await Get.put(JobController()).fetchJobReportDetails(
+                              jobReport!.jobUuid,
+                              jobReport!.jobOptionId.toString());
                         }),
                   ],
                 ),
