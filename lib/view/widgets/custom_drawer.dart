@@ -149,6 +149,36 @@ class CustomDrawer extends StatelessWidget {
                       // }
                     },
                   ),
+                  //<====================================== My Apprentice
+                  ListTile(
+                    tileColor: Get.currentRoute == "/MyApprenticeScreen"
+                        ? CustomColors.primary
+                        : CustomColors.white,
+                    leading: CustomImageIcon(
+                      imagepath: CustomIcons.apprentice,
+                      color: Get.currentRoute == "/MyApprenticeScreen"
+                          ? CustomColors.white
+                          : CustomColors.primary,
+                    ),
+                    title: Text(
+                      "My Apprentice",
+                      style: Get.currentRoute == "/MyApprenticeScreen"
+                          ? CustomTextStyle.normalBoldStyleWhite
+                          : CustomTextStyle.normalBoldStylePrimary,
+                    ),
+                    onTap: () {
+                      if (Get.currentRoute == "/MyApprenticeScreen") {
+                        PageNavigationService.backScreen();
+                      } else {
+                        PageNavigationService.generalNavigation(
+                            "/MyApprenticeScreen");
+                      }
+
+                      // if (scafoldKey?.currentState?.isDrawerOpen == true) {
+                      //   print("Drawer is Open");
+                      // }
+                    },
+                  ),
                   //<====================================== My Customers
                   ListTile(
                     tileColor: Get.currentRoute == "/MyCustomersScreen"

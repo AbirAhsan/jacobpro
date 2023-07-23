@@ -11,6 +11,7 @@ import 'view/auth/registration_email_verification.dart';
 import 'view/dashboard/dashboard_screen.dart';
 import 'view/job_list/job_details_screen.dart';
 import 'view/job_list/job_list_screen.dart';
+import 'view/my_apprentice/my_apprentice_screen.dart';
 import 'view/my_customer/add_new_customer_screen.dart';
 import 'view/my_customer/customer_details_screen.dart';
 import 'view/my_customer/estimate/add_item_form_screen.dart';
@@ -78,5 +79,7 @@ class ScreenRoutes {
         page: () => const EstimateDetailsScreen()),
     GetPage(name: '/AddItemFormScreen', page: () => const AddItemFormScreen()),
     GetPage(name: '/PaymentScreen', page: () => const PaymentScreen()),
+    GetPage(
+        name: '/MyApprenticeScreen', page: () => const MyApprenticeScreen()),
   ];
 }
