@@ -215,7 +215,7 @@ class JobListScreen extends StatelessWidget {
           init: ScreenController(),
           builder: (screenCtrl) {
             return TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
+              // physics: const NeverScrollableScrollPhysics(),
               controller: screenCtrl.jobListTabController,
               children: const [
                 PendingJobView(),

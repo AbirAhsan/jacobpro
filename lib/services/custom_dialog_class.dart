@@ -300,48 +300,52 @@ class CustomDialogShow {
               ),
               actions: [
                 btnCancelOnPress != null
-                    ? SizedBox(
-                        width: Get.width / 3,
-                        child: CustomSubmitButton(
-                          leftMargin: 10,
-                          rightMargin: 10,
-                          topMargin: 10,
-                          bottomMargin: 10,
-                          primaryColor: CustomColors.darkGrey,
-                          borderColor: CustomColors.darkGrey,
-                          fizedSize: Size(Get.width / 2, 30),
-                          topPadding: 0,
-                          bottomPadding: 0,
-                          topRightBorderRadius: 0,
-                          topLeftBorderRadius: 0,
-                          bottomLeftBorderRadius: 0,
-                          bottomRightBorderRadius: 0,
-                          buttonName: cancelButtonName ?? "",
-                          onPressed: btnCancelOnPress,
+                    ? Center(
+                        child: SizedBox(
+                          width: Get.width / 3,
+                          child: CustomSubmitButton(
+                            leftMargin: 10,
+                            rightMargin: 10,
+                            topMargin: 10,
+                            bottomMargin: 10,
+                            primaryColor: CustomColors.darkGrey,
+                            borderColor: CustomColors.darkGrey,
+                            fizedSize: Size(Get.width / 2, 30),
+                            topPadding: 0,
+                            bottomPadding: 0,
+                            topRightBorderRadius: 0,
+                            topLeftBorderRadius: 0,
+                            bottomLeftBorderRadius: 0,
+                            bottomRightBorderRadius: 0,
+                            buttonName: cancelButtonName ?? "",
+                            onPressed: btnCancelOnPress,
+                          ),
                         ),
                       )
                     : Container(),
                 btnOkOnPress != null
-                    ? SizedBox(
-                        width: btnCancelOnPress != null
-                            ? Get.width / 3
-                            : Get.width / 2,
-                        child: CustomSubmitButton(
-                          leftMargin: 10,
-                          rightMargin: 10,
-                          topMargin: 10,
-                          bottomMargin: 10,
-                          topPadding: 0,
-                          bottomPadding: 0,
-                          primaryColor: CustomColors.warning,
-                          borderColor: CustomColors.warning,
-                          fizedSize: Size(Get.width / 2, 30),
-                          topRightBorderRadius: 0,
-                          topLeftBorderRadius: 0,
-                          bottomLeftBorderRadius: 0,
-                          bottomRightBorderRadius: 0,
-                          buttonName: okayButtonName ?? "",
-                          onPressed: btnOkOnPress,
+                    ? Center(
+                        child: SizedBox(
+                          width: btnCancelOnPress != null
+                              ? Get.width / 3
+                              : Get.width / 2,
+                          child: CustomSubmitButton(
+                            leftMargin: 10,
+                            rightMargin: 10,
+                            topMargin: 10,
+                            bottomMargin: 10,
+                            topPadding: 0,
+                            bottomPadding: 0,
+                            primaryColor: CustomColors.warning,
+                            borderColor: CustomColors.warning,
+                            fizedSize: Size(Get.width / 2, 30),
+                            topRightBorderRadius: 0,
+                            topLeftBorderRadius: 0,
+                            bottomLeftBorderRadius: 0,
+                            bottomRightBorderRadius: 0,
+                            buttonName: okayButtonName ?? "",
+                            onPressed: btnOkOnPress,
+                          ),
                         ),
                       )
                     : Container(),

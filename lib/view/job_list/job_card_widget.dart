@@ -10,6 +10,7 @@ import 'package:service/view/widgets/custom_company_button_with_icon.dart';
 
 import '../../controller/job_controller.dart';
 import '../../model/job_grid_model.dart';
+import '../../model/job_report_model.dart';
 
 class JobCardWidget extends StatelessWidget {
   final bool hasDetailButton;
@@ -221,6 +222,9 @@ class JobCardWidget extends StatelessWidget {
                                   fizedSize: const Size(120, 30),
                                   buttonName: "SEE DETAIL",
                                   onPressed: () {
+                                    jobCtrl.jobReportFutureDetails.value =
+                                        JobReportModel();
+                                    jobCtrl.jobLifeCycle.value = [];
                                     PageNavigationService.generalNavigation(
                                         '/JobDetailsScreen',
                                         arguments: jobdetails);

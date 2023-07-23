@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/payment_controller.dart';
 import 'package:service/view/payment/others_view.dart';
@@ -55,6 +56,14 @@ class PaymentScreen extends StatelessWidget {
                           marginLeft: 5,
                           controller: paymentCtrl.amountTxtCtrl,
                           labelText: "Amount",
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d+\.?\d{0,2}')),
+                          ],
                           onChanged: (amount) {
                             paymentCtrl.paymentDetails.paymentAmount = amount;
                             paymentCtrl.update();
@@ -71,38 +80,41 @@ class PaymentScreen extends StatelessWidget {
                       return SizedBox(
                         height: 50,
                         width: double.infinity,
-                        child: TabBar(
-                            indicatorColor: CustomColors.primary,
-                            unselectedLabelColor: CustomColors.grey,
-                            controller: screenCtrl.paymentTabController,
-                            labelStyle: CustomTextStyle.normalBoldStyleBlack,
-                            automaticIndicatorColorAdjustment: true,
-                            labelColor: CustomColors.primary,
-                            overlayColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                              (Set<MaterialState> states) {
-                                return states.contains(MaterialState.focused)
-                                    ? null
-                                    : Colors.white;
+                        child: Center(
+                          child: TabBar(
+                              indicatorColor: CustomColors.primary,
+                              unselectedLabelColor: CustomColors.grey,
+                              controller: screenCtrl.paymentTabController,
+                              labelStyle: CustomTextStyle.normalBoldStyleBlack,
+                              automaticIndicatorColorAdjustment: true,
+                              labelColor: CustomColors.primary,
+                              isScrollable: true,
+                              overlayColor:
+                                  MaterialStateProperty.resolveWith<Color?>(
+                                (Set<MaterialState> states) {
+                                  return states.contains(MaterialState.focused)
+                                      ? null
+                                      : Colors.white;
+                                },
+                              ),
+                              onTap: (value) {
+                                screenCtrl.changePaymentTabbar(value);
                               },
-                            ),
-                            onTap: (value) {
-                              screenCtrl.changePaymentTabbar(value);
-                            },
-                            tabs: const [
-                              Tab(
-                                text: 'CREDIT',
-                              ),
-                              Tab(
-                                text: 'CASH',
-                              ),
-                              Tab(
-                                text: 'CHEQUE',
-                              ),
-                              Tab(
-                                text: 'OTHERS',
-                              ),
-                            ]),
+                              tabs: const [
+                                Tab(
+                                  text: 'CREDIT',
+                                ),
+                                Tab(
+                                  text: 'CASH',
+                                ),
+                                Tab(
+                                  text: 'CHEQUE',
+                                ),
+                                Tab(
+                                  text: 'OTHERS',
+                                ),
+                              ]),
+                        ),
                       );
                     }),
                 SizedBox(

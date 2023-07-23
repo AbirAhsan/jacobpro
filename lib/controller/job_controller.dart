@@ -22,11 +22,11 @@ class JobController extends GetxController {
   RxList<JobGridDetailsModel?> completedJobList =
       List<JobGridDetailsModel?>.empty(growable: true).obs;
 
-  Rx<Future<JobReportModel?>> jobReportFutureDetails =
-      Future.value(JobReportModel()).obs;
+  Rx<JobReportModel?> jobReportFutureDetails = JobReportModel().obs;
 
-  Rx<Future<List<JobLifeCycleModel?>>> jobLifeCycle =
-      Future.value(List<JobLifeCycleModel?>.empty(growable: true)).obs;
+  RxList<JobLifeCycleModel?> jobLifeCycle =
+      List<JobLifeCycleModel?>.empty(growable: true).obs;
+
   List jobCount = List.empty(growable: true);
 
   int? page;
@@ -189,15 +189,24 @@ class JobController extends GetxController {
   Future<void> fetchJobReportDetails(
       String? jobUuid, String? jobOptionId) async {
     try {
-      jobReportFutureDetails.value =
-          JobApiService().getJobReortDetails(jobUuid!, jobOptionId);
+      CustomEassyLoading.startLoading();
+      await JobApiService().getJobReortDetails(jobUuid!, jobOptionId).then(
+          (resp) {
+        jobReportFutureDetails.value = resp;
 
-      // consultantProfile.value = profile;
+        update();
 
-      update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
     } on SocketException catch (e) {
       debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
     } catch (e) {
+      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
   }
@@ -205,13 +214,22 @@ class JobController extends GetxController {
   //<======================================================== Fetch Job LifeCycle
   Future<void> fetchJobLifeCycle(String? jobUuid, String? jobOptionId) async {
     try {
-      jobLifeCycle.value =
-          JobApiService().getJobLifeCycle(jobUuid!, jobOptionId);
+      CustomEassyLoading.startLoading();
+      await JobApiService().getJobLifeCycle(jobUuid!, jobOptionId).then((resp) {
+        jobLifeCycle.value = resp;
+        update();
 
-      update();
+        CustomEassyLoading.stopLoading();
+      }, onError: (err) {
+        debugPrint(err.toString());
+        CustomEassyLoading.stopLoading();
+        ApiErrorHandleService.handleStatusCodeError(err);
+      });
     } on SocketException catch (e) {
       debugPrint('error $e');
+      CustomEassyLoading.stopLoading();
     } catch (e) {
+      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
   }
