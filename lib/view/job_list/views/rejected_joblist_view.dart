@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/job_controller.dart';
 
+import '../../variables/text_style.dart';
 import '../job_card_widget.dart';
 
 class RejectedJobView extends StatelessWidget {
@@ -21,15 +22,31 @@ class RejectedJobView extends StatelessWidget {
               await jobCtrl.fetchJobCount();
               await jobCtrl.fetchRejectedJobList();
             },
-            child: ListView.builder(
-                itemCount: jobCtrl.rejectedJobList.length,
-                padding: const EdgeInsets.all(15.0),
-                itemBuilder: (BuildContext buildContext, index) {
-                  return JobCardWidget(
-                    showInspection: false,
-                    jobdetails: jobCtrl.rejectedJobList[index],
-                  );
-                }),
+            child: jobCtrl.rejectedJobList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: jobCtrl.rejectedJobList.length,
+                    padding: const EdgeInsets.all(15.0),
+                    itemBuilder: (BuildContext buildContext, index) {
+                      return JobCardWidget(
+                        showInspection: false,
+                        jobdetails: jobCtrl.rejectedJobList[index],
+                      );
+                    })
+                : const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.document_scanner_outlined,
+                          size: 50,
+                        ),
+                        Text(
+                          "No rejected jobs yet",
+                          style: CustomTextStyle.normalBoldStyleDarkGrey,
+                        )
+                      ],
+                    ),
+                  ),
           );
         });
   }

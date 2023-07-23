@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/job_controller.dart';
 
+import '../../variables/text_style.dart';
 import '../job_card_widget.dart';
 
 class AssignedJobView extends StatelessWidget {
@@ -21,15 +22,31 @@ class AssignedJobView extends StatelessWidget {
               await jobCtrl.fetchJobCount();
               await jobCtrl.fetchAssignedJobList();
             },
-            child: ListView.builder(
-                itemCount: jobCtrl.assignedJobList.length,
-                padding: const EdgeInsets.all(15.0),
-                itemBuilder: (BuildContext buildContext, index) {
-                  return JobCardWidget(
-                    hasDetailButton: true,
-                    jobdetails: jobCtrl.assignedJobList[index],
-                  );
-                }),
+            child: jobCtrl.assignedJobList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: jobCtrl.assignedJobList.length,
+                    padding: const EdgeInsets.all(15.0),
+                    itemBuilder: (BuildContext buildContext, index) {
+                      return JobCardWidget(
+                        hasDetailButton: true,
+                        jobdetails: jobCtrl.assignedJobList[index],
+                      );
+                    })
+                : const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.document_scanner_outlined,
+                          size: 50,
+                        ),
+                        Text(
+                          "No assigned jobs yet",
+                          style: CustomTextStyle.normalBoldStyleDarkGrey,
+                        )
+                      ],
+                    ),
+                  ),
           );
         });
   }

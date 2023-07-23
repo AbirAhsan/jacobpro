@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service/controller/job_controller.dart';
 
+import '../../variables/text_style.dart';
 import '../job_card_widget.dart';
 
 class OngoingJobView extends StatelessWidget {
@@ -22,15 +23,31 @@ class OngoingJobView extends StatelessWidget {
 
               await jobCtrl.fetchOngoingJobList();
             },
-            child: ListView.builder(
-                itemCount: jobCtrl.ongoingJobList.length,
-                padding: const EdgeInsets.all(15.0),
-                itemBuilder: (BuildContext buildContext, index) {
-                  return JobCardWidget(
-                    hasDetailButton: true,
-                    jobdetails: jobCtrl.ongoingJobList[index],
-                  );
-                }),
+            child: jobCtrl.ongoingJobList.isNotEmpty
+                ? ListView.builder(
+                    itemCount: jobCtrl.ongoingJobList.length,
+                    padding: const EdgeInsets.all(15.0),
+                    itemBuilder: (BuildContext buildContext, index) {
+                      return JobCardWidget(
+                        hasDetailButton: true,
+                        jobdetails: jobCtrl.ongoingJobList[index],
+                      );
+                    })
+                : const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.document_scanner_outlined,
+                          size: 50,
+                        ),
+                        Text(
+                          "No on going jobs yet",
+                          style: CustomTextStyle.normalBoldStyleDarkGrey,
+                        )
+                      ],
+                    ),
+                  ),
           );
         });
   }
