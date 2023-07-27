@@ -28,10 +28,11 @@ class OngoingJobView extends StatelessWidget {
             key: paginationKey,
             paginationViewType: PaginationViewType.listView,
             padding: const EdgeInsets.all(8.0),
-            pageFetch: jobCtrl.fetchCompletedJobList,
+            pageFetch: jobCtrl.fetchOngoingJobList,
             itemBuilder: (BuildContext context, JobGridDetailsModel? jobGrid,
                 int index) {
               return JobCardWidget(
+                paginateKey: paginationKey,
                 hasDetailButton: true,
                 jobdetails: jobGrid,
               );

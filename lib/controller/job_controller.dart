@@ -249,7 +249,7 @@ class JobController extends GetxController {
       await JobApiService().getJobLifeCycle(jobUuid!, jobOptionId).then((resp) {
         jobLifeCycle.value = resp;
         update();
-
+        fetchJobCount();
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         debugPrint(err.toString());

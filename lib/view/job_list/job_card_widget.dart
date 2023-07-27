@@ -230,7 +230,7 @@ class JobCardWidget extends StatelessWidget {
                                     jobCtrl.jobLifeCycle.value = [];
                                     PageNavigationService.generalNavigation(
                                         '/JobDetailsScreen',
-                                        arguments: jobdetails);
+                                        arguments: [jobdetails, paginateKey]);
                                   }),
                             ),
                             Visibility(

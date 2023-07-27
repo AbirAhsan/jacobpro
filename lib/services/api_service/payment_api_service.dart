@@ -228,12 +228,12 @@ class PaymentApiService {
     var respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
-
+    print(url);
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
 
       var decoded = json.decode(jsonResponse);
-      print(decoded['dataObj']['jobTotalRemainAmount']);
+
       return JobPaymentSummeryModel.fromJson(decoded["dataObj"]);
     } else {
       throw {

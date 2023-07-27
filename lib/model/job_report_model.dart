@@ -19,6 +19,7 @@ class JobReportModel {
   String? coreServiceName;
   String? jobPrivateNote;
   String? jobCategory;
+  int? jobAssociateCurrentStatus;
   bool? isEligibleForConvertToJob;
   List<JobItems>? jobItems;
   JobPriceCalculationDto? jobPriceCalculationDto;
@@ -44,6 +45,7 @@ class JobReportModel {
       this.coreServiceName,
       this.jobPrivateNote,
       this.jobCategory,
+      this.jobAssociateCurrentStatus,
       this.isEligibleForConvertToJob,
       this.jobItems,
       this.jobPriceCalculationDto});
@@ -69,6 +71,7 @@ class JobReportModel {
     coreServiceName = json['coreServiceName'];
     jobPrivateNote = json['jobPrivateNote'];
     jobCategory = json['jobCategory'];
+    jobAssociateCurrentStatus = json['jobAssociateCurrentStatus'];
     isEligibleForConvertToJob = json['isEligibleForConvertToJob'];
     if (json['jobItems'] != null) {
       jobItems = <JobItems>[];
@@ -102,6 +105,7 @@ class JobReportModel {
     data['jobScheduleEndDate'] = jobScheduleEndDate;
     data['coreServiceName'] = coreServiceName;
     data['jobPrivateNote'] = jobPrivateNote;
+    data['jobAssociateCurrentStatus'] = jobAssociateCurrentStatus;
     data['jobCategory'] = jobCategory;
     data['isEligibleForConvertToJob'] = isEligibleForConvertToJob;
     if (jobItems != null) {

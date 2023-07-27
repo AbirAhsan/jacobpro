@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pagination_view/pagination_view.dart';
 import 'package:service/controller/job_controller.dart';
 import 'package:service/controller/payment_controller.dart';
 import 'package:service/services/launch_url_services.dart';
@@ -22,7 +23,8 @@ class JobDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    JobGridDetailsModel? jobGridDetails = Get.arguments;
+    JobGridDetailsModel? jobGridDetails = Get.arguments[0];
+    final GlobalKey<PaginationViewState>? paginateKey = Get.arguments[1];
 
     return Scaffold(
       appBar: const CustomAppBar(title: "Job Details"),
@@ -115,14 +117,17 @@ class JobDetailsScreen extends StatelessWidget {
                                                                         : CustomColors.darkGrey.withOpacity(0.1)),
                                                             child: IconButton(
                                                               onPressed: jobCtrl
-                                                                          .jobLifeCycle
-                                                                          .firstWhereOrNull(
-                                                                            (element) =>
-                                                                                element!.lifecycleStatusName ==
-                                                                                "OMW",
-                                                                          )
-                                                                          ?.jobOccuranceStatus ==
-                                                                      0
+                                                                              .jobLifeCycle
+                                                                              .firstWhereOrNull(
+                                                                                (element) => element!.lifecycleStatusName == "OMW",
+                                                                              )
+                                                                              ?.jobOccuranceStatus ==
+                                                                          0 &&
+                                                                      jobCtrl
+                                                                              .jobReportFutureDetails
+                                                                              .value!
+                                                                              .jobAssociateCurrentStatus !=
+                                                                          2
                                                                   ? () {
                                                                       CustomDialogShow.showInfoDialog(
                                                                           title: "Are You Sure?",
@@ -133,6 +138,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               jobGridDetails!.jobUuid,
                                                                               jobGridDetails.jobOptionId.toString(),
                                                                             );
+                                                                            paginateKey?.currentState!.refresh();
                                                                             PageNavigationService.backScreen();
                                                                           },
                                                                           cancelButtonName: "BACK",
@@ -246,12 +252,18 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               )
                                                                               ?.jobOccuranceStatus ==
                                                                           0 &&
-                                                                      jobCtrl.jobLifeCycle
+                                                                      jobCtrl
+                                                                              .jobLifeCycle
                                                                               .firstWhereOrNull(
                                                                                 (element) => element!.lifecycleStatusName == "OMW",
                                                                               )
                                                                               ?.jobLifecycleDatetime !=
-                                                                          null
+                                                                          null &&
+                                                                      jobCtrl
+                                                                              .jobReportFutureDetails
+                                                                              .value!
+                                                                              .jobAssociateCurrentStatus !=
+                                                                          2
                                                                   ? () {
                                                                       CustomDialogShow.showInfoDialog(
                                                                           title: "Are You Sure?",
@@ -262,6 +274,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               jobGridDetails!.jobUuid,
                                                                               jobGridDetails.jobOptionId.toString(),
                                                                             );
+                                                                            paginateKey?.currentState!.refresh();
 
                                                                             PageNavigationService.backScreen();
                                                                           },
@@ -372,26 +385,29 @@ class JobDetailsScreen extends StatelessWidget {
                                                                               )
                                                                               ?.jobOccuranceStatus ==
                                                                           0 &&
-                                                                      jobCtrl.jobLifeCycle
+                                                                      jobCtrl
+                                                                              .jobLifeCycle
                                                                               .firstWhereOrNull(
                                                                                 (element) => element!.lifecycleStatusName == "START",
                                                                               )
                                                                               ?.jobLifecycleDatetime !=
-                                                                          null
+                                                                          null &&
+                                                                      jobCtrl
+                                                                              .jobReportFutureDetails
+                                                                              .value!
+                                                                              .jobAssociateCurrentStatus !=
+                                                                          2
                                                                   ? () {
                                                                       CustomDialogShow.showInfoDialog(
-                                                                          title: "Confirm",
+                                                                          title: "Are You Sure?",
                                                                           description: "You've completed this job and have tricked everything on the scope of work.",
                                                                           okayButtonName: "YES",
                                                                           btnOkOnPress: () async {
-                                                                            await jobCtrl
-                                                                                .declareLifecycleFinished(
+                                                                            await jobCtrl.declareLifecycleFinished(
                                                                               jobGridDetails!.jobUuid,
                                                                               jobGridDetails.jobOptionId.toString(),
-                                                                            )
-                                                                                .then((resp) {
-                                                                              if (resp) {}
-                                                                            });
+                                                                            );
+                                                                            paginateKey?.currentState!.refresh();
                                                                             PageNavigationService.backScreen();
                                                                           },
                                                                           cancelButtonName: "BACK",
@@ -989,6 +1005,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                           child: Row(
                                                             children: const [
                                                               Expanded(
+                                                                flex: 3,
                                                                 child: Padding(
                                                                   padding:
                                                                       EdgeInsets
@@ -1005,6 +1022,7 @@ class JobDetailsScreen extends StatelessWidget {
                                                                 ),
                                                               ),
                                                               Expanded(
+                                                                flex: 2,
                                                                 child: Padding(
                                                                   padding:
                                                                       EdgeInsets

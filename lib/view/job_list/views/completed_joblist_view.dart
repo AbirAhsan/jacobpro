@@ -32,6 +32,7 @@ class CompletedJobView extends StatelessWidget {
             itemBuilder: (BuildContext context, JobGridDetailsModel? jobGrid,
                 int index) {
               return JobCardWidget(
+                paginateKey: paginationKey,
                 hasDetailButton: true,
                 jobdetails: jobGrid,
               );
