@@ -11,10 +11,10 @@ import '../shared_data_manage_service.dart';
 
 class JobApiService {
   //<======================== Get Pending Job List
-  Future<List<JobGridDetailsModel?>> getMyPendingJobList() async {
+  Future<List<JobGridDetailsModel?>> getMyPendingJobList(int offset) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/0?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/0/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -52,10 +52,10 @@ class JobApiService {
   }
 
   //<======================== Get Assigned Job List
-  Future<List<JobGridDetailsModel?>> getMyAssignedJobList() async {
+  Future<List<JobGridDetailsModel?>> getMyAssignedJobList(int offset) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/1?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/1/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -77,11 +77,11 @@ class JobApiService {
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);
-      print("Job list ${decoded["dataObj"].first}");
+      print("Job list url $url");
       List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
           .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
           .toList();
-      print("Job list 2 ${mapdatalist.last!.jobSystemId}");
+      print("Job list 2 $decoded");
       return mapdatalist;
     } else {
       throw {
@@ -92,10 +92,10 @@ class JobApiService {
   }
 
   //<======================== Get Ongoing Job List
-  Future<List<JobGridDetailsModel?>> getOngoingJobList() async {
+  Future<List<JobGridDetailsModel?>> getOngoingJobList(int offset) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/3?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/3/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -132,10 +132,10 @@ class JobApiService {
   }
 
   //<======================== Get Rejected Job List
-  Future<List<JobGridDetailsModel?>> getMyRejectedJobList() async {
+  Future<List<JobGridDetailsModel?>> getMyRejectedJobList(int offset) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/2?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/2/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -172,10 +172,10 @@ class JobApiService {
   }
 
   //<======================== Get Completed Job List
-  Future<List<JobGridDetailsModel?>> getCompletedJobList() async {
+  Future<List<JobGridDetailsModel?>> getCompletedJobList(int offset) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/4?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/4/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',

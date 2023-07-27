@@ -51,7 +51,9 @@ class JobListScreen extends StatelessWidget {
                         tabs: [
                           Tab(
                             icon: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(1),
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 0 &&
@@ -62,14 +64,14 @@ class JobListScreen extends StatelessWidget {
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 0)
                                         ? CustomColors.grey
-                                        : CustomColors.white,
+                                        : CustomColors.grey,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 jobCtrl.jobCount.any(
                                         (element) => element['statusId'] == 0)
                                     ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 0)['noOfJob']}'
-                                    : "",
+                                    : "0",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -77,7 +79,9 @@ class JobListScreen extends StatelessWidget {
                           ),
                           Tab(
                             icon: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(1),
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 1 &&
@@ -88,14 +92,14 @@ class JobListScreen extends StatelessWidget {
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 1)
                                         ? CustomColors.grey
-                                        : CustomColors.white,
+                                        : CustomColors.grey,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 jobCtrl.jobCount.any(
                                         (element) => element['statusId'] == 1)
                                     ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 1)['noOfJob']}'
-                                    : "",
+                                    : "0",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -103,33 +107,9 @@ class JobListScreen extends StatelessWidget {
                           ),
                           Tab(
                             icon: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 2 &&
-                                        jobCtrl.jobCount.any((element) =>
-                                            element['statusId'] == 31)
-                                    ? CustomColors.primary
-                                    : screenCtrl.jobListCurrentIndex != 2 &&
-                                            jobCtrl.jobCount.any((element) =>
-                                                element['statusId'] == 31)
-                                        ? CustomColors.grey
-                                        : CustomColors.white,
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                jobCtrl.jobCount.any(
-                                        (element) => element['statusId'] == 31)
-                                    ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 31)['noOfJob']}'
-                                    : "",
-                                style: CustomTextStyle.mediumBoldStyleWhite,
-                              ),
-                            ),
-                            text: 'APPROVED',
-                          ),
-                          Tab(
-                            icon: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(1),
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 3 &&
@@ -140,14 +120,14 @@ class JobListScreen extends StatelessWidget {
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 3)
                                         ? CustomColors.grey
-                                        : CustomColors.white,
+                                        : CustomColors.grey,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 jobCtrl.jobCount.any(
                                         (element) => element['statusId'] == 3)
                                     ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 3)['noOfJob']}'
-                                    : "",
+                                    : "0",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -155,7 +135,9 @@ class JobListScreen extends StatelessWidget {
                           ),
                           Tab(
                             icon: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(1),
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 4 &&
@@ -166,14 +148,14 @@ class JobListScreen extends StatelessWidget {
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 4)
                                         ? CustomColors.grey
-                                        : CustomColors.white,
+                                        : CustomColors.grey,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 jobCtrl.jobCount.any(
                                         (element) => element['statusId'] == 4)
                                     ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 4)['noOfJob']}'
-                                    : "",
+                                    : "0",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -181,7 +163,9 @@ class JobListScreen extends StatelessWidget {
                           ),
                           Tab(
                             icon: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(1),
+                              width: 30,
+                              height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: screenCtrl.jobListCurrentIndex == 5 &&
@@ -192,14 +176,14 @@ class JobListScreen extends StatelessWidget {
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 2)
                                         ? CustomColors.grey
-                                        : CustomColors.white,
+                                        : CustomColors.grey,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 jobCtrl.jobCount.any(
                                         (element) => element['statusId'] == 2)
                                     ? '${jobCtrl.jobCount.firstWhereOrNull((element) => element['statusId'] == 2)['noOfJob']}'
-                                    : "",
+                                    : "0",
                                 style: CustomTextStyle.mediumBoldStyleWhite,
                               ),
                             ),
@@ -219,7 +203,6 @@ class JobListScreen extends StatelessWidget {
               controller: screenCtrl.jobListTabController,
               children: const [
                 PendingJobView(),
-                AssignedJobView(),
                 AssignedJobView(),
                 OngoingJobView(),
                 CompletedJobView(),

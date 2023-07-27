@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pagination_view/pagination_view.dart';
 import 'package:service/controller/job_controller.dart';
 
+import '../../../model/job_grid_model.dart';
+import '../../variables/colors_variable.dart';
 import '../../variables/text_style.dart';
+import '../../widgets/custom_shimmer_effect.dart';
 import '../job_card_widget.dart';
 
 class CompletedJobView extends StatelessWidget {
@@ -10,44 +14,71 @@ class CompletedJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<PaginationViewState> paginationKey =
+        GlobalKey<PaginationViewState>();
     return GetBuilder<JobController>(
         init: JobController(),
         initState: (state) {
-          Get.put(JobController()).fetchCompletedJobList();
           Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              await jobCtrl.fetchJobCount();
-              await jobCtrl.fetchCompletedJobList();
+          return PaginationView<JobGridDetailsModel?>(
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            key: paginationKey,
+            paginationViewType: PaginationViewType.listView,
+            padding: const EdgeInsets.all(8.0),
+            pageFetch: jobCtrl.fetchCompletedJobList,
+            itemBuilder: (BuildContext context, JobGridDetailsModel? jobGrid,
+                int index) {
+              return JobCardWidget(
+                hasDetailButton: true,
+                jobdetails: jobGrid,
+              );
             },
-            child: jobCtrl.completedJobList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: jobCtrl.completedJobList.length,
-                    padding: const EdgeInsets.all(15.0),
-                    itemBuilder: (BuildContext buildContext, index) {
-                      return JobCardWidget(
-                        hasDetailButton: true,
-                        showInspection: false,
-                        jobdetails: jobCtrl.completedJobList[index],
-                      );
-                    })
-                : const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.document_scanner_outlined,
-                          size: 50,
-                        ),
-                        Text(
-                          "No completed jobs yet",
-                          style: CustomTextStyle.normalBoldStyleDarkGrey,
-                        )
-                      ],
-                    ),
+            pullToRefresh: true,
+            onError: (dynamic erro) => const Center(
+                child: Text(
+                    "Something Went to wrong") //Image.asset(CustomIcon.error),
+                ),
+            onEmpty: const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.document_scanner_outlined,
+                    size: 50,
                   ),
+                  Text(
+                    "No completed jobs yet",
+                    style: CustomTextStyle.normalBoldStyleDarkGrey,
+                  )
+                ],
+              ),
+            ),
+            bottomLoader: jobCtrl.completedJobList.length < 10
+                ? Container()
+                : CustomShimmerEffect(
+                    child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+                    margin: const EdgeInsets.all(15),
+                    width: Get.width,
+                    height: 200,
+                    color: CustomColors.grey,
+                  )),
+            initialLoader: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 10,
+                padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+                itemBuilder: (context, index) {
+                  return CustomShimmerEffect(
+                      child: Container(
+                    margin: const EdgeInsets.all(15),
+                    width: Get.width,
+                    height: 200,
+                    color: CustomColors.grey,
+                  ));
+                }),
           );
         });
   }

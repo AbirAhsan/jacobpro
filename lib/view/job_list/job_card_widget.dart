@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pagination_view/pagination_view.dart';
 import 'package:service/services/custom_dialog_class.dart';
 import 'package:service/services/page_navigation_service.dart';
 import 'package:service/view/variables/colors_variable.dart';
@@ -13,6 +14,7 @@ import '../../model/job_grid_model.dart';
 import '../../model/job_report_model.dart';
 
 class JobCardWidget extends StatelessWidget {
+  final GlobalKey<PaginationViewState>? paginateKey;
   final bool hasDetailButton;
   final bool hasRejectButton;
   final bool hasAcceptButton;
@@ -21,6 +23,7 @@ class JobCardWidget extends StatelessWidget {
   const JobCardWidget(
       {super.key,
       this.jobdetails,
+      this.paginateKey,
       this.hasDetailButton = false,
       this.hasRejectButton = false,
       this.hasAcceptButton = false,
@@ -261,6 +264,7 @@ class JobCardWidget extends StatelessWidget {
                                               .acceptOrRejectPendingJob(
                                                   jobdetails!.jobSystemId, 0);
                                           await jobCtrl.fetchJobCount();
+                                          paginateKey?.currentState!.refresh();
                                           PageNavigationService.backScreen();
                                         });
                                   }),
@@ -285,6 +289,7 @@ class JobCardWidget extends StatelessWidget {
                                     await jobCtrl.acceptOrRejectPendingJob(
                                         jobdetails!.jobSystemId, 1);
                                     await jobCtrl.fetchJobCount();
+                                    paginateKey?.currentState!.refresh();
                                   }),
                             ),
                           ],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pagination_view/pagination_view.dart';
 import 'package:service/controller/job_controller.dart';
 
+import '../../../model/job_grid_model.dart';
+import '../../variables/colors_variable.dart';
 import '../../variables/text_style.dart';
+import '../../widgets/custom_shimmer_effect.dart';
 import '../job_card_widget.dart';
 
 class AssignedJobView extends StatelessWidget {
@@ -10,194 +14,73 @@ class AssignedJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<PaginationViewState> paginationKey =
+        GlobalKey<PaginationViewState>();
     return GetBuilder<JobController>(
         init: JobController(),
         initState: (state) {
-          Get.put(JobController()).fetchAssignedJobList();
           Get.put(JobController()).fetchJobCount();
         },
         builder: (jobCtrl) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              await jobCtrl.fetchJobCount();
-              await jobCtrl.fetchAssignedJobList();
+          return PaginationView<JobGridDetailsModel?>(
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            key: paginationKey,
+            paginationViewType: PaginationViewType.listView,
+            padding: const EdgeInsets.all(8.0),
+            pageFetch: jobCtrl.fetchAssignedJobList,
+            itemBuilder: (BuildContext context, JobGridDetailsModel? jobGrid,
+                int index) {
+              return JobCardWidget(
+                paginateKey: paginationKey,
+                hasDetailButton: true,
+                jobdetails: jobGrid,
+              );
             },
-            child: jobCtrl.assignedJobList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: jobCtrl.assignedJobList.length,
-                    padding: const EdgeInsets.all(15.0),
-                    itemBuilder: (BuildContext buildContext, index) {
-                      return JobCardWidget(
-                        hasDetailButton: true,
-                        jobdetails: jobCtrl.assignedJobList[index],
-                      );
-                    })
-                : const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.document_scanner_outlined,
-                          size: 50,
-                        ),
-                        Text(
-                          "No assigned jobs yet",
-                          style: CustomTextStyle.normalBoldStyleDarkGrey,
-                        )
-                      ],
-                    ),
+            pullToRefresh: true,
+            onError: (dynamic erro) => const Center(
+                child: Text(
+                    "Something Went to wrong") //Image.asset(CustomIcon.error),
+                ),
+            onEmpty: const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.document_scanner_outlined,
+                    size: 50,
                   ),
+                  Text(
+                    "No assigned jobs yet",
+                    style: CustomTextStyle.normalBoldStyleDarkGrey,
+                  )
+                ],
+              ),
+            ),
+            bottomLoader: jobCtrl.assignedJobList.length < 10
+                ? Container()
+                : CustomShimmerEffect(
+                    child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+                    margin: const EdgeInsets.all(15),
+                    width: Get.width,
+                    height: 200,
+                    color: CustomColors.grey,
+                  )),
+            initialLoader: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 10,
+                padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+                itemBuilder: (context, index) {
+                  return CustomShimmerEffect(
+                      child: Container(
+                    margin: const EdgeInsets.all(15),
+                    width: Get.width,
+                    height: 200,
+                    color: CustomColors.grey,
+                  ));
+                }),
           );
         });
   }
 }
-
-
-// class AssignedTabView extends StatelessWidget {
-//   const AssignedTabView({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//         itemCount: 10,
-//         padding: const EdgeInsets.all(15.0),
-//         itemBuilder: (BuildContext buildContext, index) {
-//           return Card(
-//             elevation: 5,
-//             child: Column(
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       const Text(
-//                         "Mon, 14, Mar",
-//                         style: CustomTextStyle.mediumRegularStyleDarkGrey,
-//                       ),
-//                       IconButton(
-//                           onPressed: () {}, icon: Icon(Icons.more_horiz_sharp))
-//                     ],
-//                   ),
-//                 ),
-//                 IntrinsicHeight(
-//                   child: Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Expanded(
-//                           flex: 4,
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               const Padding(
-//                                 padding:
-//                                     EdgeInsets.only(left: 10, bottom: 10.0),
-//                                 child: Text(
-//                                   "9:00",
-//                                   style: CustomTextStyle.mediumBoldStyleBlack,
-//                                 ),
-//                               ),
-//                               const Padding(
-//                                 padding:
-//                                     EdgeInsets.only(left: 10, bottom: 10.0),
-//                                 child: Text(
-//                                   "5.0736 miles",
-//                                   style: CustomTextStyle
-//                                       .normalRegularStyleDarkGrey,
-//                                 ),
-//                               ),
-//                               InkWell(
-//                                 onTap: () {
-//                                   PageNavigationService.generalNavigation(
-//                                       "/JobDetailsScreen",
-//                                       arguments: "1");
-//                                 },
-//                                 child: Container(
-//                                   padding: const EdgeInsets.all(10),
-//                                   decoration: const BoxDecoration(
-//                                     color: CustomColors.primary,
-//                                     borderRadius: BorderRadius.only(
-//                                       topRight: Radius.circular(10),
-//                                       bottomRight: Radius.circular(10),
-//                                     ),
-//                                   ),
-//                                   child: const Text(
-//                                     "Assessment",
-//                                     style: CustomTextStyle.mediumBoldStyleWhite,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const SizedBox(
-//                                 height: 10,
-//                               )
-//                             ],
-//                           )),
-//                       const VerticalDivider(
-//                         color: Colors.amber,
-//                         thickness: 2,
-//                       ),
-//                       Expanded(
-//                           flex: 4,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(right: 10, left: 10),
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.end,
-//                               children: [
-//                                 Padding(
-//                                   padding: const EdgeInsets.only(bottom: 5.0),
-//                                   child: Row(
-//                                     children: const [
-//                                       Icon(Icons.insert_drive_file_outlined),
-//                                       Text(
-//                                         "Jack ",
-//                                         style: CustomTextStyle
-//                                             .normalBoldStyleBlack,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//                                 Padding(
-//                                   padding: const EdgeInsets.only(bottom: 5.0),
-//                                   child: Row(
-//                                     children: const [
-//                                       Icon(Icons.location_on_outlined),
-//                                       Text(
-//                                         "Dhaka, Bangladesh",
-//                                         style: CustomTextStyle
-//                                             .normalRegularStyleDarkGrey,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//                                 Padding(
-//                                   padding: const EdgeInsets.only(bottom: 5.0),
-//                                   child: Row(
-//                                     children: const [
-//                                       Icon(Icons.document_scanner_outlined),
-//                                       Text(
-//                                         "Something Here",
-//                                         style: CustomTextStyle
-//                                             .normalRegularStyleDarkGrey,
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//                                 CustomCompanyButtonWithIcon(
-//                                     fizedSize: Size(100, 20),
-//                                     buttonName: "Details",
-//                                     onPressed: () {}),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 )
-//                               ],
-//                             ),
-//                           )),
-//                     ],
-//                   ),
-//                 )
-//               ],
-//             ),
-//           );
-//         });
-//   }
-// }

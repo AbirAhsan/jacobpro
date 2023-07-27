@@ -11,16 +11,16 @@ import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
 
 class JobController extends GetxController {
-  RxList<JobGridDetailsModel?> pendingJobList =
-      List<JobGridDetailsModel?>.empty(growable: true).obs;
-  RxList<JobGridDetailsModel?> assignedJobList =
-      List<JobGridDetailsModel?>.empty(growable: true).obs;
-  RxList<JobGridDetailsModel?> ongoingJobList =
-      List<JobGridDetailsModel?>.empty(growable: true).obs;
-  RxList<JobGridDetailsModel?> rejectedJobList =
-      List<JobGridDetailsModel?>.empty(growable: true).obs;
-  RxList<JobGridDetailsModel?> completedJobList =
-      List<JobGridDetailsModel?>.empty(growable: true).obs;
+  List<JobGridDetailsModel?> pendingJobList =
+      List<JobGridDetailsModel?>.empty(growable: true);
+  List<JobGridDetailsModel?> assignedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true);
+  List<JobGridDetailsModel?> ongoingJobList =
+      List<JobGridDetailsModel?>.empty(growable: true);
+  List<JobGridDetailsModel?> rejectedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true);
+  List<JobGridDetailsModel?> completedJobList =
+      List<JobGridDetailsModel?>.empty(growable: true);
 
   Rx<JobReportModel?> jobReportFutureDetails = JobReportModel().obs;
 
@@ -37,123 +37,154 @@ class JobController extends GetxController {
   }
 
 //<=============== Fetch Pending Job List
-  Future<void> fetchPendingJobList() async {
-    print("working");
-    try {
-      CustomEassyLoading.startLoading();
-      await JobApiService().getMyPendingJobList().then((resp) {
-        pendingJobList.value = resp;
 
-        update();
-        CustomEassyLoading.stopLoading();
+  Future<List<JobGridDetailsModel?>> fetchPendingJobList(
+    int offset,
+  ) async {
+    page = -1;
+
+    try {
+      await JobApiService().getMyPendingJobList(offset).then((resp) {
+        if (resp.isNotEmpty) {
+          pendingJobList = resp;
+          //  favConsultantList.refresh();
+          update();
+        } else {
+          page = 5;
+        }
       }, onError: (err) {
         debugPrint(err.toString());
-        CustomEassyLoading.stopLoading();
+
         ApiErrorHandleService.handleStatusCodeError(err);
       });
     } on SocketException catch (e) {
       debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
     } catch (e) {
-      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+
+    update();
+    return page == 5 ? [] : pendingJobList;
   }
 
 //<=============== Fetch Assigned Job List
-  Future<void> fetchAssignedJobList() async {
-    print("working");
+
+  Future<List<JobGridDetailsModel?>> fetchAssignedJobList(
+    int offset,
+  ) async {
+    page = -1;
+
     try {
-      CustomEassyLoading.startLoading();
-      await JobApiService().getMyAssignedJobList().then((resp) {
-        assignedJobList.value = resp;
-
-        update();
-        print("Print job uiuid ${resp.first!.jobUuid}");
-
-        CustomEassyLoading.stopLoading();
+      await JobApiService().getMyAssignedJobList(offset).then((resp) {
+        if (resp.isNotEmpty) {
+          assignedJobList = resp;
+          update();
+        } else {
+          page = 5;
+        }
       }, onError: (err) {
         debugPrint(err.toString());
-        CustomEassyLoading.stopLoading();
+
         ApiErrorHandleService.handleStatusCodeError(err);
       });
     } on SocketException catch (e) {
       debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
     } catch (e) {
-      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+
+    update();
+    return page == 5 ? [] : assignedJobList;
   }
 
 //<=============== Fetch Assigned Job List
-  Future<void> fetchOngoingJobList() async {
-    print("working");
-    try {
-      CustomEassyLoading.startLoading();
-      await JobApiService().getOngoingJobList().then((resp) {
-        ongoingJobList.value = resp;
+  Future<List<JobGridDetailsModel?>> fetchOngoingJobList(
+    int offset,
+  ) async {
+    page = -1;
 
-        update();
-        CustomEassyLoading.stopLoading();
+    try {
+      await JobApiService().getOngoingJobList(offset).then((resp) {
+        if (resp.isNotEmpty) {
+          ongoingJobList = resp;
+          //  favConsultantList.refresh();
+          update();
+        } else {
+          page = 5;
+        }
       }, onError: (err) {
         debugPrint(err.toString());
-        CustomEassyLoading.stopLoading();
+
         ApiErrorHandleService.handleStatusCodeError(err);
       });
     } on SocketException catch (e) {
       debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
     } catch (e) {
-      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+
+    update();
+    return page == 5 ? [] : ongoingJobList;
   }
 
-//<=============== Fetch Assigned Job List
-  Future<void> fetchRejectedJobList() async {
-    try {
-      CustomEassyLoading.startLoading();
-      await JobApiService().getMyRejectedJobList().then((resp) {
-        rejectedJobList.value = resp;
+//<=============== Fetch Rejected Job List
+  Future<List<JobGridDetailsModel?>> fetchRejectedJobList(
+    int offset,
+  ) async {
+    page = -1;
 
-        update();
-        CustomEassyLoading.stopLoading();
+    try {
+      await JobApiService().getMyRejectedJobList(offset).then((resp) {
+        if (resp.isNotEmpty) {
+          rejectedJobList = resp;
+          //  favConsultantList.refresh();
+          update();
+        } else {
+          page = 5;
+        }
       }, onError: (err) {
         debugPrint(err.toString());
-        CustomEassyLoading.stopLoading();
+
         ApiErrorHandleService.handleStatusCodeError(err);
       });
     } on SocketException catch (e) {
       debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
     } catch (e) {
-      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+
+    update();
+    return page == 5 ? [] : rejectedJobList;
   }
 
 //<=============== Fetch Completed Job List
-  Future<void> fetchCompletedJobList() async {
-    try {
-      CustomEassyLoading.startLoading();
-      await JobApiService().getCompletedJobList().then((resp) {
-        completedJobList.value = resp;
+  Future<List<JobGridDetailsModel?>> fetchCompletedJobList(
+    int offset,
+  ) async {
+    page = -1;
 
-        update();
-        CustomEassyLoading.stopLoading();
+    try {
+      await JobApiService().getCompletedJobList(offset).then((resp) {
+        if (resp.isNotEmpty) {
+          completedJobList = resp;
+          //  favConsultantList.refresh();
+          update();
+        } else {
+          page = 5;
+        }
       }, onError: (err) {
         debugPrint(err.toString());
-        CustomEassyLoading.stopLoading();
+
         ApiErrorHandleService.handleStatusCodeError(err);
       });
     } on SocketException catch (e) {
       debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
     } catch (e) {
-      CustomEassyLoading.stopLoading();
       debugPrint("$e");
     }
+
+    update();
+    return page == 5 ? [] : completedJobList;
   }
 
 //<=============== Accept or Reject Job From Pending Job List
@@ -167,7 +198,7 @@ class JobController extends GetxController {
           pendingJobList
               .removeWhere((element) => element!.jobSystemId == jobSystemId);
           update();
-          fetchPendingJobList();
+          // fetchPendingJobList();
         }
 
         CustomEassyLoading.stopLoading();

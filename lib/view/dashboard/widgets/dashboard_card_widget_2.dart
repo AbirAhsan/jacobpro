@@ -58,7 +58,7 @@ class DashBoardCardWidget2 extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     "$name",
-                    style: CustomTextStyle.titleRegularStylePrimary,
+                    style: CustomTextStyle.normalRegularStylePrimary,
                   ),
                 ),
               ),
