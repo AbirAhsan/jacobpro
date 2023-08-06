@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/job_controller.dart';
 import '../../controller/payment_controller.dart';
 import '../../model/job_report_model.dart';
 import '../widgets/custom_submit_button.dart';
@@ -42,14 +41,14 @@ class CashViewScreen extends StatelessWidget {
                         onPressed: () async {
                           await paymentCtrl
                               .submitCashPayment(jobReport!.jobUuid);
-                          await paymentCtrl
-                              .fetchJobPaymentSummery(jobReport!.jobSystemId);
-                          await Get.put(JobController()).fetchJobLifeCycle(
-                              jobReport!.jobUuid,
-                              jobReport!.jobOptionId.toString());
-                          await Get.put(JobController()).fetchJobReportDetails(
-                              jobReport!.jobUuid,
-                              jobReport!.jobOptionId.toString());
+                          // await paymentCtrl
+                          //     .fetchJobPaymentSummery(jobReport!.jobSystemId);
+                          // await Get.put(JobController()).fetchJobLifeCycle(
+                          //     jobReport!.jobUuid,
+                          //     jobReport!.jobOptionId.toString());
+                          // await Get.put(JobController()).fetchJobReportDetails(
+                          //     jobReport!.jobUuid,
+                          //     jobReport!.jobOptionId.toString());
                         }),
                   ],
                 ),

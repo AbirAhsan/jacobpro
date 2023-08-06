@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
             GetBuilder<ProfileController>(
                 init: ProfileController(),
                 initState: (state) {
-                  Get.put(ProfileController()).fetchMyProfileDetails();
+                  //  Get.put(ProfileController()).fetchMyProfileDetails();
                 },
                 builder: (profileCtrl) {
                   return DrawerHeader(

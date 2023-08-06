@@ -513,49 +513,57 @@ class JobDetailsScreen extends StatelessWidget {
                                                                         "MAKE PAYMENT",
                                                                     isFitted:
                                                                         false,
-                                                                    onPressed: double.parse(paymentCtrl.jobPaymentSummery.value!.jobTotalRemainAmount ??
-                                                                                "0") >
-                                                                            0
-                                                                        ? () =>
-                                                                            showCupertinoModalPopup(
-                                                                                barrierDismissible:
-                                                                                    false,
-                                                                                context:
-                                                                                    context,
-                                                                                builder: (BuildContext
-                                                                                    context) {
-                                                                                  return MyCupertinoBottomSheet(
-                                                                                      title: Text(
-                                                                                        "Pay for inspection",
-                                                                                        style: CustomTextStyle.titleRegularStyleDarkGrey,
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await Get.put(
+                                                                              PaymentController())
+                                                                          .fetchJobPaymentSummery(
+                                                                              jobGridDetails!.jobSystemId);
+                                                                      if (double.parse(paymentCtrl.jobPaymentSummery.value!.jobTotalRemainAmount ??
+                                                                              "0") >
+                                                                          0) {
+                                                                        //
+                                                                        showCupertinoModalPopup(
+                                                                            barrierDismissible:
+                                                                                false,
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              return MyCupertinoBottomSheet(
+                                                                                  title: Text(
+                                                                                    "Pay for inspection",
+                                                                                    style: CustomTextStyle.titleRegularStyleDarkGrey,
+                                                                                  ),
+                                                                                  confirmButtonName: "CONTINUE",
+                                                                                  onConfirm: () {
+                                                                                    //<========== Show bottom modal for payment
+                                                                                    paymentCtrl.clearCardText();
+                                                                                    paymentCtrl.paymentDetails.paymentNote = '';
+                                                                                    PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobCtrl.jobReportFutureDetails.value);
+                                                                                  },
+                                                                                  onCancel: () {
+                                                                                    PageNavigationService.backScreen();
+                                                                                  },
+                                                                                  child: Column(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Image.asset(
+                                                                                          CustomIcons.card,
+                                                                                          width: double.infinity,
+                                                                                        ),
                                                                                       ),
-                                                                                      confirmButtonName: "CONTINUE",
-                                                                                      onConfirm: () {
-                                                                                        //<========== Show bottom modal for payment
-                                                                                        paymentCtrl.paymentDetails.paymentNote = '';
-                                                                                        PageNavigationService.removeAndNavigate("/PaymentScreen", arguments: jobCtrl.jobReportFutureDetails.value);
-                                                                                      },
-                                                                                      onCancel: () {
-                                                                                        PageNavigationService.backScreen();
-                                                                                      },
-                                                                                      child: Column(
-                                                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                        children: [
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.all(8.0),
-                                                                                            child: Image.asset(
-                                                                                              CustomIcons.card,
-                                                                                              width: double.infinity,
-                                                                                            ),
-                                                                                          ),
-                                                                                          Text(
-                                                                                            "Please choose the payment option for your inspection",
-                                                                                            style: CustomTextStyle.normalBoldStyleBlack,
-                                                                                          )
-                                                                                        ],
-                                                                                      ));
-                                                                                })
-                                                                        : () => CustomDialogShow.showInfoDialog(
+                                                                                      Text(
+                                                                                        "Please choose the payment option for your inspection",
+                                                                                        style: CustomTextStyle.normalBoldStyleBlack,
+                                                                                      )
+                                                                                    ],
+                                                                                  ));
+                                                                            });
+                                                                      } else {
+                                                                        CustomDialogShow.showInfoDialog(
                                                                             title:
                                                                                 "No payment can be done!",
                                                                             description:
@@ -563,7 +571,9 @@ class JobDetailsScreen extends StatelessWidget {
                                                                             okayButtonName:
                                                                                 "OKAY",
                                                                             btnOkOnPress: () =>
-                                                                                PageNavigationService.backScreen()),
+                                                                                PageNavigationService.backScreen());
+                                                                      }
+                                                                    },
                                                                     fizedSize:
                                                                         const Size(
                                                                             double.infinity,
@@ -1002,8 +1012,8 @@ class JobDetailsScreen extends StatelessWidget {
                                                             color: CustomColors
                                                                 .grey,
                                                           ),
-                                                          child: Row(
-                                                            children: const [
+                                                          child: const Row(
+                                                            children: [
                                                               Expanded(
                                                                 flex: 3,
                                                                 child: Padding(

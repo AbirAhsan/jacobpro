@@ -166,8 +166,8 @@ class JobPriceCalculationDto {
         double.tryParse("${json['jobCalculatedBillAmount'] ?? 0.0}");
     jobDiscountType = json['jobDiscountType'];
     jobDiscountRate = double.tryParse("${json['jobDiscountRate'] ?? 0.0}");
-    jobDiscountAmount = double.tryParse("${json['jobDiscountRate'] ?? 0.0}");
-    json['jobDiscountAmount'];
+    jobDiscountAmount = double.tryParse("${json['jobDiscountAmount'] ?? 0.0}");
+
     jobDiscountNote = json['jobDiscountNote'];
     jobTaxTypeId = json['jobTaxTypeId'];
     jobTaxAmount = double.tryParse("${json['jobTaxAmount'] ?? 0.0}");

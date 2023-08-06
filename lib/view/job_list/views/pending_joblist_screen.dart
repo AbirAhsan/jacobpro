@@ -18,12 +18,12 @@ class PendingJobView extends StatelessWidget {
         GlobalKey<PaginationViewState>();
     return GetBuilder<JobController>(
         init: JobController(),
-        initState: (state) {
-          Get.put(JobController()).fetchJobCount();
-        },
+        // initState: (state) {
+        //   Get.put(JobController()).fetchJobCount();
+        // },
         builder: (jobCtrl) {
           return PaginationView<JobGridDetailsModel?>(
-            shrinkWrap: true,
+            // shrinkWrap: true,
             physics: const ScrollPhysics(),
             key: paginationKey,
             paginationViewType: PaginationViewType.listView,

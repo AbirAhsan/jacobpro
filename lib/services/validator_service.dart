@@ -74,6 +74,41 @@ class ValidatorService {
     return null;
   }
 
+  //<============================================= Simple field Validaor 2
+  static String? validateSimpleFiled2(String? value) {
+    if (value == null || value.isEmpty) {
+      return "";
+    }
+    return null;
+  }
+
+//<============================================= Month field Validaor
+  static String? validateMonth(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a month';
+    }
+
+    final int? month = int.tryParse(value);
+    if (month == null || month < 1 || month > 12) {
+      return 'Invalid month';
+    }
+
+    return null; // Return null if the input is valid
+  }
+
+//<============================================= Year field Validator
+  static String? validateYear(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a year';
+    }
+
+    if (value.length < 2) {
+      return 'Invalid year';
+    }
+
+    return null; // Return null if the input is valid
+  }
+
   //<============================================= Simple field Validaor
   static String? validateIntNumberField(String? value) {
     if (value == null || value.isEmpty) {

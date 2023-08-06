@@ -11,10 +11,10 @@ import '../shared_data_manage_service.dart';
 
 class JobApiService {
   //<======================== Get Pending Job List
-  Future<List<JobGridDetailsModel?>> getMyPendingJobList(int offset) async {
+  Future<List<JobGridDetailsModel?>> getJobList(int offset, int status) async {
     String? token = await SharedDataManageService().getToken();
     Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/0/$offset/10?format=app");
+        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/$status/$offset/10?format=app");
 
     var headers = {
       'Accept': 'application/json',
@@ -33,167 +33,12 @@ class JobApiService {
     Response respStr = await http.Response.fromStream(streamedResponse);
 
     var response = json.decode(respStr.body);
-    print("Response is $response");
-    if (respStr.statusCode == 200) {
-      var jsonResponse = respStr.body;
-      var decoded = json.decode(jsonResponse);
-
-      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
-          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
-          .toList();
-
-      return mapdatalist;
-    } else {
-      throw {
-        "code": respStr.statusCode,
-        "message": response["message"],
-      };
+    if (status == 2) {
+      print("Offset is $offset");
+      print("url is $url");
+      print(" Response is $response");
     }
-  }
 
-  //<======================== Get Assigned Job List
-  Future<List<JobGridDetailsModel?>> getMyAssignedJobList(int offset) async {
-    String? token = await SharedDataManageService().getToken();
-    Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/1/$offset/10?format=app");
-
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Charset': 'utf-8'
-    };
-    MultipartRequest request = http.MultipartRequest('GET', url);
-
-    request.headers.addAll(headers);
-
-    StreamedResponse streamedResponse = await request
-        .send()
-        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
-
-    Response respStr = await http.Response.fromStream(streamedResponse);
-
-    var response = json.decode(respStr.body);
-    if (respStr.statusCode == 200) {
-      var jsonResponse = respStr.body;
-      var decoded = json.decode(jsonResponse);
-      print("Job list url $url");
-      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
-          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
-          .toList();
-      print("Job list 2 $decoded");
-      return mapdatalist;
-    } else {
-      throw {
-        "code": respStr.statusCode,
-        "message": response["message"],
-      };
-    }
-  }
-
-  //<======================== Get Ongoing Job List
-  Future<List<JobGridDetailsModel?>> getOngoingJobList(int offset) async {
-    String? token = await SharedDataManageService().getToken();
-    Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/3/$offset/10?format=app");
-
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Charset': 'utf-8'
-    };
-    MultipartRequest request = http.MultipartRequest('GET', url);
-
-    request.headers.addAll(headers);
-
-    StreamedResponse streamedResponse = await request
-        .send()
-        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
-
-    Response respStr = await http.Response.fromStream(streamedResponse);
-
-    var response = json.decode(respStr.body);
-    if (respStr.statusCode == 200) {
-      var jsonResponse = respStr.body;
-      var decoded = json.decode(jsonResponse);
-
-      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
-          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
-          .toList();
-      print("ONgoing $mapdatalist");
-      return mapdatalist;
-    } else {
-      throw {
-        "code": respStr.statusCode,
-        "message": response["message"],
-      };
-    }
-  }
-
-  //<======================== Get Rejected Job List
-  Future<List<JobGridDetailsModel?>> getMyRejectedJobList(int offset) async {
-    String? token = await SharedDataManageService().getToken();
-    Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/2/$offset/10?format=app");
-
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Charset': 'utf-8'
-    };
-    MultipartRequest request = http.MultipartRequest('GET', url);
-
-    request.headers.addAll(headers);
-
-    StreamedResponse streamedResponse = await request
-        .send()
-        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
-
-    Response respStr = await http.Response.fromStream(streamedResponse);
-
-    var response = json.decode(respStr.body);
-    if (respStr.statusCode == 200) {
-      var jsonResponse = respStr.body;
-      var decoded = json.decode(jsonResponse);
-
-      List<JobGridDetailsModel?> mapdatalist = decoded["dataObj"]
-          .map<JobGridDetailsModel?>((b) => JobGridDetailsModel.fromJson(b))
-          .toList();
-
-      return mapdatalist;
-    } else {
-      throw {
-        "code": respStr.statusCode,
-        "message": response["message"],
-      };
-    }
-  }
-
-  //<======================== Get Completed Job List
-  Future<List<JobGridDetailsModel?>> getCompletedJobList(int offset) async {
-    String? token = await SharedDataManageService().getToken();
-    Uri url = Uri.parse(
-        "${AppConfig.baseUrl}/Technician/GetJobsByTechnician/0/4/$offset/10?format=app");
-
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Charset': 'utf-8'
-    };
-    MultipartRequest request = http.MultipartRequest('GET', url);
-
-    request.headers.addAll(headers);
-
-    StreamedResponse streamedResponse = await request
-        .send()
-        .timeout(Duration(seconds: ApiErrorHandleService.timeOutDuration!));
-
-    Response respStr = await http.Response.fromStream(streamedResponse);
-
-    var response = json.decode(respStr.body);
     if (respStr.statusCode == 200) {
       var jsonResponse = respStr.body;
       var decoded = json.decode(jsonResponse);

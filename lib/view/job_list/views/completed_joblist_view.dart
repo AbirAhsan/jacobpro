@@ -18,9 +18,6 @@ class CompletedJobView extends StatelessWidget {
         GlobalKey<PaginationViewState>();
     return GetBuilder<JobController>(
         init: JobController(),
-        initState: (state) {
-          Get.put(JobController()).fetchJobCount();
-        },
         builder: (jobCtrl) {
           return PaginationView<JobGridDetailsModel?>(
             shrinkWrap: true,

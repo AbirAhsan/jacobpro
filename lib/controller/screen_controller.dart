@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service/controller/job_controller.dart';
 
 import '../services/page_navigation_service.dart';
 import '../services/shared_data_manage_service.dart';
@@ -41,6 +42,12 @@ class ScreenController extends GetxController with GetTickerProviderStateMixin {
       length: 5,
       initialIndex: jobListInitialIndex,
     );
+    jobListTabController!.addListener(() {
+      //  if (jobListTabController!.indexIsChanging) {
+      print("Index is changing ${jobListTabController!.index} ");
+      Get.put(JobController()).fetchJobCount();
+      // }
+    });
     customerTabController = TabController(
       vsync: this,
       length: 4,

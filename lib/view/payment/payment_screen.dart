@@ -63,6 +63,7 @@ class PaymentScreen extends StatelessWidget {
                                 RegExp(r'[0-9.]')),
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'^\d+\.?\d{0,2}')),
+                            FilteringTextInputFormatter.deny(RegExp(r'\s')),
                           ],
                           onChanged: (amount) {
                             paymentCtrl.paymentDetails.paymentAmount = amount;

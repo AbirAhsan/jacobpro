@@ -79,7 +79,9 @@ class ProfileController extends GetxController {
         await SharedDataManageService().setUserVerification(
             resp.profileGeneralData!.userVerificationStatus.toString());
         await fetchMyProfileSkills();
-        update();
+        // otherSkillTxtCtrl.text = resp.profileSkillData!.profileOtherSkill ?? "";
+        // update();
+        print("Other skill is ${resp.profileSkillData!.profileOtherSkill}");
         assignPersonalContact(
             myProfileDetails.value!.profileGeneralData?.userFirstName,
             myProfileDetails.value!.profileGeneralData?.userLastName,
@@ -617,6 +619,8 @@ class ProfileController extends GetxController {
           //Skill id 30 for other skill
           otherSkillTxtCtrl.text =
               myProfileDetails.value!.profileSkillData!.profileOtherSkill ?? "";
+
+          update();
         }
       }
     }

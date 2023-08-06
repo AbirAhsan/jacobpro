@@ -25,4 +25,7 @@ class CustomIcons {
   static const String apprentice = "assets/icons/apprentice.png";
   static const String banner = "assets/images/banner.png";
   static const String card = "assets/images/card.png";
+  static const String amex = "assets/icons/amex.png";
+  static const String visa = "assets/icons/visa.png";
+  static const String master = "assets/icons/master.png";
 }

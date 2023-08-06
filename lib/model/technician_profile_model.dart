@@ -157,6 +157,7 @@ class ProfileSkillData {
   ProfileSkillData.fromJson(Map<String, dynamic> json) {
     profileSkillCategoryId = json['profileSkillCategoryId'];
     profileSkillSubCategoryId = json['profileSkillSubCategoryId'];
+    profileOtherSkill = json['profileOtherSkill'];
     profileSkillIdList = json['profileSkillIdList'].cast<int>();
     userYearOfExperience = json['userYearOfExperience'] != null
         ? json['userYearOfExperience'].toString()

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:service/services/custom_dialog_class.dart';
 import 'package:service/services/page_navigation_service.dart';
@@ -565,6 +566,9 @@ class EstimateDetailsScreen extends StatelessWidget {
                                             contents: [
                                               Text(
                                                   "Only one type of discount may be applied at a time"),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
                                               StatefulBuilder(
                                                   builder: (context, setState) {
                                                 return Padding(
@@ -616,6 +620,9 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                   ),
                                                 );
                                               }),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
                                               Row(
                                                 children: [
                                                   Expanded(
@@ -635,12 +642,27 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                       marginLeft: 5,
                                                       marginRight: 0,
                                                       labelText: "Amount",
+                                                      keyboardType:
+                                                          const TextInputType
+                                                                  .numberWithOptions(
+                                                              decimal: true),
+                                                      inputFormatters: [
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                r'[0-9.]')),
+                                                        FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                r'^\d+\.?\d{0,2}')),
+                                                        FilteringTextInputFormatter
+                                                            .deny(
+                                                                RegExp(r'\s')),
+                                                      ],
                                                       controller: estimatedCtrl
                                                           .discountAmountTxtCrtl,
                                                     ),
                                                   ),
                                                 ],
-                                              )
+                                              ),
                                             ],
                                             cancelButtonName: "Delete",
                                             btnCancelOnPress: () {
@@ -673,7 +695,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                                       .discountDesTxtCrtl.text;
                                               if (estimatedCtrl
                                                       .selectedDiscount ==
-                                                  "1") {
+                                                  "P") {
                                                 estimatedCtrl
                                                     .discount = (estimatedCtrl
                                                             .totalMaterialPrice +
@@ -761,7 +783,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 1,
                                     child: Text(
-                                      "(-) \$${estimatedCtrl.discount}",
+                                      "(-) \$${estimatedCtrl.discount.toStringAsFixed(2)}",
                                       style: CustomTextStyle
                                           .mediumRegularStyleBlack,
                                       textAlign: TextAlign.right,

@@ -14,25 +14,20 @@ class RejectedJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<PaginationViewState> paginationKey =
-        GlobalKey<PaginationViewState>();
     return GetBuilder<JobController>(
         init: JobController(),
-        initState: (state) {
-          Get.put(JobController()).fetchJobCount();
-        },
         builder: (jobCtrl) {
           return PaginationView<JobGridDetailsModel?>(
             shrinkWrap: true,
             physics: const ScrollPhysics(),
-            key: paginationKey,
+            key: jobCtrl.rejectedPaginationKey,
             paginationViewType: PaginationViewType.listView,
             padding: const EdgeInsets.all(8.0),
             pageFetch: jobCtrl.fetchRejectedJobList,
             itemBuilder: (BuildContext context, JobGridDetailsModel? jobGrid,
                 int index) {
               return JobCardWidget(
-                paginateKey: paginationKey,
+                paginateKey: jobCtrl.rejectedPaginationKey,
                 hasDetailButton: true,
                 jobdetails: jobGrid,
               );
@@ -62,6 +57,7 @@ class RejectedJobView extends StatelessWidget {
                 : CustomShimmerEffect(
                     child: Container(
                     padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+                    margin: const EdgeInsets.all(15),
                     width: Get.width,
                     height: 200,
                     color: CustomColors.grey,

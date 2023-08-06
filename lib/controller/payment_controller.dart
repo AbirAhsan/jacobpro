@@ -13,10 +13,11 @@ import '../services/custom_dialog_class.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/debouncher_service.dart';
 import '../services/error_code_handle_service.dart';
+import '../services/validator_service.dart';
 
 class PaymentController extends GetxController {
   List paymentMethodList = List.empty(growable: true);
-
+  GlobalKey<FormState> cardPayFormKey = GlobalKey<FormState>();
   TextEditingController? recipientEmailTxtCtrl;
   TextEditingController? amountTxtCtrl;
   TextEditingController? pNoteTxtCtrl;
@@ -33,6 +34,19 @@ class PaymentController extends GetxController {
   TextEditingController? cardPostCtrl = TextEditingController();
   TextEditingController? cardCityCtrl = TextEditingController();
   TextEditingController? cardStateCtrl = TextEditingController();
+
+  clearCardText() {
+    cardHolderNameCtrl!.clear();
+    cardNumberCtrl!.clear();
+    cardStreetCtrl!.clear();
+    cardExpiryMonthCtrl!.clear();
+    cardExpiryYearCtrl!.clear();
+    cardCVCCtrl!.clear();
+    cardPostCtrl!.clear();
+    cardCityCtrl!.clear();
+    cardStateCtrl!.clear();
+  }
+
   List suggestedAddressList = List.empty(growable: true);
   List<CardData> savedCardList = List<CardData>.empty(growable: true);
   List<PaymentInvoiceModel> paymentInvoiceList =
@@ -76,35 +90,43 @@ class PaymentController extends GetxController {
   }
 
   //<======================= Fetch Other Payment List
-  Future<void> submitCardPayment(String? jobUuid) async {
+  Future<bool> submitCardPayment(String? jobUuid) async {
     paymentDetails.paymentMethodId = 1;
-    try {
-      CustomEassyLoading.startLoading();
+    bool isReturn = false;
+    if (ValidatorService().validateAndSave(cardPayFormKey)) {
+      try {
+        CustomEassyLoading.startLoading();
 
-      await PaymentApiService()
-          .submitCardPayment(paymentDetails, cardDetails, jobUuid)
-          .then((resp) async {
+        await PaymentApiService()
+            .submitCardPayment(paymentDetails, cardDetails, jobUuid)
+            .then((resp) async {
+          isReturn = resp;
+          CustomEassyLoading.stopLoading();
+          CustomDialogShow.showSuccessDialog(
+              title: "Payment Added!",
+              description: "You've successfully added a payment for this job.",
+              okayButtonName: "DONE",
+              btnOkOnPress: () {
+                PageNavigationService.backScreen();
+                PageNavigationService.backScreen();
+              });
+          update();
+        }, onError: (err) {
+          isReturn = false;
+          CustomEassyLoading.stopLoading();
+          ApiErrorHandleService.handleStatusCodeError(err);
+        });
+      } on SocketException catch (e) {
+        isReturn = false;
+        debugPrint('error $e');
         CustomEassyLoading.stopLoading();
-        CustomDialogShow.showSuccessDialog(
-            title: "Payment Added!",
-            description: "You've successfully added a payment for this job.",
-            okayButtonName: "DONE",
-            btnOkOnPress: () {
-              PageNavigationService.backScreen();
-              PageNavigationService.backScreen();
-            });
-        update();
-      }, onError: (err) {
-        ApiErrorHandleService.handleStatusCodeError(err);
+      } catch (e) {
+        isReturn = false;
         CustomEassyLoading.stopLoading();
-      });
-    } on SocketException catch (e) {
-      debugPrint('error $e');
-      CustomEassyLoading.stopLoading();
-    } catch (e) {
-      CustomEassyLoading.stopLoading();
-      debugPrint("$e");
+        debugPrint("$e");
+      }
     }
+    return isReturn;
   }
 
   //<======================= Cash Payment

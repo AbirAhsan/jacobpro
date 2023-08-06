@@ -47,6 +47,7 @@ class JobListScreen extends StatelessWidget {
                         isScrollable: true,
                         onTap: (value) {
                           screenCtrl.changeJobTabbar(value);
+                          jobCtrl.fetchJobCount();
                         },
                         tabs: [
                           Tab(
@@ -112,11 +113,11 @@ class JobListScreen extends StatelessWidget {
                               height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 3 &&
+                                color: screenCtrl.jobListCurrentIndex == 2 &&
                                         jobCtrl.jobCount.any((element) =>
                                             element['statusId'] == 3)
                                     ? CustomColors.primary
-                                    : screenCtrl.jobListCurrentIndex != 3 &&
+                                    : screenCtrl.jobListCurrentIndex != 2 &&
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 3)
                                         ? CustomColors.grey
@@ -140,11 +141,11 @@ class JobListScreen extends StatelessWidget {
                               height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 4 &&
+                                color: screenCtrl.jobListCurrentIndex == 3 &&
                                         jobCtrl.jobCount.any((element) =>
                                             element['statusId'] == 4)
                                     ? CustomColors.primary
-                                    : screenCtrl.jobListCurrentIndex != 4 &&
+                                    : screenCtrl.jobListCurrentIndex != 3 &&
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 4)
                                         ? CustomColors.grey
@@ -168,11 +169,11 @@ class JobListScreen extends StatelessWidget {
                               height: 30,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: screenCtrl.jobListCurrentIndex == 5 &&
+                                color: screenCtrl.jobListCurrentIndex == 4 &&
                                         jobCtrl.jobCount.any((element) =>
                                             element['statusId'] == 2)
                                     ? CustomColors.primary
-                                    : screenCtrl.jobListCurrentIndex != 5 &&
+                                    : screenCtrl.jobListCurrentIndex != 4 &&
                                             jobCtrl.jobCount.any((element) =>
                                                 element['statusId'] == 2)
                                         ? CustomColors.grey
