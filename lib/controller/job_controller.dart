@@ -10,6 +10,7 @@ import 'package:service/services/api_service/job_api_service.dart';
 import '../model/job_life_cycle_model.dart';
 import '../services/custom_eassy_loading.dart';
 import '../services/error_code_handle_service.dart';
+import 'estimate_controller.dart';
 
 class JobController extends GetxController {
   List<JobGridDetailsModel?> pendingJobList =
@@ -191,11 +192,12 @@ class JobController extends GetxController {
     try {
       CustomEassyLoading.startLoading();
       await JobApiService().getJobReortDetails(jobUuid!, jobOptionId).then(
-          (resp) {
+          (resp) async {
         jobReportFutureDetails.value = resp;
 
         update();
-
+        await Get.put(EstimatedController())
+            .fetchEstimationDetails(jobUuid, jobOptionId);
         CustomEassyLoading.stopLoading();
       }, onError: (err) {
         debugPrint(err.toString());
@@ -217,6 +219,8 @@ class JobController extends GetxController {
       CustomEassyLoading.startLoading();
       await JobApiService().getJobLifeCycle(jobUuid!, jobOptionId).then((resp) {
         jobLifeCycle.value = resp;
+
+        fetchJobReportDetails(jobUuid, jobOptionId);
         update();
         fetchJobCount();
         CustomEassyLoading.stopLoading();

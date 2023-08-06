@@ -260,6 +260,7 @@ class EstimatedController extends GetxController {
         clearForTextCtrl();
         PageNavigationService.backScreen();
         await fetchEstimationDetails(jobUuid, jobOptionId);
+
         await updateEstimate(jobUuid, jobOptionId);
       }, onError: (err) {
         ApiErrorHandleService.handleStatusCodeError(err);

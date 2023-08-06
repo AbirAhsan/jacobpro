@@ -803,7 +803,7 @@ class EstimateDetailsScreen extends StatelessWidget {
                                     marginRight: 0,
                                     label: "Tax Rate",
                                     labelStyle:
-                                        CustomTextStyle.mediumRegularStyleGrey,
+                                        CustomTextStyle.mediumRegularStyleBlack,
                                     value: estimatedCtrl.selectedTaxCategory,
                                     items: estimatedCtrl.taxCategoryList
                                         .map((tax) {
