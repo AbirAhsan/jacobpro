@@ -23,7 +23,7 @@ class EstimateApiService {
       'Charset': 'utf-8'
     };
     var request = http.MultipartRequest('GET', url);
-
+    print("Call on $url");
     request.headers.addAll(headers);
 
     var streamedResponse = await request.send();

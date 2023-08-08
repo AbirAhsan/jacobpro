@@ -75,10 +75,12 @@ class SearchControl extends GetxController {
   //<======================================================== Search topic and consultant
   Future<void> fetchItemSearchList(String? itemType) async {
     try {
-      if (searchTextEditingCtrl!.text.isNotEmpty ||
-          searchTextEditingCtrl?.text != null ||
-          searchTextEditingCtrl?.text != "") {
+      if (searchTextEditingCtrl!.text.isNotEmpty &&
+          searchTextEditingCtrl?.text != null &&
+          searchTextEditingCtrl?.text != "" &&
+          searchTextEditingCtrl!.text.length > 2) {
         isSearching.value = true;
+        print("search length is ${searchTextEditingCtrl!.text.length}");
         EstimateApiService()
             .getServiceAndMaterialItemList(
                 searchStr: searchTextEditingCtrl!.text, itemType: itemType)
@@ -92,6 +94,10 @@ class SearchControl extends GetxController {
           update();
           ApiErrorHandleService.handleStatusCodeError(err);
         });
+      } else {
+        print("Clear search list");
+        searchDataList.clear();
+        update();
       }
     } on SocketException catch (e) {
       isSearching.value = false;

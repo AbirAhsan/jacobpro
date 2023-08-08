@@ -77,7 +77,9 @@ class _ItemSearchTextFieldState extends State<ItemSearchTextField> {
                           .itemType = widget.itemType;
                       estimatedCtrl
                           .serviceAndMaterialItemDetailsForm!.itemName = string;
+                      print("Perform on search");
                       searchCtrl.fetchItemSearchList(widget.itemType);
+
                       //perform search here
                     });
                   },
